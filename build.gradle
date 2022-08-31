@@ -19,6 +19,11 @@ repositories {
 }
 
 dependencies {
+    implementation project(":service-movie-api")
+    implementation project(":service-movie-impl")
+    implementation project(":service-catalog-api")
+    implementation project(":service-catalog-impl")
+
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
@@ -27,4 +32,56 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+allprojects {
+    group = 'com.recordy'
+    version = '0.0.1-SNAPSHOT'
+    sourceCompatibility = '11'
+}
+
+subprojects {
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'java'
+
+    sourceCompatibility = '11' // 자바 버전 명시
+
+    group = rootProject.group
+    version = rootProject.version
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        testImplementation('org.springframework.boot:spring-boot-starter-test') {
+            exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+        }
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+
+    task initSrouceFolders {
+        sourceSets*.java.srcDirs*.each {
+            if (!it.exists()) {
+                it.mkdirs()
+            }
+        }
+        sourceSets*.resources.srcDirs*.each {
+            if (!it.exists()) {
+                it.mkdirs()
+            }
+        }
+    }
+
+    task createProjectPackageStructure {
+        String basePackageStructure = "src/main/java/com/recordy/recordybackend"
+        Directory baseProjectPackageStructure = layout.projectDirectory.dir(basePackageStructure)
+        if (!baseProjectPackageStructure.asFile.exists()){
+            mkdir(basePackageStructure)
+        }
+    }
 }
