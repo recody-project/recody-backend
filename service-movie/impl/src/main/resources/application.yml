@@ -1,0 +1,12 @@
+server:
+  port: 8140
+
+spring:
+  config:
+    activate:
+      on-profile: default
+
+logging:
+  level:
+    com:
+      recordy: debug
