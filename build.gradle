@@ -4,7 +4,7 @@ plugins {
     id 'java'
 }
 
-group = 'com.recordy'
+group = 'com.recody'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
@@ -19,9 +19,7 @@ repositories {
 }
 
 dependencies {
-    implementation project(":service-movie-api")
     implementation project(":service-movie-impl")
-    implementation project(":service-catalog-api")
     implementation project(":service-catalog-impl")
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -35,7 +33,7 @@ tasks.named('test') {
 }
 
 allprojects {
-    group = 'com.recordy'
+    group = 'com.recody'
     version = '0.0.1-SNAPSHOT'
     sourceCompatibility = '11'
 }
@@ -78,7 +76,7 @@ subprojects {
     }
 
     task createProjectPackageStructure {
-        String basePackageStructure = "src/main/java/com/recordy/recordybackend"
+        String basePackageStructure = "src/main/java/com/recody/recodybackend"
         Directory baseProjectPackageStructure = layout.projectDirectory.dir(basePackageStructure)
         if (!baseProjectPackageStructure.asFile.exists()){
             mkdir(basePackageStructure)

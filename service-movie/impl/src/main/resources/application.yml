@@ -9,4 +9,4 @@ spring:
 logging:
   level:
     com:
-      recordy: debug
+      recody: debug

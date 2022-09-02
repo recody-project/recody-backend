@@ -1,4 +1,4 @@
-rootProject.name = 'recordy-backend'
+rootProject.name = 'recody-backend'
 
 include(":service-movie-api", ":service-movie-impl")
 include(":service-catalog-api", ":service-catalog-impl")
