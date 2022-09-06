@@ -1,8 +1,6 @@
 package com.recody.recodybackend.movie.features.searchmovies;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.recody.recodybackend.RecodyMovieApplication;
-import com.recody.recodybackend.movie.features.searchmovies.request.JsonTMDBMovieSearchResult;
 import com.recody.recodybackend.movie.features.searchmovies.request.MovieSearchResult;
 import com.recody.recodybackend.movie.features.searchmovies.request.MovieSearchTemplate;
 import com.recody.recodybackend.movie.features.searchmovies.request.TMDBMovieSearchRequestEntity;
@@ -13,11 +11,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 
-import java.util.Iterator;
 import java.util.Locale;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 @SpringBootTest
-@ActiveProfiles("local")
+@ActiveProfiles("test")
 @ContextConfiguration(classes = RecodyMovieApplication.class)
 class JsonTMDBMovieSearchMapperTest {
     
@@ -25,7 +24,7 @@ class JsonTMDBMovieSearchMapperTest {
     @Autowired private MovieSearchTemplate template;
     
     @Test
-    @DisplayName("test01")
+    @DisplayName("장르 id 정보가 없으면 예외 발생 ")
     void test01() {
         // given
         MovieSearchResult result = template.executeToJson(TMDBMovieSearchRequestEntity.builder().language("ko").movieName("결심").build());
@@ -35,28 +34,9 @@ class JsonTMDBMovieSearchMapperTest {
         // root id 세팅
     
         // 요청 언어 세팅
-        SearchMovieResponse response = mapper.dynamicMapper(result).requestedLanguage(Locale.KOREA)
-                                         .genreIds(null).contentRoot(null).get();
-        System.out.println(response);
-    
-        // then
-    }
-    
-    @Test
-    @DisplayName("jsonNodeTest")
-    void jsonNodeTest() {
-        // given
-        MovieSearchResult movieSearchResult = template.executeToJson(TMDBMovieSearchRequestEntity.builder()
-                                                                                                 .language("ko")
-                                                                                                 .movieName("결심")
-                                                                                                 .build());
-        JsonTMDBMovieSearchResult result = (JsonTMDBMovieSearchResult) movieSearchResult;
-        JsonNode response = result.getResponse();
-        // when
-        Iterator<JsonNode> results = response.withArray("results").iterator();
-        JsonNode id = results.next().get("id");
-        System.out.println(id);
-    
+        assertThatThrownBy(() -> {
+            mapper.dynamicMapper(result).requestedLanguage(Locale.KOREA).genreIds(null).contentRoot(null).get();
+        }).isInstanceOf(RuntimeException.class);
         // then
     }
     
