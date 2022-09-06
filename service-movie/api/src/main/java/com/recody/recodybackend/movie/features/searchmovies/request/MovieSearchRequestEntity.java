@@ -10,7 +10,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 
 @Slf4j
-public abstract class MovieSearchRequest{
+public abstract class MovieSearchRequestEntity {
     
     private final String API_KEY_PARAM_NAME;
     private final String SEARCH_PARAM_NAME;
@@ -25,7 +25,7 @@ public abstract class MovieSearchRequest{
     @Getter(AccessLevel.PRIVATE)
     private String apiKey;
     
-    protected MovieSearchRequest(String uri, String apiKeyParamName, String searchParamName, String languageParamName) {
+    protected MovieSearchRequestEntity(String uri, String apiKeyParamName, String searchParamName, String languageParamName) {
         this.API_KEY_PARAM_NAME = apiKeyParamName;
         this.SEARCH_PARAM_NAME = searchParamName;
         this.LANGUAGE_PARAM_NAME = languageParamName;
