@@ -1,7 +1,9 @@
 rootProject.name = 'recody-backend'
 
+include(":common")
 include(":service-movie-api", ":service-movie-impl")
 include(":service-catalog-api", ":service-catalog-impl")
+
 
 String movieProjectDir = "service-movie"
 project(":service-movie-api").projectDir = new File(settingsDir, "${movieProjectDir}/api")
