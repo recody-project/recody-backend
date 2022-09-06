@@ -7,7 +7,7 @@ import org.springframework.http.RequestEntity;
 import java.net.URI;
 
 @Slf4j
-public class TMDBMovieSearchRequest extends MovieSearchRequest {
+public class TMDBMovieSearchRequestEntity extends MovieSearchRequestEntity {
     
     private static final String TMDB_API_KEY_PARAM_NAME = "api_key";
     private static final String TMDB_LANGUAGE_PARAM_NAME = "language";
@@ -15,7 +15,7 @@ public class TMDBMovieSearchRequest extends MovieSearchRequest {
     
     private static final String TMDB_API_URI = "https://api.themoviedb.org/3/search/movie";
     
-    private TMDBMovieSearchRequest(String movieName, String language) {
+    private TMDBMovieSearchRequestEntity(String movieName, String language) {
         super(TMDB_API_URI, TMDB_API_KEY_PARAM_NAME, TMDB_QUERY_PARAM_NAME, TMDB_LANGUAGE_PARAM_NAME);
         setMovieName(movieName);
         setLanguage(language);
@@ -47,8 +47,8 @@ public class TMDBMovieSearchRequest extends MovieSearchRequest {
             return this;
         }
     
-        public TMDBMovieSearchRequest build(){
-            return new TMDBMovieSearchRequest(movieName, language);
+        public TMDBMovieSearchRequestEntity build(){
+            return new TMDBMovieSearchRequestEntity(movieName, language);
         }
         
         public MovieSearchRequestBuilder korean(){
