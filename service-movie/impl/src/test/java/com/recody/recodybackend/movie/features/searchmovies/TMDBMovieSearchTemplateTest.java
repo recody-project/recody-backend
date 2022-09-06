@@ -13,7 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
-@ActiveProfiles("local")
+@ActiveProfiles("test")
 @ContextConfiguration(classes = RecodyMovieApplication.class)
 class TMDBMovieSearchTemplateTest {
     
