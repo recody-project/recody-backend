@@ -1,12 +1,21 @@
+# server
 server:
   port: 8140
+  error:
+    include-exception: true
+    include-message: always
+    include-stacktrace: never
 
+# spring
 spring:
   config:
     activate:
       on-profile: default
 
+  messages:
+    basename: messages, errors
+
 logging:
-  level:
-    com:
-      recody: debug
+  pattern:
+    dateformat: yyyy-MM-dd HH:mm:ss.SSS,Asia/Seoul
+
