@@ -2,7 +2,8 @@ name: build-test integration
 
 on:
   push:
-    paths-ignore: 
+    branches: [ "develop" ]
+    paths-ignore:
       - '.github/ISSUE_TEMPLATE/**'
       - 'README.md'
 
@@ -59,9 +60,20 @@ jobs:
           format: YYYYMMDDTHHmm
           utcOffset: "+09:00"
 
-      - name: Just Try Generate deployment package
+      - name: Generate deployment package
         run: |
           mkdir -p deploy/build/libs
           cp build/libs/*.jar deploy/build/libs/
           cp Dockerfile deploy/Dockerfile
           cd deploy && zip -r deploy.zip .
+
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v14
+        with:
+          aws_access_key: ${{ secrets.BEANSTALK_USER_ACCESS_KEY }}
+          aws_secret_key: ${{ secrets.BEANSTALK_USER_SECRET_KEY }}
+          application_name: ${{ secrets.BEANSTALK_DEV_APPLICATION_NAME }}
+          environment_name: ${{ secrets.BEANSTALK_DEV_ENVIRONMENT_NAME }}
+          version_label: recody-backend-dev-${{steps.current-time.outputs.formattedTime}}
+          region: ap-northeast-2
+          deployment_package: deploy/deploy.zip

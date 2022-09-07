@@ -1,4 +1,8 @@
+jar.enabled(false)
+bootJar.enabled(false)
+
 dependencies {
+
     implementation project(":common")
     implementation project(":service-movie-api")
 
@@ -10,4 +14,7 @@ dependencies {
     // databases
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'mysql:mysql-connector-java'
+
+    // aws log appender
+    implementation "ca.pjer:logback-awslogs-appender:1.6.0"
 }
