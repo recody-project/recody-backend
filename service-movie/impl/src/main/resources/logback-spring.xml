@@ -18,8 +18,10 @@
         <property resource="env.prod.properties"/>
     </springProfile>
 
-    <property name="AWS_ACCESS_KEY" value="${cloud.aws.credentials.accessKey}"/>
-    <property name="AWS_SECRET_KEY" value="${cloud.aws.credentials.secretKey}"/>
+    <property name="AWS_ACCESS_KEY" value="${infra.aws.credentials.accessKey}"/>
+    <property name="AWS_SECRET_KEY" value="${infra.aws.credentials.secretKey}"/>
+    <property name="CLOUD_WATCH_LOG_GROUP" value="${infra.aws.cloud-watch.log-group}"/>
+    <property name="CLOUD_WATCH_LOG_PREFIX" value="${infra.aws.cloud-watch.log-stream-prefix}"/>
 
     <property name="LOG_PATH" value="${log.config.path}"/>
     <property name="LOG_FILE_NAME" value="${log.config.filename}"/>
@@ -111,8 +113,8 @@
             <layout>
                 <pattern>${FILE_LOG_PATTERN}</pattern>
             </layout>
-            <logGroupName>biom-log-group-dev</logGroupName>
-            <logStreamUuidPrefix>biom-log-dev</logStreamUuidPrefix>
+            <logGroupName>${CLOUD_WATCH_LOG_GROUP}</logGroupName>
+            <logStreamUuidPrefix>${CLOUD_WATCH_LOG_PREFIX}</logStreamUuidPrefix>
             <logRegion>ap-northeast-2</logRegion>
             <maxBatchLogEvents>50</maxBatchLogEvents>
             <maxFlushTimeMillis>30000</maxFlushTimeMillis>
