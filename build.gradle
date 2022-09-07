@@ -19,6 +19,9 @@ repositories {
 }
 
 dependencies {
+    implementation project(":common")
+    implementation project(":service-movie-api")
+    implementation project(":service-catalog-api")
     implementation project(":service-movie-impl")
     implementation project(":service-catalog-impl")
 

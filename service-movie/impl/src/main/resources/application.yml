@@ -1,10 +1,9 @@
-# server
 server:
-  port: 8140
   error:
     include-exception: true
     include-message: always
     include-stacktrace: never
+  port: 8140
 
 # spring
 spring:
