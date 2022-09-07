@@ -32,6 +32,8 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
+jar.enabled(false)
+
 allprojects {
     group = 'com.recody'
     version = '0.0.1-SNAPSHOT'

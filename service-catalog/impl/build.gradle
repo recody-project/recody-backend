@@ -1,3 +1,6 @@
+jar.enabled(false)
+bootJar.enabled(false)
+
 dependencies {
     implementation project(":common")
     implementation project(":service-catalog-api")
