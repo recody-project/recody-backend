@@ -30,7 +30,7 @@ jobs:
           touch ./service-movie/impl/src/main/resources/application-dev.yml
 
           echo "${{env.ENV-DEV-PROPERTIES}}" >> ./service-movie/impl/src/main/resources/env.dev.properties
-          echo "${{env.APPLICATION-DEV-YML}}" >> .service-movie/impl/src/main/resources/application-dev.yml
+          echo "${{env.APPLICATION-DEV-YML}}" >> ./service-movie/impl/src/main/resources/application-dev.yml
         shell: bash
         env:
           APPLICATION-DEV-YML: ${{secrets.APPLICATION_DEV_YML}}
