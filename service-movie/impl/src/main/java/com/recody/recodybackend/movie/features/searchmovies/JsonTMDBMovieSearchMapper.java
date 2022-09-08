@@ -1,7 +1,7 @@
 package com.recody.recodybackend.movie.features.searchmovies;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.recody.recodybackend.movie.features.searchmovies.request.JsonTMDBMovieSearchResponse;
+import com.recody.recodybackend.movie.features.searchmovies.request.MovieSearchResponse;
 import com.recody.recodybackend.movie.general.MovieSource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -30,8 +30,8 @@ class JsonTMDBMovieSearchMapper implements MovieSearchMapper {
     
     @Override
     public SearchMovieResponse map(Object object) {
-        JsonNode jsonNode = (JsonNode) object;
-        JsonNode results = jsonNode.withArray(RESULTS);
+        JsonNode json = (JsonNode) object;
+        JsonNode results = json.withArray(RESULTS);
         ArrayList<SingleMovieSpec> specs = new ArrayList<>();
         for (JsonNode result : results) {
             specs.add(doMap(result));
@@ -43,9 +43,8 @@ class JsonTMDBMovieSearchMapper implements MovieSearchMapper {
     /*
     * 모든 매핑 로직이 새로운 객체에서 이루어진다.
     * TODO 비동기 or 멀티 쓰레딩으로 가능? */
-    public DynamicMapper dynamicMapper(Object object){
-        JsonTMDBMovieSearchResponse result = (JsonTMDBMovieSearchResponse) object;
-        JsonNode json = result.getResponse();
+    public DynamicMapper dynamicMapper(MovieSearchResponse object){
+        JsonNode json = object.getResponse();
         SearchMovieResponse response = map(json);
         return new TMDBDynamicMapper(response);
     }

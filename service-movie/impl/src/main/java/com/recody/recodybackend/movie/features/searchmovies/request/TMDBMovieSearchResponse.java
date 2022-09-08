@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 @Builder
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @Slf4j
-public class JsonTMDBMovieSearchResponse implements MovieSearchResponse {
+public class TMDBMovieSearchResponse implements MovieSearchResponse {
     private static final MovieSource source = MovieSource.TMDB;
     private static final String RESULTS = "results";
     private static final String GENRE_IDS = "genre_ids";
