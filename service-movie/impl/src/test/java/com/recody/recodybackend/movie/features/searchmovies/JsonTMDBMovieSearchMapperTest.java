@@ -1,7 +1,7 @@
 package com.recody.recodybackend.movie.features.searchmovies;
 
 import com.recody.recodybackend.RecodyMovieApplication;
-import com.recody.recodybackend.movie.features.searchmovies.request.MovieSearchResult;
+import com.recody.recodybackend.movie.features.searchmovies.request.MovieSearchResponse;
 import com.recody.recodybackend.movie.features.searchmovies.request.MovieSearchTemplate;
 import com.recody.recodybackend.movie.features.searchmovies.request.TMDBMovieSearchRequestEntity;
 import org.junit.jupiter.api.DisplayName;
@@ -27,7 +27,7 @@ class JsonTMDBMovieSearchMapperTest {
     @DisplayName("장르 id 정보가 없으면 예외 발생 ")
     void test01() {
         // given
-        MovieSearchResult result = template.executeToJson(TMDBMovieSearchRequestEntity.builder().language("ko").movieName("결심").build());
+        MovieSearchResponse result = template.executeToJson(TMDBMovieSearchRequestEntity.builder().language("ko").movieName("결심").build());
         // when
         // 장르 세팅
     

@@ -36,7 +36,7 @@ class TMDBMovieSearchTemplate implements MovieSearchTemplate {
     }
     
     @Override
-    public JsonTMDBMovieSearchResult executeToJson(MovieSearchRequestEntity request) {
+    public JsonTMDBMovieSearchResponse executeToJson(MovieSearchRequestEntity request) {
         request.setApiKey(TMDB_API_KEY);
         log.debug("Requesting movie search to TMDB: {}", request);
         RequestEntity<Void> requestEntity = request.toEntity();
@@ -54,9 +54,9 @@ class TMDBMovieSearchTemplate implements MovieSearchTemplate {
         } catch (Exception exception) {
             throw new RuntimeException("language 파라미터가 올바르지 않습니다.");
         }
-        return JsonTMDBMovieSearchResult.builder()
-                                        .requestLocale(locale)
-                                        .response(body)
-                                        .build();
+        return JsonTMDBMovieSearchResponse.builder()
+                                          .requestLocale(locale)
+                                          .response(body)
+                                          .build();
     }
 }

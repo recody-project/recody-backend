@@ -5,7 +5,7 @@ import com.recody.recodybackend.movie.features.resolvegenres.ResolveMovieGenres;
 import com.recody.recodybackend.movie.features.resolvecontentroot.ContentRootResolver;
 import com.recody.recodybackend.movie.features.resolvecontentroot.ResolveContentRoot;
 import com.recody.recodybackend.movie.features.resolvecontentroot.ResolveContentRootResult;
-import com.recody.recodybackend.movie.features.searchmovies.request.MovieSearchResult;
+import com.recody.recodybackend.movie.features.searchmovies.request.MovieSearchResponse;
 import com.recody.recodybackend.movie.features.searchmovies.request.MovieSearchTemplate;
 import com.recody.recodybackend.movie.features.searchmovies.request.TMDBMovieSearchRequestEntity;
 import com.recody.recodybackend.common.contents.Category;
@@ -28,12 +28,12 @@ class TMDBMovieSearchService implements MovieSearchService {
     
     @Override
     public SearchMovieResponse handle(SearchMovie command) {
-        MovieSearchResult result = searchTemplate.executeToJson(TMDBMovieSearchRequestEntity.builder().movieName(command.getMovieName()).language(command.getLanguage()).build());
+        MovieSearchResponse result = searchTemplate.executeToJson(TMDBMovieSearchRequestEntity.builder().movieName(command.getMovieName()).language(command.getLanguage()).build());
         
         return doHandle(result);
     }
     
-    private SearchMovieResponse doHandle(MovieSearchResult result) {
+    private SearchMovieResponse doHandle(MovieSearchResponse result) {
         // 장르 세팅
         Map<Integer, List<MovieGenre>> movieGenres = resolveGenres(result);
         
@@ -47,14 +47,14 @@ class TMDBMovieSearchService implements MovieSearchService {
                            .contentRoot(contentRoot).get();
     }
     
-    private ResolveContentRootResult resolveContentRoot(MovieSearchResult result) {
+    private ResolveContentRootResult resolveContentRoot(MovieSearchResponse result) {
         return rootResolver.handle(ResolveContentRoot.builder()
                                                      .category(Category.Movie)
                                                      .contentSource(MovieSource.TMDB)
                                                      .contentId(result.getMovieIds()).build());
     }
     
-    private Map<Integer, List<MovieGenre>> resolveGenres(MovieSearchResult result) {
+    private Map<Integer, List<MovieGenre>> resolveGenres(MovieSearchResponse result) {
         return genreResolver.handle(ResolveMovieGenres.builder()
                                                       .genreIds(result.getGenreIdsMap())
                                                       .build());

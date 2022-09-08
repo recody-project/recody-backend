@@ -1,6 +1,6 @@
 package com.recody.recodybackend.movie.features.searchmovies.request;
 
-import lombok.AccessLevel;
+import com.recody.recodybackend.common.openapi.RecodyRequestEntity;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -10,29 +10,23 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 
 @Slf4j
-public abstract class MovieSearchRequestEntity {
+public abstract class MovieSearchRequestEntity extends RecodyRequestEntity {
     
-    private final String API_KEY_PARAM_NAME;
     private final String SEARCH_PARAM_NAME;
-    private final String LANGUAGE_PARAM_NAME;
     protected final UriComponentsBuilder uriComponentsBuilder;
     protected final HttpHeaders headers = new HttpHeaders();
     
     @Getter
     private String movieName;
-    @Getter
-    private String language;
-    @Getter(AccessLevel.PRIVATE)
-    private String apiKey;
     
     protected MovieSearchRequestEntity(String uri, String apiKeyParamName, String searchParamName, String languageParamName) {
-        this.API_KEY_PARAM_NAME = apiKeyParamName;
+        super(apiKeyParamName, languageParamName);
         this.SEARCH_PARAM_NAME = searchParamName;
-        this.LANGUAGE_PARAM_NAME = languageParamName;
         this.uriComponentsBuilder = UriComponentsBuilder.fromUriString(uri);
     }
     
-    public RequestEntity<Void> toEntity() {
+    @Override
+    public final RequestEntity<Void> toEntity() {
         validate();
         URI uri = createUri();
         return makeEntity(uri, headers);
@@ -44,12 +38,14 @@ public abstract class MovieSearchRequestEntity {
         log.trace("movieName set to: {}", movieName);
     }
     
+    @Override
     protected void setLanguage(String language){
         this.language = language;
         this.uriComponentsBuilder.queryParam(LANGUAGE_PARAM_NAME, language);
         log.trace("movieName set to: {}", movieName);
     }
     
+    @Override
     public void setApiKey(String apiKey){
         this.apiKey = apiKey;
         uriComponentsBuilder.queryParam(API_KEY_PARAM_NAME, apiKey);
@@ -58,11 +54,11 @@ public abstract class MovieSearchRequestEntity {
     
     protected abstract RequestEntity<Void> makeEntity(URI uri, HttpHeaders headers);
     
-    private URI createUri() {
+    protected URI createUri() {
         return this.uriComponentsBuilder.encode().build().toUri();
     }
     
-    private void validate() {
+    protected void validate() {
         if (movieName == null) throw new IllegalArgumentException("Movie name was not set");
         if (language == null) throw new IllegalArgumentException("Language was not set");
         if (apiKey == null) throw new IllegalArgumentException("Api Key was not set");
