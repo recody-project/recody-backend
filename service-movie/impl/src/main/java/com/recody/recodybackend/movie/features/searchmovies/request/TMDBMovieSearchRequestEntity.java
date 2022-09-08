@@ -1,5 +1,6 @@
 package com.recody.recodybackend.movie.features.searchmovies.request;
 
+import com.recody.recodybackend.movie.general.TMDBRequestEntity;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

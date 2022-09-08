@@ -1,6 +1,6 @@
 package com.recody.recodybackend.movie.features.getmovieinfo;
 
-import com.recody.recodybackend.movie.features.searchmovies.request.TMDBRequestEntity;
+import com.recody.recodybackend.movie.general.TMDBRequestEntity;
 
 public class TMDBMovieInfoRequestEntity extends TMDBRequestEntity implements MovieInfoRequestEntity {
     
