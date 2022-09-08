@@ -1,4 +1,4 @@
-package com.recody.recodybackend.movie.general;
+package com.recody.recodybackend.common.contents;
 
 /*
 * 영화를 비롯한 여러 컨텐츠들을 통합하는 마커 인터페이스.

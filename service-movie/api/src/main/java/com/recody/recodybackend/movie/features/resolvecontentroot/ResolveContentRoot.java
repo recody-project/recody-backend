@@ -1,7 +1,7 @@
 package com.recody.recodybackend.movie.features.resolvecontentroot;
 
-import com.recody.recodybackend.movie.general.Category;
-import com.recody.recodybackend.movie.general.ContentSource;
+import com.recody.recodybackend.common.contents.Category;
+import com.recody.recodybackend.common.contents.ContentSource;
 import lombok.Builder;
 
 import java.util.List;

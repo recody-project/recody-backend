@@ -8,14 +8,13 @@ import com.recody.recodybackend.movie.features.resolvecontentroot.ResolveContent
 import com.recody.recodybackend.movie.features.searchmovies.request.MovieSearchResult;
 import com.recody.recodybackend.movie.features.searchmovies.request.MovieSearchTemplate;
 import com.recody.recodybackend.movie.features.searchmovies.request.TMDBMovieSearchRequestEntity;
-import com.recody.recodybackend.movie.general.Category;
+import com.recody.recodybackend.common.contents.Category;
 import com.recody.recodybackend.movie.general.MovieGenre;
 import com.recody.recodybackend.movie.general.MovieSource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 @Component

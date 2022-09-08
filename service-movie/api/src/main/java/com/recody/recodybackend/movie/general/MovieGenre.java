@@ -1,6 +1,10 @@
 package com.recody.recodybackend.movie.general;
 
-public class MovieGenre {
+import com.recody.recodybackend.common.contents.Genre;
+
+/*
+* 영화의 장르는 여러개일 수 있다. */
+public class MovieGenre implements Genre {
     private final Integer genreId;
     private String genreName;
     
