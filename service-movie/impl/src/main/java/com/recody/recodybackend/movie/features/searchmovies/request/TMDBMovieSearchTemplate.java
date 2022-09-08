@@ -13,9 +13,9 @@ import java.util.Locale;
 @Slf4j
 class TMDBMovieSearchTemplate implements MovieSearchTemplate {
     
-    private final String TMDB_API_KEY;
-    
     private final RestTemplate restTemplate = new RestTemplate();
+    
+    private final String TMDB_API_KEY;
     
     public TMDBMovieSearchTemplate(@Value("${movie.tmdb.api-key}") String apiKey) {
         this.TMDB_API_KEY = apiKey;

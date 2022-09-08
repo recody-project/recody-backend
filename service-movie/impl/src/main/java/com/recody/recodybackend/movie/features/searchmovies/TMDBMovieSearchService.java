@@ -1,14 +1,14 @@
 package com.recody.recodybackend.movie.features.searchmovies;
 
-import com.recody.recodybackend.movie.features.resolvegenres.MovieGenreResolver;
-import com.recody.recodybackend.movie.features.resolvegenres.ResolveMovieGenres;
+import com.recody.recodybackend.common.contents.Category;
 import com.recody.recodybackend.movie.features.resolvecontentroot.ContentRootResolver;
 import com.recody.recodybackend.movie.features.resolvecontentroot.ResolveContentRoot;
 import com.recody.recodybackend.movie.features.resolvecontentroot.ResolveContentRootResult;
+import com.recody.recodybackend.movie.features.resolvegenres.MovieGenreResolver;
+import com.recody.recodybackend.movie.features.resolvegenres.ResolveMovieGenres;
 import com.recody.recodybackend.movie.features.searchmovies.request.MovieSearchResponse;
 import com.recody.recodybackend.movie.features.searchmovies.request.MovieSearchTemplate;
 import com.recody.recodybackend.movie.features.searchmovies.request.TMDBMovieSearchRequestEntity;
-import com.recody.recodybackend.common.contents.Category;
 import com.recody.recodybackend.movie.general.MovieGenre;
 import com.recody.recodybackend.movie.general.MovieSource;
 import lombok.RequiredArgsConstructor;
