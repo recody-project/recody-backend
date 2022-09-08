@@ -2,35 +2,44 @@ package com.recody.recodybackend.movie.features.searchmovies.request;
 
 import com.recody.recodybackend.movie.general.TMDBRequestEntity;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.RequestEntity;
 
 @Slf4j
-public class TMDBMovieSearchRequestEntity extends TMDBRequestEntity implements MovieSearchRequestEntity {
+public class TMDBMovieSearchRequestEntity implements MovieSearchRequestEntity {
     
     private static final String TMDB_QUERY_PARAM_NAME = "query";
     private static final String MOVIE_SEARCH_PATH = "/search/movie";
     private final String movieName;
+    private final TMDBRequestEntity delegate;
     
     private TMDBMovieSearchRequestEntity(String movieName, String language) {
-        super(MOVIE_SEARCH_PATH);
+        delegate = new TMDBRequestEntity(MOVIE_SEARCH_PATH, language);
+        
         initMovieName(movieName);
         this.movieName = movieName;
-        this.setLanguage(language);
+        delegate.addRequestParam(TMDB_QUERY_PARAM_NAME, movieName);
+        log.trace("movieName set to: {}", movieName);
+    
         validate();
     }
     
-    private void initMovieName(String movieName) {
-        this.addRequestParam(TMDB_QUERY_PARAM_NAME, movieName);
-    }
-    
-    public void setMovieName(String movieName){
-        this.addRequestParam(TMDB_QUERY_PARAM_NAME, movieName);
-        log.trace("movieName set to: {}", movieName);
+    @Override
+    public RequestEntity<Void> toEntity() {
+        return delegate.toEntity();
     }
     
     @Override
-    public void setLanguage(String language){
-        super.setLanguage(language);
-        log.trace("language set to: {}", language);
+    public String getLanguage() {
+        return delegate.getLanguage();
+    }
+    
+    @Override
+    public void setApiKey(String apiKey) {
+        delegate.setApiKey(apiKey);
+    }
+    
+    private void initMovieName(String movieName) {
+        delegate.addRequestParam(TMDB_QUERY_PARAM_NAME, movieName);
     }
     
     private void validate(){

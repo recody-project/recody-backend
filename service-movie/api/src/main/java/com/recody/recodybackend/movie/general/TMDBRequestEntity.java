@@ -2,7 +2,7 @@ package com.recody.recodybackend.movie.general;
 
 import com.recody.recodybackend.common.openapi.AbstractRequestEntity;
 
-public abstract class TMDBRequestEntity extends AbstractRequestEntity {
+public class TMDBRequestEntity extends AbstractRequestEntity {
     
     private static final String TMDB_URI = "https://api.themoviedb.org/3";
     private static final String TMDB_LANGUAGE_PARAM_NAME = "language";
@@ -10,10 +10,11 @@ public abstract class TMDBRequestEntity extends AbstractRequestEntity {
     
     private final String path;
     
-    protected TMDBRequestEntity(String path) {
+    public TMDBRequestEntity(String path, String language) {
         super(TMDB_URI, TMDB_API_KEY_PARAM_NAME, TMDB_LANGUAGE_PARAM_NAME);
         this.path = path;
         setPath(path);
+        setLanguage(language);
         validatePath();
     }
     
