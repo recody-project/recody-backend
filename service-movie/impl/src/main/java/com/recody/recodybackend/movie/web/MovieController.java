@@ -1,6 +1,8 @@
 package com.recody.recodybackend.movie.web;
 
 import com.recody.recodybackend.common.web.SuccessResponseBody;
+import com.recody.recodybackend.movie.features.getmovieinfo.MovieInfoRequestTemplate;
+import com.recody.recodybackend.movie.features.getmovieinfo.TMDBMovieInfoRequestEntity;
 import com.recody.recodybackend.movie.features.searchmovies.MovieSearchService;
 import com.recody.recodybackend.movie.features.searchmovies.SearchMovie;
 import com.recody.recodybackend.movie.features.searchmovies.SearchMovieResponse;
@@ -22,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 public class MovieController {
     
     private final MovieSearchTemplate movieSearchTemplate;
+    private final MovieInfoRequestTemplate movieInfoRequestTemplate;
     private final MovieSearchService movieSearchService;
     private final MessageSource ms;
     
@@ -51,4 +54,24 @@ public class MovieController {
                                                    .language(language)
                                                    .build());
     }
+    
+    @GetMapping("/api/v1/movie/info")
+    public ResponseEntity<String> getMovieInfo(@RequestParam String movieId,
+                                                            HttpServletRequest request,
+                                                            @RequestParam(defaultValue = "ko") String language) {
+        return ResponseEntity.ok()
+                             .body(movieInfoRequestTemplate.executeToString(new TMDBMovieInfoRequestEntity(movieId, language)));
+        
+    }
+    
+    @GetMapping("/api/v2/movie/info")
+    public ResponseEntity<SuccessResponseBody> getMovieInfoV2(@RequestParam String movieId,
+                                                              HttpServletRequest request,
+                                                              @RequestParam(defaultValue = "ko") String language) {
+        return ResponseEntity.ok().body(SuccessResponseBody.builder()
+                                                           .message(ms.getMessage("movie.get_info.succeeded", null, request.getLocale()))
+                                                           .data(movieInfoRequestTemplate.executeToJson(new TMDBMovieInfoRequestEntity(movieId,  language)))
+                                                           .build());
+    }
 }
+
