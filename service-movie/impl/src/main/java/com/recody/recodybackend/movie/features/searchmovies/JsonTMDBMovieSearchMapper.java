@@ -25,6 +25,7 @@ class JsonTMDBMovieSearchMapper implements MovieSearchMapper {
     private static final String RELEASE_DATE = "release_date";
     private static final String TITLE = "title";
     private static final String POSTER_PATH = "poster_path";
+    private static final String POSTER_PATH_PREFIX = "https://image.tmdb.org/t/p/w500";
     
     
     @Override
@@ -56,7 +57,7 @@ class JsonTMDBMovieSearchMapper implements MovieSearchMapper {
                               .originalLanguage(getString(results, ORIGINAL_LANGUAGE))
                               .originalTitle(getString(results, ORIGINAL_TITLE))
                               .overview(getString(results, OVERVIEW))
-                              .posterPath(getString(results, POSTER_PATH))
+                              .posterPath(POSTER_PATH_PREFIX + getString(results, POSTER_PATH))
                               .releaseDate(getString(results, RELEASE_DATE))
                               .title(getString(results, TITLE))
                               .source(MovieSource.TMDB).build();
