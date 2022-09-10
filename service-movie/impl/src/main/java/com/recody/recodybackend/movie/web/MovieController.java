@@ -1,13 +1,13 @@
 package com.recody.recodybackend.movie.web;
 
 import com.recody.recodybackend.common.web.SuccessResponseBody;
-import com.recody.recodybackend.movie.features.getmovieinfo.MovieInfoRequestTemplate;
-import com.recody.recodybackend.movie.features.getmovieinfo.TMDBMovieInfoRequestEntity;
+import com.recody.recodybackend.movie.features.getmovieDetail.GetMovieDetailHandler;
+import com.recody.recodybackend.movie.features.getmovieDetail.TMDBGetMovieDetail;
 import com.recody.recodybackend.movie.features.searchmovies.MovieSearchService;
-import com.recody.recodybackend.movie.features.searchmovies.SearchMovie;
-import com.recody.recodybackend.movie.features.searchmovies.SearchMovieResponse;
-import com.recody.recodybackend.movie.features.searchmovies.request.MovieSearchTemplate;
-import com.recody.recodybackend.movie.features.searchmovies.request.TMDBMovieSearchRequestEntity;
+import com.recody.recodybackend.movie.features.searchmovies.SearchMovies;
+import com.recody.recodybackend.movie.features.searchmovies.SearchMoviesResult;
+import com.recody.recodybackend.movie.features.searchmovies.request.SearchMoviesUsingApiHandler;
+import com.recody.recodybackend.movie.features.searchmovies.request.SearchMoviesUsingTMDBApi;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
@@ -23,8 +23,8 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 public class MovieController {
     
-    private final MovieSearchTemplate movieSearchTemplate;
-    private final MovieInfoRequestTemplate movieInfoRequestTemplate;
+    private final SearchMoviesUsingApiHandler searchMoviesUsingApiHandler;
+    private final GetMovieDetailHandler getMovieDetailHandler;
     private final MovieSearchService movieSearchService;
     private final MessageSource ms;
     
@@ -32,7 +32,7 @@ public class MovieController {
     public ResponseEntity<String> search(@RequestParam String movieName,
                                          @RequestParam(defaultValue = "ko") String language){
         log.debug("controller called");
-        return ResponseEntity.ok().body(movieSearchTemplate.execute(TMDBMovieSearchRequestEntity
+        return ResponseEntity.ok().body(searchMoviesUsingApiHandler.handleToString(SearchMoviesUsingTMDBApi
                                                                             .builder()
                                                                             .movieName(movieName)
                                                                             .language(language)
@@ -48,11 +48,11 @@ public class MovieController {
                                                            .data(getSearchMovieResponse(movieName, request, language)).build());
     }
     
-    private SearchMovieResponse getSearchMovieResponse(String movieName, HttpServletRequest request, String language) {
-        return movieSearchService.handle(SearchMovie.builder()
-                                                   .movieName(movieName)
-                                                   .language(language)
-                                                   .build());
+    private SearchMoviesResult getSearchMovieResponse(String movieName, HttpServletRequest request, String language) {
+        return movieSearchService.handle(SearchMovies.builder()
+                                                     .movieName(movieName)
+                                                     .language(language)
+                                                     .build());
     }
     
     @GetMapping("/api/v1/movie/info")
@@ -60,7 +60,7 @@ public class MovieController {
                                                             HttpServletRequest request,
                                                             @RequestParam(defaultValue = "ko") String language) {
         return ResponseEntity.ok()
-                             .body(movieInfoRequestTemplate.executeToString(new TMDBMovieInfoRequestEntity(movieId, language)));
+                             .body(getMovieDetailHandler.handleToString(new TMDBGetMovieDetail(movieId, language)));
         
     }
     
@@ -70,7 +70,7 @@ public class MovieController {
                                                               @RequestParam(defaultValue = "ko") String language) {
         return ResponseEntity.ok().body(SuccessResponseBody.builder()
                                                            .message(ms.getMessage("movie.get_info.succeeded", null, request.getLocale()))
-                                                           .data(movieInfoRequestTemplate.executeToJson(new TMDBMovieInfoRequestEntity(movieId,  language)))
+                                                           .data(getMovieDetailHandler.handleToResponse(new TMDBGetMovieDetail(movieId, language)))
                                                            .build());
     }
 }
