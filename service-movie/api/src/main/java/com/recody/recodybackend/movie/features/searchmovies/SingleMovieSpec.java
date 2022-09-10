@@ -24,7 +24,7 @@ public class SingleMovieSpec {
     private String releaseDate;
     
     
-    /* */
+    /* 장르와 root Id 는 외부에서 resolve 한 뒤에 세팅된다. */
     @Setter(AccessLevel.PUBLIC)
     private List<MovieGenre> genres;
     @Setter(AccessLevel.PUBLIC)

@@ -8,7 +8,7 @@ import java.util.Locale;
 
 @Builder
 @Data
-public class SearchMovieResponse {
+public class SearchMoviesResult {
     // 요청 메타 데이터
     private Locale requestedLanguage;
     

@@ -1,8 +1,8 @@
 package com.recody.recodybackend.movie.features.searchmovies;
 
 import com.recody.recodybackend.RecodyMovieApplication;
-import com.recody.recodybackend.movie.features.searchmovies.request.MovieSearchTemplate;
-import com.recody.recodybackend.movie.features.searchmovies.request.TMDBMovieSearchRequestEntity;
+import com.recody.recodybackend.movie.features.searchmovies.request.SearchMoviesUsingApiHandler;
+import com.recody.recodybackend.movie.features.searchmovies.request.SearchMoviesUsingTMDBApi;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +15,9 @@ import static org.assertj.core.api.Assertions.*;
 @SpringBootTest
 @ActiveProfiles("test")
 @ContextConfiguration(classes = RecodyMovieApplication.class)
-class TMDBMovieSearchTemplateTest {
+class SearchMoviesUsingTMDBApiHandlerTest {
     
-    @Autowired private MovieSearchTemplate template;
+    @Autowired private SearchMoviesUsingApiHandler template;
     
     @Test
     @DisplayName("영화 이름과 언어를 설정하여 검색할 수 있다.")
@@ -25,9 +25,9 @@ class TMDBMovieSearchTemplateTest {
         // given
         
         // when
-        String result = template.execute(TMDBMovieSearchRequestEntity.builder()
-                                                                     .movieName("결심")
-                                                                     .korean().build());
+        String result = template.handleToString(SearchMoviesUsingTMDBApi.builder()
+                                                                        .movieName("결심")
+                                                                        .korean().build());
         // then
         assertThat(result).isNotNull();
     }
@@ -38,9 +38,9 @@ class TMDBMovieSearchTemplateTest {
         // given
         
         // when
-        TMDBMovieSearchRequestEntity request = TMDBMovieSearchRequestEntity.builder().korean().build();
+        SearchMoviesUsingTMDBApi request = SearchMoviesUsingTMDBApi.builder().korean().build();
         // then
-        assertThatThrownBy(() -> template.execute(request)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> template.handleToString(request)).isInstanceOf(IllegalArgumentException.class);
     }
     
     @Test
@@ -49,9 +49,9 @@ class TMDBMovieSearchTemplateTest {
         // given
         
         // when
-        TMDBMovieSearchRequestEntity request = TMDBMovieSearchRequestEntity.builder().movieName("하하").build();
+        SearchMoviesUsingTMDBApi request = SearchMoviesUsingTMDBApi.builder().movieName("하하").build();
     
         // then
-        assertThatThrownBy(() -> template.execute(request)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> template.handleToString(request)).isInstanceOf(IllegalArgumentException.class);
     }
 }

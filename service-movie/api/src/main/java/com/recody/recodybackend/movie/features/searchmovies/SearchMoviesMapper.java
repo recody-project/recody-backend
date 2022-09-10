@@ -1,22 +1,21 @@
 package com.recody.recodybackend.movie.features.searchmovies;
 
 import com.recody.recodybackend.movie.features.resolvecontentroot.ResolveContentRootResult;
-import com.recody.recodybackend.movie.features.searchmovies.request.MovieSearchResponse;
+import com.recody.recodybackend.movie.features.searchmovies.request.SearchMoviesUsingApiResponse;
 import com.recody.recodybackend.movie.general.MovieGenre;
 
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public interface MovieSearchMapper {
+public interface SearchMoviesMapper {
     
-    SearchMovieResponse map(Object object);
-    DynamicMapper dynamicMapper(MovieSearchResponse object);
+    DynamicMapper apiResponse(SearchMoviesUsingApiResponse response);
     
     interface DynamicMapper{
         DynamicMapper requestedLanguage(Locale locale);
         DynamicMapper genreIds(Map<Integer, List<MovieGenre>> movieGenres);
         DynamicMapper contentRoot(ResolveContentRootResult rootIdResult);
-        SearchMovieResponse get();
+        SearchMoviesResult get();
     }
 }

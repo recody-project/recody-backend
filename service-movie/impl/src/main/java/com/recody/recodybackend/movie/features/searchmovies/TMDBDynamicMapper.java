@@ -7,21 +7,20 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class TMDBDynamicMapper implements MovieSearchMapper.DynamicMapper {
-    //TODO: 구현
+public class TMDBDynamicMapper implements SearchMoviesMapper.DynamicMapper {
     
-    private final SearchMovieResponse response;
+    private final SearchMoviesResult response;
     
-    public TMDBDynamicMapper(SearchMovieResponse response) { this.response = response; }
+    public TMDBDynamicMapper(SearchMoviesResult response) { this.response = response; }
     
     @Override
-    public MovieSearchMapper.DynamicMapper requestedLanguage(Locale locale) {
-        this.response.setRequestedLanguage(locale);
+    public SearchMoviesMapper.DynamicMapper requestedLanguage(Locale locale) {
+        response.setRequestedLanguage(locale);
         return this;
     }
     
     @Override
-    public MovieSearchMapper.DynamicMapper genreIds(Map<Integer, List<MovieGenre>> movieGenres) {
+    public SearchMoviesMapper.DynamicMapper genreIds(Map<Integer, List<MovieGenre>> movieGenres) {
         List<SingleMovieSpec> movies = this.response.getMovies();
         for (SingleMovieSpec movie : movies) {
             // 각각의 영화 정보에 장르를 세팅한다.
@@ -39,12 +38,12 @@ public class TMDBDynamicMapper implements MovieSearchMapper.DynamicMapper {
     
     // TODO: 구현
     @Override
-    public MovieSearchMapper.DynamicMapper contentRoot(ResolveContentRootResult rootIdResult) {
+    public SearchMoviesMapper.DynamicMapper contentRoot(ResolveContentRootResult rootIdResult) {
         return this;
     }
     
     @Override
-    public SearchMovieResponse get() {
+    public SearchMoviesResult get() {
         return response;
     }
     

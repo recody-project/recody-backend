@@ -24,4 +24,9 @@ public class MovieGenre implements Genre {
     public String getGenreName() {
         return genreName;
     }
+    
+    @Override
+    public String toString() {
+        return "{\"MovieGenre\":{" + "\"genreId\":" + genreId + ", \"genreName\":" + ((genreName != null) ? ("\"" + genreName + "\"") : null) + "}}";
+    }
 }
