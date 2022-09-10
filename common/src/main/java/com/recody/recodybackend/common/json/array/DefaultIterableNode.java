@@ -13,11 +13,20 @@ public class DefaultIterableNode extends JsonHolder implements IterableNode {
     }
     
     @Override
-    public WhatTheyAre each(String name) {
-        log.info("iterating array with name: " + name);
+    public WhatTheyAre whereNameIs(String name) {
+        log.debug("iterating array and finding node with name: " + name);
         return new DefaultArrayTypeChecker(jsonNode, name);
     }
     
+    /*
+    * 이 배열에 name 들이 있는지 체크 */
+    @Override
+    public WhatTheyAre whereNamesAre(String... names) {
+        return new DefaultArrayTypeChecker(jsonNode, names);
+    }
+    
+    /*
+    * 이 배열에 값들이 있는지 체크해야 한다. 만약 단순 값이 아니면 예외를 던지자. */
     @Override
     public WhatTheyAre eachValue() {
         return new DefaultArrayTypeChecker(jsonNode);

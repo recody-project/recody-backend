@@ -22,7 +22,7 @@ public class DefaultStringCollector extends JsonHolder implements StringCollecto
         for (JsonNode node : jsonNode) {
             strings.add(node.get(name).asText());
         }
-        log.info("collected strings: " + strings);
+        log.debug("collected strings: " + strings);
         return strings;
     }
 }

@@ -10,6 +10,10 @@ public class JsonVisitorStream extends JsonHolder implements JsonVisitor{
         super(jsonNode);
     }
     
+    public static JsonVisitorStream of(JsonNode jsonNode){
+        return new JsonVisitorStream(jsonNode);
+    }
+    
     @Override
     public WhatItIs go(String name) {
         JsonNode node = this.jsonNode.get(name).deepCopy();
@@ -20,10 +24,10 @@ public class JsonVisitorStream extends JsonHolder implements JsonVisitor{
     public ArrayJsonStream<JsonNode> goArray(String name) {
         JsonNode maybeArray = this.jsonNode.get(name).deepCopy();
         if (!maybeArray.isArray()) {
-            log.info("maybeArray: {} " + maybeArray);
+            log.debug("maybeArray: " + maybeArray);
             throw new IllegalStateException("array 가 아닙니다.");
         }
-        log.info("maybeArray: {} " + maybeArray);
+        log.debug("maybeArray: " + maybeArray);
         return new DefaultArrayJsonStream(maybeArray);
     }
 }
