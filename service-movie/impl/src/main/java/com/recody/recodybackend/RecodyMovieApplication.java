@@ -1,9 +1,10 @@
 package com.recody.recodybackend;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 
-//@EnableAutoConfiguration
+@EnableAutoConfiguration
 @ComponentScan(basePackageClasses = RecodyMovieApplication.class)
 public class RecodyMovieApplication {
     public static void main(String[] args) {
