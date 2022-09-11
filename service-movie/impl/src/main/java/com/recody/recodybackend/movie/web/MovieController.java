@@ -1,8 +1,9 @@
 package com.recody.recodybackend.movie.web;
 
 import com.recody.recodybackend.common.web.SuccessResponseBody;
-import com.recody.recodybackend.movie.features.getmovieDetail.GetMovieDetailHandler;
-import com.recody.recodybackend.movie.features.getmovieDetail.TMDBGetMovieDetail;
+import com.recody.recodybackend.movie.features.getmoviedetail.GetMovieDetailHandler;
+import com.recody.recodybackend.movie.features.getmoviedetail.GetMovieDetailResult;
+import com.recody.recodybackend.movie.features.getmoviedetail.TMDBGetMovieDetail;
 import com.recody.recodybackend.movie.features.searchmovies.MovieSearchService;
 import com.recody.recodybackend.movie.features.searchmovies.SearchMovies;
 import com.recody.recodybackend.movie.features.searchmovies.SearchMoviesResult;
@@ -55,23 +56,23 @@ public class MovieController {
                                                      .build());
     }
     
-    @GetMapping("/api/v1/movie/info")
-    public ResponseEntity<String> getMovieInfo(@RequestParam String movieId,
-                                                            HttpServletRequest request,
-                                                            @RequestParam(defaultValue = "ko") String language) {
+    @GetMapping("/api/v1/movie/detail")
+    public ResponseEntity<GetMovieDetailResult> getMovieInfo(@RequestParam String movieId,
+                                                             HttpServletRequest request,
+                                                             @RequestParam(defaultValue = "ko") String language) {
         return ResponseEntity.ok()
-                             .body(getMovieDetailHandler.handleToString(new TMDBGetMovieDetail(movieId, language)));
+                             .body(getMovieDetailHandler.handle(new TMDBGetMovieDetail(movieId, language)));
         
     }
     
-    @GetMapping("/api/v2/movie/info")
+    @GetMapping("/api/v2/movie/detail")
     public ResponseEntity<SuccessResponseBody> getMovieInfoV2(@RequestParam String movieId,
                                                               HttpServletRequest request,
                                                               @RequestParam(defaultValue = "ko") String language) {
         return ResponseEntity.ok().body(SuccessResponseBody.builder()
                                                            .message(ms.getMessage("movie.get_info.succeeded", null, request.getLocale()))
-                                                           .data(getMovieDetailHandler.handleToResponse(new TMDBGetMovieDetail(movieId, language)))
-                                                           .build());
+                                                           .data(getMovieDetailHandler
+                                                                         .handle(new TMDBGetMovieDetail(movieId, language))).build());
     }
 }
 

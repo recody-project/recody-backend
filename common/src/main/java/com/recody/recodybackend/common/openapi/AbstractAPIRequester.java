@@ -2,10 +2,12 @@ package com.recody.recodybackend.common.openapi;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.RequestEntity;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+
+import static org.slf4j.LoggerFactory.getLogger;
+
 
 /*
 * 웹 요청을 수행하고 응답을 반환하는 APIRequester 타입과 호환되는 base class
@@ -18,7 +20,7 @@ import org.springframework.web.client.RestTemplate;
 public abstract class AbstractAPIRequester<T extends APIRequest> implements APIRequester<T>{
     
     private final RestTemplate restTemplate = new RestTemplate();
-    private final Logger log = LoggerFactory.getLogger(getClass());
+    private final Logger log = getLogger(getClass());
     private final String apiKey;
     
     /*
@@ -30,89 +32,106 @@ public abstract class AbstractAPIRequester<T extends APIRequest> implements APIR
     
     @Override
     public String executeToString(T request) {
+        String body;
         log.debug("executing request: {}", request);
         request.setApiKey(apiKey);
-        String body;
         try{
             body = restTemplate.exchange(request.toEntity(), String.class).getBody();
         } catch (RestClientException exception){
             log.warn("exception: {}", exception.getMessage());
-            throw new RuntimeException("TMDB 에서 정보를 받아오는 데에 실패하였습니다.");
+            throw new RuntimeException("외부 API 서버에서 정보를 받아오는 데에 실패하였습니다.");
         }
         return body;
     }
     
     @Override
     public JsonNode executeToJsonNode(T request) {
-        log.debug("executing request: {}", request);
         JsonNode body;
+        log.debug("executing request: {}", request);
         request.setApiKey(apiKey);
         try{
             body = restTemplate.exchange(request.toEntity(), JsonNode.class).getBody();
         } catch (RestClientException exception){
             log.warn("exception: {}", exception.getMessage());
-            throw new RuntimeException("TMDB 에서 정보를 받아오는 데에 실패하였습니다.");
+            throw new RuntimeException("외부 API 서버에서 정보를 받아오는 데에 실패하였습니다.");
         }
         return body;
     }
     
     @Override
     public JsonAPIResponse executeToJson(T request) {
+        JsonNode body;
         log.debug("executing request: {}", request);
         request.setApiKey(apiKey);
-        JsonNode body;
         try{
             RequestEntity<Object> entity = request.toEntity();
             body = restTemplate.exchange(entity, JsonNode.class).getBody();
         } catch (RestClientException exception){
             log.warn("exception: {}", exception.getMessage());
-            throw new RuntimeException("TMDB 에서 정보를 받아오는 데에 실패하였습니다.");
+            throw new RuntimeException("외부 API 서버에서 정보를 받아오는 데에 실패하였습니다.");
         }
         return new JsonAPIResponse(body);
     }
     
     public String requestToString(Request request) {
+        String body;
+        
         APIRequest apiRequest = request.toAPIRequest();
         apiRequest.setApiKey(apiKey);
-        String body;
         try{
             RequestEntity<Object> entity = apiRequest.toEntity();
             body = restTemplate.exchange(entity, String.class).getBody();
         } catch (RestClientException exception){
             log.warn("exception: {}", exception.getMessage());
-            throw new RuntimeException("TMDB 에서 정보를 받아오는 데에 실패하였습니다.");
+            throw new RuntimeException("외부 API 서버에서 정보를 받아오는 데에 실패하였습니다.");
         }
         return body;
     }
     
     @Override
     public JsonNode requestToJsonNode(Request request) {
+        JsonNode body;
+        
         APIRequest apiRequest = request.toAPIRequest();
         apiRequest.setApiKey(apiKey);
-        JsonNode body;
         try{
             RequestEntity<Object> entity = apiRequest.toEntity();
             body = restTemplate.exchange(entity, JsonNode.class).getBody();
         } catch (RestClientException exception){
             log.warn("exception: {}", exception.getMessage());
-            throw new RuntimeException("TMDB 에서 정보를 받아오는 데에 실패하였습니다.");
+            throw new RuntimeException("외부 API 서버에서 정보를 받아오는 데에 실패하였습니다.");
         }
         return body;
     }
     
     @Override
     public JsonAPIResponse requestToJson(Request request) {
+        JsonNode body;
         APIRequest apiRequest = request.toAPIRequest();
         apiRequest.setApiKey(apiKey);
-        JsonNode body;
         try{
             RequestEntity<Object> entity = apiRequest.toEntity();
             body = restTemplate.exchange(entity, JsonNode.class).getBody();
         } catch (RestClientException exception){
             log.warn("exception: {}", exception.getMessage());
-            throw new RuntimeException("TMDB 에서 정보를 받아오는 데에 실패하였습니다.");
+            throw new RuntimeException("외부 API 서버에서 정보를 받아오는 데에 실패하였습니다.");
         }
         return new JsonAPIResponse(body);
+    }
+    
+    @Override
+    public <S> S requestAndGet(Request request, Class<S> clazz) {
+        S body;
+        APIRequest apiRequest = request.toAPIRequest();
+        apiRequest.setApiKey(apiKey);
+        try{
+            RequestEntity<Object> entity = apiRequest.toEntity();
+            body = restTemplate.exchange(entity, clazz).getBody();
+        } catch (RestClientException exception){
+            log.warn("exception: {}", exception.getMessage());
+            throw new RuntimeException("외부 API 서버에서 정보를 받아오는 데에 실패하였습니다.");
+        }
+        return body;
     }
     
     private void infoLogTypeParameterOfThisImplementation() {

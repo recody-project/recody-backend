@@ -19,5 +19,6 @@ public interface APIRequester<T extends APIRequest>{
     String requestToString(Request request);
     JsonNode requestToJsonNode(Request request);
     JsonAPIResponse requestToJson(Request request);
+    <S> S requestAndGet(Request request, Class<S> clazz);
     
 }
