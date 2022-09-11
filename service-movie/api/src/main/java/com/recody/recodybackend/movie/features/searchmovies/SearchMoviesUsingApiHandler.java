@@ -1,4 +1,4 @@
-package com.recody.recodybackend.movie.features.searchmovies.request;
+package com.recody.recodybackend.movie.features.searchmovies;
 
 public interface SearchMoviesUsingApiHandler {
     String handleToString(SearchMoviesUsingApi request);

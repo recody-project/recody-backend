@@ -1,7 +1,6 @@
 package com.recody.recodybackend.movie.features.searchmovies;
 
 import com.recody.recodybackend.movie.features.resolvecontentroot.ResolveContentRootResult;
-import com.recody.recodybackend.movie.features.searchmovies.request.SearchMoviesUsingApiResponse;
 import com.recody.recodybackend.movie.general.MovieGenre;
 
 import java.util.List;

@@ -6,8 +6,6 @@ import com.recody.recodybackend.movie.features.resolvecontentroot.ResolveContent
 import com.recody.recodybackend.movie.features.resolvecontentroot.ResolveContentRootResult;
 import com.recody.recodybackend.movie.features.resolvegenres.MovieGenreResolver;
 import com.recody.recodybackend.movie.features.resolvegenres.ResolveMovieGenres;
-import com.recody.recodybackend.movie.features.searchmovies.request.SearchMoviesUsingApiHandler;
-import com.recody.recodybackend.movie.features.searchmovies.request.SearchMoviesUsingApiResponse;
 import com.recody.recodybackend.movie.features.searchmovies.request.SearchMoviesUsingTMDBApi;
 import com.recody.recodybackend.movie.general.MovieGenre;
 import com.recody.recodybackend.movie.general.MovieSource;

@@ -1,6 +1,7 @@
 package com.recody.recodybackend.movie.features.searchmovies.request;
 
-import com.recody.recodybackend.movie.general.TMDBRequestEntity;
+import com.recody.recodybackend.movie.features.searchmovies.SearchMoviesUsingApi;
+import com.recody.recodybackend.movie.general.TMDBAPIRequest;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -9,30 +10,23 @@ public class SearchMoviesUsingTMDBApi implements SearchMoviesUsingApi {
     private static final String TMDB_QUERY_PARAM_NAME = "query";
     private static final String TMDB_MOVIE_SEARCH_PATH = "/search/movie";
     private final String movieName;
-    private final TMDBRequestEntity delegate;
+    private final TMDBAPIRequest delegate;
     
     private SearchMoviesUsingTMDBApi(String movieName, String language) {
-        delegate = new TMDBRequestEntity(TMDB_MOVIE_SEARCH_PATH, language);
-        initMovieName(movieName);
+        delegate = new TMDBAPIRequest(TMDB_MOVIE_SEARCH_PATH, language);
         this.movieName = movieName;
-        delegate.addRequestParam(TMDB_QUERY_PARAM_NAME, movieName);
+        initMovieName(movieName);
         log.trace("movieName set to: {}", movieName);
         validate();
     }
     
+    public static SearchMoviesUsingTMDBApiBuilder builder(){
+        return new SearchMoviesUsingTMDBApiBuilder();
+    }
+    
     @Override
-    public TMDBRequestEntity toEntity() {
+    public TMDBAPIRequest toAPIRequest() {
         return delegate;
-    }
-    
-    @Override
-    public String getLanguage() {
-        return delegate.getLanguage();
-    }
-    
-    @Override
-    public void setApiKey(String apiKey) {
-        delegate.setApiKey(apiKey);
     }
     
     private void initMovieName(String movieName) {
@@ -43,20 +37,16 @@ public class SearchMoviesUsingTMDBApi implements SearchMoviesUsingApi {
         if (movieName == null) throw new IllegalArgumentException("Movie name was not set");
     }
     
-    public static TMDBMovieSearchRequestDelegateBuilder builder(){
-        return new TMDBMovieSearchRequestDelegateBuilder();
-    }
-    
-    public static class TMDBMovieSearchRequestDelegateBuilder{
+    public static class SearchMoviesUsingTMDBApiBuilder {
         private String movieName;
         private String language;
     
-        public TMDBMovieSearchRequestDelegateBuilder movieName(String movieName){
+        public SearchMoviesUsingTMDBApiBuilder movieName(String movieName){
             this.movieName = movieName;
             return this;
         }
     
-        public TMDBMovieSearchRequestDelegateBuilder language(String language){
+        public SearchMoviesUsingTMDBApiBuilder language(String language){
             this.language = language;
             return this;
         }
@@ -65,7 +55,7 @@ public class SearchMoviesUsingTMDBApi implements SearchMoviesUsingApi {
             return new SearchMoviesUsingTMDBApi(movieName, language);
         }
     
-        public TMDBMovieSearchRequestDelegateBuilder korean(){
+        public SearchMoviesUsingTMDBApiBuilder korean(){
             this.language = "ko";
             return this;
         }

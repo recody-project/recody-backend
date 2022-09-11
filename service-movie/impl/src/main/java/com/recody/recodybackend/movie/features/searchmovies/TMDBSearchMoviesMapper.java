@@ -1,6 +1,5 @@
 package com.recody.recodybackend.movie.features.searchmovies;
 
-import com.recody.recodybackend.movie.features.searchmovies.request.SearchMoviesUsingApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

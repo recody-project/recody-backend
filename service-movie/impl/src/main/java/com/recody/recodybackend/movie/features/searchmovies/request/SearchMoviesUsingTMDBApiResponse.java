@@ -2,6 +2,7 @@ package com.recody.recodybackend.movie.features.searchmovies.request;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.recody.recodybackend.common.json.JsonVisitorStream;
+import com.recody.recodybackend.movie.features.searchmovies.SearchMoviesUsingApiResponse;
 import com.recody.recodybackend.movie.general.MovieSource;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

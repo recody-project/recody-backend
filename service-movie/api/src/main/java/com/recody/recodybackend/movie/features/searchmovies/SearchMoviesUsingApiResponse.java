@@ -1,4 +1,4 @@
-package com.recody.recodybackend.movie.features.searchmovies.request;
+package com.recody.recodybackend.movie.features.searchmovies;
 
 import com.recody.recodybackend.movie.general.MovieSource;
 
