@@ -2,15 +2,15 @@ package com.recody.recodybackend.movie.features.tmdb;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.recody.recodybackend.RecodyMovieApplication;
-import com.recody.recodybackend.common.openapi.ApiRequester;
-import com.recody.recodybackend.common.openapi.JsonApiResponse;
-import com.recody.recodybackend.movie.features.test.NewTMDBMovieDetailRequest;
-import com.recody.recodybackend.movie.features.test.NewTMDBMovieSearchRequestEntity;
+import com.recody.recodybackend.common.openapi.*;
+import com.recody.recodybackend.movie.features.test.NewTMDBMovieDetailAPIRequest;
+import com.recody.recodybackend.movie.features.test.NewTMDBMovieSearchAPIRequest;
 import com.recody.recodybackend.movie.general.MovieGenre;
-import com.recody.recodybackend.movie.general.TMDBRequestEntity;
+import com.recody.recodybackend.movie.general.TMDBAPIRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -25,13 +25,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ContextConfiguration(classes = RecodyMovieApplication.class)
 class TMDBApiRequesterTest {
     
-    @Autowired private ApiRequester<TMDBRequestEntity> requester;
+    @Autowired
+    private ApiRequester<TMDBAPIRequest> requester;
     
     @Test
     @DisplayName("test01")
     void test01() {
         // given
-        NewTMDBMovieSearchRequestEntity ko = new NewTMDBMovieSearchRequestEntity("결심", "ko");
+        NewTMDBMovieSearchAPIRequest ko = new NewTMDBMovieSearchAPIRequest("결심", "ko");
         // when
         JsonApiResponse jsonApiResponse = requester.executeToJson(ko);
         JsonNode jsonNode = requester.executeToJsonNode(ko);
@@ -50,7 +51,7 @@ class TMDBApiRequesterTest {
     @DisplayName("test02")
     void test02() {
         // given
-        NewTMDBMovieSearchRequestEntity ko = new NewTMDBMovieSearchRequestEntity("결심", "ko");
+        NewTMDBMovieSearchAPIRequest ko = new NewTMDBMovieSearchAPIRequest("결심", "ko");
         // when
         JsonApiResponse jsonApiResponse = requester.executeToJson(ko);
     
@@ -101,7 +102,7 @@ class TMDBApiRequesterTest {
     @DisplayName("test03")
     void test03() {
         // given
-        NewTMDBMovieDetailRequest request = new NewTMDBMovieDetailRequest("705996", "ko");
+        NewTMDBMovieDetailAPIRequest request = new NewTMDBMovieDetailAPIRequest("705996", "ko");
         // when
         JsonApiResponse jsonApiResponse = requester.executeToJson(request);
     
@@ -123,8 +124,8 @@ class TMDBApiRequesterTest {
     @DisplayName("test04")
     void test04() {
         // given
-        NewTMDBMovieSearchRequestEntity ko = new NewTMDBMovieSearchRequestEntity("결심", "ko");
-        NewTMDBMovieDetailRequest request = new NewTMDBMovieDetailRequest("705996", "ko");
+        NewTMDBMovieSearchAPIRequest ko = new NewTMDBMovieSearchAPIRequest("결심", "ko");
+        NewTMDBMovieDetailAPIRequest request = new NewTMDBMovieDetailAPIRequest("705996", "ko");
         // when
     
         JsonNode jsonNode = requester.executeToJsonNode(request);

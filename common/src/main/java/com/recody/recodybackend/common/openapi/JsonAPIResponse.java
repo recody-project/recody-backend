@@ -6,15 +6,15 @@ import com.recody.recodybackend.common.json.JsonVisitorStream;
 
 import java.util.stream.Stream;
 
-public class JsonApiResponse implements ApiResponse<JsonNode> {
+public class JsonAPIResponse implements APIResponse<JsonNode> {
     
     private final JsonNode jsonNode;
     
-    public JsonApiResponse(JsonNode jsonNode) { this.jsonNode = jsonNode; }
+    public JsonAPIResponse(JsonNode jsonNode) { this.jsonNode = jsonNode; }
     
     public static JsonVisitor visitorStream(JsonNode jsonNode) { return new JsonVisitorStream(jsonNode); }
     
-    public static JsonApiResponse of(JsonNode response) { return new JsonApiResponse(response); }
+    public static JsonAPIResponse of(JsonNode response) { return new JsonAPIResponse(response); }
     
     public Stream<JsonNode> rawStream() { return Stream.of(jsonNode); }
     
