@@ -2,6 +2,8 @@ package com.recody.recodybackend.movie.features.searchmovies;
 
 import com.recody.recodybackend.movie.features.resolvecontentroot.ResolveContentRootResult;
 import com.recody.recodybackend.movie.general.MovieGenre;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Locale;
@@ -10,6 +12,7 @@ import java.util.Map;
 public class TMDBDynamicMapper implements SearchMoviesMapper.DynamicMapper {
     
     private final SearchMoviesResult response;
+    private final Logger log = LoggerFactory.getLogger(getClass());
     
     public TMDBDynamicMapper(SearchMoviesResult response) { this.response = response; }
     
@@ -29,7 +32,7 @@ public class TMDBDynamicMapper implements SearchMoviesMapper.DynamicMapper {
                 List<MovieGenre> genres = movieGenres.get(movieId);
                 movie.setGenres(genres);
             } catch (Exception exception){
-                exception.printStackTrace();
+                log.warn("Genre resolver 가 장르정보를 넘겨주지 못했습니다.  exception: {}", exception.getMessage());
                 throw new RuntimeException("매핑할 장르를 찾지 못했습니다. Genre Resolver 가 장르 ID를 가지고 있지 않습니다.");
             }
         }

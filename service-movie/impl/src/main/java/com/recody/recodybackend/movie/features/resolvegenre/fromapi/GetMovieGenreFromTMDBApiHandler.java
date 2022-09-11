@@ -9,6 +9,7 @@ import com.recody.recodybackend.movie.general.TMDBAPIRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +27,6 @@ class GetMovieGenreFromTMDBApiHandler implements GetMovieGenreFromTMDBApi {
     
     public GetMovieGenreFromTMDBApiHandler(APIRequester<TMDBAPIRequest> apiRequester) {
         this.apiRequester = apiRequester;
-        initTmdbGenre();
     }
     
     public boolean hasGenres() {
@@ -34,6 +34,7 @@ class GetMovieGenreFromTMDBApiHandler implements GetMovieGenreFromTMDBApi {
     }
     
     @Override
+    @PostConstruct
     public void initTmdbGenre() {
         TMDBGenreAPIRequest request = new TMDBGenreAPIRequest();
         JsonAPIResponse response = apiRequester.executeToJson(request);
@@ -46,8 +47,10 @@ class GetMovieGenreFromTMDBApiHandler implements GetMovieGenreFromTMDBApi {
                     JsonNode nameField = parent.get(NAME);
                     tmdbGenreMap.put(idField.asInt(), nameField.textValue());
                 }
+                log.info("map: {}", map);
                 return map;
-            }).findFirst().orElseThrow(() -> new RuntimeException("json 스트림을 처리하지 못했습니다."));
+            }).findAny()
+                    .orElseThrow(() -> new RuntimeException("json 스트림을 처리하지 못했습니다."));
             this.hasGenres = true;
             log.info("Fetched genreMap: {}", tmdbGenreMap);
         } catch (Exception exception){

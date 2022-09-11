@@ -129,6 +129,9 @@ public abstract class AbstractAPIRequest implements APIRequest{
      * language 를 세팅하는 방식은 바뀔 수 있다.
      * 기본은 요청 파라미터에 넣는 방식이다. */
     protected void setLanguage(String language) {
+        if (language == null){
+            return;
+        }
         this.language = language;
         addRequestParam(LANGUAGE_PARAM_NAME, language);
     }

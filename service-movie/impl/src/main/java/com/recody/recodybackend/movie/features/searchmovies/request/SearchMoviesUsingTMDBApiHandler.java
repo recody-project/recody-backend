@@ -1,10 +1,11 @@
 package com.recody.recodybackend.movie.features.searchmovies.request;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.recody.recodybackend.common.openapi.APIRequester;
 import com.recody.recodybackend.movie.features.searchmovies.SearchMoviesUsingApi;
 import com.recody.recodybackend.movie.features.searchmovies.SearchMoviesUsingApiHandler;
 import com.recody.recodybackend.movie.features.searchmovies.SearchMoviesUsingApiResponse;
-import com.recody.recodybackend.movie.features.tmdb.TMDBAPIRequester;
+import com.recody.recodybackend.movie.general.TMDBAPIRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 class SearchMoviesUsingTMDBApiHandler implements SearchMoviesUsingApiHandler {
     
-    private final TMDBAPIRequester requester;
+    private final APIRequester<TMDBAPIRequest> requester;
     
     public String handleToString(SearchMoviesUsingApi request){
         log.debug("Requesting movie search to TMDB: {}", request);

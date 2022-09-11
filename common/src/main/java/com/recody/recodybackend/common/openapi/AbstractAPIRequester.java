@@ -83,6 +83,7 @@ public abstract class AbstractAPIRequester<T extends APIRequest> implements APIR
             body = restTemplate.exchange(entity, String.class).getBody();
         } catch (RestClientException exception){
             log.warn("exception: {}", exception.getMessage());
+            exception.printStackTrace();
             throw new RuntimeException("외부 API 서버에서 정보를 받아오는 데에 실패하였습니다.");
         }
         return body;

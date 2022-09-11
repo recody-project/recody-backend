@@ -36,14 +36,12 @@ class SearchMoviesUsingTMDBApiHandlerTest {
     void movieName() {
         // given
         
-        // when
-        SearchMoviesUsingTMDBApi request = SearchMoviesUsingTMDBApi.builder().korean().build();
         // then
-        assertThatThrownBy(() -> template.handleToString(request)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> SearchMoviesUsingTMDBApi.builder().korean().build()).isInstanceOf(IllegalArgumentException.class);
     }
     
     @Test
-    @DisplayName("언어을 지정하지 않으면 예외가 발생한다.")
+    @DisplayName("언어는 지정하지 않아도 예외가 발생하지 않는다. ")
     void language() {
         // given
         
@@ -51,6 +49,6 @@ class SearchMoviesUsingTMDBApiHandlerTest {
         SearchMoviesUsingTMDBApi request = SearchMoviesUsingTMDBApi.builder().movieName("하하").build();
     
         // then
-        assertThatThrownBy(() -> template.handleToString(request)).isInstanceOf(IllegalArgumentException.class);
+        assertThatNoException().isThrownBy(() -> template.handleToString(request));
     }
 }
