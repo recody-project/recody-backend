@@ -6,7 +6,7 @@ import com.recody.recodybackend.movie.features.getmovieDetail.TMDBGetMovieDetail
 import com.recody.recodybackend.movie.features.searchmovies.MovieSearchService;
 import com.recody.recodybackend.movie.features.searchmovies.SearchMovies;
 import com.recody.recodybackend.movie.features.searchmovies.SearchMoviesResult;
-import com.recody.recodybackend.movie.features.searchmovies.request.SearchMoviesUsingApiHandler;
+import com.recody.recodybackend.movie.features.searchmovies.SearchMoviesUsingApiHandler;
 import com.recody.recodybackend.movie.features.searchmovies.request.SearchMoviesUsingTMDBApi;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

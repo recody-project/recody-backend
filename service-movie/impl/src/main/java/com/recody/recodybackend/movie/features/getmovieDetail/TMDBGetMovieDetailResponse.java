@@ -1,7 +1,7 @@
 package com.recody.recodybackend.movie.features.getmovieDetail;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.recody.recodybackend.common.openapi.JsonApiResponse;
+import com.recody.recodybackend.common.openapi.JsonAPIResponse;
 import com.recody.recodybackend.movie.general.MovieGenre;
 import com.recody.recodybackend.movie.general.MovieSource;
 import lombok.extern.slf4j.Slf4j;
@@ -15,9 +15,9 @@ public class TMDBGetMovieDetailResponse implements GetMovieDetailResponse {
     private static final String GENRES = "genres";
     private static final String IMDB_ID = "imdb_id";
     
-    private final JsonApiResponse response;
+    private final JsonAPIResponse response;
     
-    public TMDBGetMovieDetailResponse(JsonApiResponse response) { this.response = response; }
+    public TMDBGetMovieDetailResponse(JsonAPIResponse response) { this.response = response; }
     
     @Override
     public MovieSource getContentSource() { return MovieSource.TMDB; }
