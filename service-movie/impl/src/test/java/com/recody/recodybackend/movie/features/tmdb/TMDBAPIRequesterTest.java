@@ -10,7 +10,6 @@ import com.recody.recodybackend.movie.general.TMDBAPIRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -23,10 +22,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @ActiveProfiles("local")
 @ContextConfiguration(classes = RecodyMovieApplication.class)
-class TMDBApiRequesterTest {
+class TMDBAPIRequesterTest {
     
     @Autowired
-    private ApiRequester<TMDBAPIRequest> requester;
+    private APIRequester<TMDBAPIRequest> requester;
     
     @Test
     @DisplayName("test01")
@@ -34,7 +33,7 @@ class TMDBApiRequesterTest {
         // given
         NewTMDBMovieSearchAPIRequest ko = new NewTMDBMovieSearchAPIRequest("결심", "ko");
         // when
-        JsonApiResponse jsonApiResponse = requester.executeToJson(ko);
+        JsonAPIResponse jsonApiResponse = requester.executeToJson(ko);
         JsonNode jsonNode = requester.executeToJsonNode(ko);
         
         // then
@@ -53,7 +52,7 @@ class TMDBApiRequesterTest {
         // given
         NewTMDBMovieSearchAPIRequest ko = new NewTMDBMovieSearchAPIRequest("결심", "ko");
         // when
-        JsonApiResponse jsonApiResponse = requester.executeToJson(ko);
+        JsonAPIResponse jsonApiResponse = requester.executeToJson(ko);
     
         JsonNode jsonNode = requester.executeToJsonNode(ko);
     
@@ -104,7 +103,7 @@ class TMDBApiRequesterTest {
         // given
         NewTMDBMovieDetailAPIRequest request = new NewTMDBMovieDetailAPIRequest("705996", "ko");
         // when
-        JsonApiResponse jsonApiResponse = requester.executeToJson(request);
+        JsonAPIResponse jsonApiResponse = requester.executeToJson(request);
     
         List<MovieGenre> movieGenres = jsonApiResponse
                 .visitorStream()

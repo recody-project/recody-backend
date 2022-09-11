@@ -1,7 +1,6 @@
 package com.recody.recodybackend.movie.features.tmdb;
 
 import com.recody.recodybackend.common.openapi.AbstractAPIRequester;
-import com.recody.recodybackend.common.openapi.ApiRequester;
 import com.recody.recodybackend.movie.general.TMDBAPIRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,8 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class TMDBAPIRequester
-        extends AbstractAPIRequester<TMDBAPIRequest>
-        implements ApiRequester<TMDBAPIRequest> {
+        extends AbstractAPIRequester<TMDBAPIRequest>{
     
     public TMDBAPIRequester(@Value("${movie.tmdb.api-key}") String apikey) {
         super(apikey);

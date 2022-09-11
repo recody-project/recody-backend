@@ -1,5 +1,6 @@
 package com.recody.recodybackend.movie.features.searchmovies.request;
 
+import com.recody.recodybackend.common.openapi.APIRequest;
 import com.recody.recodybackend.movie.features.searchmovies.SearchMoviesUsingApi;
 import com.recody.recodybackend.movie.general.TMDBAPIRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +26,7 @@ public class SearchMoviesUsingTMDBApi implements SearchMoviesUsingApi {
     }
     
     @Override
-    public TMDBAPIRequest toAPIRequest() {
+    public APIRequest toAPIRequest() {
         return delegate;
     }
     

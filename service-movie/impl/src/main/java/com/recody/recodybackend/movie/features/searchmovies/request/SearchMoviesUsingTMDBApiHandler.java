@@ -19,7 +19,7 @@ class SearchMoviesUsingTMDBApiHandler implements SearchMoviesUsingApiHandler {
     public String handleToString(SearchMoviesUsingApi request){
         log.debug("Requesting movie search to TMDB: {}", request);
         String body;
-        body = requester.executeToString(request.toAPIRequest());
+        body = requester.requestToString(request);
         return body;
     }
     
@@ -27,7 +27,7 @@ class SearchMoviesUsingTMDBApiHandler implements SearchMoviesUsingApiHandler {
     public SearchMoviesUsingApiResponse handleToJson(SearchMoviesUsingApi request) {
         log.debug("Requesting movie search to TMDB: {}", request);
         JsonNode body;
-        body = requester.executeToJsonNode(request.toAPIRequest());
+        body = requester.requestToJsonNode(request);
         return SearchMoviesUsingTMDBApiResponse.builder()
                                                .jsonNode(body)
                                                .build();

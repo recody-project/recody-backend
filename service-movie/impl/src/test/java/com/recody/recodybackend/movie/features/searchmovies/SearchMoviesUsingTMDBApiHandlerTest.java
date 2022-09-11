@@ -1,7 +1,6 @@
 package com.recody.recodybackend.movie.features.searchmovies;
 
 import com.recody.recodybackend.RecodyMovieApplication;
-import com.recody.recodybackend.movie.features.searchmovies.request.SearchMoviesUsingApiHandler;
 import com.recody.recodybackend.movie.features.searchmovies.request.SearchMoviesUsingTMDBApi;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
