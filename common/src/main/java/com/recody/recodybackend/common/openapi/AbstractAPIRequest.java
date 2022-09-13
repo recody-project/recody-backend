@@ -8,6 +8,8 @@ import org.springframework.http.RequestEntity;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 
 /*
 * 목적에 따라 RequestEntity 를 반환할 수 있는 객체이다.
@@ -29,41 +31,25 @@ public abstract class AbstractAPIRequest implements APIRequest{
     private final UriComponentsBuilder uriComponentsBuilder;
     private final HttpHeaders headers = new HttpHeaders();
     private final String API_KEY_PARAM_NAME;
-    private final String LANGUAGE_PARAM_NAME;
     private final HttpMethod method;
     private final Object body;
     private final String uriBase;
     protected final Logger log = LoggerFactory.getLogger(getClass());
     protected final String path;
     private URI uri;
-    private String language;
+    
+    private final Map<String, String> requestParams = new HashMap<>();
+    
     private String apiKey;
     
-    
-    protected AbstractAPIRequest(String baseUri, String path, String API_KEY_PARAM_NAME, String LANGUAGE_PARAM_NAME, String language) {
-        this.uriBase = baseUri;
-        this.API_KEY_PARAM_NAME = API_KEY_PARAM_NAME;
-        this.LANGUAGE_PARAM_NAME = LANGUAGE_PARAM_NAME;
-        this.uriComponentsBuilder = UriComponentsBuilder.fromUriString(baseUri);
-        this.path = path;
-        setPath(path);
-        setLanguage(language);
-        this.method = method();
-        this.body = body();
-    }
-    
-    /*
-     * api key 만 세팅하는 경우. */
     protected AbstractAPIRequest(String baseUri, String path, String API_KEY_PARAM_NAME) {
         this.uriBase = baseUri;
-        this.uriComponentsBuilder = UriComponentsBuilder.fromUriString(baseUri);
         this.API_KEY_PARAM_NAME = API_KEY_PARAM_NAME;
-        this.LANGUAGE_PARAM_NAME = null;
-        this.method = method();
-        this.body = body();
+        this.uriComponentsBuilder = UriComponentsBuilder.fromUriString(baseUri);
         this.path = path;
         setPath(path);
-    
+        this.method = method();
+        this.body = body();
     }
     
     /*
@@ -73,14 +59,12 @@ public abstract class AbstractAPIRequest implements APIRequest{
         this.uriBase = baseUri;
         this.uriComponentsBuilder = UriComponentsBuilder.fromUriString(baseUri);
         this.API_KEY_PARAM_NAME = null;
-        this.LANGUAGE_PARAM_NAME = null;
         this.method = method();
         this.body = body();
         this.path = path;
         setPath(path);
     }
     
-    public final String getLanguage() { return language; }
     
     public final void addHeader(String key, String value) {
         headers.add(key, value);
@@ -91,16 +75,58 @@ public abstract class AbstractAPIRequest implements APIRequest{
      * 이 메서드를 호출하면 모든 uri, method, body, header 가 세팅되어 반환된다.
      */
     public final <B> RequestEntity<B> toEntity() {
+        // 파라미터 세팅
+        setParameters();
+        // uri 생성
         URI uri = createUri();
         this.uri = uri;
-        
         // validates all uri components
         validateApiComponents();
         return makeEntity(uri, headers);
     }
     
+    private void setParameters() {
+        for (String key : requestParams.keySet()) {
+            String value = requestParams.get(key);
+            if (value == null) {
+                log.warn("value 가 null 입니다: key: {}, value: {}", key, null);
+                throw new RuntimeException("value 가 null 입니다.");
+            }
+            uriComponentsBuilder.queryParam(key, value);
+        }
+    }
+    /*
+    * mandatory default: true
+    * 요청 파라미터를 추가할 때 null 이면 예외를 던진다. */
     public final void addRequestParam(String key, String value) {
-        uriComponentsBuilder.queryParam(key, value);
+        doAddRequestParam(key, value, true);
+    }
+    
+    public final void addRequestParam(String key, String value, boolean mandatory) {
+        doAddRequestParam(key, value, mandatory);
+    }
+    
+    private void doAddRequestParam(String key, String value, boolean mandatory) {
+        if (!mandatory) {
+            if (key == null) {
+                log.debug("요청 파라미터 key 가 null 입니다.");
+                return;
+            }
+            if (value == null) {
+                log.debug("요청 파라미터 value 가 null 입니다. key: {}", key);
+                return;
+            }
+        } else {
+            if (key == null){
+                log.warn("요청 파라미터 key 가 null 입니다.");
+                throw new IllegalArgumentException("요청 파라미터 key 가 null 입니다.");
+            }
+            if (value == null){
+                log.warn("요청 파라미터 value 가 null 입니다. key: {}", key);
+                throw new IllegalArgumentException("요청 파라미터 value 가 null 입니다. key: " + key);
+            }
+        }
+        requestParams.put(key, value);
     }
     
     /*
@@ -123,17 +149,6 @@ public abstract class AbstractAPIRequest implements APIRequest{
     
     protected final void setPath(String path) {
         this.uriComponentsBuilder.path(path);
-    }
-    
-    /*
-     * language 를 세팅하는 방식은 바뀔 수 있다.
-     * 기본은 요청 파라미터에 넣는 방식이다. */
-    protected void setLanguage(String language) {
-        if (language == null){
-            return;
-        }
-        this.language = language;
-        addRequestParam(LANGUAGE_PARAM_NAME, language);
     }
     
     /*

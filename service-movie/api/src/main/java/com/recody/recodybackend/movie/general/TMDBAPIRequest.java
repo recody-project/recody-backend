@@ -14,7 +14,9 @@ public class TMDBAPIRequest extends AbstractAPIRequest implements APIRequest {
     
     
     public TMDBAPIRequest(String path, String language) {
-        super(TMDB_BASE_URI, path, TMDB_API_KEY_PARAM_NAME, TMDB_LANGUAGE_PARAM_NAME, language);
+        super(TMDB_BASE_URI, path, TMDB_API_KEY_PARAM_NAME);
+        // 언어는 지정했을 때만 설정한다.
+        addRequestParam(TMDB_LANGUAGE_PARAM_NAME, language, false);
     }
     
     /*

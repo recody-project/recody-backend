@@ -14,7 +14,7 @@ public interface APIRequest{
     
     /*
     * 요청 파라미터를 추가할 수 있다. */
-    void addRequestParam(String key, String value);
+    void addRequestParam(String key, String value, boolean mandatory);
     
     /*
     * ApiKey 를 세팅할 수 있다. */
