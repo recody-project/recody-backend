@@ -32,28 +32,19 @@ class DefaultReissueTokensHandler implements ReissueTokensHandler{
             throw new ApplicationException(ErrorType.InvalidUserAgentValue, HttpStatus.BAD_REQUEST);
         }
         // 리프레시 토큰 발급
-        String newAccessToken = jwtManager.createAccessToken(CreateAccessToken.builder().email(oldRefreshToken.getSubject())
-                                                                           .build());
-        String newRefreshToken = jwtManager.createRefreshToken(CreateRefreshToken.builder().email(oldRefreshToken.getSubject())
-                                                                           .build());
+        String newAccessToken = jwtManager.createAccessToken(CreateAccessToken.builder()
+                                                                              .email(oldRefreshToken.getSubject())
+                                                                                .build());
         // 리프레시 토큰을 저장한다.
         // TODO: 이전 refresh token 을 삭제하는 로직
-        saveNewRefreshToken(oldRefreshToken, newRefreshToken);
-        ReissueTokensResponse response = createResponse(newAccessToken, newRefreshToken);
+        ReissueTokensResponse response = createResponse(newAccessToken);
         log.info("재발급한 토큰을 반환합니다.: {}", response);
         return response;
     }
     
-    private void saveNewRefreshToken(RefreshTokenEntity refreshToken, String newRefreshToken) {
-        refreshTokenRepository.save(RefreshTokenEntity.builder().refreshTokenValue(newRefreshToken).subject(refreshToken.getSubject()).userAgent(
-                refreshToken.getUserAgent()).build());
-    }
-    
-    private ReissueTokensResponse createResponse(String newAccessToken, String newRefreshToken) {
+    private ReissueTokensResponse createResponse(String newAccessToken) {
         return ReissueTokensResponse.builder()
                                     .accessToken(newAccessToken)
-                                    .refreshToken(newRefreshToken)
-                                    .accessExpireTime(jwtManager.getExpireTimeFromToken(newAccessToken))
-                                    .refreshExpireTime(jwtManager.getExpireTimeFromToken(newRefreshToken)).build();
+                                    .accessExpireTime(jwtManager.getExpireTimeFromToken(newAccessToken)).build();
     }
 }

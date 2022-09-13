@@ -1,4 +1,4 @@
-package com.recody.recodybackend.users.features.login.google;
+package com.recody.recodybackend.users.features.login.googlelogin;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;

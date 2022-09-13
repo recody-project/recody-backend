@@ -2,7 +2,6 @@ package com.recody.recodybackend.users.web;
 
 import com.recody.recodybackend.common.web.SuccessResponseBody;
 import com.recody.recodybackend.users.features.login.ProcessLogin;
-import com.recody.recodybackend.users.features.login.SocialLoginRequest;
 import com.recody.recodybackend.users.features.login.SocialLoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
@@ -22,22 +21,33 @@ class LoginController {
     private final SocialLoginService socialLoginService;
     
     @PostMapping("/api/v1/login/naver")
-    public ResponseEntity<SuccessResponseBody> loginNaver(@RequestBody SocialLoginRequest request,
-                                                          HttpServletRequest httpRequest){
-        return ResponseEntity.ok(SuccessResponseBody.builder()
-                                                    .message(ms.getMessage("users.login.succeeded", null, httpRequest.getLocale()))
-                                                    .data(socialLoginService.loginNaver(request)).build());
+    public ResponseEntity<SuccessResponseBody> loginNaver(@RequestHeader("User-Agent") String userAgent,
+                                                          @RequestBody SocialLoginRequest request,
+                                                          HttpServletRequest httpRequest) {
+        return ResponseEntity.ok(SuccessResponseBody
+                                         .builder()
+                                         .message(ms.getMessage("users.login.succeeded", null, httpRequest.getLocale()))
+                                         .data(socialLoginService.handleNaverLogin(
+                                                             ProcessLogin
+                                                                 .builder()
+                                                                 .resourceAccessToken(request.getResourceAccessToken())
+                                                                 .userAgent(userAgent)
+                                                                 .build()))
+                                         .build());
     }
     
     @PostMapping("/api/v1/login/google")
     public ResponseEntity<SuccessResponseBody> loginGoogle(@RequestHeader("User-Agent") String userAgent,
                                                            @RequestBody SocialLoginRequest request,
                                                            HttpServletRequest httpRequest) {
-        return ResponseEntity.ok(SuccessResponseBody.builder()
-                                                    .message(ms.getMessage("users.login.succeeded", null, httpRequest.getLocale()))
-                                                    .data(socialLoginService.loginGoogle(ProcessLogin
-                                                                                                 .builder()
-                                                                                                 .accessToken(request.getSocialAccessToken())
-                                                                                                 .userAgent(userAgent).build())).build());
+        return ResponseEntity.ok(SuccessResponseBody
+                                         .builder()
+                                         .message(ms.getMessage("users.login.succeeded", null, httpRequest.getLocale()))
+                                         .data(socialLoginService.handleGoogleLogin(ProcessLogin
+                                                                                      .builder()
+                                                                                      .resourceAccessToken(request.getResourceAccessToken())
+                                                                                      .userAgent(userAgent)
+                                                                                      .build()))
+                                         .build());
     }
 }

@@ -1,9 +1,11 @@
-package com.recody.recodybackend.users.features.login;
+package com.recody.recodybackend.users.features.login.googlelogin;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.recody.recodybackend.users.exceptions.SocialAccessTokenExpiredException;
-import com.recody.recodybackend.users.features.login.google.GoogleClient;
+import com.recody.recodybackend.users.features.login.GetUserInfoFromResourceServer;
+import com.recody.recodybackend.users.features.login.JacksonOAuthAttributes;
+import com.recody.recodybackend.users.features.login.SocialProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -28,10 +30,10 @@ class DefaultGoogleClient implements GoogleClient {
     private final ObjectMapper objectMapper;
     
     @SneakyThrows
-    public JacksonOAuthAttributes getUserInfo(GetUserInfo command){
+    public JacksonOAuthAttributes getUserInfo(GetUserInfoFromResourceServer command){
         log.debug("handling: {}", command);
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "Bearer " + command.getAccessToken());
+        headers.add("Authorization", "Bearer " + command.getResourceAccessToken());
         String uri = UriComponentsBuilder.fromUriString(resourceServerUrl).encode().build().toUriString();
     
         RequestEntity<Void> request = RequestEntity.get(uri).headers(headers).build();
@@ -52,5 +54,10 @@ class DefaultGoogleClient implements GoogleClient {
         
         log.debug("recieved attribute: {}", attributes);
         return attributes;
+    }
+    
+    @Override
+    public RefreshGoogleAccessTokenResponse handle(RefreshGoogleAccessToken command) {
+        return null;
     }
 }

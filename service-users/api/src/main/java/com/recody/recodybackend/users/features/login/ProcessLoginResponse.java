@@ -5,7 +5,8 @@ import lombok.Data;
 
 @Builder
 @Data
-public class SocialLoginResponse {
+public class ProcessLoginResponse {
+    private SocialProvider socialType;
     private String accessToken;
     private String refreshToken;
     private String accessExpireTime;

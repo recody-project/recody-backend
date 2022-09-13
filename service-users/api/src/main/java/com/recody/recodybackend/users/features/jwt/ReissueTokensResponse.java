@@ -7,12 +7,10 @@ import lombok.Data;
 @Builder
 public class ReissueTokensResponse {
     private String accessToken;
-    private String refreshToken;
     private String accessExpireTime;
-    private String refreshExpireTime;
     
     @Override
     public String toString() {
-        return "{\"ReissueTokensResponse\":{" + "\"accessToken\":" + ((accessToken != null) ? ("\"" + accessToken + "\"") : null) + ", \"refreshToken\":" + ((refreshToken != null) ? ("\"" + refreshToken + "\"") : null) + ", \"accessExpireTime\":" + ((accessExpireTime != null) ? ("\"" + accessExpireTime + "\"") : null) + ", \"refreshExpireTime\":" + ((refreshExpireTime != null) ? ("\"" + refreshExpireTime + "\"") : null) + "}}";
+        return "{\"ReissueTokensResponse\":{" + "\"accessToken\":" + ((accessToken != null) ? ("\"" + accessToken + "\"") : null) + ", \"accessExpireTime\":" + ((accessExpireTime != null) ? ("\"" + accessExpireTime + "\"") : null) + "}}";
     }
 }
