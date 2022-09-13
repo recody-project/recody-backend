@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.TimeZone;
 
 @Configuration
-@PropertySource(value = {"classpath:env.${spring.config.activate.on-profile}.properties"})
 @Slf4j
 public class ApplicationConfig {
     @PostConstruct

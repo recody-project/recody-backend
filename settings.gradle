@@ -3,6 +3,7 @@ rootProject.name = 'recody-backend'
 include(":common")
 include(":service-movie-api", ":service-movie-impl")
 include(":service-catalog-api", ":service-catalog-impl")
+include(":service-users-api", ":service-users-impl")
 
 
 String movieProjectDir = "service-movie"
@@ -12,3 +13,7 @@ project(":service-movie-impl").projectDir = new File(settingsDir, "${movieProjec
 String catalogProjectDir = "service-catalog"
 project(":service-catalog-api").projectDir = new File(settingsDir, "${catalogProjectDir}/api")
 project(":service-catalog-impl").projectDir = new File(settingsDir, "${catalogProjectDir}/impl")
+
+String userProjectDir = "service-users"
+project(":service-users-api").projectDir = new File(settingsDir, "${userProjectDir}/api")
+project(":service-users-impl").projectDir = new File(settingsDir, "${userProjectDir}/impl")
