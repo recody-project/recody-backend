@@ -24,9 +24,16 @@ public abstract class AbstractAPIRequester<T extends APIRequest> implements APIR
     private final String apiKey;
     
     /*
-    * unique constructor of this class that sets apiKey for API Request. */
+    * constructor of this class that sets apiKey for API Request. */
     protected AbstractAPIRequester(String apiKey) {
         this.apiKey = apiKey;
+        infoLogTypeParameterOfThisImplementation();
+    }
+    
+    /*
+    * constructor without api key. */
+    protected AbstractAPIRequester(){
+        this.apiKey = null;
         infoLogTypeParameterOfThisImplementation();
     }
     
@@ -39,7 +46,9 @@ public abstract class AbstractAPIRequester<T extends APIRequest> implements APIR
             body = restTemplate.exchange(request.toEntity(), String.class).getBody();
         } catch (RestClientException exception){
             log.warn("exception: {}", exception.getMessage());
-            throw new RuntimeException("외부 API 서버에서 정보를 받아오는 데에 실패하였습니다.");
+            throw new RuntimeException("외부 API 서버에서 정보를 받아오는 데에 실패하였습니다." +
+                                       " message: " +  exception.getMessage() +
+                                       " request: " + request);
         }
         return body;
     }
@@ -53,7 +62,9 @@ public abstract class AbstractAPIRequester<T extends APIRequest> implements APIR
             body = restTemplate.exchange(request.toEntity(), JsonNode.class).getBody();
         } catch (RestClientException exception){
             log.warn("exception: {}", exception.getMessage());
-            throw new RuntimeException("외부 API 서버에서 정보를 받아오는 데에 실패하였습니다.");
+            throw new RuntimeException("외부 API 서버에서 정보를 받아오는 데에 실패하였습니다." +
+                                       " message: " +  exception.getMessage() +
+                                       " request: " + request);
         }
         return body;
     }
@@ -68,7 +79,9 @@ public abstract class AbstractAPIRequester<T extends APIRequest> implements APIR
             body = restTemplate.exchange(entity, JsonNode.class).getBody();
         } catch (RestClientException exception){
             log.warn("exception: {}", exception.getMessage());
-            throw new RuntimeException("외부 API 서버에서 정보를 받아오는 데에 실패하였습니다.");
+            throw new RuntimeException("외부 API 서버에서 정보를 받아오는 데에 실패하였습니다." +
+                                       " message: " +  exception.getMessage() +
+                                       " request: " + request);
         }
         return new JsonAPIResponse(body);
     }
@@ -84,7 +97,9 @@ public abstract class AbstractAPIRequester<T extends APIRequest> implements APIR
         } catch (RestClientException exception){
             log.warn("exception: {}", exception.getMessage());
             exception.printStackTrace();
-            throw new RuntimeException("외부 API 서버에서 정보를 받아오는 데에 실패하였습니다.");
+            throw new RuntimeException("외부 API 서버에서 정보를 받아오는 데에 실패하였습니다." +
+                                       " message: " +  exception.getMessage() +
+                                       " request: " + request);
         }
         return body;
     }
@@ -100,7 +115,9 @@ public abstract class AbstractAPIRequester<T extends APIRequest> implements APIR
             body = restTemplate.exchange(entity, JsonNode.class).getBody();
         } catch (RestClientException exception){
             log.warn("exception: {}", exception.getMessage());
-            throw new RuntimeException("외부 API 서버에서 정보를 받아오는 데에 실패하였습니다.");
+            throw new RuntimeException("외부 API 서버에서 정보를 받아오는 데에 실패하였습니다." +
+                                       " message: " +  exception.getMessage() +
+                                       " request: " + request);
         }
         return body;
     }
@@ -115,7 +132,9 @@ public abstract class AbstractAPIRequester<T extends APIRequest> implements APIR
             body = restTemplate.exchange(entity, JsonNode.class).getBody();
         } catch (RestClientException exception){
             log.warn("exception: {}", exception.getMessage());
-            throw new RuntimeException("외부 API 서버에서 정보를 받아오는 데에 실패하였습니다.");
+            throw new RuntimeException("외부 API 서버에서 정보를 받아오는 데에 실패하였습니다." +
+                                       " message: " +  exception.getMessage() +
+                                       " request: " + request);
         }
         return new JsonAPIResponse(body);
     }

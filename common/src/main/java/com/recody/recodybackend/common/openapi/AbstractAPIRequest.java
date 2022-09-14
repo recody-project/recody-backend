@@ -119,7 +119,8 @@ public abstract class AbstractAPIRequest implements APIRequest{
         } else {
             if (key == null){
                 log.warn("요청 파라미터 key 가 null 입니다.");
-                throw new IllegalArgumentException("요청 파라미터 key 가 null 입니다.");
+                return;
+//                throw new IllegalArgumentException("요청 파라미터 key 가 null 입니다.");
             }
             if (value == null){
                 log.warn("요청 파라미터 value 가 null 입니다. key: {}", key);
