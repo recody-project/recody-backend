@@ -47,7 +47,6 @@ public abstract class AbstractAPIRequest implements APIRequest{
         this.API_KEY_PARAM_NAME = API_KEY_PARAM_NAME;
         this.uriComponentsBuilder = UriComponentsBuilder.fromUriString(baseUri);
         this.path = path;
-        setPath(path);
         this.method = method();
         this.body = body();
     }
@@ -62,7 +61,15 @@ public abstract class AbstractAPIRequest implements APIRequest{
         this.method = method();
         this.body = body();
         this.path = path;
-        setPath(path);
+    }
+    
+    protected AbstractAPIRequest(String baseUri) {
+        this.uriBase = baseUri;
+        this.uriComponentsBuilder = UriComponentsBuilder.fromUriString(baseUri);
+        this.API_KEY_PARAM_NAME = null;
+        this.method = method();
+        this.body = body();
+        this.path = null;
     }
     
     
@@ -75,6 +82,8 @@ public abstract class AbstractAPIRequest implements APIRequest{
      * 이 메서드를 호출하면 모든 uri, method, body, header 가 세팅되어 반환된다.
      */
     public final <B> RequestEntity<B> toEntity() {
+        // uri 경로 세팅 (null 이면 무시)
+        setPath();
         // 파라미터 세팅
         setParameters();
         // uri 생성
@@ -120,7 +129,6 @@ public abstract class AbstractAPIRequest implements APIRequest{
             if (key == null){
                 log.warn("요청 파라미터 key 가 null 입니다.");
                 return;
-//                throw new IllegalArgumentException("요청 파라미터 key 가 null 입니다.");
             }
             if (value == null){
                 log.warn("요청 파라미터 value 가 null 입니다. key: {}", key);
@@ -148,7 +156,10 @@ public abstract class AbstractAPIRequest implements APIRequest{
     
     /* ==================== Protected / Private Methods =====================*/
     
-    protected final void setPath(String path) {
+    protected final void setPath() {
+        if (path == null){
+            return;
+        }
         this.uriComponentsBuilder.path(path);
     }
     
@@ -199,7 +210,6 @@ public abstract class AbstractAPIRequest implements APIRequest{
         }
         if (method == null) throw new IllegalArgumentException("HttpMethod was not set");
         if (uri == null) throw new IllegalArgumentException("uri was not set");
-        if (path == null) throw new IllegalArgumentException("path was not set");
     }
     
     @Override
