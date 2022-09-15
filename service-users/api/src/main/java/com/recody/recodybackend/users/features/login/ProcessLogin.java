@@ -10,6 +10,7 @@ import lombok.*;
 @Data
 public class ProcessLogin {
     private String resourceAccessToken;
+    private String resourceRefreshToken;
     private String userAgent;
     
     @Override

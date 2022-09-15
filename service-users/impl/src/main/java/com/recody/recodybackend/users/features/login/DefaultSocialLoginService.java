@@ -1,6 +1,9 @@
 package com.recody.recodybackend.users.features.login;
 
+import com.recody.recodybackend.common.exceptions.ApplicationException;
 import com.recody.recodybackend.users.data.*;
+import com.recody.recodybackend.users.exceptions.SocialAccessTokenExpiredException;
+import com.recody.recodybackend.users.exceptions.UsersErrorType;
 import com.recody.recodybackend.users.features.generatenickname.NicknameGenerator;
 import com.recody.recodybackend.users.features.jwt.CreateAccessToken;
 import com.recody.recodybackend.users.features.jwt.CreateRefreshToken;
@@ -9,6 +12,7 @@ import com.recody.recodybackend.users.features.login.googlelogin.GoogleClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 
 import javax.transaction.Transactional;
 
@@ -33,9 +37,25 @@ class DefaultSocialLoginService implements SocialLoginService {
     @Override
     @Transactional
     public ProcessLoginResponse handleGoogleLogin(ProcessLogin command) {
-        JacksonOAuthAttributes userInfo = googleClient.getUserInfo(
-                GetUserInfoFromResourceServer.builder().resourceAccessToken(command.getResourceAccessToken()).build());
-        log.debug("userInfo: {}", userInfo);
+        String resourceAccessToken = command.getResourceAccessToken();
+        String resourceRefreshToken = command.getResourceRefreshToken();
+        
+        // 구글에서 유저 정보를 가져온다. 실패시 리프레시 토큰이 있는지 확인하고 갱신해본다.
+        // GetUserInfoWithAccessToken, RefreshAccessToken, FindRefreshToken,
+        JacksonOAuthAttributes userInfo;
+        try {
+            userInfo = googleClient.getUserInfo(
+                    GetUserInfoFromResourceServer.builder().resourceAccessToken(resourceAccessToken).build());
+            log.debug("userInfo: {}", userInfo);
+        } catch (RestClientException exception){
+            log.info("구글 리소스 서버에서 유저 정보를 받아오지 못했습니다. : {}", exception.getMessage());
+            throw new SocialAccessTokenExpiredException();
+        }
+        
+        if (resourceRefreshToken != null) {
+            // 액세스 토큰을 갱신해본다.
+        }
+        
     
         // 유저 정보를 조회하여 없으면 회원가입 시킨다.
         RecodyUser targetUser = recodyUserRepository.getByEmail(userInfo.getEmail());

@@ -1,9 +1,9 @@
 package com.recody.recodybackend.users.features.jwt;
 
 import com.recody.recodybackend.common.exceptions.ApplicationException;
-import com.recody.recodybackend.common.exceptions.ErrorType;
 import com.recody.recodybackend.users.data.RefreshTokenEntity;
 import com.recody.recodybackend.users.data.RefreshTokenRepository;
+import com.recody.recodybackend.users.exceptions.UsersErrorType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -26,17 +26,15 @@ class DefaultReissueTokensHandler implements ReissueTokensHandler{
         RefreshTokenEntity oldRefreshToken = refreshTokenRepository.findByRefreshTokenValue(command.getRefreshToken());
         log.debug("oldRefreshToken: {}", oldRefreshToken);
         if (oldRefreshToken == null) {
-            throw new ApplicationException(ErrorType.RefreshTokenNotFound, HttpStatus.NOT_FOUND);
+            throw new ApplicationException(UsersErrorType.RefreshTokenNotFound, HttpStatus.NOT_FOUND);
         }
         if (!oldRefreshToken.getUserAgent().equals(command.getUserAgent())){
-            throw new ApplicationException(ErrorType.InvalidUserAgentValue, HttpStatus.BAD_REQUEST);
+            throw new ApplicationException(UsersErrorType.InvalidUserAgentValue, HttpStatus.BAD_REQUEST);
         }
-        // 리프레시 토큰 발급
+        // 액세스 토큰 재발급
         String newAccessToken = jwtManager.createAccessToken(CreateAccessToken.builder()
                                                                               .email(oldRefreshToken.getSubject())
                                                                                 .build());
-        // 리프레시 토큰을 저장한다.
-        // TODO: 이전 refresh token 을 삭제하는 로직
         ReissueTokensResponse response = createResponse(newAccessToken);
         log.info("재발급한 토큰을 반환합니다.: {}", response);
         return response;

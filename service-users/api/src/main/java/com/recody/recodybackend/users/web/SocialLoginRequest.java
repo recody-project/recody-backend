@@ -9,10 +9,9 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @Data
 public class SocialLoginRequest {
-    @NotNull(message = "notNull")
+    @NotNull(message = "${notNull}")
     private String resourceAccessToken;
     
-    @NotNull(message = "notNull")
     private String resourceRefreshToken;
     
     @Override
