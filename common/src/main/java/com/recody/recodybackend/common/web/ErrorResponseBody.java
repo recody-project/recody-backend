@@ -50,8 +50,8 @@ public class ErrorResponseBody {
         return new ErrorResponseBody(new ErrorResponse(exception.getClass().getSimpleName(), message, requestUri));
     }
     
-    public static ErrorResponseBody of(ErrorType errorType, Object message, String requestUri) {
-        return new ErrorResponseBody(new ErrorResponse(errorType.getErrorCode(), message, requestUri));
+    public static ErrorResponseBody of(ErrorType customErrorType, Object message, String requestUri) {
+        return new ErrorResponseBody(new ErrorResponse(customErrorType.getErrorCode(), message, requestUri));
     }
     
     public static MessageBuilder type(String type){
