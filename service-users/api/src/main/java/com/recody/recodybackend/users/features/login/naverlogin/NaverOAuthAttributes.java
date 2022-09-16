@@ -1,6 +1,7 @@
 package com.recody.recodybackend.users.features.login.naverlogin;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.recody.recodybackend.users.features.login.JacksonOAuthAttributes;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class NaverOAuthProperties {
+public class NaverOAuthAttributes {
     private String id;
     private String nickname;
     private String name;

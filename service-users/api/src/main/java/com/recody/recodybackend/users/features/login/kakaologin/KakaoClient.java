@@ -1,9 +1,10 @@
 package com.recody.recodybackend.users.features.login.kakaologin;
 
-import com.recody.recodybackend.users.features.login.GetUserInfoFromResourceServer;
 import com.recody.recodybackend.users.features.login.JacksonOAuthAttributes;
+import com.recody.recodybackend.users.features.login.ResourceAccessToken;
+import com.recody.recodybackend.users.features.login.SocialLoginClient;
 
-public interface KakaoClient {
-    JacksonOAuthAttributes handle(GetUserInfoFromResourceServer command);
+public interface KakaoClient extends SocialLoginClient {
+    JacksonOAuthAttributes getUserInfo(ResourceAccessToken accessToken);
     
 }

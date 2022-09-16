@@ -1,4 +1,5 @@
 package com.recody.recodybackend.users.features.login.kakaologin;
 
-public class RefreshKakaoAccessTokenResponse {
+public class KakaoOAuthResponse {
+
 }

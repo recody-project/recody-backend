@@ -1,11 +1,13 @@
 package com.recody.recodybackend.users.features.login.naverlogin;
 
-import com.recody.recodybackend.users.features.login.GetUserInfoFromResourceServer;
+import com.recody.recodybackend.users.features.login.JacksonOAuthAttributes;
+import com.recody.recodybackend.users.features.login.ResourceAccessToken;
+import com.recody.recodybackend.users.features.login.ResourceRefreshToken;
+import com.recody.recodybackend.users.features.login.SocialLoginClient;
 
-public interface NaverClient {
+public interface NaverClient extends SocialLoginClient {
     
-    NaverOAuthResponse handle(GetUserInfoFromResourceServer command);
+    JacksonOAuthAttributes getUserInfo(ResourceAccessToken accessToken);
     
-    
-    RefreshNaverAccessTokenResponse handle(RefreshNaverAccessToken command);
+    ResourceAccessToken refreshResourceAccessToken(ResourceRefreshToken refreshToken);
 }
