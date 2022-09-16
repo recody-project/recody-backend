@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
+import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.Base64;
 import java.util.Date;
 import java.util.Objects;
@@ -59,14 +61,29 @@ class DefaultJwtManager implements JwtManager {
                    .signWith(ALGORITHM, secretKey).compact();
     }
     
+    
     @Override
     public String getExpireTimeFromToken(String token) {
         Objects.requireNonNull(token, "token is required");
-        String expirationTime = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getExpiration()
-                            .toInstant().atZone(TimeZone.getDefault().toZoneId()).toString();
+        String expirationTime = expirationTimeOf(token).toString();
         log.debug("resolved token expirationTime: {}", expirationTime);
         return expirationTime;
     }
+    
+    
+    /*
+    * 토큰을 검증한다.
+     * 토큰이 파싱이 가능하면 true 를 반환한다.
+     * Expected Exceptions
+     *   JwtException 클래스 상속 예외들
+     * */
+    @Override
+    public boolean validateToken(String token) {
+        boolean isValid = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token) != null;
+        log.debug("validated Token: {}", isValid);
+        return isValid;
+    }
+    
     
     @Override
     public String resolveUsername(String token) {
@@ -76,6 +93,7 @@ class DefaultJwtManager implements JwtManager {
         return subject;
     }
     
+    
     @Override
     public Long resolveUserId(String token) {
         Long userId = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get(USER_ID_NAME, Long.class);
@@ -83,16 +101,26 @@ class DefaultJwtManager implements JwtManager {
         return userId;
     }
     
-    /*
-    * 토큰을 검증한다.
-    * 토큰이 파싱이 가능하면 true 를 반환한다.
-    * Expected Exceptions
-    *   JwtException 클래스 상속 예외들
-    * */
+
     @Override
-    public boolean validateToken(String token) {
-        boolean isValid = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token) != null;
-        log.debug("validated Token: {}", isValid);
-        return isValid;
+    public boolean isExpired(String token) {
+        return !expirationTimeOf(token).isBefore(now());
+    }
+    
+    
+    private ZonedDateTime expirationTimeOf(String token) {
+        return Jwts
+                .parser()
+                .setSigningKey(secretKey)
+                .parseClaimsJws(token)
+                .getBody()
+                .getExpiration()
+                .toInstant()
+                .atZone(TimeZone.getDefault().toZoneId());
+    }
+    
+    
+    private ZonedDateTime now() {
+        return Instant.now().atZone(TimeZone.getDefault().toZoneId());
     }
 }

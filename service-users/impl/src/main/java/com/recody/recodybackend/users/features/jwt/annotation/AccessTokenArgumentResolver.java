@@ -1,4 +1,4 @@
-package com.recody.recodybackend.users.features.jwt;
+package com.recody.recodybackend.users.features.jwt.annotation;
 
 import com.recody.recodybackend.users.exceptions.FailedToResolveAccessTokenException;
 import lombok.extern.slf4j.Slf4j;

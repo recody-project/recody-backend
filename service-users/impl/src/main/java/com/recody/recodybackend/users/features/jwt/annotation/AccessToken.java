@@ -1,4 +1,4 @@
-package com.recody.recodybackend.users.features.jwt;
+package com.recody.recodybackend.users.features.jwt.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

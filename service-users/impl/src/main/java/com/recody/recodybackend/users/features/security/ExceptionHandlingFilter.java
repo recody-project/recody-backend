@@ -1,7 +1,9 @@
 package com.recody.recodybackend.users.features.security;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.recody.recodybackend.common.exceptions.ApplicationException;
 import com.recody.recodybackend.common.web.ErrorResponseBody;
+import com.recody.recodybackend.users.exceptions.InternalServerError;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
@@ -41,15 +43,15 @@ class ExceptionHandlingFilter extends OncePerRequestFilter {
     }
     
     @SneakyThrows
-    public void setErrorResponse(HttpServletRequest request, HttpServletResponse response, Exception exception) throws
-                                                                                                                JsonProcessingException {
+    public void setErrorResponse(HttpServletRequest request, HttpServletResponse response, Exception exception){
         response.setStatus(403);
         response.setContentType("application/json");
         String body = ErrorResponseBody.forbiddenOf(exception, exception.getMessage(), request.getRequestURI()).asJson();
         try{
             response.getWriter().write(body);
         }catch (IOException e){
-            e.printStackTrace();
+            // TODO: controller advice 로 가지 않음.
+            throw new InternalServerError(e.getMessage());
         }
     }
 }

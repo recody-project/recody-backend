@@ -25,6 +25,9 @@ public class RefreshTokenEntity {
     
     private String subject;
     
+    @Column(name = "resource_refresh_token")
+    private String resourceRefreshToken;
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -1,6 +1,6 @@
 package com.recody.recodybackend.users.config;
 
-import com.recody.recodybackend.users.features.jwt.AccessTokenArgumentResolver;
+import com.recody.recodybackend.users.features.jwt.annotation.AccessTokenArgumentResolver;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
