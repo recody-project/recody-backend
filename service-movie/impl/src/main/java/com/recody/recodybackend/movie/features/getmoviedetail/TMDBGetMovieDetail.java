@@ -1,13 +1,10 @@
 package com.recody.recodybackend.movie.features.getmoviedetail;
 
-import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.recody.recodybackend.common.openapi.APIRequest;
 import com.recody.recodybackend.movie.general.TMDBAPIRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class TMDBGetMovieDetail implements GetMovieDetail {
     
     private static final String PATH = "/movie/";

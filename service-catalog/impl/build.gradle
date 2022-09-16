@@ -8,4 +8,7 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // aws log appender
+    implementation "ca.pjer:logback-awslogs-appender:1.6.0"
 }

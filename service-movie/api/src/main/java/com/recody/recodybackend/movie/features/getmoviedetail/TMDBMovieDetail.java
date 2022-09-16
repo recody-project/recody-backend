@@ -1,8 +1,6 @@
 package com.recody.recodybackend.movie.features.getmoviedetail;
 
-import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.fasterxml.jackson.annotation.JsonAlias;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,22 +12,30 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class TMDBMovieDetail {
     private Integer id;
+    @JsonAlias(value = {"imdb_id"})
     private String imdbId;
+    @JsonAlias(value = {"original_language"})
     private String originalLanguage;
+    @JsonAlias(value = {"original_title"})
     private String originalTitle;
     private String overview;
     private Float popularity;
+    @JsonAlias(value = {"poster_path"})
     private String posterPath;
+    @JsonAlias(value = {"production_countries"})
     private List<ProductionCountry> productionCountries;
+    @JsonAlias(value = {"release_date"})
     private String releaseDate;
     private Integer runtime;
     private Integer revenue;
+    @JsonAlias(value = {"spoken_languages"})
     private List<SpokenLanguage> spokenLanguages;
     private String status;
     private String title;
+    @JsonAlias(value = {"vote_average"})
     private Float voteAverage;
+    @JsonAlias(value = {"vote_count"})
     private Integer voteCount;
 }
