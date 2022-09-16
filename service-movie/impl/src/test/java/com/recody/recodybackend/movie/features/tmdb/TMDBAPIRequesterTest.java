@@ -34,8 +34,8 @@ class TMDBAPIRequesterTest {
         NewTMDBMovieSearchAPIRequest ko = new NewTMDBMovieSearchAPIRequest("결심", "ko");
         // when
         JsonAPIResponse jsonApiResponse = requester.executeToJson(ko);
-        JsonNode jsonNode = requester.executeToJsonNode(ko);
-        
+        System.out.println(ko);
+    
         // then
         List<String> results = jsonApiResponse.visitorStream()
                                               .goArray("results")
@@ -53,8 +53,7 @@ class TMDBAPIRequesterTest {
         NewTMDBMovieSearchAPIRequest ko = new NewTMDBMovieSearchAPIRequest("결심", "ko");
         // when
         JsonAPIResponse jsonApiResponse = requester.executeToJson(ko);
-    
-        JsonNode jsonNode = requester.executeToJsonNode(ko);
+        System.out.println(ko);
     
     
         int string = jsonApiResponse.visitorStream().go("page").whichIsInteger().get();
@@ -123,7 +122,6 @@ class TMDBAPIRequesterTest {
     @DisplayName("test04")
     void test04() {
         // given
-        NewTMDBMovieSearchAPIRequest ko = new NewTMDBMovieSearchAPIRequest("결심", "ko");
         NewTMDBMovieDetailAPIRequest request = new NewTMDBMovieDetailAPIRequest("705996", "ko");
         // when
     

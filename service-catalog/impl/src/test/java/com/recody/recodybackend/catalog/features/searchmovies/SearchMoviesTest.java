@@ -9,6 +9,8 @@ import org.springframework.test.context.ContextConfiguration;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/*
+* 이 테스트는 Movie 앱이 떠있다는 가정이 있어야 한다. */
 @SpringBootTest
 @ActiveProfiles("test")
 @ContextConfiguration(classes = RecodyCatalogApplication.class)
@@ -18,12 +20,6 @@ class SearchMoviesTest {
     
     @Test
     void test01() {
-        // given
-        String string = client.searchMoviesString("결심");
-        // when
-        System.out.println(string);
-        
-        // then
     }
     
 }

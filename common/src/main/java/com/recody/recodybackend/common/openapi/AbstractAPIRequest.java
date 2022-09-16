@@ -37,6 +37,7 @@ public abstract class AbstractAPIRequest implements APIRequest{
     protected final Logger log = LoggerFactory.getLogger(getClass());
     protected final String path;
     private URI uri;
+    private boolean isUriBuilt = false;
     
     private final Map<String, String> requestParams = new HashMap<>();
     
@@ -87,7 +88,7 @@ public abstract class AbstractAPIRequest implements APIRequest{
         // 파라미터 세팅
         setParameters();
         // uri 생성
-        URI uri = createUri();
+        URI uri = consolidateUri();
         this.uri = uri;
         // validates all uri components
         validateApiComponents();
@@ -150,7 +151,9 @@ public abstract class AbstractAPIRequest implements APIRequest{
      * 기본 값은 요청 파라미터에 넣는 방식이다. */
     public void setApiKey(String apiKey) {
         this.apiKey = apiKey;
-        addRequestParam(API_KEY_PARAM_NAME, apiKey);
+        if (apiKey != null) {
+            addRequestParam(API_KEY_PARAM_NAME, apiKey);
+        }
     }
     
     
@@ -166,10 +169,15 @@ public abstract class AbstractAPIRequest implements APIRequest{
     /*
      * URI 를 만드는 방식을 바꿀 수 있다.
      * 예를 들어 encode() 방식을 바꿀 수 있다. */
-    protected URI createUri() {
+    protected URI consolidateUri() {
+        if (isUriBuilt){
+            log.warn("URI 를 두번 만드려는 시도");
+            return this.uri;
+        }
         URI uri;
         try {
             uri = this.uriComponentsBuilder.encode().build().toUri();
+            this.isUriBuilt = true;
         } catch (Exception exception){
             throw new RuntimeException(" uri 만들기 실패 ");
         }

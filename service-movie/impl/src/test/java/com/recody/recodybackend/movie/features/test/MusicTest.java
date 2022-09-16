@@ -25,13 +25,13 @@ class MusicTest {
     
     
     @Test
-    @DisplayName("test01")
+    @DisplayName("음악 장르 가져오기 테스트. 현재는 api key를 동적으로 가져올 수 없어서 실패한다.")
     void test01() {
         // given
-        SimpleAPIRequest simpleAPIRequest = new SimpleAPIRequest(base, path);
-        SimpleAPIRequester requester = new SimpleAPIRequester();
-        String string = requester.executeToString(simpleAPIRequest);
-        System.out.println(string);
+//        SimpleAPIRequest simpleAPIRequest = new SimpleAPIRequest(base, path);
+//        SimpleAPIRequester requester = new SimpleAPIRequester();
+//        String string = requester.executeToString(simpleAPIRequest);
+//        System.out.println(string);
     
         // when
         
