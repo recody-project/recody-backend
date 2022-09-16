@@ -26,15 +26,18 @@ jobs:
 
       - name: load application envs
         run: |
-          touch ./service-movie/impl/src/main/resources/env.dev.properties
-          touch ./service-movie/impl/src/main/resources/application-dev.yml
+          touch ./common/src/main/resources/env.dev.properties
+          touch ./common/src/main/resources/env.test.properties
+          touch ./common/src/main/resources/application-dev.yml
 
-          echo "${{env.ENV-DEV-PROPERTIES}}" >> ./service-movie/impl/src/main/resources/env.dev.properties
-          echo "${{env.APPLICATION-DEV-YML}}" >> ./service-movie/impl/src/main/resources/application-dev.yml
+          echo "${{env.ENV_DEV_PROPERTIES}}" >> ./common/src/main/resources/env.dev.properties
+          echo "${{env.ENV_TEST_PROPERTIES}}" >> ./common/src/main/resources/env.test.properties
+          echo "${{env.APPLICATION_DEV_YML}}" >> ./common/src/main/resources/application-dev.yml
         shell: bash
         env:
-          APPLICATION-DEV-YML: ${{secrets.APPLICATION_DEV_YML}}
-          ENV-DEV-PROPERTIES: ${{secrets.ENV_DEV_PROPERTIES}}
+          APPLICATION_DEV_YML: ${{secrets.APPLICATION_DEV_YML}}
+          ENV_DEV_PROPERTIES: ${{secrets.ENV_DEV_PROPERTIES}}
+          ENV_TEST_PROPERTIES: ${{secrets.ENV_TEST_PROPERTIES}}
 
 
       - name: Build with Gradle
