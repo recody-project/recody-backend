@@ -1,4 +1,4 @@
-package com.recody.recodybackend.users.features.jwt;
+package com.recody.recodybackend.users.features.jwt.reissuetokens;
 
 import lombok.Builder;
 import lombok.Data;
