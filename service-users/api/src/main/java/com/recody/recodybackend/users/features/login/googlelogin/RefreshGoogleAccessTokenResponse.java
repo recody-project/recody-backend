@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-class RefreshGoogleAccessTokenResponse {
+public class RefreshGoogleAccessTokenResponse{
     @JsonAlias("access_token")
     private String accessToken;
     
@@ -17,4 +17,6 @@ class RefreshGoogleAccessTokenResponse {
     
     @JsonAlias("token_type")
     private String tokenType;
+    
+    private boolean succeeded;
 }

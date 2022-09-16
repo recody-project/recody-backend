@@ -3,6 +3,7 @@ package com.recody.recodybackend.users.exceptions;
 import com.recody.recodybackend.common.exceptions.ErrorType;
 
 public enum UsersErrorType implements ErrorType {
+    InternalServerError("InternalServerError"),
     RefreshTokenNotFound("RefreshTokenNotFound"),
     InvalidUserAgentValue("InvalidUserAgentValue"),
     UserNotFound("UserNotFound"),
@@ -10,7 +11,8 @@ public enum UsersErrorType implements ErrorType {
     SocialAccessTokenExpired("SocialAccessTokenExpired"),
     ResourceRefreshTokenExpired("ResourceRefreshTokenExpired"),
     CannotRefreshResourceAccessToken("CannotRefreshResourceAccessToken"),
-    ;
+    SocialLoginFailed("SocialLoginFailed"),
+    UnsupportedSocialLoginService("UnsupportedSocialLoginService");
     
     private final String errorCode;
     
