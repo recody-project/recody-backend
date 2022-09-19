@@ -27,6 +27,6 @@ package com.recody.recodybackend.common.openapi;
  * - ApiRequester
  * 가 처리한다.
  * */
-public interface Request {
+public interface APIFeature {
     APIRequest toAPIRequest();
 }
