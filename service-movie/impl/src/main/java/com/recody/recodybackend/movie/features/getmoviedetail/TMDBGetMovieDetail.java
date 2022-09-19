@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 public class TMDBGetMovieDetail implements GetMovieDetail {
     
     private static final String PATH = "/movie/";
+    private static final String TMDB_LANGUAGE_PARAM_NAME = "language";
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final TMDBAPIRequest delegate;
     
@@ -15,9 +16,12 @@ public class TMDBGetMovieDetail implements GetMovieDetail {
     private final String language;
     
     public TMDBGetMovieDetail(String movieId, String language) {
-        delegate = new TMDBAPIRequest(PATH + movieId, language);
         this.movieId = movieId;
         this.language = language;
+        delegate = new TMDBAPIRequest();
+        delegate.setPath(PATH + movieId);
+        delegate.addRequestParam(TMDB_LANGUAGE_PARAM_NAME, language, false);
+
     }
     
     @Override

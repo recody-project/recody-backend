@@ -6,17 +6,20 @@ import com.recody.recodybackend.movie.general.TMDBAPIRequest;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class SearchMoviesUsingTMDBApi implements SearchMoviesUsingApi {
+public class SearchMoviesUsingTMDBApi implements SearchMoviesUsingApi{
     
     private static final String TMDB_QUERY_PARAM_NAME = "query";
+    private static final String TMDB_LANGUAGE_PARAM_NAME = "language";
     private static final String TMDB_MOVIE_SEARCH_PATH = "/search/movie";
     private final String movieName;
     private final TMDBAPIRequest delegate;
     
     private SearchMoviesUsingTMDBApi(String movieName, String language) {
-        delegate = new TMDBAPIRequest(TMDB_MOVIE_SEARCH_PATH, language);
         this.movieName = movieName;
-        initMovieName(movieName);
+        delegate = new TMDBAPIRequest();
+        delegate.setPath(TMDB_MOVIE_SEARCH_PATH);
+        delegate.addRequestParam(TMDB_QUERY_PARAM_NAME, movieName);
+        delegate.addRequestParam(TMDB_LANGUAGE_PARAM_NAME, language, false);
         log.trace("movieName set to: {}", movieName);
         validate();
     }
@@ -28,10 +31,6 @@ public class SearchMoviesUsingTMDBApi implements SearchMoviesUsingApi {
     @Override
     public APIRequest toAPIRequest() {
         return delegate;
-    }
-    
-    private void initMovieName(String movieName) {
-        delegate.addRequestParam(TMDB_QUERY_PARAM_NAME, movieName);
     }
     
     private void validate(){

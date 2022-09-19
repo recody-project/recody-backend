@@ -1,7 +1,6 @@
 package com.recody.recodybackend.movie.features.getmoviedetail;
 
 import com.recody.recodybackend.common.openapi.APIRequester;
-import com.recody.recodybackend.common.openapi.JsonAPIResponse;
 import com.recody.recodybackend.movie.features.tmdb.TMDB;
 import com.recody.recodybackend.movie.general.TMDBAPIRequest;
 import lombok.RequiredArgsConstructor;

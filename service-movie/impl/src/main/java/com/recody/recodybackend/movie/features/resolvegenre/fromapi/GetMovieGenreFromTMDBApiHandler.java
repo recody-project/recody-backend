@@ -36,8 +36,8 @@ class GetMovieGenreFromTMDBApiHandler implements GetMovieGenreFromTMDBApi {
     @Override
     @PostConstruct
     public void initTmdbGenre() {
-        TMDBGenreAPIRequest request = new TMDBGenreAPIRequest();
-        JsonAPIResponse response = apiRequester.executeToJson(request);
+        TMDBGenreListFeature request = new TMDBGenreListFeature();
+        JsonAPIResponse response = apiRequester.requestToJson(request);
         try {
             response.rawStream().map(jsonNode -> {
                 List<JsonNode> parents = jsonNode.withArray(GENRES).findParents(ID);
