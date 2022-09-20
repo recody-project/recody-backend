@@ -1,6 +1,6 @@
 package com.recody.recodybackend.movie.features.searchmovies;
 
-import com.recody.recodybackend.RecodyMovieApplication;
+import com.recody.recodybackend.movie.RecodyMovieApplication;
 import com.recody.recodybackend.movie.features.searchmovies.request.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,7 +1,7 @@
 package com.recody.recodybackend.movie.features.tmdb;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.recody.recodybackend.RecodyMovieApplication;
+import com.recody.recodybackend.movie.RecodyMovieApplication;
 import com.recody.recodybackend.common.openapi.*;
 import com.recody.recodybackend.movie.features.test.NewTMDBMovieDetailFeatrue;
 import com.recody.recodybackend.movie.features.test.NewTMDBMovieSearchFeature;

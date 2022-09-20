@@ -3,7 +3,7 @@ package com.recody.recodybackend.movie.features.test;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.recody.recodybackend.RecodyMovieApplication;
+import com.recody.recodybackend.movie.RecodyMovieApplication;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
