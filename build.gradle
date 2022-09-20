@@ -23,6 +23,7 @@ dependencies {
     implementation project(":service-movie-impl")
     implementation project(":service-catalog-impl")
     implementation project(":service-users-impl")
+    implementation project(":service-record-impl")
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
@@ -84,6 +85,14 @@ subprojects {
         Directory baseProjectPackageStructure = layout.projectDirectory.dir(basePackageStructure)
         if (!baseProjectPackageStructure.asFile.exists()){
             mkdir(basePackageStructure)
+        }
+    }
+
+    task createBuildGradle {
+        String buildGradle = "build.gradle"
+        def file = new File(projectDir, buildGradle)
+        if (!file.exists()) {
+            file.createNewFile()
         }
     }
 }

@@ -4,6 +4,7 @@ include(":common")
 include(":service-movie-api", ":service-movie-impl")
 include(":service-catalog-api", ":service-catalog-impl")
 include(":service-users-api", ":service-users-impl")
+include(":service-record-api", ":service-record-impl")
 
 
 String movieProjectDir = "service-movie"
@@ -17,3 +18,8 @@ project(":service-catalog-impl").projectDir = new File(settingsDir, "${catalogPr
 String userProjectDir = "service-users"
 project(":service-users-api").projectDir = new File(settingsDir, "${userProjectDir}/api")
 project(":service-users-impl").projectDir = new File(settingsDir, "${userProjectDir}/impl")
+
+
+String recordProjectDir = "service-record"
+project(":service-record-api").projectDir = new File(settingsDir, "${recordProjectDir}/api")
+project(":service-record-impl").projectDir = new File(settingsDir, "${recordProjectDir}/impl")
