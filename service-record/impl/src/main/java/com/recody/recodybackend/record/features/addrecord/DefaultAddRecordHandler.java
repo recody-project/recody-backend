@@ -1,6 +1,5 @@
 package com.recody.recodybackend.record.features.addrecord;
 
-import com.recody.recodybackend.record.Record;
 import com.recody.recodybackend.record.data.RecordEntity;
 import com.recody.recodybackend.record.data.RecordRepository;
 import lombok.RequiredArgsConstructor;
