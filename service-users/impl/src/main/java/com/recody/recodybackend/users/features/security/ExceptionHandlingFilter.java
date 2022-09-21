@@ -1,9 +1,7 @@
 package com.recody.recodybackend.users.features.security;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.recody.recodybackend.common.exceptions.ApplicationException;
 import com.recody.recodybackend.common.web.ErrorResponseBody;
-import com.recody.recodybackend.users.exceptions.InternalServerError;
+import com.recody.recodybackend.common.exceptions.InternalServerError;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
