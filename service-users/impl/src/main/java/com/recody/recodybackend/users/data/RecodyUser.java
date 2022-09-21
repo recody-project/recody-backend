@@ -18,6 +18,7 @@ public class RecodyUser {
     private String pictureUri;
     private String email;
     private String nickname;
+    private String password;
     
     @Enumerated(value = EnumType.STRING)
     private SocialProvider socialType;

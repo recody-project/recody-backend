@@ -7,4 +7,7 @@ import java.util.Optional;
 public interface RecodyUserRepository extends JpaRepository<RecodyUser, Long> {
     Optional<RecodyUser> findByEmail(String email);
     RecodyUser getByEmail(String email);
+    
+    Optional<RecodyUser> findByUsername(String username);
+    RecodyUser getByUsername(String username);
 }
