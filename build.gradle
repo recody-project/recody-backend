@@ -20,6 +20,7 @@ repositories {
 
 dependencies {
     implementation project(":common")
+    implementation project(":common-boot-utils")
     implementation project(":service-movie-impl")
     implementation project(":service-catalog-impl")
     implementation project(":service-users-impl")

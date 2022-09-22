@@ -1,6 +1,6 @@
-package com.recody.recodybackend.users.features.jwt.annotation;
+package com.recody.recodybackend.commonbootutils.web;
 
-import com.recody.recodybackend.users.exceptions.FailedToResolveAccessTokenException;
+import com.recody.recodybackend.commonbootutils.exceptions.FailedToResolveAccessTokenException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.util.StringUtils;
