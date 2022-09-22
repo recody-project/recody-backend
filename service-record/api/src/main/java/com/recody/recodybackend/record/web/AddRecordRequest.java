@@ -8,8 +8,6 @@ import javax.validation.constraints.NotNull;
 public class AddRecordRequest {
     
     @NotNull(message = "{notNull}")
-    private Long userId;
-    @NotNull(message = "{notNull}")
     private String contentId;
     private String note;
     
