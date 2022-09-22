@@ -10,6 +10,7 @@ import com.recody.recodybackend.record.features.getrecord.GetRecord;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -51,6 +52,8 @@ public class RecordController {
     * TODO: 쿼리 상세한 조건 주기 */
     @GetMapping("/api/v1/record/records")
     public ResponseEntity<SuccessResponseBody> getRecords(HttpServletRequest httpServletRequest,
+                                                          @Nullable @RequestParam(defaultValue = "0") Integer page,
+                                                          @Nullable @RequestParam(defaultValue = "10") Integer size,
                                                           @AccessToken String accessToken) {
         return ResponseEntity.ok(SuccessResponseBody
                                          .builder()
@@ -58,6 +61,8 @@ public class RecordController {
                                                                 httpServletRequest.getLocale()))
                                          .data(recordService.getRecords(GetMyRecords.builder()
                                                                                     .userId(jwtManager.resolveUserId(accessToken))
+                                                                                    .page(page)
+                                                                                    .size(size)
                                                                                     .build()))
                                          .build());
     

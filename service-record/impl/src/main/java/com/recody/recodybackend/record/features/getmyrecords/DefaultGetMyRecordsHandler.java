@@ -7,6 +7,7 @@ import com.recody.recodybackend.record.data.RecordRepository;
 import com.recody.recodybackend.record.exceptions.RecordErrorType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
@@ -23,8 +24,10 @@ class DefaultGetMyRecordsHandler implements GetMyRecordsHandler{
     
     @Override
     public List<Record> handle(GetMyRecords command) {
+        log.debug("handling command: {}", command);
         Long userId = command.getUserId();
-        Optional<List<RecordEntity>> optionalRecords = recordRepository.findAllByUserId(userId);
+        PageRequest pageable = PageRequest.of(command.getPage(), command.getSize());
+        Optional<List<RecordEntity>> optionalRecords = recordRepository.findByUserIdOrderByCreatedAtDesc(userId, pageable);
         
         if (optionalRecords.isEmpty()){
             throw new ApplicationException(RecordErrorType.NoRecordFound, HttpStatus.NOT_FOUND);

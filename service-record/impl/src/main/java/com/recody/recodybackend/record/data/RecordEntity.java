@@ -2,17 +2,19 @@ package com.recody.recodybackend.record.data;
 
 import com.recody.recodybackend.record.features.generaterecordid.CustomSequenceIdGenerator;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
-@Builder
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class RecordEntity {
+public class RecordEntity extends RecordBaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "record_seq")
     @GenericGenerator(
@@ -31,7 +33,20 @@ public class RecordEntity {
     private String note;
     
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof RecordEntity)) return false;
+        RecordEntity that = (RecordEntity) o;
+        return Objects.equals(getRecordId(), that.getRecordId());
+    }
+    
+    @Override
+    public int hashCode() {
+        return Objects.hash(getRecordId());
+    }
+    
+    @Override
     public String toString() {
-        return "{\"RecordEntity\":{" + "\"recordId\":" + ((recordId != null) ? ("\"" + recordId + "\"") : null) + ", \"contentId\":" + ((contentId != null) ? ("\"" + contentId + "\"") : null) + ", \"userId\":" + userId + ", \"note\":" + ((note != null) ? ("\"" + note + "\"") : null) + "}}";
+        return "[{\"RecordEntity\":{" + "\"recordId\":" + ((recordId != null) ? ("\"" + recordId + "\"") : null) + ", \"contentId\":" + ((contentId != null) ? ("\"" + contentId + "\"") : null) + ", \"userId\":" + userId + ", \"note\":" + ((note != null) ? ("\"" + note + "\"") : null) + "}}, " + super.toString() + "]";
     }
 }
