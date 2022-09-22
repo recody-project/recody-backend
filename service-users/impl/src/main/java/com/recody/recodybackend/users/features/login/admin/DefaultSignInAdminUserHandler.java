@@ -2,9 +2,9 @@ package com.recody.recodybackend.users.features.login.admin;
 
 import com.recody.recodybackend.users.data.RecodyUser;
 import com.recody.recodybackend.users.data.RecodyUserRepository;
-import com.recody.recodybackend.users.features.jwt.CreateAccessToken;
-import com.recody.recodybackend.users.features.jwt.CreateRefreshToken;
-import com.recody.recodybackend.users.features.jwt.JwtManager;
+import com.recody.recodybackend.commonbootutils.jwt.CreateAccessToken;
+import com.recody.recodybackend.commonbootutils.jwt.CreateRefreshToken;
+import com.recody.recodybackend.commonbootutils.jwt.JwtManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

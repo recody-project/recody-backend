@@ -1,4 +1,4 @@
-package com.recody.recodybackend.users.features.jwt;
+package com.recody.recodybackend.commonbootutils.jwt;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

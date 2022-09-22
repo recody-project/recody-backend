@@ -1,4 +1,4 @@
-package com.recody.recodybackend.users.features.jwt;
+package com.recody.recodybackend.commonbootutils.jwt;
 
 public interface JwtManager {
     

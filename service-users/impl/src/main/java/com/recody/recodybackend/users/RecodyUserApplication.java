@@ -6,7 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
 
 @EnableAutoConfiguration
-@ComponentScan(basePackageClasses = RecodyUserApplication.class)
+@ComponentScan(basePackages = "com.recody.recodybackend")
 @PropertySource(value = {"classpath:env.test.properties"})
 public class RecodyUserApplication {
     public static void main(String[] args) {
