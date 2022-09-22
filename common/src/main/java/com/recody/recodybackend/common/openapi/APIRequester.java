@@ -16,9 +16,9 @@ public interface APIRequester<T extends APIRequest>{
     
     /*
     * APIRequest 객체를 delegate 로 사용할 때 사용됨. */
-    String requestToString(Request request);
-    JsonNode requestToJsonNode(Request request);
-    JsonAPIResponse requestToJson(Request request);
-    <S> S requestAndGet(Request request, Class<S> clazz);
+    String requestToString(APIFeature apiFeature);
+    JsonNode requestToJsonNode(APIFeature apiFeature);
+    JsonAPIResponse requestToJson(APIFeature apiFeature);
+    <S> S requestAndGet(APIFeature apiFeature, Class<S> clazz);
     
 }

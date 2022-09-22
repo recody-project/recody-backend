@@ -2,8 +2,10 @@ package com.recody.recodybackend.users.exceptions;
 
 import com.recody.recodybackend.common.exceptions.ApplicationException;
 import com.recody.recodybackend.common.exceptions.ErrorType;
+import com.recody.recodybackend.common.exceptions.InternalServerError;
 import com.recody.recodybackend.common.utils.MessageUtils;
 import com.recody.recodybackend.common.web.ErrorResponseBody;
+import com.recody.recodybackend.users.RecodyUserApplication;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
@@ -21,7 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RestControllerAdvice
+@RestControllerAdvice(basePackageClasses = RecodyUserApplication.class)
 @RequiredArgsConstructor
 @Slf4j
 @Order(999)
@@ -45,7 +47,7 @@ class UsersGlobalExceptionHandler {
     public ResponseEntity<ErrorResponseBody> on(ApplicationException exception, HttpServletRequest request) {
         HttpStatus statusCode = exception.getStatusCode();
         ErrorType errorType = exception.getErrorCode();
-        String message = ms.getMessage(errorType.name(), null, "No available message", request.getLocale());
+        String message = ms.getMessage(errorType.getErrorCode(), null, "No available message", request.getLocale());
         log.debug("Application Exception errorCode: {}, statusCode: {}", errorType, statusCode);
         return ResponseEntity.status(statusCode)
                              .body(ErrorResponseBody.type(errorType)

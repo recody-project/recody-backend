@@ -1,6 +1,6 @@
 package com.recody.recodybackend.users.features.security;
 
-import com.recody.recodybackend.users.features.jwt.JwtManager;
+import com.recody.recodybackend.commonbootutils.jwt.JwtManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

@@ -3,7 +3,6 @@ package com.recody.recodybackend.users.exceptions;
 import com.recody.recodybackend.common.exceptions.ErrorType;
 
 public enum UsersErrorType implements ErrorType {
-    InternalServerError("InternalServerError"),
     RefreshTokenNotFound("RefreshTokenNotFound"),
     InvalidUserAgentValue("InvalidUserAgentValue"),
     UserNotFound("UserNotFound"),

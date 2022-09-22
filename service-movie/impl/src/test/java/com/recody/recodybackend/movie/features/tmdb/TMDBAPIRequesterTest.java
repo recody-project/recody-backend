@@ -1,10 +1,10 @@
 package com.recody.recodybackend.movie.features.tmdb;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.recody.recodybackend.RecodyMovieApplication;
+import com.recody.recodybackend.movie.RecodyMovieApplication;
 import com.recody.recodybackend.common.openapi.*;
-import com.recody.recodybackend.movie.features.test.NewTMDBMovieDetailAPIRequest;
-import com.recody.recodybackend.movie.features.test.NewTMDBMovieSearchAPIRequest;
+import com.recody.recodybackend.movie.features.test.NewTMDBMovieDetailFeatrue;
+import com.recody.recodybackend.movie.features.test.NewTMDBMovieSearchFeature;
 import com.recody.recodybackend.movie.general.MovieGenre;
 import com.recody.recodybackend.movie.general.TMDBAPIRequest;
 import org.junit.jupiter.api.DisplayName;
@@ -31,9 +31,9 @@ class TMDBAPIRequesterTest {
     @DisplayName("test01")
     void test01() {
         // given
-        NewTMDBMovieSearchAPIRequest ko = new NewTMDBMovieSearchAPIRequest("결심", "ko");
+        NewTMDBMovieSearchFeature ko = new NewTMDBMovieSearchFeature("결심", "ko");
         // when
-        JsonAPIResponse jsonApiResponse = requester.executeToJson(ko);
+        JsonAPIResponse jsonApiResponse = requester.requestToJson(ko);
         System.out.println(ko);
     
         // then
@@ -50,9 +50,9 @@ class TMDBAPIRequesterTest {
     @DisplayName("test02")
     void test02() {
         // given
-        NewTMDBMovieSearchAPIRequest ko = new NewTMDBMovieSearchAPIRequest("결심", "ko");
+        NewTMDBMovieSearchFeature ko = new NewTMDBMovieSearchFeature("결심", "ko");
         // when
-        JsonAPIResponse jsonApiResponse = requester.executeToJson(ko);
+        JsonAPIResponse jsonApiResponse = requester.requestToJson(ko);
         System.out.println(ko);
     
     
@@ -100,9 +100,9 @@ class TMDBAPIRequesterTest {
     @DisplayName("test03")
     void test03() {
         // given
-        NewTMDBMovieDetailAPIRequest request = new NewTMDBMovieDetailAPIRequest("705996", "ko");
+        NewTMDBMovieDetailFeatrue request = new NewTMDBMovieDetailFeatrue("705996", "ko");
         // when
-        JsonAPIResponse jsonApiResponse = requester.executeToJson(request);
+        JsonAPIResponse jsonApiResponse = requester.requestToJson(request);
     
         List<MovieGenre> movieGenres = jsonApiResponse
                 .visitorStream()
@@ -122,10 +122,10 @@ class TMDBAPIRequesterTest {
     @DisplayName("test04")
     void test04() {
         // given
-        NewTMDBMovieDetailAPIRequest request = new NewTMDBMovieDetailAPIRequest("705996", "ko");
+        NewTMDBMovieDetailFeatrue request = new NewTMDBMovieDetailFeatrue("705996", "ko");
         // when
     
-        JsonNode jsonNode = requester.executeToJsonNode(request);
+        JsonNode jsonNode = requester.requestToJsonNode(request);
         // when
     
         boolean genres = jsonNode.get("genres").isObject();

@@ -1,20 +1,14 @@
 package com.recody.recodybackend.users.features.login;
 
-import com.recody.recodybackend.common.exceptions.ApplicationException;
 import com.recody.recodybackend.users.data.*;
-import com.recody.recodybackend.users.exceptions.ResourceAccessTokenExpiredException;
-import com.recody.recodybackend.users.exceptions.UsersErrorType;
 import com.recody.recodybackend.users.features.generatenickname.NicknameGenerator;
-import com.recody.recodybackend.users.features.jwt.CreateAccessToken;
-import com.recody.recodybackend.users.features.jwt.CreateRefreshToken;
-import com.recody.recodybackend.users.features.jwt.JwtManager;
+import com.recody.recodybackend.commonbootutils.jwt.CreateAccessToken;
+import com.recody.recodybackend.commonbootutils.jwt.CreateRefreshToken;
+import com.recody.recodybackend.commonbootutils.jwt.JwtManager;
 import com.recody.recodybackend.users.features.login.fetchuserinfo.FetchUserInfo;
 import com.recody.recodybackend.users.features.login.fetchuserinfo.FetchUserInfoHandler;
-import com.recody.recodybackend.users.features.login.googlelogin.GoogleClient;
-import com.recody.recodybackend.users.features.login.googlelogin.RefreshGoogleAccessTokenResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;

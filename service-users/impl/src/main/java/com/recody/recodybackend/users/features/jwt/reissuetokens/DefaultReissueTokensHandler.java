@@ -1,10 +1,11 @@
 package com.recody.recodybackend.users.features.jwt.reissuetokens;
 
 import com.recody.recodybackend.common.exceptions.ApplicationException;
+import com.recody.recodybackend.commonbootutils.jwt.CreateAccessToken;
+import com.recody.recodybackend.commonbootutils.jwt.JwtManager;
 import com.recody.recodybackend.users.data.RefreshTokenEntity;
 import com.recody.recodybackend.users.data.RefreshTokenRepository;
 import com.recody.recodybackend.users.exceptions.UsersErrorType;
-import com.recody.recodybackend.users.features.jwt.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

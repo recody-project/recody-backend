@@ -1,5 +1,6 @@
 package com.recody.recodybackend.common.openapi;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.RequestEntity;
 
 public interface APIRequest{
@@ -12,13 +13,17 @@ public interface APIRequest{
     * 헤더를 추가할 수 있다. */
     void addHeader(String key, String value);
     
+    
+    void basicAuth(String username, String password);
+    
     /*
     * 요청 파라미터를 추가할 수 있다. */
     void addRequestParam(String key, String value, boolean mandatory);
     
-    /*
-    * ApiKey 를 세팅할 수 있다. */
-    void setApiKey(String apiKey);
+    
+    void addRequestParam(String key, String value);
+    
+    void setPath(String path);
     
     /*
     * Body 를 추가할 수 있다. 기본값은 null 을 반환한다.
