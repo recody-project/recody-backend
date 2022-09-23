@@ -1,6 +1,7 @@
 package com.recody.recodybackend.record.features.getmyrecords;
 
 import com.recody.recodybackend.common.exceptions.ApplicationException;
+import com.recody.recodybackend.common.exceptions.InternalServerError;
 import com.recody.recodybackend.record.Record;
 import com.recody.recodybackend.record.data.RecordEntity;
 import com.recody.recodybackend.record.data.RecordRepository;
@@ -30,10 +31,14 @@ class DefaultGetMyRecordsHandler implements GetMyRecordsHandler{
         Long userId = command.getUserId();
         PageRequest pageable = PageRequest.of(command.getPage(), command.getSize());
         Optional<List<RecordEntity>> optionalRecords = recordRepository.findByUserIdOrderByCreatedAtDesc(userId, pageable);
-        
-        if (optionalRecords.isEmpty()){
+    
+        // repository 는 항상 List 를 반환해야 한다.
+        optionalRecords.orElseThrow(InternalServerError::new);
+    
+        if (optionalRecords.get().isEmpty()){
             throw new ApplicationException(RecordErrorType.NoRecordFound, HttpStatus.NOT_FOUND);
         }
+        
         List<RecordEntity> recordEntities = optionalRecords.get();
         ArrayList<Record> records = new ArrayList<>();
     

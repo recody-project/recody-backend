@@ -13,4 +13,8 @@ public class GetRecordsResponse {
     private List<Record> records;
     private int size;
     
+    @Override
+    public String toString() {
+        return "{\"GetRecordsResponse\":{" + "\"records\":" + records + ", \"size\":" + size + "}}";
+    }
 }
