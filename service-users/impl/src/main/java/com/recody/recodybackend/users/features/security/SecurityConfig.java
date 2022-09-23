@@ -21,7 +21,7 @@ class SecurityConfig {
     private final JwtManager jwtManager;
     private final UserDetailsService userDetailsService;
     private final UsersAuthenticationEntryPoint authenticationEntryPoint;
-    private static final String[] permittingEndpoints = {"/","/test/**", "/api/v1/login/**",
+    private static final String[] permittingEndpoints = {"/", "/index.html", "/test/**", "/api/v1/login/**",
                                                          "/api/v1/users/signup","/api/v1/users/sign-in",
                                                          "/api/v1/users/refresh-token", "/errors"};
     
