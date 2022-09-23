@@ -4,7 +4,8 @@ import com.recody.recodybackend.common.exceptions.ErrorType;
 
 public enum RecordErrorType implements ErrorType {
     
-    NoRecordFound("NoRecordFound")
+    NoRecordFound("NoRecordFound"),
+    RecordAlreadyExists("RecordAlreadyExists")
     ;
     
     private final String errorCode;

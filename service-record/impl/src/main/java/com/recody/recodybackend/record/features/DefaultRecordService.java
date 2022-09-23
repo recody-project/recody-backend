@@ -3,6 +3,8 @@ package com.recody.recodybackend.record.features;
 import com.recody.recodybackend.record.Record;
 import com.recody.recodybackend.record.features.addrecord.AddRecord;
 import com.recody.recodybackend.record.features.addrecord.AddRecordHandler;
+import com.recody.recodybackend.record.features.completerecord.CompleteRecord;
+import com.recody.recodybackend.record.features.completerecord.CompleteRecordHandler;
 import com.recody.recodybackend.record.features.getmyrecords.GetMyRecords;
 import com.recody.recodybackend.record.features.getmyrecords.GetMyRecordsHandler;
 import com.recody.recodybackend.record.features.getrecord.GetRecord;
@@ -21,6 +23,7 @@ class DefaultRecordService implements RecordService{
     private final AddRecordHandler addRecordHandler;
     private final GetRecordHandler getRecordHandler;
     private final GetMyRecordsHandler getMyRecordsHandler;
+    private final CompleteRecordHandler completeRecordHandler;
     
     
     @Override
@@ -43,5 +46,11 @@ class DefaultRecordService implements RecordService{
         int size = records.size();
         log.debug("Got {} Records", size);
         return new GetRecordsResponse(records, size);
+    }
+    
+    @Override
+    public CompleteRecordResponse completeRecord(CompleteRecord command) {
+        boolean completed = completeRecordHandler.handle(command);
+        return CompleteRecordResponse.builder().recordId(command.getRecordId()).completed(completed).build();
     }
 }

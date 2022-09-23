@@ -54,6 +54,10 @@ public class ErrorResponseBody {
         return new ErrorResponseBody(new ErrorResponse(customErrorType.getErrorCode(), message, requestUri));
     }
     
+    public static ErrorResponseBody of(Exception exception, Object message, String requestUri) {
+        return new ErrorResponseBody(new ErrorResponse(exception.getClass().getSimpleName(), message, requestUri));
+    }
+    
     public static MessageBuilder type(String type){
         return new MessageBuilder(type);
     }

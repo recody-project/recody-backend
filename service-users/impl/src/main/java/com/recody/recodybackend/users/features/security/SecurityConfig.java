@@ -10,6 +10,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -18,15 +20,21 @@ class SecurityConfig {
     
     private final JwtManager jwtManager;
     private final UserDetailsService userDetailsService;
-    
-    private static final String[] permittingEndpoints = {"/","/test/**", "/api/v1/login/**", "/api/v1/users/refresh-token",
-                                                         "/**"};
+    private final UsersAuthenticationEntryPoint authenticationEntryPoint;
+    private static final String[] permittingEndpoints = {"/","/test/**", "/api/v1/login/**",
+                                                         "/api/v1/users/signup","/api/v1/users/sign-in",
+                                                         "/api/v1/users/refresh-token", "/errors"};
     
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
+        characterEncodingFilter.setEncoding("utf-8");
+        characterEncodingFilter.setForceEncoding(true);
+        
         http
                 .addFilterBefore(new JwtAuthenticationFilter(jwtManager, userDetailsService), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new ExceptionHandlingFilter(), JwtAuthenticationFilter.class)
+                .addFilterBefore(characterEncodingFilter, CsrfFilter.class)
                 .cors()
             .and()
                 .httpBasic().disable()
@@ -37,6 +45,10 @@ class SecurityConfig {
             .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(authenticationEntryPoint)
+                .accessDeniedHandler(new UsersAccessDeniedHandler())
         ;
         return http.build();
     }

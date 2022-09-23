@@ -5,6 +5,7 @@ import com.recody.recodybackend.commonbootutils.jwt.JwtManager;
 import com.recody.recodybackend.commonbootutils.web.AccessToken;
 import com.recody.recodybackend.record.features.RecordService;
 import com.recody.recodybackend.record.features.addrecord.AddRecord;
+import com.recody.recodybackend.record.features.completerecord.CompleteRecord;
 import com.recody.recodybackend.record.features.getmyrecords.GetMyRecords;
 import com.recody.recodybackend.record.features.getrecord.GetRecord;
 import lombok.RequiredArgsConstructor;
@@ -48,8 +49,6 @@ public class RecordController {
                                          .build());
     }
     
-    /*
-    * TODO: 쿼리 상세한 조건 주기 */
     @GetMapping("/api/v1/record/records")
     public ResponseEntity<SuccessResponseBody> getRecords(HttpServletRequest httpServletRequest,
                                                           @Nullable @RequestParam(defaultValue = "0") Integer page,
@@ -75,6 +74,22 @@ public class RecordController {
                 .note(request.getNote())
                 .userId(jwtManager.resolveUserId(accessToken))
                 .build();
+    }
+    
+    @PostMapping("/api/v1/record/complete")
+    public ResponseEntity<SuccessResponseBody> complete(HttpServletRequest httpServletRequest,
+                                                        @Valid @RequestBody CompleteRecordRequest request,
+                                                        @AccessToken String accessToken) {
+        return ResponseEntity.ok(SuccessResponseBody
+                                         .builder()
+                                         .message(ms.getMessage("record.complete.succeeded", null,
+                                                                httpServletRequest.getLocale()))
+                                         .data(recordService.completeRecord(CompleteRecord
+                                                                                    .builder()
+                                                                                    .recordId(request.getRecordId())
+                                                                                    .note(request.getNote())
+                                                                                    .build()))
+                                         .build());
     }
     
 }

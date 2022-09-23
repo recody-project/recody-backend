@@ -14,6 +14,7 @@ public class Record {
     @NonNull
     private String contentId;
     private String note;
+    private boolean completed;
     
     @Override
     public String toString() {

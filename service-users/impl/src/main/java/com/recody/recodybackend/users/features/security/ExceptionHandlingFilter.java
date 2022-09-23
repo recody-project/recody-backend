@@ -8,6 +8,7 @@ import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -36,6 +37,9 @@ class ExceptionHandlingFilter extends OncePerRequestFilter {
             setErrorResponse(request, response, ex);
         } catch (UnsupportedJwtException ex) {
             log.error("Unsupported JWT: {}", ex.getMessage());
+            setErrorResponse(request, response, ex);
+        } catch (AccessDeniedException ex) {
+            log.error("AccessDeniedException ex: {}", ex.getMessage());
             setErrorResponse(request, response, ex);
         }
     }
