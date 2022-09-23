@@ -31,7 +31,7 @@ class DefaultCompleteRecordHandlerTest {
     @DisplayName("완료 처리 여부 확인하기")
     void test01() {
         // given
-        RecordEntity first = RecordEntity.builder().note(OLD_NOTE).build();
+        RecordEntity first = RecordEntity.builder().userId(1L).contentId("3").note(OLD_NOTE).build();
         RecordEntity savedRecord = repository.save(first);
         String recordId = savedRecord.getRecordId();
     
@@ -48,5 +48,4 @@ class DefaultCompleteRecordHandlerTest {
         RecordEntity recordEntity = optionalRecord.get();
         assertThat(recordEntity.getNote()).isEqualTo(NEW_NOTE);
     }
-    
 }

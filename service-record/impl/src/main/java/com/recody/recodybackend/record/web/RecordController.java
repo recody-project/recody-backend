@@ -5,6 +5,7 @@ import com.recody.recodybackend.commonbootutils.jwt.JwtManager;
 import com.recody.recodybackend.commonbootutils.web.AccessToken;
 import com.recody.recodybackend.record.features.RecordService;
 import com.recody.recodybackend.record.features.addrecord.AddRecord;
+import com.recody.recodybackend.record.features.completerecord.CompleteRecord;
 import com.recody.recodybackend.record.features.getmyrecords.GetMyRecords;
 import com.recody.recodybackend.record.features.getrecord.GetRecord;
 import lombok.RequiredArgsConstructor;
@@ -77,14 +78,16 @@ public class RecordController {
     
     @PostMapping("/api/v1/record/complete")
     public ResponseEntity<SuccessResponseBody> complete(HttpServletRequest httpServletRequest,
-                                                          @Valid @RequestBody AddRecordRequest request,
-                                                          @AccessToken String accessToken) {
+                                                        @Valid @RequestBody CompleteRecordRequest request,
+                                                        @AccessToken String accessToken) {
         return ResponseEntity.ok(SuccessResponseBody
                                          .builder()
-                                         .message(ms.getMessage("record.records.get.succeeded", null,
+                                         .message(ms.getMessage("record.complete.succeeded", null,
                                                                 httpServletRequest.getLocale()))
-                                         .data(recordService.getRecords(GetMyRecords.builder()
-                                                                                    .userId(jwtManager.resolveUserId(accessToken))
+                                         .data(recordService.completeRecord(CompleteRecord
+                                                                                    .builder()
+                                                                                    .recordId(request.getRecordId())
+                                                                                    .note(request.getNote())
                                                                                     .build()))
                                          .build());
     }
