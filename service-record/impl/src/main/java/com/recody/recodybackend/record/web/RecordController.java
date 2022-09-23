@@ -48,8 +48,6 @@ public class RecordController {
                                          .build());
     }
     
-    /*
-    * TODO: 쿼리 상세한 조건 주기 */
     @GetMapping("/api/v1/record/records")
     public ResponseEntity<SuccessResponseBody> getRecords(HttpServletRequest httpServletRequest,
                                                           @Nullable @RequestParam(defaultValue = "0") Integer page,
@@ -75,6 +73,20 @@ public class RecordController {
                 .note(request.getNote())
                 .userId(jwtManager.resolveUserId(accessToken))
                 .build();
+    }
+    
+    @PostMapping("/api/v1/record/complete")
+    public ResponseEntity<SuccessResponseBody> complete(HttpServletRequest httpServletRequest,
+                                                          @Valid @RequestBody AddRecordRequest request,
+                                                          @AccessToken String accessToken) {
+        return ResponseEntity.ok(SuccessResponseBody
+                                         .builder()
+                                         .message(ms.getMessage("record.records.get.succeeded", null,
+                                                                httpServletRequest.getLocale()))
+                                         .data(recordService.getRecords(GetMyRecords.builder()
+                                                                                    .userId(jwtManager.resolveUserId(accessToken))
+                                                                                    .build()))
+                                         .build());
     }
     
 }

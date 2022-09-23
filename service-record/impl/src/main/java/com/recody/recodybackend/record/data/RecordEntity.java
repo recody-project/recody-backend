@@ -25,12 +25,23 @@ public class RecordEntity extends RecordBaseEntity {
                     @Parameter(name = CustomSequenceIdGenerator.VALUE_PREFIX_PARAMETER, value = "rec-"),
                     @Parameter(name = CustomSequenceIdGenerator.NUMBER_FORMAT_PARAMETER, value = "%d") })
     private String recordId;
-    @Column(nullable = false)
+    
+    @Column(nullable = false, updatable = false)
+    @NonNull
     private String contentId;
-    @Column(nullable = false)
+    
+    @Column(nullable = false, updatable = false)
+    @NonNull
     private Long userId;
     
+    @Setter
     private String note;
+    
+    @Setter
+    private boolean completed;
+    
+    @Builder.Default
+    private Integer nth = 1;
     
     @Override
     public boolean equals(Object o) {

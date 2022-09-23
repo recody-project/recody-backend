@@ -13,6 +13,8 @@ public interface RecordRepository extends JpaRepository<RecordEntity, String> {
     
     Optional<List<RecordEntity>> findAllByUserId(Long userId);
     
+    Optional<List<RecordEntity>> findAllByUserIdAndContentId(Long userId, String contentId);
+    
     /**
      * 생성일 기준 최근부터 가져온다.
      * pageable: n개씩 가져올지, n개씩 몇번째 페이지 부터 가져올지 정한다.

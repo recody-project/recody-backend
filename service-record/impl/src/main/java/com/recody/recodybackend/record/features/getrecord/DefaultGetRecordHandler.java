@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Component
@@ -20,6 +21,7 @@ class DefaultGetRecordHandler implements GetRecordHandler {
     private final RecordRepository recordRepository;
     
     @Override
+    @Transactional
     public Record handle(GetRecord command) {
         log.debug("handling command: {}", command);
         String recordId = command.getRecordId();

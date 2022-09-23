@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +24,7 @@ class DefaultGetMyRecordsHandler implements GetMyRecordsHandler{
     private final RecordRepository recordRepository;
     
     @Override
+    @Transactional
     public List<Record> handle(GetMyRecords command) {
         log.debug("handling command: {}", command);
         Long userId = command.getUserId();
