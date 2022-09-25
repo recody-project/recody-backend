@@ -38,6 +38,7 @@ class DefaultAddRecordHandler implements AddRecordHandler{
         RecordEntity recordEntity = RecordEntity
                 .builder()
                 .userId(command.getUserId())
+                .title(command.getTitle())
                 .note(command.getNote())
                 .contentId(command.getContentId())
                 .build();

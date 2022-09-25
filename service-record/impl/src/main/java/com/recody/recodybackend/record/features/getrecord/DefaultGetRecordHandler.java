@@ -41,8 +41,10 @@ class DefaultGetRecordHandler implements GetRecordHandler {
                 .builder()
                 .recordId(recordEntity.getRecordId())
                 .contentId(recordEntity.getContentId())
+                .title(recordEntity.getTitle())
                 .note(recordEntity.getNote())
                 .userId(recordEntity.getUserId())
+                .completed(recordEntity.isCompleted())
                 .build();
     }
 }

@@ -8,5 +8,6 @@ import lombok.Data;
 public class CompleteRecordRequest {
     
     private String recordId;
+    private String title;
     private String note;
 }

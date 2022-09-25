@@ -10,6 +10,7 @@ public class CompleteRecord {
     
     @NonNull
     private String recordId;
+    private String title;
     
     private String note;
 }

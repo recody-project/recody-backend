@@ -46,8 +46,10 @@ class DefaultGetMyRecordsHandler implements GetMyRecordsHandler{
             records.add(Record.builder()
                               .recordId(recordEntity.getRecordId())
                                 .userId(recordEntity.getUserId())
+                                .title(recordEntity.getTitle())
                                 .note(recordEntity.getNote())
                                 .contentId(recordEntity.getContentId())
+                                .completed(recordEntity.isCompleted())
                               .build());
         }
         log.debug("{} records found", records.size());

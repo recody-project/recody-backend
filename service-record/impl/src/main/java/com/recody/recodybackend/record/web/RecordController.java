@@ -37,6 +37,7 @@ public class RecordController {
                                          .data(recordService.completeRecord(CompleteRecord
                                                                                     .builder()
                                                                                     .recordId(request.getRecordId())
+                                                                                    .title(request.getTitle())
                                                                                     .note(request.getNote())
                                                                                     .build()))
                                          .build());
@@ -104,9 +105,7 @@ public class RecordController {
     }
     
     private AddRecord createAddRecordCommand(AddRecordRequest request, String accessToken) {
-        return AddRecord
-                .builder()
-                .contentId(request.getContentId())
+        return AddRecord.builder().contentId(request.getContentId()).title(request.getTitle())
                 .note(request.getNote())
                 .userId(jwtManager.resolveUserId(accessToken))
                 .build();
