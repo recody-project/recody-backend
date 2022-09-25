@@ -9,7 +9,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.transaction.TestTransaction;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -24,16 +26,18 @@ class RecordRepositoryTest {
     
     public static final long USER_ID = 1L;
     @Autowired RecordRepository recordRepository;
+    private final List<RecordEntity> savedRecords = new ArrayList<>();
     
     @BeforeEach
     void before() {
         for (int i = 0; i < 100; i++) {
-            recordRepository.save(newRecord());
+            RecordEntity saved = recordRepository.save(newRecord());
+            savedRecords.add(saved);
         }
     }
     
     private RecordEntity newRecord() {
-        return RecordEntity.builder().contentId("asdf").note("testing").userId(USER_ID).build();
+        return RecordEntity.builder().contentId("asdf").note("testing").userId(USER_ID).completed(true).build();
     }
     
     @Test
@@ -121,6 +125,54 @@ class RecordRepositoryTest {
         assertThat(recordEntities.size()).isEqualTo(0);
         assertThat(recordEntities).isEmpty();
         
+    }
+    
+    @Test
+    @DisplayName("가장 최근에 수정된 감상평을 가져온다.")
+    void findFirstBy() {
+        // given
+        String recordId2 = changeCompletedStatusAt(49);
+        String recordId = changeCompletedStatusAt(50);
+        TestTransaction.flagForCommit();
+        TestTransaction.end();
+        TestTransaction.start();
+        
+        // when
+        Optional<RecordEntity> optionalRecord = recordRepository.findFirstByUserIdAndCompletedIsFalseOrderByLastModifiedAtDesc(USER_ID);
+    
+        // then
+        assertThat(optionalRecord).isNotEmpty();
+        assertThat(optionalRecord.get().getRecordId()).isEqualTo(recordId);
+        
+    }
+    
+//    @Test
+//    @DisplayName("가장 최근에 수정된 감상평을 가져온다.")
+//    void findRecent() {
+//        // given
+//        String recordId2 = changeCompletedStatusAt(49);
+//        String recordId = changeCompletedStatusAt(50);
+//        TestTransaction.flagForCommit();
+//        TestTransaction.end();
+//        TestTransaction.start();
+//
+//        // when
+//        Optional<RecordEntity> optionalRecord = recordRepository.findRecentModified(USER_ID);
+//
+//        // then
+//        assertThat(optionalRecord).isNotEmpty();
+//        assertThat(optionalRecord.get().getRecordId()).isEqualTo(recordId);
+//
+//    }
+    
+    private String changeCompletedStatusAt(int index) {
+        RecordEntity recordEntity = savedRecords.get(index);
+        String recordId = recordEntity.getRecordId();
+        Optional<RecordEntity> foundRecord = recordRepository.findByRecordId(recordId);
+        assertThat(foundRecord).isNotEmpty();
+        RecordEntity recordEntity1 = foundRecord.get();
+        recordEntity1.setCompleted(false);
+        return recordId;
     }
     
 }

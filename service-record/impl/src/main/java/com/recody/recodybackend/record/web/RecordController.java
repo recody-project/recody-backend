@@ -7,6 +7,7 @@ import com.recody.recodybackend.record.features.RecordService;
 import com.recody.recodybackend.record.features.addrecord.AddRecord;
 import com.recody.recodybackend.record.features.completerecord.CompleteRecord;
 import com.recody.recodybackend.record.features.continuerecord.ContinueRecord;
+import com.recody.recodybackend.record.features.getcontinuingrecord.GetContinuingRecord;
 import com.recody.recodybackend.record.features.getmyrecords.GetMyRecords;
 import com.recody.recodybackend.record.features.getrecord.GetRecord;
 import lombok.RequiredArgsConstructor;
@@ -87,10 +88,24 @@ public class RecordController {
                                          .build());
     }
     
+    @GetMapping("/api/v1/record/continuing")
+    public ResponseEntity<SuccessResponseBody> getContinuingRecord(HttpServletRequest httpServletRequest,
+                                                                   @AccessToken String accessToken) {
+        return ResponseEntity.ok(SuccessResponseBody
+                                         .builder()
+                                         .message(ms.getMessage("record.get-continuing.succeeded", null,
+                                                                httpServletRequest.getLocale()))
+                                         .data(recordService.getContinuingRecord(GetContinuingRecord
+                                                                                         .builder()
+                                                                                         .userId(jwtManager.resolveUserId(
+                                                                                                 accessToken))
+                                                                                         .build()))
+                                         .build());
+    }
+    
     @PutMapping("/api/v1/record")
     public ResponseEntity<SuccessResponseBody> updateRecord(HttpServletRequest httpServletRequest,
-                                                            @Valid @RequestBody ContinueRecordRequest request,
-                                                            @AccessToken String accessToken) {
+                                                            @Valid @RequestBody ContinueRecordRequest request) {
         return ResponseEntity.ok(SuccessResponseBody
                                          .builder()
                                          .message(ms.getMessage("record.continue.succeeded", null,
@@ -105,7 +120,10 @@ public class RecordController {
     }
     
     private AddRecord createAddRecordCommand(AddRecordRequest request, String accessToken) {
-        return AddRecord.builder().contentId(request.getContentId()).title(request.getTitle())
+        return AddRecord
+                .builder()
+                .contentId(request.getContentId())
+                .title(request.getTitle())
                 .note(request.getNote())
                 .userId(jwtManager.resolveUserId(accessToken))
                 .build();

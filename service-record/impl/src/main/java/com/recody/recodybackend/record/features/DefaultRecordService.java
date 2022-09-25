@@ -8,6 +8,8 @@ import com.recody.recodybackend.record.features.completerecord.CompleteRecord;
 import com.recody.recodybackend.record.features.completerecord.CompleteRecordHandler;
 import com.recody.recodybackend.record.features.continuerecord.ContinueRecord;
 import com.recody.recodybackend.record.features.continuerecord.ContinueRecordHandler;
+import com.recody.recodybackend.record.features.getcontinuingrecord.GetContinuingRecord;
+import com.recody.recodybackend.record.features.getcontinuingrecord.GetContinuingRecordHandler;
 import com.recody.recodybackend.record.features.getmyrecords.GetMyRecords;
 import com.recody.recodybackend.record.features.getmyrecords.GetMyRecordsHandler;
 import com.recody.recodybackend.record.features.getrecord.GetRecord;
@@ -28,6 +30,7 @@ class DefaultRecordService implements RecordService{
     private final GetMyRecordsHandler getMyRecordsHandler;
     private final CompleteRecordHandler completeRecordHandler;
     private final ContinueRecordHandler continueRecordHandler;
+    private final GetContinuingRecordHandler getContinuingRecordHandler;
     
     
     @Override
@@ -50,6 +53,13 @@ class DefaultRecordService implements RecordService{
         int size = records.size();
         log.debug("Got {} Records", size);
         return new GetRecordsResponse(records, size);
+    }
+    
+    @Override
+    public GetContinuingRecordResponse getContinuingRecord(GetContinuingRecord command) {
+        Record record = getContinuingRecordHandler.handle(command);
+        log.debug("User {}'s most recent continuing record: {}", command.getUserId(), record);
+        return new GetContinuingRecordResponse(record);
     }
     
     @Override

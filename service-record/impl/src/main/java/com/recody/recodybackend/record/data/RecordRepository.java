@@ -21,6 +21,11 @@ public interface RecordRepository extends JpaRepository<RecordEntity, String> {
      */
     Optional<List<RecordEntity>> findByUserIdOrderByCreatedAtDesc(Long userId, Pageable pageable);
     
+    /**
+     * 최근 수정된 레코드들 중에서
+     * userId == :userId 이고, completed == false 인 가장 첫번째 레코드를 가져온다.
+     * */
+    Optional<RecordEntity> findFirstByUserIdAndCompletedIsFalseOrderByLastModifiedAtDesc(Long userId);
     
     Optional<List<RecordEntity>> findAllByUserIdAndCreatedAtBetween(Long userId, LocalDateTime start,
                                                                     LocalDateTime end);
