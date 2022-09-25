@@ -1,6 +1,7 @@
 package com.recody.recodybackend.record.data;
 
 import com.recody.recodybackend.record.RecodyRecordApplication;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -111,7 +112,7 @@ class RecordRepositoryTest {
     void top10SecondPageLacksAmount() {
         // given
         // 총 100개만 before 에서 넣었는데, 두번째 페이지를 가져오면 0개이다.
-        PageRequest pageable = PageRequest.of(1, 100);
+        PageRequest pageable = PageRequest.of(2, 100);
         Optional<List<RecordEntity>> records = recordRepository.findByUserIdOrderByCreatedAtDesc(USER_ID, pageable);
         List<RecordEntity> recordEntities = records.orElseThrow();
         
@@ -146,24 +147,6 @@ class RecordRepositoryTest {
         
     }
     
-//    @Test
-//    @DisplayName("가장 최근에 수정된 감상평을 가져온다.")
-//    void findRecent() {
-//        // given
-//        String recordId2 = changeCompletedStatusAt(49);
-//        String recordId = changeCompletedStatusAt(50);
-//        TestTransaction.flagForCommit();
-//        TestTransaction.end();
-//        TestTransaction.start();
-//
-//        // when
-//        Optional<RecordEntity> optionalRecord = recordRepository.findRecentModified(USER_ID);
-//
-//        // then
-//        assertThat(optionalRecord).isNotEmpty();
-//        assertThat(optionalRecord.get().getRecordId()).isEqualTo(recordId);
-//
-//    }
     
     private String changeCompletedStatusAt(int index) {
         RecordEntity recordEntity = savedRecords.get(index);
