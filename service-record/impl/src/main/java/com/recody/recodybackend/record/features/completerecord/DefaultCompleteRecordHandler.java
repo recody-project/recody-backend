@@ -23,7 +23,12 @@ class DefaultCompleteRecordHandler implements CompleteRecordHandler{
             throw new RecordNotFound();
         }
         RecordEntity recordEntity = optionalRecord.get();
-        recordEntity.setNote(command.getNote());
+        if (command.getTitle() != null) {
+            recordEntity.setTitle(command.getTitle());
+        }
+        if (command.getNote() != null) {
+            recordEntity.setNote(command.getNote());
+        }
         recordEntity.setCompleted(true);
         return recordEntity.isCompleted();
     }

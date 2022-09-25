@@ -1,10 +1,13 @@
 package com.recody.recodybackend.record.features;
 
 import com.recody.recodybackend.record.Record;
+import com.recody.recodybackend.record.RecordEvent;
 import com.recody.recodybackend.record.features.addrecord.AddRecord;
 import com.recody.recodybackend.record.features.addrecord.AddRecordHandler;
 import com.recody.recodybackend.record.features.completerecord.CompleteRecord;
 import com.recody.recodybackend.record.features.completerecord.CompleteRecordHandler;
+import com.recody.recodybackend.record.features.continuerecord.ContinueRecord;
+import com.recody.recodybackend.record.features.continuerecord.ContinueRecordHandler;
 import com.recody.recodybackend.record.features.getmyrecords.GetMyRecords;
 import com.recody.recodybackend.record.features.getmyrecords.GetMyRecordsHandler;
 import com.recody.recodybackend.record.features.getrecord.GetRecord;
@@ -24,6 +27,7 @@ class DefaultRecordService implements RecordService{
     private final GetRecordHandler getRecordHandler;
     private final GetMyRecordsHandler getMyRecordsHandler;
     private final CompleteRecordHandler completeRecordHandler;
+    private final ContinueRecordHandler continueRecordHandler;
     
     
     @Override
@@ -52,5 +56,15 @@ class DefaultRecordService implements RecordService{
     public CompleteRecordResponse completeRecord(CompleteRecord command) {
         boolean completed = completeRecordHandler.handle(command);
         return CompleteRecordResponse.builder().recordId(command.getRecordId()).completed(completed).build();
+    }
+    
+    @Override
+    public ContinueRecordResponse continueRecord(ContinueRecord command) {
+        List<RecordEvent> events = continueRecordHandler.handle(command);
+        log.debug("record continuing");
+        return ContinueRecordResponse.builder()
+                                     .recordId(command.getRecordId())
+                                     .events(events)
+                                     .build();
     }
 }

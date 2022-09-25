@@ -9,6 +9,7 @@ public class AddRecordRequest {
     
     @NotNull(message = "{notNull}")
     private String contentId;
+    private String title;
     private String note;
     
 }

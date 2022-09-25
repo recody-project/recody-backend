@@ -35,6 +35,9 @@ public class RecordEntity extends RecordBaseEntity {
     private Long userId;
     
     @Setter
+    private String title;
+    
+    @Setter
     private String note;
     
     @Setter

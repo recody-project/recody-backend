@@ -13,11 +13,13 @@ public class Record {
     private Long userId;
     @NonNull
     private String contentId;
+    
+    private String title;
     private String note;
     private boolean completed;
     
     @Override
     public String toString() {
-        return "{\"Record\":{" + "\"recordId\":" + ((recordId != null) ? ("\"" + recordId + "\"") : null) + ", \"userId\":" + userId + ", \"contentId\":" + ((contentId != null) ? ("\"" + contentId + "\"") : null) + ", \"note\":" + ((note != null) ? ("\"" + note + "\"") : null) + "}}";
+        return "{\"Record\":{" + "\"recordId\":" + ((recordId != null) ? ("\"" + recordId + "\"") : null) + ", \"userId\":" + userId + ", \"contentId\":" + ((contentId != null) ? ("\"" + contentId + "\"") : null) + ", \"title\":" + ((title != null) ? ("\"" + title + "\"") : null) + ", \"note\":" + ((note != null) ? ("\"" + note + "\"") : null) + ", \"completed\":" + completed + "}}";
     }
 }
