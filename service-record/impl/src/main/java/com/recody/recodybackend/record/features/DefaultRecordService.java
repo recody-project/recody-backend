@@ -62,6 +62,9 @@ class DefaultRecordService implements RecordService{
     public ContinueRecordResponse continueRecord(ContinueRecord command) {
         List<RecordEvent> events = continueRecordHandler.handle(command);
         log.debug("record continuing");
-        return new ContinueRecordResponse(events);
+        return ContinueRecordResponse.builder()
+                                     .recordId(command.getRecordId())
+                                     .events(events)
+                                     .build();
     }
 }

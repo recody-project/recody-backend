@@ -10,6 +10,11 @@ import java.util.List;
 @Builder
 public class ContinueRecordResponse {
     
+    private String recordId;
     private List<RecordEvent> events;
     
+    @Override
+    public String toString() {
+        return "{\"ContinueRecordResponse\":{" + "\"recordId\":" + ((recordId != null) ? ("\"" + recordId + "\"") : null) + ", \"events\":" + events + "}}";
+    }
 }
