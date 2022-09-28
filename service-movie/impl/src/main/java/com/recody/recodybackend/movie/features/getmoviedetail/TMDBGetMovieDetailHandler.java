@@ -31,16 +31,16 @@ class TMDBGetMovieDetailHandler implements GetMovieDetailHandler {
         TMDBGetMovieDetailRequest request = new TMDBGetMovieDetailRequest(command.getMovieId(),
                                                                           command.getLanguage());
         TMDBMovieDetail tmdbMovieDetail = requester.requestAndGet(request, TMDBMovieDetail.class);
-        Movie movieDetail = mapper.map(tmdbMovieDetail);
-        movieDetail.setPosterPath(TMDB.fullPosterPath(tmdbMovieDetail.getPosterPath()));
+        Movie movie = mapper.map(tmdbMovieDetail);
+        movie.setPosterPath(TMDB.fullPosterPath(tmdbMovieDetail.getPosterPath()));
 
         // movie detail 저장
-        
-        String movieId = movieRecognizer.recognize(movieDetail);
+        String movieId = movieRecognizer.recognize(movie);
+        movie.setId(movieId);
         log.info("movieId: {}", movieId);
         return GetMovieDetailResult.builder()
                        .requestInfo(command)
-                       .detail(movieDetail)
+                       .detail(movie)
                                    .build();
     }
     

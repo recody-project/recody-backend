@@ -19,6 +19,7 @@ public interface MovieEntityMapper {
     
     @Mapping(target = "rootId", ignore = true)
     @Mapping(target = "source", expression = "java(MovieSource.TMDB)")
+    @Mapping(target = "tmdbId", source = "tmdbMovieDetail.id")
     Movie map(TMDBMovieDetail tmdbMovieDetail);
     
     

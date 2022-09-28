@@ -10,13 +10,19 @@ import lombok.*;
 
 import java.util.List;
 
-@Setter(AccessLevel.PRIVATE)
+@Setter
 @Getter
 @Builder(toBuilder = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Movie implements Content {
-    private Integer id;
+    private String id;
+    private Integer tmdbId;
+    
+    
+    
+    
+    
     private MovieSource source;
     private String originalLanguage;
     private String originalTitle;

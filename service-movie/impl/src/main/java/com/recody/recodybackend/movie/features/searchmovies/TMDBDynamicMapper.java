@@ -28,7 +28,7 @@ public class TMDBDynamicMapper implements SearchMoviesMapper.DynamicMapper {
         List<Movie> movies = this.response.getMovies();
         for (Movie movie : movies) {
             // 각각의 영화 정보에 장르를 세팅한다.
-            Integer movieId = movie.getId();
+            Integer movieId = movie.getTmdbId();
             try {
                 List<MovieGenre> genres = movieGenres.get(movieId);
                 movie.setGenres(genres);

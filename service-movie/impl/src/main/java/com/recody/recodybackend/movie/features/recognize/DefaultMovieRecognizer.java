@@ -62,7 +62,7 @@ class DefaultMovieRecognizer implements MovieRecognizer{
     private Optional<String> findMovieId(Movie movie) {
         Optional<MovieEntity> optionalMovie;
         if (MovieSource.TMDB.equals(movie.getSource())){
-            optionalMovie = movieRepository.findByTmdbId(movie.getId());
+            optionalMovie = movieRepository.findByTmdbId(movie.getTmdbId());
             if (optionalMovie.isPresent()){
                 return Optional.of(optionalMovie.get().getId());
             }
