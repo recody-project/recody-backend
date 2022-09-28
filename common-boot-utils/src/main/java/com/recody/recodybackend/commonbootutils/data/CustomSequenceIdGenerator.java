@@ -1,4 +1,4 @@
-package com.recody.recodybackend.record.features.generaterecordid;
+package com.recody.recodybackend.commonbootutils.data;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

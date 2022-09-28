@@ -85,7 +85,11 @@ public abstract class AbstractAPIRequester<T extends APIRequest> implements APIR
     }
     
     private AuthType decideAuthenticationType() {
-        AuthenticateWith annotation = getClass().getAnnotation(AuthenticateWith.class);
+        AuthenticateWith annotation;
+        if (getClass().isAnnotationPresent(AuthenticateWith.class))
+            annotation = getClass().getAnnotation(AuthenticateWith.class);
+        else
+            return AuthType.NO_AUTH;
         Assert.notNull(annotation, "APIRequester requires AuthType!");
         AuthType typeFromAnnotation = annotation.type();
         if (typeFromAnnotation != null)
@@ -94,7 +98,11 @@ public abstract class AbstractAPIRequester<T extends APIRequest> implements APIR
     }
     
     private AuthType decideAuthenticationType(AuthType authType) {
-        Optional<AuthenticateWith> annotation = Optional.of(getClass().getAnnotation(AuthenticateWith.class));
+        Optional<AuthenticateWith>  annotation;
+        if (getClass().isAnnotationPresent(AuthenticateWith.class))
+            annotation = Optional.of(getClass().getAnnotation(AuthenticateWith.class));
+        else
+            annotation = Optional.empty();
         AuthType typeFromAnnotation = annotation.map(AuthenticateWith::type).orElse(null);
         AuthType switchingAuthType = (typeFromAnnotation != null) ? typeFromAnnotation : authType;
         Assert.notNull(switchingAuthType, "APIRequester requires AuthType!");
