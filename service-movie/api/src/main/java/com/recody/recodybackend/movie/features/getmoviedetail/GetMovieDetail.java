@@ -1,9 +1,13 @@
 package com.recody.recodybackend.movie.features.getmoviedetail;
 
-import com.recody.recodybackend.common.openapi.APIFeature;
+import lombok.*;
 
-public interface GetMovieDetail extends APIFeature{
+@Data
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
+public class GetMovieDetail{
     
-    String getMovieId();
-    String getLanguage();
+    private String movieId;
+    private String language;
 }

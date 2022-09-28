@@ -11,4 +11,9 @@ import lombok.NoArgsConstructor;
 public class SpokenLanguage {
     private String iso_639_1;
     private String name;
+    
+    @Override
+    public String toString() {
+        return "{\"SpokenLanguage\":{" + "\"iso_639_1\":" + ((iso_639_1 != null) ? ("\"" + iso_639_1 + "\"") : null) + ", \"name\":" + ((name != null) ? ("\"" + name + "\"") : null) + "}}";
+    }
 }
