@@ -1,4 +1,4 @@
-package com.recody.recodybackend.movie.data;
+package com.recody.recodybackend.movie.data.genre;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

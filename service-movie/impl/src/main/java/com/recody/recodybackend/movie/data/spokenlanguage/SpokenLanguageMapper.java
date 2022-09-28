@@ -1,4 +1,4 @@
-package com.recody.recodybackend.movie.data;
+package com.recody.recodybackend.movie.data.spokenlanguage;
 
 import com.recody.recodybackend.movie.features.getmoviedetail.SpokenLanguage;
 import org.mapstruct.Mapper;

@@ -1,6 +1,5 @@
-package com.recody.recodybackend.movie.data;
+package com.recody.recodybackend.movie.data.movie;
 
-import com.recody.recodybackend.movie.data.movie.MovieEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package com.recody.recodybackend.movie.data;
+package com.recody.recodybackend.movie.data.genre;
 
 import com.recody.recodybackend.commonbootutils.data.CustomSequenceIdGenerator;
 import lombok.*;

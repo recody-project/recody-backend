@@ -1,4 +1,4 @@
-package com.recody.recodybackend.movie.data;
+package com.recody.recodybackend.movie.data.spokenlanguage;
 
 import lombok.Getter;
 import lombok.Setter;

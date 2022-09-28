@@ -1,4 +1,4 @@
-package com.recody.recodybackend.movie.data;
+package com.recody.recodybackend.movie.data.productioncountry;
 
 import lombok.Getter;
 import lombok.Setter;

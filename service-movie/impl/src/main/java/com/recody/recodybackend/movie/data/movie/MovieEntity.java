@@ -1,7 +1,9 @@
 package com.recody.recodybackend.movie.data.movie;
 
 import com.recody.recodybackend.commonbootutils.data.CustomSequenceIdGenerator;
-import lombok.AccessLevel;
+import com.recody.recodybackend.movie.data.spokenlanguage.LanguageEntity;
+import com.recody.recodybackend.movie.data.genre.MovieGenreEntity;
+import com.recody.recodybackend.movie.data.productioncountry.ProductionCountryEntity;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -28,21 +30,21 @@ public class MovieEntity {
     private String id;
     private Integer tmdbId;
     
+    
     private String originalLanguage;
     private String originalTitle;
     private String overview;
     private Float popularity;
     private String posterPath;
-    @OneToMany(mappedBy = "movie",cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @Getter(AccessLevel.PROTECTED)
-    private List<MovieProductionCountryRelation> productionCountries;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<ProductionCountryEntity> productionCountries;
     private String releaseDate;
     private Integer runtime;
     private Integer revenue;
-    @OneToMany(mappedBy = "movie", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private List<MovieGenreRelation> genres;
-    @OneToMany(mappedBy = "movie", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private List<MovieLanguageRelation> spokenLanguages;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<MovieGenreEntity> genres;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<LanguageEntity> spokenLanguages;
     private String status;
     private String title;
     private Float voteAverage;
