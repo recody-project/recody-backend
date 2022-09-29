@@ -1,5 +1,6 @@
 package com.recody.recodybackend.movie.data.productioncountry;
 
+import com.recody.recodybackend.movie.data.MovieBaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +11,7 @@ import javax.persistence.Id;
 @Entity
 @Getter
 @Setter
-public class ProductionCountryEntity {
+public class ProductionCountryEntity extends MovieBaseEntity {
     
     @Id
     @Column(name = "iso_3166_1")

@@ -1,5 +1,6 @@
 package com.recody.recodybackend.movie.data.spokenlanguage;
 
+import com.recody.recodybackend.movie.data.MovieBaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +11,7 @@ import javax.persistence.Id;
 @Entity
 @Getter
 @Setter
-public class LanguageEntity {
+public class LanguageEntity extends MovieBaseEntity {
     
     @Id
     @Column(name = "iso_639_1")

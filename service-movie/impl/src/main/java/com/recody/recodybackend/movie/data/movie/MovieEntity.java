@@ -1,6 +1,7 @@
 package com.recody.recodybackend.movie.data.movie;
 
 import com.recody.recodybackend.commonbootutils.data.CustomSequenceIdGenerator;
+import com.recody.recodybackend.movie.data.MovieBaseEntity;
 import com.recody.recodybackend.movie.data.spokenlanguage.LanguageEntity;
 import com.recody.recodybackend.movie.data.genre.MovieGenreEntity;
 import com.recody.recodybackend.movie.data.productioncountry.ProductionCountryEntity;
@@ -16,7 +17,7 @@ import java.util.List;
 @Table(name = "movie")
 @Getter
 @Setter
-public class MovieEntity {
+public class MovieEntity extends MovieBaseEntity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "movie_seq")
@@ -33,17 +34,19 @@ public class MovieEntity {
     
     private String originalLanguage;
     private String originalTitle;
+    @Lob
+    @Column
     private String overview;
     private Float popularity;
     private String posterPath;
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany
     private List<ProductionCountryEntity> productionCountries;
     private String releaseDate;
     private Integer runtime;
     private Integer revenue;
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany
     private List<MovieGenreEntity> genres;
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany
     private List<LanguageEntity> spokenLanguages;
     private String status;
     private String title;

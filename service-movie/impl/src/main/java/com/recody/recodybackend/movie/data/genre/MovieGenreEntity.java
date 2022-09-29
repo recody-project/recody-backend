@@ -1,18 +1,21 @@
 package com.recody.recodybackend.movie.data.genre;
 
 import com.recody.recodybackend.commonbootutils.data.CustomSequenceIdGenerator;
+import com.recody.recodybackend.movie.data.MovieBaseEntity;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-@Builder
+@SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Getter
 @Table(name = "movie_genre")
-public class MovieGenreEntity {
+public class MovieGenreEntity extends MovieBaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "movie_genre_seq")
     @GenericGenerator(
@@ -24,6 +27,7 @@ public class MovieGenreEntity {
                     @org.hibernate.annotations.Parameter(name = CustomSequenceIdGenerator.NUMBER_FORMAT_PARAMETER, value = "%d") })
     private String genreId;
     
+    @Column(unique = true)
     private Integer tmdbGenreId;
     private String tmdbGenreName;
     
