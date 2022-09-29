@@ -1,16 +1,18 @@
 package com.recody.recodybackend.movie.features.getmoviedetail;
 
+import com.recody.recodybackend.movie.Movie;
 import com.recody.recodybackend.movie.general.MovieSource;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 @Data
 @Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class GetMovieDetailResult {
     
     private GetMovieDetail requestInfo;
     private MovieSource source;
-    private TMDBMovieDetail detail;
+    private Movie detail;
     
     public MovieSource getSource() { return MovieSource.TMDB; }
 }

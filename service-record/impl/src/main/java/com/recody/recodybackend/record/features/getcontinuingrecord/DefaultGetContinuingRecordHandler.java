@@ -2,6 +2,7 @@ package com.recody.recodybackend.record.features.getcontinuingrecord;
 
 import com.recody.recodybackend.record.Record;
 import com.recody.recodybackend.record.data.RecordEntity;
+import com.recody.recodybackend.record.data.RecordMapper;
 import com.recody.recodybackend.record.data.RecordRepository;
 import com.recody.recodybackend.record.exceptions.RecordNotFound;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import java.util.Optional;
 class DefaultGetContinuingRecordHandler implements GetContinuingRecordHandler{
     
     private final RecordRepository recordRepository;
+    private final RecordMapper recordMapper;
     
     @Override
     @Transactional
@@ -27,20 +29,8 @@ class DefaultGetContinuingRecordHandler implements GetContinuingRecordHandler{
             throw new RecordNotFound();
         }
         RecordEntity recordEntity = optionalRecordEntity.get();
-        Record record = createRecord(recordEntity);
+        Record record = recordMapper.map(recordEntity);
         log.debug("record: {}", record);
         return record;
-    }
-    
-    private Record createRecord(RecordEntity recordEntity) {
-        return Record
-                .builder()
-                .recordId(recordEntity.getRecordId())
-                .contentId(recordEntity.getContentId())
-                .title(recordEntity.getTitle())
-                .note(recordEntity.getNote())
-                .userId(recordEntity.getUserId())
-                .completed(recordEntity.isCompleted())
-                .build();
     }
 }

@@ -1,10 +1,10 @@
 package com.recody.recodybackend.movie.features.getmoviedetail;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.recody.recodybackend.movie.general.MovieGenre;
+import com.recody.recodybackend.movie.general.MovieSource;
+import lombok.*;
 
 import java.util.List;
 
@@ -21,6 +21,7 @@ public class TMDBMovieDetail {
     @JsonAlias(value = {"original_title"})
     private String originalTitle;
     private String overview;
+    private List<TMDBMovieGenre> genres;
     private Float popularity;
     @JsonAlias(value = {"poster_path"})
     private String posterPath;
@@ -38,4 +39,7 @@ public class TMDBMovieDetail {
     private Float voteAverage;
     @JsonAlias(value = {"vote_count"})
     private Integer voteCount;
+    
+//    @JsonIgnore
+//    private MovieSource source = MovieSource.TMDB;
 }

@@ -1,6 +1,9 @@
 package com.recody.recodybackend.common.openapi;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.recody.recodybackend.common.exceptions.InternalServerError;
 import com.recody.recodybackend.common.openapi.annotation.AuthenticateWith;
 import org.slf4j.Logger;
 import org.springframework.http.RequestEntity;
@@ -8,6 +11,7 @@ import org.springframework.util.Assert;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import static org.slf4j.LoggerFactory.getLogger;
@@ -24,6 +28,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 public abstract class AbstractAPIRequester<T extends APIRequest> implements APIRequester<T> {
     
     private final RestTemplate restTemplate = new RestTemplate();
+    private final ObjectMapper objectMapper = new ObjectMapper();
     private final AuthenticationStrategy strategy;
     private final Logger log = getLogger(getClass());
     
@@ -85,7 +90,11 @@ public abstract class AbstractAPIRequester<T extends APIRequest> implements APIR
     }
     
     private AuthType decideAuthenticationType() {
-        AuthenticateWith annotation = getClass().getAnnotation(AuthenticateWith.class);
+        AuthenticateWith annotation;
+        if (getClass().isAnnotationPresent(AuthenticateWith.class))
+            annotation = getClass().getAnnotation(AuthenticateWith.class);
+        else
+            return AuthType.NO_AUTH;
         Assert.notNull(annotation, "APIRequester requires AuthType!");
         AuthType typeFromAnnotation = annotation.type();
         if (typeFromAnnotation != null)
@@ -94,7 +103,11 @@ public abstract class AbstractAPIRequester<T extends APIRequest> implements APIR
     }
     
     private AuthType decideAuthenticationType(AuthType authType) {
-        Optional<AuthenticateWith> annotation = Optional.of(getClass().getAnnotation(AuthenticateWith.class));
+        Optional<AuthenticateWith>  annotation;
+        if (getClass().isAnnotationPresent(AuthenticateWith.class))
+            annotation = Optional.of(getClass().getAnnotation(AuthenticateWith.class));
+        else
+            annotation = Optional.empty();
         AuthType typeFromAnnotation = annotation.map(AuthenticateWith::type).orElse(null);
         AuthType switchingAuthType = (typeFromAnnotation != null) ? typeFromAnnotation : authType;
         Assert.notNull(switchingAuthType, "APIRequester requires AuthType!");
@@ -111,8 +124,18 @@ public abstract class AbstractAPIRequester<T extends APIRequest> implements APIR
             body = restTemplate.exchange(entity, clazz).getBody();
         } catch (RestClientException exception) {
             log.warn("exception: {}", exception.getMessage());
-            throw new RuntimeException(
-                    "외부 API 서버에서 정보를 받아오는 데에 실패하였습니다." + " message: " + exception.getMessage() + " request: " + request);
+            String message = null;
+            try {
+                String substring = Objects.requireNonNull(exception.getMessage()).substring(7);
+                JsonNode jsonNode = objectMapper.readTree(substring);
+                log.error("jsonNode: {}", jsonNode);
+                message = jsonNode.get("error").get("type").asText();
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+//            throw new RuntimeException(
+//                    "외부 API 서버에서 정보를 받아오는 데에 실패하였습니다." + " message: " + exception.getMessage() + " request: " + apiFeature);
+            throw new InternalServerError(message);
         }
         return body;
     }
@@ -126,8 +149,18 @@ public abstract class AbstractAPIRequester<T extends APIRequest> implements APIR
             body = restTemplate.exchange(entity, clazz).getBody();
         } catch (RestClientException exception) {
             log.warn("exception: {}", exception.getMessage());
-            throw new RuntimeException(
-                    "외부 API 서버에서 정보를 받아오는 데에 실패하였습니다." + " message: " + exception.getMessage() + " request: " + apiFeature);
+            String message = null;
+            try {
+                String substring = Objects.requireNonNull(exception.getMessage()).substring(7);
+                JsonNode jsonNode = objectMapper.readTree(substring);
+                log.error("jsonNode: {}", jsonNode);
+                message = jsonNode.get("error").get("type").asText();
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+//            throw new RuntimeException(
+//                    "외부 API 서버에서 정보를 받아오는 데에 실패하였습니다." + " message: " + exception.getMessage() + " request: " + apiFeature);
+            throw new InternalServerError(message);
         }
         return body;
     }

@@ -4,6 +4,7 @@ import com.recody.recodybackend.common.exceptions.ApplicationException;
 import com.recody.recodybackend.common.exceptions.InternalServerError;
 import com.recody.recodybackend.record.Record;
 import com.recody.recodybackend.record.data.RecordEntity;
+import com.recody.recodybackend.record.data.RecordMapper;
 import com.recody.recodybackend.record.data.RecordRepository;
 import com.recody.recodybackend.record.exceptions.RecordErrorType;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ import java.util.Optional;
 class DefaultGetMyRecordsHandler implements GetMyRecordsHandler{
     
     private final RecordRepository recordRepository;
+    private final RecordMapper recordMapper;
     
     @Override
     @Transactional
@@ -43,14 +45,8 @@ class DefaultGetMyRecordsHandler implements GetMyRecordsHandler{
         ArrayList<Record> records = new ArrayList<>();
     
         for (RecordEntity recordEntity : recordEntities) {
-            records.add(Record.builder()
-                              .recordId(recordEntity.getRecordId())
-                                .userId(recordEntity.getUserId())
-                                .title(recordEntity.getTitle())
-                                .note(recordEntity.getNote())
-                                .contentId(recordEntity.getContentId())
-                                .completed(recordEntity.isCompleted())
-                              .build());
+            Record record = recordMapper.map(recordEntity);
+            records.add(record);
         }
         log.debug("{} records found", records.size());
         return records;

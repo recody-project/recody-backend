@@ -1,12 +1,20 @@
 package com.recody.recodybackend.movie.general;
 
+import com.recody.recodybackend.common.contents.Category;
 import com.recody.recodybackend.common.contents.Genre;
+import lombok.Getter;
+import lombok.Setter;
 
 /*
 * 영화의 장르는 여러개일 수 있다. */
+@Getter
+@Setter
 public class MovieGenre implements Genre {
-    private final Integer genreId;
+    private Integer genreId;
     private String genreName;
+    private MovieSource source;
+    
+    public MovieGenre() { }
     
     public MovieGenre(Integer genreId) {
         this.genreId = genreId;
@@ -17,12 +25,9 @@ public class MovieGenre implements Genre {
         this.genreName = genreName;
     }
     
-    public Integer getGenreId() {
-        return genreId;
-    }
-    
-    public String getGenreName() {
-        return genreName;
+    @Override
+    public Category getCategory() {
+        return Category.Movie;
     }
     
     @Override

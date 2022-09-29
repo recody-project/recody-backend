@@ -101,7 +101,7 @@ public abstract class AbstractAPIRequest implements APIRequest {
     /* ==================== Protected / Private Methods ===================== */
     
     
-    protected final void setPath() {
+    private void setPath() {
         if (path == null) {
             return;
         }

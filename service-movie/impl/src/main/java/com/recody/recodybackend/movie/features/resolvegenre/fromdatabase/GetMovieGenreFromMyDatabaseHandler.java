@@ -1,7 +1,7 @@
 package com.recody.recodybackend.movie.features.resolvegenre.fromdatabase;
 
-import com.recody.recodybackend.movie.data.MovieGenreEntity;
-import com.recody.recodybackend.movie.data.MovieGenreRepository;
+import com.recody.recodybackend.movie.data.genre.MovieGenreEntity;
+import com.recody.recodybackend.movie.data.genre.MovieGenreRepository;
 import com.recody.recodybackend.movie.features.resolvegenres.fromdatabase.GetMovieGenreFromDataBase;
 import com.recody.recodybackend.movie.general.MovieGenre;
 import lombok.RequiredArgsConstructor;

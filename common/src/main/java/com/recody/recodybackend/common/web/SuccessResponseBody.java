@@ -10,6 +10,9 @@ public class SuccessResponseBody {
         this.data = data;
     }
     
+    public SuccessResponseBody() {
+    }
+    
     public static Builder builder(){
         return new Builder();
     }

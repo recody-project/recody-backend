@@ -1,5 +1,6 @@
 package com.recody.recodybackend.movie.features.searchmovies;
 
+import com.recody.recodybackend.movie.Movie;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +18,7 @@ class TMDBSearchMoviesMapper implements SearchMoviesMapper {
     }
     
     private SearchMoviesResult map(SearchMoviesUsingApiResponse response) {
-        ArrayList<SingleMovieSpec> specs = new ArrayList<>();
+        ArrayList<Movie> specs = new ArrayList<>();
         for (int i = 0; i < response.size(); i++) {
             specs.add(doMap(response, i));
         }
@@ -25,16 +26,17 @@ class TMDBSearchMoviesMapper implements SearchMoviesMapper {
                                  .movies(specs).build();
     }
     
-    private SingleMovieSpec doMap(SearchMoviesUsingApiResponse results, int n) {
-        log.debug("results: {}", results);
-        return SingleMovieSpec.builder()
-                              .movieId(results.getMovieId(n))
-                              .originalLanguage(results.getOriginalLanguage(n))
-                              .originalTitle(results.getOriginalTitle(n))
-                              .overview(results.getOverview(n))
-                              .posterPath(POSTER_PATH_PREFIX.concat(results.getPosterPath(n)))
-                              .releaseDate(results.getReleaseDate(n))
-                              .title(results.getTitle(n))
-                              .source(results.getContentSource()).build();
+    private Movie doMap(SearchMoviesUsingApiResponse results, int n) {
+        log.debug("mapping api results to movie");
+        log.trace("results: {}", results);
+        return Movie.builder()
+                    .tmdbId(results.getMovieId(n))
+                    .originalLanguage(results.getOriginalLanguage(n))
+                    .originalTitle(results.getOriginalTitle(n))
+                    .overview(results.getOverview(n))
+                    .posterPath(POSTER_PATH_PREFIX.concat(results.getPosterPath(n)))
+                    .releaseDate(results.getReleaseDate(n))
+                    .title(results.getTitle(n))
+                    .source(results.getContentSource()).build();
     }
 }

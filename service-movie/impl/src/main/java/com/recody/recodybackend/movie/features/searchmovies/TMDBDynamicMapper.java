@@ -1,5 +1,6 @@
 package com.recody.recodybackend.movie.features.searchmovies;
 
+import com.recody.recodybackend.movie.Movie;
 import com.recody.recodybackend.movie.features.resolvecontentroot.ResolveContentRootResult;
 import com.recody.recodybackend.movie.general.MovieGenre;
 import org.slf4j.Logger;
@@ -24,10 +25,10 @@ public class TMDBDynamicMapper implements SearchMoviesMapper.DynamicMapper {
     
     @Override
     public SearchMoviesMapper.DynamicMapper genreIds(Map<Integer, List<MovieGenre>> movieGenres) {
-        List<SingleMovieSpec> movies = this.response.getMovies();
-        for (SingleMovieSpec movie : movies) {
+        List<Movie> movies = this.response.getMovies();
+        for (Movie movie : movies) {
             // 각각의 영화 정보에 장르를 세팅한다.
-            Integer movieId = movie.getMovieId();
+            Integer movieId = movie.getTmdbId();
             try {
                 List<MovieGenre> genres = movieGenres.get(movieId);
                 movie.setGenres(genres);
