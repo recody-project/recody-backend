@@ -18,8 +18,8 @@ import java.util.List;
 public class Movie implements Content {
     private String movieId;
     private Integer tmdbId;
-    
-    
+    private Integer rootId;
+    private Category category = Category.Movie;
     
     
     
@@ -43,18 +43,12 @@ public class Movie implements Content {
     
     
     
-    
-    /* 장르와 root Id 는 외부에서 resolve 한 뒤에 세팅된다. */
-    @Setter(AccessLevel.PUBLIC)
     private String posterPath;
-    @Setter(AccessLevel.PUBLIC)
     private List<MovieGenre> genres;
-    @Setter(AccessLevel.PUBLIC)
-    private Integer rootId;
     
     @Override
     public Category getCategory() {
-        return Category.Movie;
+        return category;
     }
     
     @Override
