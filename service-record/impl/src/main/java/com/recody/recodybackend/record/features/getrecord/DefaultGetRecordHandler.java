@@ -3,6 +3,7 @@ package com.recody.recodybackend.record.features.getrecord;
 import com.recody.recodybackend.common.exceptions.ApplicationException;
 import com.recody.recodybackend.record.Record;
 import com.recody.recodybackend.record.data.RecordEntity;
+import com.recody.recodybackend.record.data.RecordMapper;
 import com.recody.recodybackend.record.data.RecordRepository;
 import com.recody.recodybackend.record.exceptions.RecordErrorType;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,8 @@ import java.util.Optional;
 class DefaultGetRecordHandler implements GetRecordHandler {
     
     private final RecordRepository recordRepository;
+    private final RecordMapper recordMapper;
+    
     
     @Override
     @Transactional
@@ -31,7 +34,9 @@ class DefaultGetRecordHandler implements GetRecordHandler {
             throw new ApplicationException(RecordErrorType.NoRecordFound, HttpStatus.NOT_FOUND);
         }
         RecordEntity recordEntity = optionalRecord.get();
-        Record record = createRecord(recordEntity);
+        Record record = recordMapper.map(recordEntity);
+    
+//        Record record = createRecord(recordEntity);
         log.debug("Returning record: {}", record);
         return record;
     }

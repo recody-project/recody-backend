@@ -1,6 +1,6 @@
 package com.recody.recodybackend.record.data;
 
-import com.recody.recodybackend.record.features.generaterecordid.CustomSequenceIdGenerator;
+import com.recody.recodybackend.commonbootutils.data.CustomSequenceIdGenerator;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.GenericGenerator;
@@ -19,7 +19,7 @@ public class RecordEntity extends RecordBaseEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "record_seq")
     @GenericGenerator(
             name = "record_seq",
-            strategy = "com.recody.recodybackend.record.features.generaterecordid.CustomSequenceIdGenerator",
+            strategy = "com.recody.recodybackend.commonbootutils.data.CustomSequenceIdGenerator",
             parameters = {
                     @Parameter(name = CustomSequenceIdGenerator.INCREMENT_PARAM, value = "50"), // high-low 최적화
                     @Parameter(name = CustomSequenceIdGenerator.VALUE_PREFIX_PARAMETER, value = "rec-"),
