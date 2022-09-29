@@ -25,20 +25,20 @@ class DefaultMovieGenreResolver implements MovieGenreResolver {
         Map<Integer, List<MovieGenre>> resultMap = new HashMap<>();
     
         // 주어진 GenreIdsMap 에서 순서대로 genreId 들에 대해 MovieGenre 를 만들어
-        // resultMap 에 세팅한ㄷ다.
+        // resultMap 에 세팅한다.
         for (Integer key : genreIdsMap.keySet()) {
             List<Integer> genreIds = genreIdsMap.get(key);
             ArrayList<MovieGenre> genreList = new ArrayList<>();
             for (Integer genreId : genreIds) {
                 if (fromApi.hasGenres()) {
                     MovieGenre movieGenre = fromApi.getMovieGenre(genreId);
-                    log.debug("movieGenre: {}", movieGenre);
+                    log.trace("movieGenre: {}", movieGenre);
                     genreList.add(movieGenre);
                 }
             }
             resultMap.put(key, genreList);
         }
-        log.info("Resolved Genres: {}", resultMap);
+        log.info("Resolved Genres");
         return resultMap;
     }
     

@@ -37,7 +37,7 @@ class DefaultMovieRecognizer implements MovieRecognizer{
         if (optionalId.isPresent()) {
             return optionalId.get();
         }
-//        recognizeInfos(movie);
+        recognizeInfos(movie);
         MovieEntity movieEntity = movieEntityMapper.toEntity(movie);
         log.debug("movieEntity: {}", movieEntity);
         MovieEntity savedEntity = movieRepository.save(movieEntity);
@@ -47,14 +47,18 @@ class DefaultMovieRecognizer implements MovieRecognizer{
     private void recognizeInfos(Movie movie) {
         List<ProductionCountry> productionCountries = movie.getProductionCountries();
         for (ProductionCountry productionCountry : productionCountries) {
+            log.debug("productionCountry: {}", productionCountry);
             productionCountryRecognizer.recognize(productionCountry);
         }
         List<MovieGenre> genres = movie.getGenres();
         for (MovieGenre genre : genres) {
-            genreRecognizer.recognize(genre);
+            log.debug("genre: {}", genre);
+            String genreId = genreRecognizer.recognize(genre);
+            log.debug("genreId: {}", genreId);
         }
         List<SpokenLanguage> spokenLanguages = movie.getSpokenLanguages();
         for (SpokenLanguage spokenLanguage : spokenLanguages) {
+            log.debug("spokenLanguage: {}", spokenLanguage);
             spokenLanguageRecognizer.recognize(spokenLanguage);
         }
     }

@@ -27,7 +27,8 @@ class TMDBSearchMoviesMapper implements SearchMoviesMapper {
     }
     
     private Movie doMap(SearchMoviesUsingApiResponse results, int n) {
-        log.debug("results: {}", results);
+        log.debug("mapping api results to movie");
+        log.trace("results: {}", results);
         return Movie.builder()
                     .tmdbId(results.getMovieId(n))
                     .originalLanguage(results.getOriginalLanguage(n))

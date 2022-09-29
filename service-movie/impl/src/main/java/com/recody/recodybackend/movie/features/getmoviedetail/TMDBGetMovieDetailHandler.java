@@ -36,7 +36,7 @@ class TMDBGetMovieDetailHandler implements GetMovieDetailHandler {
 
         // movie detail 저장
         String movieId = movieRecognizer.recognize(movie);
-        movie.setId(movieId);
+        movie.setMovieId(movieId);
         log.info("movieId: {}", movieId);
         return GetMovieDetailResult.builder()
                        .requestInfo(command)

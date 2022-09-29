@@ -28,7 +28,7 @@ class DefaultMovieGenreRecognizer implements MovieGenreRecognizer{
         if (optionalGenreId.isPresent()) return optionalGenreId.get();
         
         // 장르 저장하기.
-        MovieGenreEntity movieGenreEntity = mapper.toEntity(genre);
+        MovieGenreEntity movieGenreEntity = mapper.map(genre);
         MovieGenreEntity savedGenre = repository.save(movieGenreEntity);
         String genreId = savedGenre.getGenreId();
         log.info("Recognized Movie Genre: genreId: {}", genreId);

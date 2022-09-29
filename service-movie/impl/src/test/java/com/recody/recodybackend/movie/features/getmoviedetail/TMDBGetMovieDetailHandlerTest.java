@@ -10,9 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
@@ -23,7 +20,6 @@ class TMDBGetMovieDetailHandlerTest {
     public static final String MOVIE_ID = "705996";
     @Autowired GetMovieDetailHandler getMovieDetailHandler;
     @Autowired MovieDetailMapper movieDetailMapper;
-    @PersistenceContext EntityManager em;
     
     @Test
     @DisplayName("매핑이 잘 이루어지는가?")
@@ -44,7 +40,6 @@ class TMDBGetMovieDetailHandlerTest {
         GetMovieDetail command = new GetMovieDetail(MOVIE_ID, "ko");
         GetMovieDetailResult handle = getMovieDetailHandler.handle(command);// 저장함.
         
-        em.clear();
         
         System.out.println("================꺼내오기==================");
         GetMovieDetailResult result = getMovieDetailHandler.handleFromDB(command);
@@ -54,6 +49,6 @@ class TMDBGetMovieDetailHandlerTest {
         // then
         Movie detail = result.getDetail();
         assertThat(detail.getSource()).isEqualTo(MovieSource.TMDB);
-        assertThat(detail.getId()).isEqualTo(Integer.parseInt(MOVIE_ID));
+        assertThat(detail.getTmdbId()).isEqualTo(Integer.parseInt(MOVIE_ID));
     }
 }
