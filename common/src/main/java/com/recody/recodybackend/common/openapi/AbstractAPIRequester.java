@@ -59,11 +59,13 @@ public abstract class AbstractAPIRequester<T extends APIRequest> implements APIR
     }
     
     @Override
+    @Deprecated
     public JsonNode executeToJsonNode(T request) {
         return doExecute(request, JsonNode.class);
     }
     
     @Override
+    @Deprecated
     public JsonAPIResponse executeToJson(T request) {
         JsonNode body = doExecute(request, JsonNode.class);
         return new JsonAPIResponse(body);
@@ -73,12 +75,13 @@ public abstract class AbstractAPIRequester<T extends APIRequest> implements APIR
         return doExecute(apiFeature, String.class);
     }
     
-    @Override
+    @Deprecated
     public JsonNode requestToJsonNode(APIFeature apiFeature) {
         return doExecute(apiFeature, JsonNode.class);
     }
     
     @Override
+    @Deprecated
     public JsonAPIResponse requestToJson(APIFeature apiFeature) {
         JsonNode body = doExecute(apiFeature, JsonNode.class);
         return new JsonAPIResponse(body);

@@ -21,7 +21,7 @@ class DefaultGetContentDetailHandler implements GetContentDetailHandler{
     private final ContentPersonalizer<Movie, PersonalizedMovie> movieDetailPersonalizer;
     
     @Override
-    public PersonalizedContent handle(GetContentDetail command) {
+    public GetContentDetailResult handle(GetContentDetail command) {
         Category category = command.getCategory();
         PersonalizedContent personalizedcontent;
         if (category.equals(Category.Movie)) {
@@ -35,6 +35,6 @@ class DefaultGetContentDetailHandler implements GetContentDetailHandler{
         } else {
             throw new ApplicationException(GlobalErrorType.UnsupportedCategory, HttpStatus.BAD_REQUEST);
         }
-        return personalizedcontent;
+        return new GetContentDetailResult(personalizedcontent);
     }
 }
