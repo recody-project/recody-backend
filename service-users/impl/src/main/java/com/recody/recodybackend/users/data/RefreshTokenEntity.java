@@ -23,8 +23,12 @@ public class RefreshTokenEntity {
     @Column(nullable = false)
     private String userAgent;
     
+    /**
+     * 토큰을 만들 때 사용된 userId를 의미한다.*/
     private String subject;
     
+    /**
+     * 소셜 로그인 Provider 가 제공한 리소스 접근 refresh token 을 의미한다. */
     @Column(name = "resource_refresh_token")
     private String resourceRefreshToken;
     

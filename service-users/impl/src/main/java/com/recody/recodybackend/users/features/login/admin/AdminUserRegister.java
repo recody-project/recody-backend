@@ -3,9 +3,11 @@ package com.recody.recodybackend.users.features.login.admin;
 import com.recody.recodybackend.users.data.RecodyUser;
 import com.recody.recodybackend.users.data.RecodyUserRepository;
 import com.recody.recodybackend.users.data.Role;
+import com.recody.recodybackend.users.features.login.SocialProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -13,6 +15,7 @@ import javax.annotation.PostConstruct;
 @Component
 @RequiredArgsConstructor
 @Slf4j
+@Profile("local")
 class AdminUserRegister {
     
     private final RecodyUserRepository recodyUserRepository;
@@ -33,6 +36,7 @@ class AdminUserRegister {
                 .role(Role.ROLE_ADMIN)
                 .username(username)
                 .password(password)
+                .socialType(SocialProvider.NONE)
                 .email(email)
                 .build();
         recodyUserRepository.save(user);

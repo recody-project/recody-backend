@@ -93,7 +93,7 @@ class DefaultSocialLoginService implements SocialLoginService {
                 .socialType(socialProvider)
                 .nickname(nicknameGenerator.randomNickname())
                 .role(Role.ROLE_MEMBER)
-                .pictureUri(userInfo.getProfileImageUrl())
+                .pictureUrl(userInfo.getProfileImageUrl())
                 .username(userInfo.getName())
                 .build();
         recodyUserRepository.save(targetUser);
