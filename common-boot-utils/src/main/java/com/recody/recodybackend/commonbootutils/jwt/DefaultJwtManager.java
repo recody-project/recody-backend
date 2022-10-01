@@ -86,7 +86,7 @@ class DefaultJwtManager implements JwtManager {
     
     
     @Override
-    public String resolveUsername(String token) {
+    public String resolveSubject(String token) {
         Objects.requireNonNull(token);
         String subject = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
         log.debug("resolved subject");

@@ -1,5 +1,7 @@
 package com.recody.recodybackend.users.features.login.admin;
 
+import com.recody.recodybackend.commonbootutils.jwt.CreateAccessToken;
+import com.recody.recodybackend.commonbootutils.jwt.DefaultSuperJwtManager;
 import com.recody.recodybackend.users.data.RecodyUser;
 import com.recody.recodybackend.users.data.RecodyUserRepository;
 import com.recody.recodybackend.users.data.Role;
@@ -15,10 +17,11 @@ import javax.annotation.PostConstruct;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-@Profile("local")
-class AdminUserRegister {
+@Profile({"local", "test"})
+class LocalAdminUserRegisterer {
     
     private final RecodyUserRepository recodyUserRepository;
+    private final DefaultSuperJwtManager superJwtManager;
     
     @Value("${users.admin.username}")
     private String username;
@@ -28,6 +31,8 @@ class AdminUserRegister {
     
     @Value("${users.admin.email}")
     private String email;
+    
+    private Long userId;
     
     @PostConstruct
     void register(){
@@ -39,7 +44,14 @@ class AdminUserRegister {
                 .socialType(SocialProvider.NONE)
                 .email(email)
                 .build();
-        recodyUserRepository.save(user);
+        RecodyUser savedUser = recodyUserRepository.save(user);
+        this.userId = savedUser.getUserId();
         log.info("기본 어드민 유저 등록 성공");
+    }
+    
+    String createToken(){
+        CreateAccessToken command = CreateAccessToken.builder().email(email).userId(userId).build();
+        String accessToken = superJwtManager.createAccessToken(command);
+        return accessToken;
     }
 }

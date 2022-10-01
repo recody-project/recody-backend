@@ -24,13 +24,16 @@ public class RecodyUser {
     private Long userId;
     
     private String username;
-    private String pictureUrl;
-    private String nickname;
     private String password;
+    
+    private String pictureUrl;
+    private String name;
+    private String nickname;
     
     @NonNull
     @Column(name = "email", nullable = false)
     private String email;
+    
     
     @NonNull
     @Enumerated(value = EnumType.STRING)

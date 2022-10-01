@@ -3,12 +3,8 @@ package com.recody.recodybackend.users.features.login.fetchuserinfo;
 import com.recody.recodybackend.common.exceptions.ApplicationException;
 import com.recody.recodybackend.users.exceptions.ResourceAccessTokenExpiredException;
 import com.recody.recodybackend.users.exceptions.UsersErrorType;
-import com.recody.recodybackend.users.features.login.JacksonOAuthAttributes;
-import com.recody.recodybackend.users.features.login.ResourceAccessToken;
-import com.recody.recodybackend.users.features.login.ResourceRefreshToken;
-import com.recody.recodybackend.users.features.login.SocialProvider;
+import com.recody.recodybackend.users.features.login.*;
 import com.recody.recodybackend.users.features.login.googlelogin.GoogleClient;
-import com.recody.recodybackend.users.features.login.SocialLoginClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -24,9 +20,9 @@ class DefaultFetchUserInfoHandler implements FetchUserInfoHandler{
 //    private final KakaoClient kakaoClient;
     
     @Override
-    public JacksonOAuthAttributes handle(FetchUserInfo command) {
+    public OAuthUserInfo handle(FetchUserInfo command) {
     
-        JacksonOAuthAttributes userInfo;
+        OAuthUserInfo userInfo;
         ResourceAccessToken resourceAccessToken = command.getResourceAccessToken();
         ResourceRefreshToken resourceRefreshToken = command.getResourceRefreshToken();
         SocialProvider socialProvider = command.getSocialProvider();
@@ -43,12 +39,13 @@ class DefaultFetchUserInfoHandler implements FetchUserInfoHandler{
                                                HttpStatus.BAD_REQUEST,
                                                "지원하지 않는 로그인 서비스입니다.: " + socialProvider);
         }
+        
         return userInfo;
     }
     
     
-    private JacksonOAuthAttributes doFetchUserInfo(SocialLoginClient client, ResourceAccessToken resourceAccessToken, ResourceRefreshToken resourceRefreshToken) {
-        JacksonOAuthAttributes userInfo;
+    private OAuthUserInfo doFetchUserInfo(SocialLoginClient client, ResourceAccessToken resourceAccessToken, ResourceRefreshToken resourceRefreshToken) {
+        OAuthUserInfo userInfo;
         try {
             userInfo = client.getUserInfo(resourceAccessToken);
             log.debug("client 가 유저정보를 가져왔습니다.");

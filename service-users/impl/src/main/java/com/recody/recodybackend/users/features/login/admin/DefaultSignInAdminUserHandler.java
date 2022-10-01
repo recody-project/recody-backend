@@ -5,6 +5,7 @@ import com.recody.recodybackend.users.data.RecodyUserRepository;
 import com.recody.recodybackend.commonbootutils.jwt.CreateAccessToken;
 import com.recody.recodybackend.commonbootutils.jwt.CreateRefreshToken;
 import com.recody.recodybackend.commonbootutils.jwt.JwtManager;
+import com.recody.recodybackend.users.data.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,7 @@ class DefaultSignInAdminUserHandler implements SignInAdminUserHandler{
     
     private final JwtManager jwtManager;
     private final RecodyUserRepository recodyUserRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
     
     @Override
     public SignInAdminUserResponse handle(SignInAdminUser command) {
@@ -43,6 +45,7 @@ class DefaultSignInAdminUserHandler implements SignInAdminUserHandler{
         String refreshToken = jwtManager.createRefreshToken(
                 CreateRefreshToken.builder().userId(recodyUser.getUserId()).email(recodyUser.getEmail()).build());
         //TODO: 리프레시 토큰 저장 로직
+        
         return SignInAdminUserResponse
                 .builder()
                 .role(recodyUser.getRole())

@@ -1,12 +1,9 @@
 package com.recody.recodybackend.users.features.login.googlelogin;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.recody.recodybackend.common.exceptions.ApplicationException;
 import com.recody.recodybackend.common.utils.MappingUtils;
 import com.recody.recodybackend.users.exceptions.ResourceAccessTokenExpiredException;
 import com.recody.recodybackend.users.exceptions.UsersErrorType;
-import com.recody.recodybackend.users.features.login.JacksonOAuthAttributes;
 import com.recody.recodybackend.users.features.login.ResourceAccessToken;
 import com.recody.recodybackend.users.features.login.ResourceRefreshToken;
 import com.recody.recodybackend.users.features.login.SocialProvider;
@@ -35,29 +32,26 @@ class DefaultGoogleClient implements GoogleClient {
     private String googleClientId;
     
     private final RestTemplate restTemplate = new RestTemplate();
-    private final ObjectMapper objectMapper;
     
-    
-    public JacksonOAuthAttributes getUserInfo(ResourceAccessToken token) throws ResourceAccessTokenExpiredException {
+    @Override
+    public GoogleOAuthUserInfo getUserInfo(ResourceAccessToken token) throws ResourceAccessTokenExpiredException {
         log.debug("handling: {}", token);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + token.getValue());
         String uri = createUri(googleResourceServerUrl);
         
         RequestEntity<Void> request = RequestEntity.get(uri).headers(headers).build();
-        JsonNode body;
-        JacksonOAuthAttributes attributes;
+        GoogleOAuthUserInfo body;
         try {
-            body = restTemplate.exchange(request, JsonNode.class).getBody();
-            attributes = JacksonOAuthAttributes.of(SocialProvider.GOOGLE).attributes(body).build();
-            log.debug("Google attributes: {}", attributes);
+            body = restTemplate.exchange(request, GoogleOAuthUserInfo.class).getBody();
+            System.out.println(body);
         } catch (RestClientException exception) {
             log.debug("exception: {}", exception.toString());
+            // TODO: 응답에 따른 예외 처리
             throw new ResourceAccessTokenExpiredException();
         }
-        
-        log.debug("recieved attribute: {}", attributes);
-        return attributes;
+        log.debug("recieved attribute");
+        return body;
     }
     
     

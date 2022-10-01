@@ -1,7 +1,6 @@
 package com.recody.recodybackend.users.features.login.naverlogin;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.recody.recodybackend.users.features.login.JacksonOAuthAttributes;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;

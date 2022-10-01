@@ -1,7 +1,6 @@
 package com.recody.recodybackend.users.features.login.googlelogin;
 
 import com.recody.recodybackend.users.exceptions.ResourceAccessTokenExpiredException;
-import com.recody.recodybackend.users.features.login.JacksonOAuthAttributes;
 import com.recody.recodybackend.users.features.login.ResourceAccessToken;
 import com.recody.recodybackend.users.features.login.ResourceRefreshToken;
 import com.recody.recodybackend.users.features.login.SocialLoginClient;
@@ -9,7 +8,8 @@ import com.recody.recodybackend.users.features.login.SocialLoginClient;
 public interface GoogleClient extends SocialLoginClient {
     /*
     * 유저 정보를 구글 리소스 서버에서 받아온다. */
-    JacksonOAuthAttributes getUserInfo(ResourceAccessToken accessToken) throws ResourceAccessTokenExpiredException;
+    @Override
+    GoogleOAuthUserInfo getUserInfo(ResourceAccessToken accessToken) throws ResourceAccessTokenExpiredException;
     
     /*
     * 리소스 액세스 토큰을 갱신한다.

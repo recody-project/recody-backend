@@ -4,7 +4,7 @@ import com.recody.recodybackend.users.exceptions.ResourceAccessTokenExpiredExcep
 
 public interface SocialLoginClient {
     
-    JacksonOAuthAttributes getUserInfo(ResourceAccessToken accessToken) throws ResourceAccessTokenExpiredException;
+    OAuthUserInfo getUserInfo(ResourceAccessToken accessToken) throws ResourceAccessTokenExpiredException;
     
     ResourceAccessToken refreshResourceAccessToken(ResourceRefreshToken refreshToken);
     

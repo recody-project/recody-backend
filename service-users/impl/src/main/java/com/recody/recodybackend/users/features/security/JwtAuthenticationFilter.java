@@ -31,7 +31,7 @@ class JwtAuthenticationFilter extends OncePerRequestFilter {
         Authentication authentication;
         if (token != null && jwtManager.validateToken(token)) {
             log.debug("request processing with valid token: {}", token);
-            String username = jwtManager.resolveUsername(token);
+            String username = jwtManager.resolveSubject(token);
     
             // UserDetails 객체 : SecurityUser
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);

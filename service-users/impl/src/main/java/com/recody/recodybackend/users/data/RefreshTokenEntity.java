@@ -17,14 +17,19 @@ public class RefreshTokenEntity {
     @GeneratedValue
     private Long refreshTokenId;
     
+    @NonNull
     @Column(nullable = false, name = "refresh_token")
     private String refreshTokenValue;
     
+    /**
+     * 토큰을 재발급할 때 user-agent 헤더가 같은지 확인한다. */
     @Column(nullable = false)
     private String userAgent;
     
     /**
-     * 토큰을 만들 때 사용된 userId를 의미한다.*/
+     * 토큰을 만들 때 사용된 subject 를 의미한다.
+     * JwtManager 구현에 따라 email, username 등일 수 있다.*/
+    @NonNull
     private String subject;
     
     /**

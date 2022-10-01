@@ -8,7 +8,7 @@ public interface JwtManager {
     
     String getExpireTimeFromToken(String token);
     
-    String resolveUsername(String token);
+    String resolveSubject(String token);
     
     Long resolveUserId(String token);
     
