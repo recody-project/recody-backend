@@ -19,6 +19,7 @@ public class Movie implements Content {
     private String movieId;
     private Integer tmdbId;
     private Integer rootId;
+    @Builder.Default
     private Category category = Category.Movie;
     
     

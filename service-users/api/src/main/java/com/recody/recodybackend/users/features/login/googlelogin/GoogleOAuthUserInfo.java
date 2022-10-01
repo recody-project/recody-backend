@@ -25,6 +25,8 @@ public class GoogleOAuthUserInfo implements OAuthUserInfo {
     private String familyName;
     private String picture;
     private String locale;
+    
+    @Builder.Default
     private SocialProvider socialProvider = SocialProvider.GOOGLE;
     
     @Override
