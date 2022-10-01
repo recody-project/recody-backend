@@ -44,6 +44,21 @@ public class RecordController {
                                          .build());
     }
     
+    @GetMapping("/api/v1/record/continuing")
+    public ResponseEntity<SuccessResponseBody> getContinuingRecord(HttpServletRequest httpServletRequest,
+                                                                   @AccessToken String accessToken) {
+        return ResponseEntity.ok(SuccessResponseBody
+                                         .builder()
+                                         .message(ms.getMessage("record.get-continuing.succeeded", null,
+                                                                httpServletRequest.getLocale()))
+                                         .data(recordService.getContinuingRecord(GetContinuingRecord
+                                                                                         .builder()
+                                                                                         .userId(jwtManager.resolveUserId(
+                                                                                                 accessToken))
+                                                                                         .build()))
+                                         .build());
+    }
+    
     @GetMapping("/api/v1/record/{recordId}")
     public ResponseEntity<SuccessResponseBody> getRecord(HttpServletRequest httpServletRequest,
                                                          @PathVariable String recordId) {
@@ -80,26 +95,12 @@ public class RecordController {
                                                           @Valid @RequestBody AddRecordRequest request,
                                                           @AccessToken String accessToken) {
         
-        return ResponseEntity.ok(SuccessResponseBody
+        return ResponseEntity
+                       .ok(SuccessResponseBody
                                          .builder()
                                          .message(ms.getMessage("record.add.succeeded", null,
                                                                 httpServletRequest.getLocale()))
                                          .data(recordService.addRecord(createAddRecordCommand(request, accessToken)))
-                                         .build());
-    }
-    
-    @GetMapping("/api/v1/record/continuing")
-    public ResponseEntity<SuccessResponseBody> getContinuingRecord(HttpServletRequest httpServletRequest,
-                                                                   @AccessToken String accessToken) {
-        return ResponseEntity.ok(SuccessResponseBody
-                                         .builder()
-                                         .message(ms.getMessage("record.get-continuing.succeeded", null,
-                                                                httpServletRequest.getLocale()))
-                                         .data(recordService.getContinuingRecord(GetContinuingRecord
-                                                                                         .builder()
-                                                                                         .userId(jwtManager.resolveUserId(
-                                                                                                 accessToken))
-                                                                                         .build()))
                                          .build());
     }
     
@@ -126,6 +127,7 @@ public class RecordController {
                 .title(request.getTitle())
                 .note(request.getNote())
                 .userId(jwtManager.resolveUserId(accessToken))
+                .appreciationDate(request.getAppreciationDate())
                 .build();
     }
     
