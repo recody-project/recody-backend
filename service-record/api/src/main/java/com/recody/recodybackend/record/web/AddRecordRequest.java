@@ -1,8 +1,10 @@
 package com.recody.recodybackend.record.web;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 
 @Data
 public class AddRecordRequest {
@@ -12,4 +14,6 @@ public class AddRecordRequest {
     private String title;
     private String note;
     
+    @DateTimeFormat(style = "yyyy-MM-dd")
+    private LocalDate appreciationDate;
 }

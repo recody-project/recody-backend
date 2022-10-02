@@ -11,7 +11,7 @@ import org.springframework.context.annotation.PropertySource;
 * 필요한 환경변수들도 불러올 수 있도록 설정한다. */
 @EnableAutoConfiguration
 @ComponentScan(basePackages = "com.recody.recodybackend")
-@PropertySource(value = {"classpath:env.test.properties"})
+@PropertySource(value = {"classpath:env.${spring.config.activate.on-profile}.properties"})
 public class RecodyRecordApplication {
     public static void main(String[] args) {
         SpringApplication.run(RecodyRecordApplication.class, args);

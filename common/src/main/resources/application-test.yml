@@ -25,6 +25,4 @@ logging:
     com:
       recody: debug
     org:
-      springframework:
-        web: debug
-        security: debug
+      springframework: debug

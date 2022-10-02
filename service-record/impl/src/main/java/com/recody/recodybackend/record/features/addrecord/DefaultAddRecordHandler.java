@@ -41,6 +41,7 @@ class DefaultAddRecordHandler implements AddRecordHandler{
                 .title(command.getTitle())
                 .note(command.getNote())
                 .contentId(command.getContentId())
+                .appreciationDate(command.getAppreciationDate())
                 .build();
         return recordRepository.save(recordEntity);
     }

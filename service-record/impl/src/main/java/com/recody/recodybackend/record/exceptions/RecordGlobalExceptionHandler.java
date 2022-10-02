@@ -1,6 +1,5 @@
 package com.recody.recodybackend.record.exceptions;
 
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.recody.recodybackend.common.exceptions.ApplicationException;
 import com.recody.recodybackend.common.exceptions.ErrorType;
 import com.recody.recodybackend.common.exceptions.InternalServerError;
@@ -36,6 +35,7 @@ class RecordGlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseBody> on(Exception exception, HttpServletRequest request) {
         log.error("Global exception: {}", exception.toString());
+        exception.printStackTrace();
         return ResponseEntity.internalServerError().body(ErrorResponseBody.internalServerErrorOf(exception, request.getRequestURI()));
     }
 

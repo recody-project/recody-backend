@@ -7,6 +7,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
@@ -14,6 +15,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Table(name = "record")
 public class RecordEntity extends RecordBaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "record_seq")
@@ -45,6 +47,9 @@ public class RecordEntity extends RecordBaseEntity {
     
     @Builder.Default
     private Integer nth = 1;
+    
+    @Column(name = "appreciation_date")
+    private LocalDate appreciationDate;
     
     @Override
     public boolean equals(Object o) {

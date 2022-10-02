@@ -1,0 +1,6 @@
+{
+  "contentId": "{{contentId}}",
+  "note":"{{$randomCity}} -- {{$randomCity}} -- {{$randomCity}} -- {{$randomCity}} -- {{$randomCity}}",
+  "title":"{{$randomAdjective}} -- {{$randomAdjective}} -- {{$randomAdjective}} -- {{$randomAdjective}}",
+  "appreciationDate": "2022-09-03"
+}
