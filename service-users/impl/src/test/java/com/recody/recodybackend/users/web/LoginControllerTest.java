@@ -29,6 +29,7 @@ class LoginControllerTest {
     @Test
     void signup() throws Exception {
         mockMvc.perform(post("/api/v1/users/signup")
+                                .header("Authorization", "Bearer " + accessToken)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("{\n" +
                                          "    \"username\": \"ehdrdle\",\n" +
