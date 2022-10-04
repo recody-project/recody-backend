@@ -48,6 +48,11 @@ public class Movie implements Content {
     private List<MovieGenre> genres;
     
     @Override
+    public String getContentId() {
+        return movieId;
+    }
+    
+    @Override
     public Category getCategory() {
         return category;
     }
