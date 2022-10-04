@@ -70,7 +70,7 @@ public class WishController {
                                                     @AccessToken String accessToken){
         return ResponseEntity.ok(
                 SuccessResponseBody.builder()
-                                   .message(ms.getMessage("catalog.wish.get-wishes.succeeded", null, "위시 추가 성공", httpServletRequest.getLocale()))
+                                   .message(ms.getMessage("catalog.wish.get-wishes.succeeded", null, "위시리스트 가져오기 성공", httpServletRequest.getLocale()))
                                    .data(getMyWishlistHandler.handle(GetMyWishlist.builder()
                                                                                   .userId(jwtManager.resolveUserId(accessToken))
                                                                                   .build()))
