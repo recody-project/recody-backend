@@ -8,7 +8,7 @@ import java.util.List;
  * 작품 정보의 내용은 달라질 수 있지만 유저가 조작한 정보는 포함되어서는 안된다. */
 public interface Content {
     
-    
+    String getContentId();
     Category getCategory();
     <T extends Genre> List<T> getGenres();
     

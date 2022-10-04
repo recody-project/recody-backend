@@ -89,7 +89,7 @@ class DefaultJwtManager implements JwtManager {
     public String resolveSubject(String token) {
         Objects.requireNonNull(token);
         String subject = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
-        log.debug("resolved subject");
+        log.debug("resolved subject: {}", subject);
         return subject;
     }
     
