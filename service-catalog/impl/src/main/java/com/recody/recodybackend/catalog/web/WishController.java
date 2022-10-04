@@ -4,6 +4,8 @@ import com.recody.recodybackend.catalog.features.wish.add.AddToWishlist;
 import com.recody.recodybackend.catalog.features.wish.add.AddToWishlistHandler;
 import com.recody.recodybackend.catalog.features.wish.delete.DeleteFromWishlist;
 import com.recody.recodybackend.catalog.features.wish.delete.DeleteFromWishlistHandler;
+import com.recody.recodybackend.catalog.features.wish.get.GetMyWishlist;
+import com.recody.recodybackend.catalog.features.wish.get.GetMyWishlistHandler;
 import com.recody.recodybackend.common.contents.Category;
 import com.recody.recodybackend.common.web.SuccessResponseBody;
 import com.recody.recodybackend.commonbootutils.jwt.JwtManager;
@@ -26,6 +28,8 @@ public class WishController {
     private final AddToWishlistHandler addToWishlistHandler;
     
     private final DeleteFromWishlistHandler deleteFromWishlistHandler;
+    
+    private final GetMyWishlistHandler getMyWishlistHandler;
     
     @PostMapping("/api/v1/catalog/wish")
     public ResponseEntity<SuccessResponseBody> wish(HttpServletRequest httpServletRequest,
@@ -66,8 +70,10 @@ public class WishController {
                                                     @AccessToken String accessToken){
         return ResponseEntity.ok(
                 SuccessResponseBody.builder()
-                                   .message(ms.getMessage("catalog.wish.add.succeeded", null, "위시 추가 성공", httpServletRequest.getLocale()))
-//                                   .data(addToWishlistHandler.handle())
+                                   .message(ms.getMessage("catalog.wish.get-wishes.succeeded", null, "위시 추가 성공", httpServletRequest.getLocale()))
+                                   .data(getMyWishlistHandler.handle(GetMyWishlist.builder()
+                                                                                  .userId(jwtManager.resolveUserId(accessToken))
+                                                                                  .build()))
                                    .build()
                                 );
     }
