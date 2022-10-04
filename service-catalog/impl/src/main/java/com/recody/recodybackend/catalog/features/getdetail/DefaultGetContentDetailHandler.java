@@ -5,6 +5,7 @@ import com.recody.recodybackend.catalog.PersonalizedMovie;
 import com.recody.recodybackend.catalog.features.getdetail.movie.FetchMovieDetail;
 import com.recody.recodybackend.catalog.features.getdetail.movie.FetchMovieDetailHandler;
 import com.recody.recodybackend.catalog.features.personalize.ContentPersonalizer;
+import com.recody.recodybackend.catalog.features.manage.ContentManager;
 import com.recody.recodybackend.common.contents.Category;
 import com.recody.recodybackend.common.exceptions.ApplicationException;
 import com.recody.recodybackend.common.exceptions.GlobalErrorType;
@@ -19,6 +20,7 @@ class DefaultGetContentDetailHandler implements GetContentDetailHandler{
     
     private final FetchMovieDetailHandler fetchMovieDetailHandler;
     private final ContentPersonalizer<Movie, PersonalizedMovie> movieDetailPersonalizer;
+    private final ContentManager contentManager;
     
     @Override
     public GetContentDetailResult handle(GetContentDetail command) {
@@ -30,6 +32,7 @@ class DefaultGetContentDetailHandler implements GetContentDetailHandler{
                                     .movieId(command.getContentId())
                                     .language(command.getLanguage())
                                     .build());
+            String catalogContentId = contentManager.register(movie);
             personalizedcontent
                     = movieDetailPersonalizer.personalize(movie, command.getUserId());
         } else {
