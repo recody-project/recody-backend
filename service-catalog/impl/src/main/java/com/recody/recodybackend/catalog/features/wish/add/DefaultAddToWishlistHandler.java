@@ -1,0 +1,52 @@
+package com.recody.recodybackend.catalog.features.wish.add;
+
+import com.recody.recodybackend.catalog.data.CatalogContentEntity;
+import com.recody.recodybackend.catalog.data.CatalogContentRepository;
+import com.recody.recodybackend.catalog.data.WishEntity;
+import com.recody.recodybackend.catalog.data.WishRepository;
+import com.recody.recodybackend.catalog.exceptions.ContentNotFoundException;
+import com.recody.recodybackend.common.contents.Category;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+
+import javax.transaction.Transactional;
+import java.util.Optional;
+import java.util.UUID;
+
+@Component
+@RequiredArgsConstructor
+@Slf4j
+class DefaultAddToWishlistHandler implements AddToWishlistHandler {
+    
+    private final CatalogContentRepository contentRepository;
+    private final WishRepository wishRepository;
+    
+    @Override
+    @Transactional
+    public UUID handle(AddToWishlist command) {
+        log.debug("handling command: {}", command);
+        Long userId = command.getUserId();
+        String contentId = command.getContentId();
+        Category category = command.getCategory();
+        Optional<CatalogContentEntity> optionalContent = contentRepository.findByContentIdAndCategory(contentId, category);
+        if (optionalContent.isEmpty()){
+            log.warn("작품을 찾을 수 없습니다.");
+            throw new ContentNotFoundException();
+        }
+        CatalogContentEntity catalogContent = optionalContent.get();
+        WishEntity wishEntity = WishEntity.builder().userId(userId).catalogContent(catalogContent).build();
+    
+        Optional<WishEntity> optionalWish = wishRepository.findByCatalogContentAndUserId(catalogContent,
+                                                                                                      userId);
+        if (optionalWish.isPresent()) {
+            UUID wishId = optionalWish.get().getId();
+            log.debug("이미 위시가 존재하므로 id 를 바로 반환: {}", wishId);
+            return wishId;
+        } else {
+            WishEntity savedWish = wishRepository.save(wishEntity);
+            log.debug("{} 님이 {}를 위시리스트에 추가하였습니다.: {}", userId, contentId, savedWish.getId());
+            return savedWish.getId();
+        }
+    }
+}
