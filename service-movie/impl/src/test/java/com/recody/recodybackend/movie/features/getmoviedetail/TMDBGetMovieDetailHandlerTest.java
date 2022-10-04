@@ -26,7 +26,7 @@ class TMDBGetMovieDetailHandlerTest {
     void test01() {
         // given
         GetMovieDetail command = new GetMovieDetail("705996", "ko");
-        GetMovieDetailResult handle = getMovieDetailHandler.handle(command);
+        Movie handle = getMovieDetailHandler.handle(command);
     
         // when
         
@@ -38,7 +38,7 @@ class TMDBGetMovieDetailHandlerTest {
     void dbtest() {
         // given
         GetMovieDetail command = new GetMovieDetail(MOVIE_ID, "ko");
-        GetMovieDetailResult handle = getMovieDetailHandler.handle(command);// 저장함.
+        Movie handle = getMovieDetailHandler.handle(command);// 저장함.
         
         
         System.out.println("================꺼내오기==================");

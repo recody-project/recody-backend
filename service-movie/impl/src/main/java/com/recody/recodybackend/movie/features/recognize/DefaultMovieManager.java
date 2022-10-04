@@ -20,7 +20,7 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-class DefaultMovieRecognizer implements MovieRecognizer{
+class DefaultMovieManager implements MovieManager {
     
     private final MovieRepository movieRepository;
     private final MovieEntityMapper movieEntityMapper;
@@ -32,19 +32,19 @@ class DefaultMovieRecognizer implements MovieRecognizer{
     
     @Override
     @Transactional
-    public String recognize(Movie movie) {
+    public String register(Movie movie) {
         Optional<String> optionalId = findMovieId(movie);
         if (optionalId.isPresent()) {
             return optionalId.get();
         }
-        recognizeInfos(movie);
+        registerInfos(movie);
         MovieEntity movieEntity = movieEntityMapper.toEntity(movie);
         log.debug("movieEntity: {}", movieEntity);
         MovieEntity savedEntity = movieRepository.save(movieEntity);
         return savedEntity.getId();
     }
     
-    private void recognizeInfos(Movie movie) {
+    private void registerInfos(Movie movie) {
         List<ProductionCountry> productionCountries = movie.getProductionCountries();
         for (ProductionCountry productionCountry : productionCountries) {
             log.debug("productionCountry: {}", productionCountry);

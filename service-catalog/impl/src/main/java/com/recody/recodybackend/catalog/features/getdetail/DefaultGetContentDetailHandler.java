@@ -11,11 +11,13 @@ import com.recody.recodybackend.common.exceptions.ApplicationException;
 import com.recody.recodybackend.common.exceptions.GlobalErrorType;
 import com.recody.recodybackend.movie.Movie;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 class DefaultGetContentDetailHandler implements GetContentDetailHandler{
     
     private final FetchMovieDetailHandler fetchMovieDetailHandler;
@@ -24,6 +26,7 @@ class DefaultGetContentDetailHandler implements GetContentDetailHandler{
     
     @Override
     public GetContentDetailResult handle(GetContentDetail command) {
+        log.debug("handling command: {}", command);
         Category category = command.getCategory();
         PersonalizedContent personalizedcontent;
         if (category.equals(Category.Movie)) {

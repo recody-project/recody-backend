@@ -3,7 +3,6 @@ package com.recody.recodybackend.catalog.features.manage;
 import com.recody.recodybackend.catalog.data.CatalogContentEntity;
 import com.recody.recodybackend.catalog.data.CatalogContentMapper;
 import com.recody.recodybackend.catalog.data.CatalogContentRepository;
-import com.recody.recodybackend.common.contents.Category;
 import com.recody.recodybackend.common.contents.Content;
 import com.recody.recodybackend.common.exceptions.UnsupportedCategoryException;
 import com.recody.recodybackend.movie.Movie;
@@ -34,6 +33,7 @@ class DefaultContentManager implements ContentManager {
             log.info("Catalog 에 새로운 작품이 등록됩니다. {}", savedContent.getId());
             return savedContent.getId();
         } else {
+            log.warn("영화가 아님. content: {}", content);
             throw new UnsupportedCategoryException();
         }
     }
