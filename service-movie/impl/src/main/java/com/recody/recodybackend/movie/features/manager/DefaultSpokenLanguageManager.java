@@ -1,4 +1,4 @@
-package com.recody.recodybackend.movie.features.recognize;
+package com.recody.recodybackend.movie.features.manager;
 
 import com.recody.recodybackend.movie.data.spokenlanguage.LanguageEntity;
 import com.recody.recodybackend.movie.data.spokenlanguage.SpokenLanguageMapper;

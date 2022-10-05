@@ -3,7 +3,7 @@ package com.recody.recodybackend.movie.features.resolvegenre.fromapi;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.recody.recodybackend.common.openapi.APIRequester;
 import com.recody.recodybackend.common.openapi.JsonAPIResponse;
-import com.recody.recodybackend.movie.features.recognize.MovieGenreManager;
+import com.recody.recodybackend.movie.features.manager.MovieGenreManager;
 import com.recody.recodybackend.movie.general.MovieGenre;
 import com.recody.recodybackend.movie.general.MovieSource;
 import com.recody.recodybackend.movie.general.TMDBAPIRequest;

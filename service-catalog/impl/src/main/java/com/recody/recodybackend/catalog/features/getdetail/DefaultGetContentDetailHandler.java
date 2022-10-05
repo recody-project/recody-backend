@@ -5,7 +5,7 @@ import com.recody.recodybackend.catalog.PersonalizedMovie;
 import com.recody.recodybackend.catalog.features.getdetail.movie.FetchMovieDetail;
 import com.recody.recodybackend.catalog.features.getdetail.movie.FetchMovieDetailHandler;
 import com.recody.recodybackend.catalog.features.personalize.ContentPersonalizer;
-import com.recody.recodybackend.catalog.features.manage.ContentManager;
+import com.recody.recodybackend.catalog.features.manager.ContentManager;
 import com.recody.recodybackend.common.contents.Category;
 import com.recody.recodybackend.common.exceptions.ApplicationException;
 import com.recody.recodybackend.common.exceptions.GlobalErrorType;

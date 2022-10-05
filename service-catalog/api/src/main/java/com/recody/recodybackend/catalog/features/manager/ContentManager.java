@@ -1,6 +1,5 @@
-package com.recody.recodybackend.catalog.features.manage;
+package com.recody.recodybackend.catalog.features.manager;
 
-import com.recody.recodybackend.common.contents.Category;
 import com.recody.recodybackend.common.contents.Content;
 
 /**

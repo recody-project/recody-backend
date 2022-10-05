@@ -1,4 +1,4 @@
-package com.recody.recodybackend.catalog.features.manage;
+package com.recody.recodybackend.catalog.features.manager;
 
 import com.recody.recodybackend.catalog.data.CatalogContentEntity;
 import com.recody.recodybackend.catalog.data.CatalogContentMapper;
