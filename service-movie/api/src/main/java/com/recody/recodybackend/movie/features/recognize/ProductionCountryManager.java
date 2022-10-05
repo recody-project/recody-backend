@@ -2,8 +2,8 @@ package com.recody.recodybackend.movie.features.recognize;
 
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.ProductionCountry;
 
-public interface ProductionCountryRecognizer {
+public interface ProductionCountryManager {
     
-    String recognize(ProductionCountry productionCountry);
+    String register(ProductionCountry productionCountry);
     
 }

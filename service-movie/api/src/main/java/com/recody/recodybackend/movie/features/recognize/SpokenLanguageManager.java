@@ -2,8 +2,8 @@ package com.recody.recodybackend.movie.features.recognize;
 
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.SpokenLanguage;
 
-public interface SpokenLanguageRecognizer {
+public interface SpokenLanguageManager {
     
-    String recognize(SpokenLanguage spokenLanguage);
+    String register(SpokenLanguage spokenLanguage);
     
 }

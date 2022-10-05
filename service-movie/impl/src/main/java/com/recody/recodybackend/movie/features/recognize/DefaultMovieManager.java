@@ -24,9 +24,9 @@ class DefaultMovieManager implements MovieManager {
     
     private final MovieRepository movieRepository;
     private final MovieEntityMapper movieEntityMapper;
-    private final ProductionCountryRecognizer productionCountryRecognizer;
-    private final MovieGenreRecognizer genreRecognizer;
-    private final SpokenLanguageRecognizer spokenLanguageRecognizer;
+    private final ProductionCountryManager productionCountryManager;
+    private final MovieGenreManager genreRecognizer;
+    private final SpokenLanguageManager spokenLanguageRecognizer;
     
     
     
@@ -48,18 +48,18 @@ class DefaultMovieManager implements MovieManager {
         List<ProductionCountry> productionCountries = movie.getProductionCountries();
         for (ProductionCountry productionCountry : productionCountries) {
             log.debug("productionCountry: {}", productionCountry);
-            productionCountryRecognizer.recognize(productionCountry);
+            productionCountryManager.register(productionCountry);
         }
         List<MovieGenre> genres = movie.getGenres();
         for (MovieGenre genre : genres) {
             log.debug("genre: {}", genre);
-            String genreId = genreRecognizer.recognize(genre);
+            String genreId = genreRecognizer.register(genre);
             log.debug("genreId: {}", genreId);
         }
         List<SpokenLanguage> spokenLanguages = movie.getSpokenLanguages();
         for (SpokenLanguage spokenLanguage : spokenLanguages) {
             log.debug("spokenLanguage: {}", spokenLanguage);
-            spokenLanguageRecognizer.recognize(spokenLanguage);
+            spokenLanguageRecognizer.register(spokenLanguage);
         }
     }
     

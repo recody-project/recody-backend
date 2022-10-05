@@ -16,14 +16,14 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-class DefaultMovieGenreRecognizer implements MovieGenreRecognizer{
+class DefaultMovieGenreManager implements MovieGenreManager {
     
     private final MovieGenreRepository repository;
     private final MovieGenreMapper mapper;
     
     @Override
     @Transactional
-    public String recognize(MovieGenre genre) {
+    public String register(MovieGenre genre) {
         Optional<String> optionalGenreId = findGenreId(genre);
         if (optionalGenreId.isPresent()) return optionalGenreId.get();
         

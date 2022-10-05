@@ -14,14 +14,14 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-class DefaultProductionCountryRecognizer implements ProductionCountryRecognizer{
+class DefaultProductionCountryManager implements ProductionCountryManager {
     
     private final ProductionCountryRepository repository;
     private final ProductionCountryMapper mapper;
     
     @Override
     @Transactional
-    public String recognize(ProductionCountry productionCountry) {
+    public String register(ProductionCountry productionCountry) {
         Optional<ProductionCountryEntity> optionalEntity;
         optionalEntity = repository.findById(productionCountry.getIso_3166_1());
         if (optionalEntity.isPresent()) {

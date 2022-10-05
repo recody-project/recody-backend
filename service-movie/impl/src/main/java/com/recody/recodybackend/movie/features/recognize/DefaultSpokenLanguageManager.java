@@ -14,14 +14,14 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-class DefaultSpokenLanguageRecognizer implements SpokenLanguageRecognizer{
+class DefaultSpokenLanguageManager implements SpokenLanguageManager {
     
     private final SpokenLanguageRepository repository;
     private final SpokenLanguageMapper mapper;
 
     @Override
     @Transactional
-    public String recognize(SpokenLanguage spokenLanguage) {
+    public String register(SpokenLanguage spokenLanguage) {
         String iso_639_1 = spokenLanguage.getIso_639_1();
         Optional<LanguageEntity> optionalLanguageEntity = repository.findById(iso_639_1);
         if (optionalLanguageEntity.isPresent()){

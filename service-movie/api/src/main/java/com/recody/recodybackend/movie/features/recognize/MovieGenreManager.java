@@ -2,8 +2,8 @@ package com.recody.recodybackend.movie.features.recognize;
 
 import com.recody.recodybackend.movie.general.MovieGenre;
 
-public interface MovieGenreRecognizer {
+public interface MovieGenreManager {
     
-    String recognize(MovieGenre genre);
+    String register(MovieGenre genre);
     
 }
