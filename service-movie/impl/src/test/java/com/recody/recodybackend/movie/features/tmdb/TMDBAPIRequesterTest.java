@@ -1,9 +1,14 @@
 package com.recody.recodybackend.movie.features.tmdb;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.recody.recodybackend.movie.Movie;
 import com.recody.recodybackend.movie.RecodyMovieApplication;
 import com.recody.recodybackend.common.openapi.*;
-import com.recody.recodybackend.movie.features.test.NewTMDBMovieDetailFeatrue;
+import com.recody.recodybackend.movie.features.searchmovies.TMDBMovieSearchMapper;
+import com.recody.recodybackend.movie.features.searchmovies.TMDBSearchMoviesRequest;
+import com.recody.recodybackend.movie.features.searchmovies.dto.TMDBMovieSearchNode;
+import com.recody.recodybackend.movie.features.searchmovies.dto.TMDBMovieSearchResponse;
+import com.recody.recodybackend.movie.features.test.NewTMDBMovieDetailFeature;
 import com.recody.recodybackend.movie.features.test.NewTMDBMovieSearchFeature;
 import com.recody.recodybackend.movie.general.MovieGenre;
 import com.recody.recodybackend.movie.general.TMDBAPIRequest;
@@ -26,6 +31,9 @@ class TMDBAPIRequesterTest {
     
     @Autowired
     private APIRequester<TMDBAPIRequest> requester;
+    
+    @Autowired
+    TMDBMovieSearchMapper mapper;
     
     @Test
     @DisplayName("test01")
@@ -100,7 +108,7 @@ class TMDBAPIRequesterTest {
     @DisplayName("test03")
     void test03() {
         // given
-        NewTMDBMovieDetailFeatrue request = new NewTMDBMovieDetailFeatrue("705996", "ko");
+        NewTMDBMovieDetailFeature request = new NewTMDBMovieDetailFeature("705996", "ko");
         // when
         JsonAPIResponse jsonApiResponse = requester.requestToJson(request);
     
@@ -122,7 +130,7 @@ class TMDBAPIRequesterTest {
     @DisplayName("test04")
     void test04() {
         // given
-        NewTMDBMovieDetailFeatrue request = new NewTMDBMovieDetailFeatrue("705996", "ko");
+        NewTMDBMovieDetailFeature request = new NewTMDBMovieDetailFeature("705996", "ko");
         // when
     
         JsonNode jsonNode = requester.requestToJsonNode(request);
@@ -142,6 +150,27 @@ class TMDBAPIRequesterTest {
         
         System.out.println(collect);
     
+        // then
+    }
+    
+    @Test
+    @DisplayName("test05")
+    void test05() {
+        // given
+        TMDBMovieSearchResponse response = requester.requestAndGet(
+                TMDBSearchMoviesRequest.builder().movieName("결심").language("ko").build(),
+                TMDBMovieSearchResponse.class);
+        // when
+        List<TMDBMovieSearchNode> results = response.getResults();
+        for (TMDBMovieSearchNode result : results) {
+            Movie map = mapper.map(result);
+            System.out.println(map);
+        }
+        
+    
+    
+        System.out.println(response);
+        
         // then
     }
     

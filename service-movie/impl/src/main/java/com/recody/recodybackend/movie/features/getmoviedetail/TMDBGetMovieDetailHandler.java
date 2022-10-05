@@ -7,6 +7,7 @@ import com.recody.recodybackend.movie.data.movie.MovieRepository;
 import com.recody.recodybackend.movie.data.movie.MovieEntity;
 import com.recody.recodybackend.movie.features.recognize.MovieManager;
 import com.recody.recodybackend.movie.features.tmdb.TMDB;
+import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieDetail;
 import com.recody.recodybackend.movie.general.MovieSource;
 import com.recody.recodybackend.movie.general.TMDBAPIRequest;
 import lombok.RequiredArgsConstructor;

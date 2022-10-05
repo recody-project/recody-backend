@@ -3,7 +3,7 @@ package com.recody.recodybackend.movie.features.recognize;
 import com.recody.recodybackend.movie.data.productioncountry.ProductionCountryEntity;
 import com.recody.recodybackend.movie.data.productioncountry.ProductionCountryMapper;
 import com.recody.recodybackend.movie.data.productioncountry.ProductionCountryRepository;
-import com.recody.recodybackend.movie.features.getmoviedetail.ProductionCountry;
+import com.recody.recodybackend.movie.features.getmoviedetail.dto.ProductionCountry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

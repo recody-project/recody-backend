@@ -9,6 +9,6 @@ package com.recody.recodybackend.movie.features.searchmovies;
 * 위 정보를 가져오는 시점이 서로 다를 수 있다.
 * 따라서 따로 mapper 를 구현해서 장르 정보, rootId 정보를 세팅하는 대로 반환하도록 한다.
 * */
-public interface MovieSearchService {
+public interface SearchMoviesHandler {
     SearchMoviesResult handle(SearchMovies command);
 }

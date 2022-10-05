@@ -2,6 +2,8 @@ package com.recody.recodybackend.movie.features.getmoviedetail;
 
 import com.recody.recodybackend.common.contents.Category;
 import com.recody.recodybackend.movie.Movie;
+import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieDetail;
+import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieGenre;
 import com.recody.recodybackend.movie.general.MovieGenre;
 import com.recody.recodybackend.movie.general.MovieSource;
 import org.mapstruct.Mapper;

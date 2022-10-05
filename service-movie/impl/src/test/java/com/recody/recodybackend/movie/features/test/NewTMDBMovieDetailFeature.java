@@ -6,13 +6,13 @@ import com.recody.recodybackend.movie.general.TMDBAPIRequest;
 
 import static org.aspectj.weaver.tools.cache.SimpleCacheFactory.path;
 
-public class NewTMDBMovieDetailFeatrue implements APIFeature {
+public class NewTMDBMovieDetailFeature implements APIFeature {
     
     private static final String PATH = "/movie/";
     private final APIRequest delegate;
     private static final String TMDB_LANGUAGE_PARAM_NAME = "language";
     
-    public NewTMDBMovieDetailFeatrue(String movieId, String language) {
+    public NewTMDBMovieDetailFeature(String movieId, String language) {
         delegate = new TMDBAPIRequest();
         delegate.setPath(PATH + movieId);
         delegate.addRequestParam(TMDB_LANGUAGE_PARAM_NAME, language, false);

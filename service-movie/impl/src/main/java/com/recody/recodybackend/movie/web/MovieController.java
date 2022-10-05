@@ -5,7 +5,7 @@ import com.recody.recodybackend.movie.Movie;
 import com.recody.recodybackend.movie.features.MovieService;
 import com.recody.recodybackend.movie.features.getmoviedetail.GetMovieDetail;
 import com.recody.recodybackend.movie.features.getmoviedetail.GetMovieDetailHandler;
-import com.recody.recodybackend.movie.features.searchmovies.MovieSearchService;
+import com.recody.recodybackend.movie.features.searchmovies.SearchMoviesHandler;
 import com.recody.recodybackend.movie.features.searchmovies.SearchMovies;
 import com.recody.recodybackend.movie.features.searchmovies.SearchMoviesResult;
 import lombok.RequiredArgsConstructor;
@@ -25,17 +25,17 @@ public class MovieController {
     
     private final GetMovieDetailHandler getMovieDetailHandler;
     private final MovieService movieService;
-    private final MovieSearchService movieSearchService;
+    private final SearchMoviesHandler searchMoviesHandler;
     private final MessageSource ms;
     
     @GetMapping("/api/v1/movie/search")
     public ResponseEntity<SearchMoviesResult> search(@RequestParam String movieName,
                                                      @RequestParam(defaultValue = "ko") String language){
         log.debug("controller called");
-        return ResponseEntity.ok().body(movieSearchService.handle(SearchMovies.builder()
-                                                                              .movieName(movieName)
-                                                                              .language(language)
-                                                                              .build()));
+        return ResponseEntity.ok().body(searchMoviesHandler.handle(SearchMovies.builder()
+                                                                               .movieName(movieName)
+                                                                               .language(language)
+                                                                               .build()));
     }
     
     @GetMapping("/api/v2/movie/search")
@@ -48,10 +48,10 @@ public class MovieController {
     }
     
     private SearchMoviesResult getSearchMovieResponse(String movieName,  String language) {
-        return movieSearchService.handle(SearchMovies.builder()
-                                                     .movieName(movieName)
-                                                     .language(language)
-                                                     .build());
+        return searchMoviesHandler.handle(SearchMovies.builder()
+                                                      .movieName(movieName)
+                                                      .language(language)
+                                                      .build());
     }
     
     @GetMapping("/api/v1/movie/detail")

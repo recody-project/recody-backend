@@ -3,7 +3,7 @@ package com.recody.recodybackend.movie.features.recognize;
 import com.recody.recodybackend.movie.data.spokenlanguage.LanguageEntity;
 import com.recody.recodybackend.movie.data.spokenlanguage.SpokenLanguageMapper;
 import com.recody.recodybackend.movie.data.spokenlanguage.SpokenLanguageRepository;
-import com.recody.recodybackend.movie.features.getmoviedetail.SpokenLanguage;
+import com.recody.recodybackend.movie.features.getmoviedetail.dto.SpokenLanguage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

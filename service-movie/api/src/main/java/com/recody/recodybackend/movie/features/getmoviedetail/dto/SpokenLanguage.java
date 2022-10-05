@@ -1,4 +1,4 @@
-package com.recody.recodybackend.movie.features.getmoviedetail;
+package com.recody.recodybackend.movie.features.getmoviedetail.dto;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

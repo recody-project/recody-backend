@@ -1,12 +1,12 @@
-package com.recody.recodybackend.movie.features.searchmovies.request;
+package com.recody.recodybackend.movie.features.searchmovies;
 
+import com.recody.recodybackend.common.openapi.APIFeature;
 import com.recody.recodybackend.common.openapi.APIRequest;
-import com.recody.recodybackend.movie.features.searchmovies.SearchMoviesUsingApi;
 import com.recody.recodybackend.movie.general.TMDBAPIRequest;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class SearchMoviesUsingTMDBApi implements SearchMoviesUsingApi{
+public class TMDBSearchMoviesRequest implements APIFeature {
     
     private static final String TMDB_QUERY_PARAM_NAME = "query";
     private static final String TMDB_LANGUAGE_PARAM_NAME = "language";
@@ -14,7 +14,7 @@ public class SearchMoviesUsingTMDBApi implements SearchMoviesUsingApi{
     private final String movieName;
     private final TMDBAPIRequest delegate;
     
-    private SearchMoviesUsingTMDBApi(String movieName, String language) {
+    private TMDBSearchMoviesRequest(String movieName, String language) {
         this.movieName = movieName;
         delegate = new TMDBAPIRequest();
         delegate.setPath(TMDB_MOVIE_SEARCH_PATH);
@@ -51,8 +51,8 @@ public class SearchMoviesUsingTMDBApi implements SearchMoviesUsingApi{
             return this;
         }
     
-        public SearchMoviesUsingTMDBApi build(){
-            return new SearchMoviesUsingTMDBApi(movieName, language);
+        public TMDBSearchMoviesRequest build(){
+            return new TMDBSearchMoviesRequest(movieName, language);
         }
     
         public SearchMoviesUsingTMDBApiBuilder korean(){

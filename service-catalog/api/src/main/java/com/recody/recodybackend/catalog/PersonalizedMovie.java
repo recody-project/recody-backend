@@ -2,8 +2,8 @@ package com.recody.recodybackend.catalog;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.recody.recodybackend.common.contents.Category;
-import com.recody.recodybackend.movie.features.getmoviedetail.ProductionCountry;
-import com.recody.recodybackend.movie.features.getmoviedetail.SpokenLanguage;
+import com.recody.recodybackend.movie.features.getmoviedetail.dto.ProductionCountry;
+import com.recody.recodybackend.movie.features.getmoviedetail.dto.SpokenLanguage;
 import com.recody.recodybackend.movie.general.MovieGenre;
 import lombok.Getter;
 import lombok.Setter;

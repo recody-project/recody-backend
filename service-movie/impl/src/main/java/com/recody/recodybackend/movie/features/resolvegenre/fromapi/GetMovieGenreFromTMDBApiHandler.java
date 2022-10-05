@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.recody.recodybackend.common.openapi.APIRequester;
 import com.recody.recodybackend.common.openapi.JsonAPIResponse;
 import com.recody.recodybackend.movie.features.recognize.MovieGenreRecognizer;
-import com.recody.recodybackend.movie.features.resolvegenres.fromapi.GetMovieGenreFromTMDBApi;
 import com.recody.recodybackend.movie.general.MovieGenre;
 import com.recody.recodybackend.movie.general.MovieSource;
 import com.recody.recodybackend.movie.general.TMDBAPIRequest;
@@ -18,7 +17,7 @@ import java.util.Map;
 
 @Component
 @Slf4j
-class GetMovieGenreFromTMDBApiHandler implements GetMovieGenreFromTMDBApi {
+class GetMovieGenreFromTMDBApiHandler implements com.recody.recodybackend.movie.features.resolvegenres.fromapi.GetMovieGenreFromTMDBApiHandler {
     
     private static final String GENRES = "genres";
     private static final String ID = "id";
