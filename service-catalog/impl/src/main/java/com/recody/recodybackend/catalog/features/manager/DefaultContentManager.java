@@ -3,7 +3,9 @@ package com.recody.recodybackend.catalog.features.manager;
 import com.recody.recodybackend.catalog.data.CatalogContentEntity;
 import com.recody.recodybackend.catalog.data.CatalogContentMapper;
 import com.recody.recodybackend.catalog.data.CatalogContentRepository;
+import com.recody.recodybackend.catalog.features.projection.ContentEventPublisher;
 import com.recody.recodybackend.common.contents.Content;
+import com.recody.recodybackend.common.events.ContentCreated;
 import com.recody.recodybackend.common.exceptions.UnsupportedCategoryException;
 import com.recody.recodybackend.movie.Movie;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,8 @@ class DefaultContentManager implements ContentManager {
     private final CatalogContentRepository contentRepository;
     private final CatalogContentMapper mapper;
     
+    private final ContentEventPublisher contentEventPublisher;
+    
     @Override
     public <T extends Content> String register(T content) {
         if (content instanceof Movie){
@@ -30,22 +34,24 @@ class DefaultContentManager implements ContentManager {
             }
             CatalogContentEntity contentEntity = mapper.map(movie);
             CatalogContentEntity savedContent = contentRepository.save(contentEntity);
-            log.info("Catalog 에 새로운 작품이 등록됩니다. {}", savedContent.getId());
-            return savedContent.getId();
+            String catalogId = savedContent.getId();
+            log.info("Catalog 에 새로운 작품이 등록됩니다. {}", catalogId);
+            ContentCreated event = createEvent(savedContent);
+            contentEventPublisher.publish(event);
+            return catalogId;
         } else {
             log.warn("영화가 아님. content: {}", content);
             throw new UnsupportedCategoryException();
         }
     }
     
-//    @Override
-//    public Content recognize(String contentId, Category category) {
-//        if (category.equals(Category.Movie)) {
-//            Optional<CatalogContentEntity> optionalContent = contentRepository.findByContentIdAndCategory(contentId, category);
-//            if (optionalContent.isPresent()) {
-//                return mapper.mapToMovie(optionalContent.get());
-//            }
-//        }
-//        return null;
-//    }
+    private ContentCreated createEvent(CatalogContentEntity entity) {
+        return ContentCreated.builder()
+                             .catalogId(entity.getId())
+                       .contentId(entity.getContentId())
+                       .title(entity.getTitle())
+                       .imageUrl(entity.getImageUrl())
+                       .category(entity.getCategory())
+                             .build();
+    }
 }

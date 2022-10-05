@@ -35,7 +35,7 @@ public class PersonalizedMovie implements PersonalizedContent{
     private List<SpokenLanguage> spokenLanguages;
     private String releaseDate;
     private Integer runtime;
-    private Integer revenue;
+    private Long revenue;
     private String status;
     private Float voteAverage;
     private Integer voteCount;

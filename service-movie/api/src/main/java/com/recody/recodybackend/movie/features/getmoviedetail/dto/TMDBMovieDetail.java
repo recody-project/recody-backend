@@ -30,7 +30,7 @@ public class TMDBMovieDetail {
     @JsonAlias(value = {"release_date"})
     private String releaseDate;
     private Integer runtime;
-    private Integer revenue;
+    private Long revenue;
     @JsonAlias(value = {"spoken_languages"})
     private List<SpokenLanguage> spokenLanguages;
     private String status;

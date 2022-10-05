@@ -36,7 +36,7 @@ public class Movie implements Content {
     private Float popularity;
     private List<ProductionCountry> productionCountries;
     private Integer runtime;
-    private Integer revenue;
+    private Long revenue;
     private List<SpokenLanguage> spokenLanguages;
     private String status;
     private Float voteAverage;
