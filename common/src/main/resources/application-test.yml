@@ -12,6 +12,8 @@ spring:
     password:
     driver-class-name: org.h2.Driver
 
+  messages:
+    basename: messages, errors
   jpa:
     hibernate:
       ddl-auto: update

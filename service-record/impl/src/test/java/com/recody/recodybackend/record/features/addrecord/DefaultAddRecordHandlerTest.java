@@ -1,6 +1,10 @@
 package com.recody.recodybackend.record.features.addrecord;
 
+import com.recody.recodybackend.common.contents.Category;
+import com.recody.recodybackend.common.exceptions.ContentNotFoundException;
 import com.recody.recodybackend.record.RecodyRecordApplication;
+import com.recody.recodybackend.record.data.RecordContentEntity;
+import com.recody.recodybackend.record.data.RecordContentRepository;
 import com.recody.recodybackend.record.data.RecordEntity;
 import com.recody.recodybackend.record.data.RecordRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -17,8 +21,7 @@ import org.springframework.test.context.ContextConfiguration;
 import java.time.LocalDate;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatNoException;
+import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -26,19 +29,35 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 @ExtendWith(MockitoExtension.class)
 class DefaultAddRecordHandlerTest {
     
+    public static final String OTHER_CONTENT_ID = "otherContentId";
+    public static final String RECORD_ID = "recordId";
     public static final String SAMPLE_NOTE = "sampleNote";
     public static final String CONTENT_ID = "contentId";
     public static final long USER_ID = 123L;
     public static final String SAMPLE_TITLE = "sampleTitle";
+    
+    
     @Autowired
-    AddRecordHandler addRecordHandler;
+    DefaultAddRecordHandler addRecordHandler;
+    
     @Autowired
     RecordRepository recordRepository;
+    
+    @Autowired
+    RecordContentRepository contentRepository;
     
     String recordId;
     
     @BeforeEach
     void before() {
+        RecordContentEntity content = RecordContentEntity
+                                            .builder()
+                                            .id("catalogId")
+                                            .contentId(CONTENT_ID)
+                                            .title("contentTitle")
+                                            .category(Category.Movie)
+                                            .build();
+        contentRepository.save(content);
     }
     
     @Test
@@ -46,6 +65,8 @@ class DefaultAddRecordHandlerTest {
     void addRecordAppreciationDate() {
         // given
         
+        
+        // when
         AddRecord command = AddRecord
                 .builder()
                 .title(SAMPLE_TITLE)
@@ -53,16 +74,20 @@ class DefaultAddRecordHandlerTest {
                 .contentId(CONTENT_ID)
                 .note(SAMPLE_NOTE)
                 .build();
-        assertThatNoException().isThrownBy(() -> recordId = addRecordHandler.handle(command));
+        
         
         
         // then
+        assertThatNoException().isThrownBy(() -> recordId = addRecordHandler.handle(command));
+        
     }
     
     @Test
     @DisplayName("감상일을 추가할 수 있다.")
     void addRecordAppreciationDate2() {
         // given
+        
+    
         LocalDate date = LocalDate.of(2022, 4, 2);
         AddRecord command = AddRecord
                 .builder()
@@ -75,14 +100,31 @@ class DefaultAddRecordHandlerTest {
         // when
         recordId = addRecordHandler.handle(command);
         
-        // then
-        Optional<RecordEntity> op = recordRepository.findByRecordId(recordId);
-    
-        assertThat(op).isNotEmpty();
-        RecordEntity recordEntity = op.get();
-        LocalDate appreciationDate = recordEntity.getAppreciationDate();
-        assertThat(date).isEqualTo(appreciationDate);
         
+        
+        
+        // then
+        Optional<RecordEntity> optionalRecord = recordRepository.findByRecordId(recordId);
+        assertThat(optionalRecord).isNotEmpty();
+        assertThat(optionalRecord.get().getAppreciationDate()).isEqualTo(date);
+    
+    
+    }
+    
+    @Test
+    @DisplayName("감상평을 저장할 때 없는 작품이면 예외를 일으킨다.")
+    void addRecordContentCheck() {
+        // given
+
+        // when
+        assertThatThrownBy(() -> addRecordHandler.handle(AddRecord.builder()
+                                                                  .userId(USER_ID)
+                                                                  .contentId(OTHER_CONTENT_ID)
+                                                                  .note(SAMPLE_NOTE).build()))
+                .isInstanceOf(ContentNotFoundException.class);
+        
+    
+        // then
     }
     
     @AfterEach

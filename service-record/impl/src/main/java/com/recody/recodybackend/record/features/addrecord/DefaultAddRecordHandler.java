@@ -1,5 +1,8 @@
 package com.recody.recodybackend.record.features.addrecord;
 
+import com.recody.recodybackend.common.exceptions.ContentNotFoundException;
+import com.recody.recodybackend.record.data.RecordContentEntity;
+import com.recody.recodybackend.record.data.RecordContentRepository;
 import com.recody.recodybackend.record.data.RecordEntity;
 import com.recody.recodybackend.record.data.RecordRepository;
 import com.recody.recodybackend.record.exceptions.RecordAlreadyExists;
@@ -18,12 +21,23 @@ class DefaultAddRecordHandler implements AddRecordHandler{
     
     private final RecordRepository recordRepository;
     
+    private final RecordContentRepository contentRepository;
+    
     @Override
     @Transactional
     public String handle(AddRecord command) {
         log.debug("handling command: {}", command);
-        Optional<List<RecordEntity>> optionalRecords = recordRepository.findAllByUserIdAndContentId(command.getUserId(),
-                                                                                                    command.getContentId());
+        String contentId = command.getContentId();
+        Long userId = command.getUserId();
+        Optional<RecordContentEntity> optionalContent = contentRepository.findByContentId(contentId);
+        
+        if (optionalContent.isEmpty()){
+            throw new ContentNotFoundException();
+        }
+        
+        Optional<List<RecordEntity>> optionalRecords = recordRepository.findAllByUserIdAndContentId(userId,
+                                                                                                    contentId);
+        
         if (optionalRecords.isPresent()) {
             if (!optionalRecords.get().isEmpty()) {
                 throw new RecordAlreadyExists();
