@@ -1,7 +1,7 @@
 package com.recody.recodybackend.movie;
 
-import com.recody.recodybackend.common.contents.Category;
-import com.recody.recodybackend.common.contents.Content;
+import com.recody.recodybackend.common.contents.*;
+import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.ProductionCountry;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.SpokenLanguage;
 import com.recody.recodybackend.movie.general.MovieGenre;
@@ -15,12 +15,12 @@ import java.util.List;
 @Builder(toBuilder = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Movie implements Content {
+public class Movie implements ContentDetail {
     private String movieId;
     private Integer tmdbId;
     private Integer rootId;
     @Builder.Default
-    private Category category = Category.Movie;
+    private BasicCategory category = BasicCategory.Movie;
     
     
     
@@ -53,7 +53,7 @@ public class Movie implements Content {
     }
     
     @Override
-    public Category getCategory() {
+    public BasicCategory getCategory() {
         return category;
     }
     

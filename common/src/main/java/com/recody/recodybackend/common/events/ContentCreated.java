@@ -1,6 +1,5 @@
 package com.recody.recodybackend.common.events;
 
-import com.recody.recodybackend.common.contents.Category;
 import lombok.*;
 
 
@@ -18,6 +17,8 @@ public class ContentCreated {
     
     private String imageUrl;
     
-    private Category category;
+    private String categoryId;
+    
+    private String categoryName;
     
 }
