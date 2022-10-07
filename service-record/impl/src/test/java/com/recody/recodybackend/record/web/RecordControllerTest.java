@@ -1,10 +1,10 @@
 package com.recody.recodybackend.record.web;
 
-import com.recody.recodybackend.common.contents.Category;
 import com.recody.recodybackend.common.utils.FileUtils;
 import com.recody.recodybackend.record.RecodyRecordApplication;
-import com.recody.recodybackend.record.data.RecordContentEntity;
-import com.recody.recodybackend.record.data.RecordContentRepository;
+import com.recody.recodybackend.record.data.category.EmbeddableCategory;
+import com.recody.recodybackend.record.data.content.RecordContentEntity;
+import com.recody.recodybackend.record.data.content.RecordContentRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -48,6 +48,8 @@ public class RecordControllerTest {
     @Autowired
     RecordContentRepository contentRepository;
     
+    EmbeddableCategory embeddableCategory = new EmbeddableCategory("con-2222", "sampleName");
+    
     @BeforeEach
     void before() {
         RecordContentEntity contentEntity = RecordContentEntity
@@ -55,7 +57,7 @@ public class RecordControllerTest {
                                                     .id("catalogId")
                                                     .contentId("con-1111")
                                                     .title("contentTitle")
-                                                    .category(Category.Movie)
+                                                    .category(embeddableCategory)
                                                     .build();
         contentRepository.save(contentEntity);
     }

@@ -1,10 +1,10 @@
 package com.recody.recodybackend.catalog.features.wish.get;
 
-import com.recody.recodybackend.catalog.data.CatalogContentMapper;
+import com.recody.recodybackend.catalog.data.content.CatalogContentMapper;
 import com.recody.recodybackend.catalog.data.WishEntity;
 import com.recody.recodybackend.catalog.data.WishRepository;
-import com.recody.recodybackend.catalog.features.CatalogContent;
 import com.recody.recodybackend.catalog.features.CatalogMovie;
+import com.recody.recodybackend.common.contents.Content;
 import com.recody.recodybackend.common.exceptions.InternalServerError;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,10 +25,10 @@ class DefaultGetMyWishlistHandler implements GetMyWishlistHandler {
     
     @Override
     @Transactional
-    public List<CatalogContent> handle(GetMyWishlist command) {
+    public List<Content> handle(GetMyWishlist command) {
         Long userId = command.getUserId();
         Optional<List<WishEntity>> optionalWishes = wishRepository.findAllByUserId(userId);
-        ArrayList<CatalogContent> contents = new ArrayList<>();
+        ArrayList<Content> contents = new ArrayList<>();
         
         if (optionalWishes.isPresent()){
             List<WishEntity> wishEntities = optionalWishes.get();

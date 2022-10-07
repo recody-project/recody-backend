@@ -1,7 +1,11 @@
 package com.recody.recodybackend.record.data;
 
 import com.recody.recodybackend.record.RecodyRecordApplication;
-import org.junit.jupiter.api.AfterEach;
+import com.recody.recodybackend.record.data.category.EmbeddableCategory;
+import com.recody.recodybackend.record.data.content.RecordContentEntity;
+import com.recody.recodybackend.record.data.content.RecordContentRepository;
+import com.recody.recodybackend.record.data.record.RecordEntity;
+import com.recody.recodybackend.record.data.record.RecordRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,7 +22,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @ActiveProfiles("test")
@@ -26,11 +30,25 @@ import static org.assertj.core.api.Assertions.*;
 class RecordRepositoryTest {
     
     public static final long USER_ID = 1L;
-    @Autowired RecordRepository recordRepository;
+    @Autowired
+    RecordRepository recordRepository;
     private final List<RecordEntity> savedRecords = new ArrayList<>();
+    
+    @Autowired
+    RecordContentRepository recordContentRepository;
+    
+    RecordContentEntity savedContent;
     
     @BeforeEach
     void before() {
+        RecordContentEntity contentEntity = RecordContentEntity
+                                            .builder()
+                                            .id("cc1")
+                                            .contentId("c1")
+                                            .category(new EmbeddableCategory("11", "na"))
+                                            .title("conTitle")
+                                            .build();
+        savedContent = recordContentRepository.save(contentEntity);
         for (int i = 0; i < 100; i++) {
             RecordEntity saved = recordRepository.save(newRecord());
             savedRecords.add(saved);
@@ -38,7 +56,7 @@ class RecordRepositoryTest {
     }
     
     private RecordEntity newRecord() {
-        return RecordEntity.builder().contentId("asdf").note("testing").userId(USER_ID).completed(true).build();
+        return RecordEntity.builder().content(savedContent).note("testing").userId(USER_ID).completed(true).build();
     }
     
     @Test

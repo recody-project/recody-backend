@@ -1,6 +1,6 @@
 package com.recody.recodybackend.catalog.features.getdetail;
 
-import com.recody.recodybackend.common.contents.Category;
+import com.recody.recodybackend.common.contents.BasicCategory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +12,7 @@ public class GetContentDetail {
     
     private String contentId;
     private String language;
-    private Category category;
+    private BasicCategory category;
     private Long userId;
 
 }

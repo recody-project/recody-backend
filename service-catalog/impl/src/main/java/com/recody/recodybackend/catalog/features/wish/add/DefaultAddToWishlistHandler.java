@@ -1,11 +1,13 @@
 package com.recody.recodybackend.catalog.features.wish.add;
 
-import com.recody.recodybackend.catalog.data.CatalogContentEntity;
-import com.recody.recodybackend.catalog.data.CatalogContentRepository;
+import com.recody.recodybackend.catalog.data.category.CategoryEntity;
+import com.recody.recodybackend.catalog.data.category.CategoryMapper;
+import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
+import com.recody.recodybackend.catalog.data.content.CatalogContentRepository;
 import com.recody.recodybackend.catalog.data.WishEntity;
 import com.recody.recodybackend.catalog.data.WishRepository;
 import com.recody.recodybackend.catalog.exceptions.ContentNotFoundException;
-import com.recody.recodybackend.common.contents.Category;
+import com.recody.recodybackend.common.contents.BasicCategory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -22,14 +24,17 @@ class DefaultAddToWishlistHandler implements AddToWishlistHandler {
     private final CatalogContentRepository contentRepository;
     private final WishRepository wishRepository;
     
+    private final CategoryMapper categoryMapper;
+    
     @Override
     @Transactional
     public UUID handle(AddToWishlist command) {
         log.debug("handling command: {}", command);
         Long userId = command.getUserId();
         String contentId = command.getContentId();
-        Category category = command.getCategory();
-        Optional<CatalogContentEntity> optionalContent = contentRepository.findByContentIdAndCategory(contentId, category);
+        BasicCategory category = command.getCategory();
+        CategoryEntity categoryEntity = categoryMapper.map(category);
+        Optional<CatalogContentEntity> optionalContent = contentRepository.findByContentIdAndCategory(contentId, categoryEntity);
         if (optionalContent.isEmpty()){
             log.warn("작품을 찾을 수 없습니다.");
             throw new ContentNotFoundException();

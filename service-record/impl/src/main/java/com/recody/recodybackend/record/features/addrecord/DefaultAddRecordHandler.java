@@ -1,10 +1,11 @@
 package com.recody.recodybackend.record.features.addrecord;
 
 import com.recody.recodybackend.common.exceptions.ContentNotFoundException;
-import com.recody.recodybackend.record.data.RecordContentEntity;
-import com.recody.recodybackend.record.data.RecordContentRepository;
-import com.recody.recodybackend.record.data.RecordEntity;
-import com.recody.recodybackend.record.data.RecordRepository;
+import com.recody.recodybackend.record.data.content.RecordContentEntity;
+import com.recody.recodybackend.record.data.content.RecordContentRepository;
+import com.recody.recodybackend.record.data.record.RecordEntity;
+import com.recody.recodybackend.record.data.record.RecordMapper;
+import com.recody.recodybackend.record.data.record.RecordRepository;
 import com.recody.recodybackend.record.exceptions.RecordAlreadyExists;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,8 @@ class DefaultAddRecordHandler implements AddRecordHandler{
     
     private final RecordContentRepository contentRepository;
     
+    private final RecordMapper recordMapper;
+    
     @Override
     @Transactional
     public String handle(AddRecord command) {
@@ -35,8 +38,8 @@ class DefaultAddRecordHandler implements AddRecordHandler{
             throw new ContentNotFoundException();
         }
         
-        Optional<List<RecordEntity>> optionalRecords = recordRepository.findAllByUserIdAndContentId(userId,
-                                                                                                    contentId);
+        Optional<List<RecordEntity>> optionalRecords = recordRepository.findAllByUserIdAndContent(userId,
+                                                                                                  optionalContent.get());
         
         if (optionalRecords.isPresent()) {
             if (!optionalRecords.get().isEmpty()) {
@@ -44,19 +47,8 @@ class DefaultAddRecordHandler implements AddRecordHandler{
             }
         }
         
-        RecordEntity savedRecord = saveFirstRecord(command);
+        RecordEntity recordEntity = recordMapper.map(command);
+        RecordEntity savedRecord = recordRepository.save(recordEntity);
         return savedRecord.getRecordId();
-    }
-    
-    private RecordEntity saveFirstRecord(AddRecord command) {
-        RecordEntity recordEntity = RecordEntity
-                .builder()
-                .userId(command.getUserId())
-                .title(command.getTitle())
-                .note(command.getNote())
-                .contentId(command.getContentId())
-                .appreciationDate(command.getAppreciationDate())
-                .build();
-        return recordRepository.save(recordEntity);
     }
 }

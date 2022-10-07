@@ -1,5 +1,6 @@
 package com.recody.recodybackend.catalog.data.category;
 
+import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.commonbootutils.data.CustomSequenceIdGenerator;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -34,6 +35,12 @@ public class CategoryEntity {
     private String name;
     
     private boolean basic;
+    
+    public CategoryEntity(String id, String name) {
+        this.id = id;
+        this.name = name;
+        this.basic = BasicCategory.isBasic(id);
+    }
     
     @Override
     public String toString() {

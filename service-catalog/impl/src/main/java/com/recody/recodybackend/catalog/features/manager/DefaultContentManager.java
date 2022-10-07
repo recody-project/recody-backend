@@ -1,8 +1,9 @@
 package com.recody.recodybackend.catalog.features.manager;
 
-import com.recody.recodybackend.catalog.data.CatalogContentEntity;
-import com.recody.recodybackend.catalog.data.CatalogContentMapper;
-import com.recody.recodybackend.catalog.data.CatalogContentRepository;
+import com.recody.recodybackend.catalog.data.category.CategoryEntity;
+import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
+import com.recody.recodybackend.catalog.data.content.CatalogContentMapper;
+import com.recody.recodybackend.catalog.data.content.CatalogContentRepository;
 import com.recody.recodybackend.catalog.features.projection.ContentEventPublisher;
 import com.recody.recodybackend.common.contents.Content;
 import com.recody.recodybackend.common.events.ContentCreated;
@@ -46,12 +47,14 @@ class DefaultContentManager implements ContentManager {
     }
     
     private ContentCreated createEvent(CatalogContentEntity entity) {
+        CategoryEntity categoryEntity = entity.getCategory();
         return ContentCreated.builder()
                              .catalogId(entity.getId())
                        .contentId(entity.getContentId())
                        .title(entity.getTitle())
                        .imageUrl(entity.getImageUrl())
-                       .category(entity.getCategory())
+                       .categoryId(categoryEntity.getId())
+                       .categoryName(categoryEntity.getName())
                              .build();
     }
 }

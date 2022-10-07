@@ -1,6 +1,6 @@
 package com.recody.recodybackend.catalog.features.personalize;
 
-import com.recody.recodybackend.catalog.PersonalizedMovie;
+import com.recody.recodybackend.catalog.PersonalizedMovieDetail;
 import com.recody.recodybackend.catalog.PersonalizedMovieMapper;
 import com.recody.recodybackend.movie.Movie;
 import lombok.RequiredArgsConstructor;
@@ -10,13 +10,13 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-class MoviePersonalizer implements ContentPersonalizer<Movie, PersonalizedMovie> {
+class MovieDetailPersonalizer implements ContentDetailPersonalizer<Movie, PersonalizedMovieDetail> {
     
     private final PersonalizedMovieMapper personalizedMovieMapper;
     
     @Override
-    public PersonalizedMovie personalize(Movie content, Long userId) {
-        PersonalizedMovie personalizedMovieDetail = personalizedMovieMapper.map(content);
+    public PersonalizedMovieDetail personalize(Movie content, Long userId) {
+        PersonalizedMovieDetail personalizedMovieDetail = personalizedMovieMapper.map(content);
         // TODO 개인화된 장르가 있는지 확인한다. 없으면 content 의 장르를 그대로 넣는다.
         
         personalizedMovieDetail.setGenres(content.getGenres());

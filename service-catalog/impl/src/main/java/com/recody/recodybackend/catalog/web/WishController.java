@@ -6,7 +6,7 @@ import com.recody.recodybackend.catalog.features.wish.delete.DeleteFromWishlist;
 import com.recody.recodybackend.catalog.features.wish.delete.DeleteFromWishlistHandler;
 import com.recody.recodybackend.catalog.features.wish.get.GetMyWishlist;
 import com.recody.recodybackend.catalog.features.wish.get.GetMyWishlistHandler;
-import com.recody.recodybackend.common.contents.Category;
+import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.web.SuccessResponseBody;
 import com.recody.recodybackend.commonbootutils.jwt.JwtManager;
 import com.recody.recodybackend.commonbootutils.web.AccessToken;
@@ -41,7 +41,7 @@ public class WishController {
                         .data(addToWishlistHandler.handle(AddToWishlist.builder()
                                                                   .userId(jwtManager.resolveUserId(accessToken))
                                                                   .contentId(request.getContentId())
-                                                                  .category(Category.of(request.getCategory()))
+                                                                  .category(BasicCategory.of(request.getCategory()))
                                                                        .build()))
                                    .build()
                                 );
@@ -54,7 +54,7 @@ public class WishController {
         deleteFromWishlistHandler.handle(DeleteFromWishlist.builder()
                                                            .userId(jwtManager.resolveUserId(accessToken))
                                                            .contentId(request.getContentId())
-                                                           .category(Category.of(request.getCategory()))
+                                                           .category(BasicCategory.of(request.getCategory()))
                                                            .build());
         return ResponseEntity.ok(
                 SuccessResponseBody.builder()

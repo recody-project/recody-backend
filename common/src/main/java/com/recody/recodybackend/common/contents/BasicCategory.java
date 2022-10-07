@@ -21,11 +21,17 @@ public enum BasicCategory implements Category{
     
     private final String id;
     
+    private static final List<String> ids = List.of(new String[]{"cat-1", "cat-2", "cat-3", "cat-4", "cat-5"});
+    
     BasicCategory(String id, String englishName, String koreanName, String... aliases) {
         this.id = id;
         this.englishName = englishName;
         this.koreanName = koreanName;
         this.aliases = Arrays.asList(aliases);
+    }
+    
+    public static boolean isBasic(String categoryId){
+        return ids.contains(categoryId);
     }
     
     public static BasicCategory of(String value){

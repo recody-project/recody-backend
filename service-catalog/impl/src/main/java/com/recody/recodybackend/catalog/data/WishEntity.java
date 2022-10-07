@@ -1,5 +1,6 @@
 package com.recody.recodybackend.catalog.data;
 
+import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;

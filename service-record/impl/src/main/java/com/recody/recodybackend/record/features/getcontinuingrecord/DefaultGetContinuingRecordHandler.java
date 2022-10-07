@@ -1,9 +1,9 @@
 package com.recody.recodybackend.record.features.getcontinuingrecord;
 
 import com.recody.recodybackend.record.Record;
-import com.recody.recodybackend.record.data.RecordEntity;
-import com.recody.recodybackend.record.data.RecordMapper;
-import com.recody.recodybackend.record.data.RecordRepository;
+import com.recody.recodybackend.record.data.record.RecordEntity;
+import com.recody.recodybackend.record.data.record.RecordMapper;
+import com.recody.recodybackend.record.data.record.RecordRepository;
 import com.recody.recodybackend.record.exceptions.RecordNotFound;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

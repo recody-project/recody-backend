@@ -2,9 +2,9 @@ package com.recody.recodybackend.record.features.getrecord;
 
 import com.recody.recodybackend.common.exceptions.ApplicationException;
 import com.recody.recodybackend.record.Record;
-import com.recody.recodybackend.record.data.RecordEntity;
-import com.recody.recodybackend.record.data.RecordMapper;
-import com.recody.recodybackend.record.data.RecordRepository;
+import com.recody.recodybackend.record.data.record.RecordEntity;
+import com.recody.recodybackend.record.data.record.RecordMapper;
+import com.recody.recodybackend.record.data.record.RecordRepository;
 import com.recody.recodybackend.record.exceptions.RecordErrorType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,21 +35,7 @@ class DefaultGetRecordHandler implements GetRecordHandler {
         }
         RecordEntity recordEntity = optionalRecord.get();
         Record record = recordMapper.map(recordEntity);
-    
-//        Record record = createRecord(recordEntity);
         log.debug("Returning record: {}", record);
         return record;
-    }
-    
-    private Record createRecord(RecordEntity recordEntity) {
-        return Record
-                .builder()
-                .recordId(recordEntity.getRecordId())
-                .contentId(recordEntity.getContentId())
-                .title(recordEntity.getTitle())
-                .note(recordEntity.getNote())
-                .userId(recordEntity.getUserId())
-                .completed(recordEntity.isCompleted())
-                .build();
     }
 }

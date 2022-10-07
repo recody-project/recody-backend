@@ -1,12 +1,13 @@
 package com.recody.recodybackend.catalog.features.wish.get;
 
 import com.recody.recodybackend.catalog.RecodyCatalogApplication;
-import com.recody.recodybackend.catalog.data.CatalogContentEntity;
-import com.recody.recodybackend.catalog.data.CatalogContentRepository;
-import com.recody.recodybackend.catalog.data.WishEntity;
-import com.recody.recodybackend.catalog.data.WishRepository;
-import com.recody.recodybackend.catalog.features.CatalogContent;
-import com.recody.recodybackend.common.contents.Category;
+import com.recody.recodybackend.catalog.data.*;
+import com.recody.recodybackend.catalog.data.category.CategoryRepository;
+import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
+import com.recody.recodybackend.catalog.data.content.CatalogContentRepository;
+import com.recody.recodybackend.common.contents.BasicCategory;
+import com.recody.recodybackend.common.contents.Content;
+import com.recody.recodybackend.catalog.data.category.CategoryEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,7 +28,7 @@ import static org.assertj.core.api.Assertions.*;
 @ContextConfiguration(classes = RecodyCatalogApplication.class)
 class DefaultGetMyWishlistHandlerTest {
     
-    public static final Category COMMON_CATEGORY = Category.Movie;
+    public CategoryEntity COMMON_CATEGORY;
     public static final long USER_ID = 10L;
     @Autowired GetMyWishlistHandler getMyWishlistHandler;
     @Autowired
@@ -35,11 +36,14 @@ class DefaultGetMyWishlistHandlerTest {
     @Autowired
     CatalogContentRepository contentRepository;
     
-//    String[] ids = {"con-1", "con-2", "con-3"};
+    @Autowired
+    CategoryRepository categoryRepository;
     String[] contentIds = {"mov-1", "mov-2", "mov-3"};
     
     @BeforeEach
     void before() {
+        CategoryEntity categoryEntity = new CategoryEntity(BasicCategory.Movie.getId(), BasicCategory.Movie.name());
+        COMMON_CATEGORY = categoryRepository.save(categoryEntity);
         for (int i = 0; i < contentIds.length; i++) {
             CatalogContentEntity con1 = CatalogContentEntity.builder()
                                                             .title("TITLE OF" + contentIds[i])
@@ -60,12 +64,12 @@ class DefaultGetMyWishlistHandlerTest {
     
     
         // when
-        List<CatalogContent> handle = getMyWishlistHandler.handle(command);
+        List<Content> handle = getMyWishlistHandler.handle(command);
 
         
         // then
         for (int i = 0, handleSize = handle.size(); i < handleSize; i++) {
-            CatalogContent catalogContent = handle.get(i);
+            Content catalogContent = handle.get(i);
             assertThat(catalogContent.getContentId()).isEqualTo(contentIds[i]);
         }
     }

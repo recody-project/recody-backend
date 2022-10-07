@@ -1,12 +1,13 @@
 package com.recody.recodybackend.record.features.addrecord;
 
-import com.recody.recodybackend.common.contents.Category;
+import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.exceptions.ContentNotFoundException;
 import com.recody.recodybackend.record.RecodyRecordApplication;
-import com.recody.recodybackend.record.data.RecordContentEntity;
-import com.recody.recodybackend.record.data.RecordContentRepository;
-import com.recody.recodybackend.record.data.RecordEntity;
-import com.recody.recodybackend.record.data.RecordRepository;
+import com.recody.recodybackend.record.data.category.EmbeddableCategory;
+import com.recody.recodybackend.record.data.content.RecordContentEntity;
+import com.recody.recodybackend.record.data.content.RecordContentRepository;
+import com.recody.recodybackend.record.data.record.RecordEntity;
+import com.recody.recodybackend.record.data.record.RecordRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -55,7 +56,7 @@ class DefaultAddRecordHandlerTest {
                                             .id("catalogId")
                                             .contentId(CONTENT_ID)
                                             .title("contentTitle")
-                                            .category(Category.Movie)
+                                            .category(new EmbeddableCategory(BasicCategory.Movie.getId(), BasicCategory.Movie.name()))
                                             .build();
         contentRepository.save(content);
     }
