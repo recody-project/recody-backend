@@ -1,6 +1,6 @@
-package com.recody.recodybackend.catalog.data;
+package com.recody.recodybackend.catalog.data.content;
 
-import com.recody.recodybackend.common.contents.Category;
+import com.recody.recodybackend.catalog.data.category.CategoryEntity;
 import com.recody.recodybackend.commonbootutils.data.CustomSequenceIdGenerator;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -26,13 +26,17 @@ public class CatalogContentEntity {
     @GenericGenerator(name = "content_seq",
                       strategy = "com.recody.recodybackend.commonbootutils.data.CustomSequenceIdGenerator",
                       parameters = {@Parameter(name = CustomSequenceIdGenerator.INCREMENT_PARAM, value = "50"),
-// high-low 최적화
                                     @Parameter(name = CustomSequenceIdGenerator.VALUE_PREFIX_PARAMETER, value = "con-"),
                                     @Parameter(name = CustomSequenceIdGenerator.NUMBER_FORMAT_PARAMETER, value = "%d")})
     private String id;
     
-    @Enumerated(value = EnumType.STRING)
-    private Category category;
+    
+    /**
+     * 작품의 카테고리이다.
+     */
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private CategoryEntity category;
     
     /**
      * 작품의 카테고리별로 부여된 ID 이다. 예를 들어 영화의 경우, mov-1 과 같은 형식을 띈다.

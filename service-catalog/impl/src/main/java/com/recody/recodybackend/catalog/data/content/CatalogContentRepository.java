@@ -1,6 +1,6 @@
-package com.recody.recodybackend.catalog.data;
+package com.recody.recodybackend.catalog.data.content;
 
-import com.recody.recodybackend.common.contents.Category;
+import com.recody.recodybackend.catalog.data.category.CategoryEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
@@ -9,6 +9,6 @@ public interface CatalogContentRepository extends JpaRepository<CatalogContentEn
     
     Optional<CatalogContentEntity> findByContentId(String contentId);
     
-    Optional<CatalogContentEntity> findByContentIdAndCategory(String contentId, Category category);
+    Optional<CatalogContentEntity> findByContentIdAndCategory(String contentId, CategoryEntity categoryEntity);
     
 }

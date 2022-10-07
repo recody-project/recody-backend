@@ -1,5 +1,6 @@
-package com.recody.recodybackend.record.data;
+package com.recody.recodybackend.record.data.record;
 
+import com.recody.recodybackend.record.data.content.RecordContentEntity;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -13,7 +14,12 @@ public interface RecordRepository extends JpaRepository<RecordEntity, String> {
     
     Optional<List<RecordEntity>> findAllByUserId(Long userId);
     
-    Optional<List<RecordEntity>> findAllByUserIdAndContentId(Long userId, String contentId);
+    /**
+     * content Id 와 user Id 로 모든 감상평들을 가져온다.*/
+    Optional<List<RecordEntity>> findAllByUserIdAndContent(Long userId, RecordContentEntity content);
+
+    
+    
     
     /**
      * 생성일 기준 최근부터 가져온다.

@@ -1,10 +1,17 @@
-package com.recody.recodybackend.record.data;
+package com.recody.recodybackend.record.data.content;
 
-import com.recody.recodybackend.common.contents.Category;
-import lombok.*;
+import com.recody.recodybackend.record.data.RecordBaseEntity;
+import com.recody.recodybackend.record.data.category.EmbeddableCategory;
+import com.recody.recodybackend.record.data.record.RecordEntity;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -12,13 +19,14 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Table(name = "record_content")
-public class RecordContentEntity extends RecordBaseEntity{
+public class RecordContentEntity extends RecordBaseEntity {
     
     @Id
     private String id;
     
-    @Enumerated(value = EnumType.STRING)
-    private Category category;
+    @Embedded
+    @Column(nullable = false)
+    private EmbeddableCategory category;
     
     @Column(nullable = false, unique = true)
     private String contentId;
@@ -27,6 +35,9 @@ public class RecordContentEntity extends RecordBaseEntity{
     
     @Column(nullable = false)
     private String  title;
+    
+    @OneToMany(mappedBy = "content")
+    private List<RecordEntity> records = new ArrayList<>();
     
     @Override
     public String toString() {

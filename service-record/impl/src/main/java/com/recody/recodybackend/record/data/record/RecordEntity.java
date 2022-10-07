@@ -1,6 +1,8 @@
-package com.recody.recodybackend.record.data;
+package com.recody.recodybackend.record.data.record;
 
 import com.recody.recodybackend.commonbootutils.data.CustomSequenceIdGenerator;
+import com.recody.recodybackend.record.data.RecordBaseEntity;
+import com.recody.recodybackend.record.data.content.RecordContentEntity;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.GenericGenerator;
@@ -28,9 +30,10 @@ public class RecordEntity extends RecordBaseEntity {
                     @Parameter(name = CustomSequenceIdGenerator.NUMBER_FORMAT_PARAMETER, value = "%d") })
     private String recordId;
     
-    @Column(nullable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "content_id", nullable = false, updatable = false)
     @NonNull
-    private String contentId;
+    private RecordContentEntity content;
     
     @Column(nullable = false, updatable = false)
     @NonNull
@@ -66,6 +69,6 @@ public class RecordEntity extends RecordBaseEntity {
     
     @Override
     public String toString() {
-        return "[{\"RecordEntity\":{" + "\"recordId\":" + ((recordId != null) ? ("\"" + recordId + "\"") : null) + ", \"contentId\":" + ((contentId != null) ? ("\"" + contentId + "\"") : null) + ", \"userId\":" + userId + ", \"note\":" + ((note != null) ? ("\"" + note + "\"") : null) + "}}, " + super.toString() + "]";
+        return "[{\"RecordEntity\":{" + "\"recordId\":" + ((recordId != null) ? ("\"" + recordId + "\"") : null) + ", \"content\":" + content + ", \"userId\":" + userId + ", \"title\":" + ((title != null) ? ("\"" + title + "\"") : null) + ", \"note\":" + ((note != null) ? ("\"" + note + "\"") : null) + ", \"completed\":" + completed + ", \"nth\":" + nth + ", \"appreciationDate\":" + appreciationDate + "}}, " + super.toString() + "]";
     }
 }

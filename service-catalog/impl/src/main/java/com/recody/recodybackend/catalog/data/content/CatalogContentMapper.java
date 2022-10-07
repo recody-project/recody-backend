@@ -1,11 +1,14 @@
-package com.recody.recodybackend.catalog.data;
+package com.recody.recodybackend.catalog.data.content;
 
+import com.recody.recodybackend.catalog.data.category.CategoryMapper;
 import com.recody.recodybackend.catalog.features.CatalogMovie;
 import com.recody.recodybackend.movie.Movie;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {
+        CategoryMapper.class
+})
 public interface CatalogContentMapper {
     
     
@@ -15,6 +18,7 @@ public interface CatalogContentMapper {
     @Mapping(target = "contentId", source = "movieId")
     @Mapping(target = "title", source = "movie.title")
     CatalogContentEntity map(Movie movie);
+    
     
     
     CatalogMovie mapToMovie(CatalogContentEntity entity);

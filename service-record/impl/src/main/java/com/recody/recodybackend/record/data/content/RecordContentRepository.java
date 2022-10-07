@@ -1,4 +1,4 @@
-package com.recody.recodybackend.record.data;
+package com.recody.recodybackend.record.data.content;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
