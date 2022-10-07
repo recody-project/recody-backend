@@ -3,10 +3,7 @@ package com.recody.recodybackend.record.data.content;
 import com.recody.recodybackend.record.data.RecordBaseEntity;
 import com.recody.recodybackend.record.data.category.EmbeddableCategory;
 import com.recody.recodybackend.record.data.record.RecordEntity;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
@@ -37,6 +34,7 @@ public class RecordContentEntity extends RecordBaseEntity {
     private String  title;
     
     @OneToMany(mappedBy = "content")
+    @Builder.Default
     private List<RecordEntity> records = new ArrayList<>();
     
     @Override
