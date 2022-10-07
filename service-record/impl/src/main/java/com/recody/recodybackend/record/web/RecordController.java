@@ -70,6 +70,17 @@ public class RecordController {
                                          .build());
     }
     
+    @GetMapping("/api/v1/record/content/{recordId}")
+    public ResponseEntity<SuccessResponseBody> getRecordContent(HttpServletRequest httpServletRequest,
+                                                         @PathVariable String recordId) {
+        return ResponseEntity.ok(SuccessResponseBody
+                                         .builder()
+                                         .message(ms.getMessage("record.get-content.succeeded", null,
+                                                                httpServletRequest.getLocale()))
+                                         .data(recordService.getRecord(GetRecord.builder().recordId(recordId).build()))
+                                         .build());
+    }
+    
     @GetMapping("/api/v1/record/records")
     public ResponseEntity<SuccessResponseBody> getRecords(HttpServletRequest httpServletRequest,
                                                           @Nullable @RequestParam(defaultValue = "0") Integer page,

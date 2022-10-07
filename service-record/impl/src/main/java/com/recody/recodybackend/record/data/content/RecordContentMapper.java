@@ -6,9 +6,9 @@ import com.recody.recodybackend.record.data.category.EmbeddableCategory;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import java.util.Objects;
-
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", imports = {
+        EmbeddableCategory.class
+})
 public interface RecordContentMapper {
     
     @Mapping(target = "records", ignore = true)
