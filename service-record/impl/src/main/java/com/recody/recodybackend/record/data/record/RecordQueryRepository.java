@@ -1,8 +1,11 @@
 package com.recody.recodybackend.record.data.record;
 
 import com.recody.recodybackend.record.data.category.EmbeddableCategory;
+import org.springframework.data.domain.Pageable;
+
 
 import java.util.List;
+import java.util.Optional;
 
 public interface RecordQueryRepository {
     
@@ -14,4 +17,7 @@ public interface RecordQueryRepository {
     
     
     List<RecordEntity> findAllFetchJoinContentWhereCategoryAndUserId(EmbeddableCategory category, Long userid);
+    
+    
+    Optional<List<RecordEntity>> findAllFetchJoinContentWhereCategoryAndUserIdLimit(EmbeddableCategory category, Long userid, Pageable pageable);
 }

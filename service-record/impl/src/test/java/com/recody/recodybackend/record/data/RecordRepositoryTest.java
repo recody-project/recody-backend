@@ -240,7 +240,7 @@ class RecordRepositoryTest {
         System.out.println("CategoryAndUserIdFetch: all.size() = " + all.size());
         assertThat(records2.size()).isEqualTo(RECORD_LENGTH_2);
     
-    
+
         // when
         
         // then
@@ -250,5 +250,4 @@ class RecordRepositoryTest {
             assertThat(record2.getUserId()).isEqualTo(USER_ID_2);
         }
     }
-    
 }
