@@ -10,6 +10,7 @@ import com.recody.recodybackend.record.features.continuerecord.ContinueRecord;
 import com.recody.recodybackend.record.features.getcontinuingrecord.GetContinuingRecord;
 import com.recody.recodybackend.record.features.getmyrecords.GetMyRecords;
 import com.recody.recodybackend.record.features.getrecord.GetRecord;
+import com.recody.recodybackend.record.features.resolvecategory.CategoryResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,8 @@ public class RecordController {
     private final MessageSource ms;
     private final RecordService recordService;
     private final JwtManager jwtManager;
+    
+    private final CategoryResolver categoryResolver;
     
     @PostMapping("/api/v1/record/complete")
     public ResponseEntity<SuccessResponseBody> complete(HttpServletRequest httpServletRequest,
@@ -85,6 +88,7 @@ public class RecordController {
     public ResponseEntity<SuccessResponseBody> getRecords(HttpServletRequest httpServletRequest,
                                                           @Nullable @RequestParam(defaultValue = "0") Integer page,
                                                           @Nullable @RequestParam(defaultValue = "10") Integer size,
+                                                          @Nullable @RequestParam String categoryId,
                                                           @AccessToken String accessToken) {
         return ResponseEntity.ok(SuccessResponseBody
                                          .builder()
@@ -96,6 +100,7 @@ public class RecordController {
                                                                                         accessToken))
                                                                                 .page(page)
                                                                                 .size(size)
+                                                                                .category(categoryResolver.resolve(categoryId))
                                                                                 .build()))
                                          .build());
     

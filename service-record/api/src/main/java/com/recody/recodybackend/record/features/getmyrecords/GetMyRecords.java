@@ -1,5 +1,6 @@
 package com.recody.recodybackend.record.features.getmyrecords;
 
+import com.recody.recodybackend.common.contents.Category;
 import lombok.Builder;
 import lombok.Data;
 
@@ -13,6 +14,8 @@ public class GetMyRecords {
     private Integer page = 0;
     @Builder.Default
     private Integer size = 10;
+    
+    private Category category;
     
     @Override
     public String toString() {

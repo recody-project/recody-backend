@@ -1,11 +1,10 @@
 package com.recody.recodybackend.common.contents;
 
-import com.recody.recodybackend.common.exceptions.ApplicationException;
-import com.recody.recodybackend.common.exceptions.GlobalErrorType;
-import org.springframework.http.HttpStatus;
+import com.recody.recodybackend.common.exceptions.UnsupportedCategoryException;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public enum BasicCategory implements Category{
     Movie("cat-1", "Movie", "영화", "movie"),
@@ -21,7 +20,9 @@ public enum BasicCategory implements Category{
     
     private final String id;
     
-    private static final List<String> ids = List.of(new String[]{"cat-1", "cat-2", "cat-3", "cat-4", "cat-5"});
+    private static final List<String> ids = Arrays.stream(BasicCategory.values())
+                                                  .map(BasicCategory::getId)
+                                                  .collect(Collectors.toList());
     
     BasicCategory(String id, String englishName, String koreanName, String... aliases) {
         this.id = id;
@@ -32,6 +33,22 @@ public enum BasicCategory implements Category{
     
     public static boolean isBasic(String categoryId){
         return ids.contains(categoryId);
+    }
+    
+    public static BasicCategory idOf(String categoryId){
+        if (matchesId(categoryId, Movie)){
+            return BasicCategory.Movie;
+        } else if (matchesId(categoryId, TVSeries)){
+            return BasicCategory.TVSeries;
+        } else if (matchesId(categoryId, Music)) {
+            return BasicCategory.Music;
+        } else if (matchesId(categoryId, Book)) {
+            return BasicCategory.Book;
+        } else if (matchesId(categoryId, Performance)) {
+            return BasicCategory.Performance;
+        } else {
+            throw new UnsupportedCategoryException();
+        }
     }
     
     public static BasicCategory of(String value){
@@ -46,7 +63,7 @@ public enum BasicCategory implements Category{
         } else if (matches(value, Performance)) {
             return BasicCategory.Performance;
         } else {
-            throw new ApplicationException(GlobalErrorType.UnsupportedCategory, HttpStatus.BAD_REQUEST, "지원하지 않는 카테고리입니다.");
+            throw new UnsupportedCategoryException();
         }
     }
     
@@ -57,6 +74,10 @@ public enum BasicCategory implements Category{
     
     private static boolean matches(String value, BasicCategory category) {
         return category.aliases.contains(value) || category.englishName.equals(value) || category.koreanName.equals(value);
+    }
+    
+    private static boolean matchesId(String id, BasicCategory category) {
+        return category.id.equals(id);
     }
     
     public String getEnglishName() { return englishName; }
