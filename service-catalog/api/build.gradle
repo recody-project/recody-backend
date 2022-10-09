@@ -1,4 +1,4 @@
-bootJar.enabled(false)
+
 
 dependencies {
     implementation project(":common")
@@ -13,3 +13,6 @@ dependencies {
 
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.2.Final'
 }
+
+bootJar.enabled(false)
+jar.enabled(true)

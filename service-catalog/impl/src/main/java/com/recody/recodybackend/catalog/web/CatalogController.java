@@ -7,22 +7,23 @@ import com.recody.recodybackend.catalog.features.getdetail.GetContentDetailHandl
 import com.recody.recodybackend.catalog.features.search.SearchContent;
 import com.recody.recodybackend.catalog.features.search.SearchContentHandler;
 import com.recody.recodybackend.common.contents.BasicCategory;
+import com.recody.recodybackend.common.events.MMM;
 import com.recody.recodybackend.common.web.SuccessResponseBody;
 import com.recody.recodybackend.commonbootutils.jwt.JwtManager;
 import com.recody.recodybackend.commonbootutils.web.AccessToken;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.lang.Nullable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 class CatalogController {
     
     private final SearchContentHandler searchContentHandler;
@@ -31,6 +32,9 @@ class CatalogController {
     private final GetContentHandler getContentHandler;
     private final JwtManager jwtManager;
     private final MessageSource ms;
+    
+    private final KafkaTemplate<String, String> kt;
+    private final KafkaTemplate<String, MMM> kt2;
 
     @GetMapping("/api/v1/catalog/search")
     public ResponseEntity<SuccessResponseBody> search(@RequestParam String keyword,
@@ -79,5 +83,19 @@ class CatalogController {
                                                                                   .build()))
                                          .build()
                                 );
+    }
+    
+    @PostMapping("/kafka/publish")
+    public String publish(@RequestBody String msg){
+        log.info("msg: {} 받았습니다.", msg);
+        kt.send("testTopic", msg);
+        return "보냈습니다.";
+    }
+    
+    @PostMapping("/kafka/publish2")
+    public String publish2(@RequestBody MMM mmm){
+        log.info("msg: {} 받았습니다.", mmm);
+        kt2.send("testTopic2", mmm);
+        return "보냈습니다." + mmm;
     }
 }

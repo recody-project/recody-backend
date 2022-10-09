@@ -26,11 +26,14 @@ dependencies {
     implementation ('com.github.javafaker:javafaker:1.0.2') { exclude module: 'snakeyaml' }
     implementation group: 'org.yaml', name: 'snakeyaml', version: '1.30'
 
-    // aws log appender
-    implementation "ca.pjer:logback-awslogs-appender:1.6.0"
-
 
     implementation 'org.mapstruct:mapstruct:1.5.2.Final'
 
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.2.Final'
+
+    // aws log appender
+    implementation "ca.pjer:logback-awslogs-appender:1.6.0"
 }
+
+bootJar.enabled(false)
+jar.enabled(true)

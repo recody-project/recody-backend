@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.7.3'
     id 'io.spring.dependency-management' version '1.0.13.RELEASE'
     id 'java'
+    id "com.stehno.gradle.dependency-checker" version "0.2.3"
 }
 
 group = 'com.recody'
@@ -30,13 +31,22 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // aws log appender
+    implementation "ca.pjer:logback-awslogs-appender:1.6.0"
 }
+
+checkDependencies {
+    configurations = ['compile','runtime']
+}
+
+
 
 tasks.named('test') {
     useJUnitPlatform()
 }
 
-jar.enabled(false)
+
 
 allprojects {
     group = 'com.recody'

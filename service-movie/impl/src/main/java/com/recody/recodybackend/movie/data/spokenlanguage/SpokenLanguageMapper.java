@@ -8,6 +8,6 @@ import org.mapstruct.Mapping;
 public interface SpokenLanguageMapper {
     
     @Mapping(target = "id", source = "iso_639_1")
-    LanguageEntity toEntity(SpokenLanguage spokenLanguage);
+    SpokenLanguageEntity toEntity(SpokenLanguage spokenLanguage);
     
 }

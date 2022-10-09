@@ -7,10 +7,12 @@ import lombok.Setter;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Getter
 @Setter
+@Table(name = "production_country")
 public class ProductionCountryEntity extends MovieBaseEntity {
     
     @Id

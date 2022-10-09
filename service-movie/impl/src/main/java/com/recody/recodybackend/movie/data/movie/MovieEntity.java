@@ -2,7 +2,7 @@ package com.recody.recodybackend.movie.data.movie;
 
 import com.recody.recodybackend.commonbootutils.data.CustomSequenceIdGenerator;
 import com.recody.recodybackend.movie.data.MovieBaseEntity;
-import com.recody.recodybackend.movie.data.spokenlanguage.LanguageEntity;
+import com.recody.recodybackend.movie.data.spokenlanguage.SpokenLanguageEntity;
 import com.recody.recodybackend.movie.data.genre.MovieGenreEntity;
 import com.recody.recodybackend.movie.data.productioncountry.ProductionCountryEntity;
 import lombok.Getter;
@@ -47,7 +47,7 @@ public class MovieEntity extends MovieBaseEntity {
     @ManyToMany
     private List<MovieGenreEntity> genres;
     @ManyToMany
-    private List<LanguageEntity> spokenLanguages;
+    private List<SpokenLanguageEntity> spokenLanguages;
     private String status;
     private String title;
     private Float voteAverage;

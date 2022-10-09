@@ -11,7 +11,8 @@ plugins{
     id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 }
 
-bootJar.enabled(true)
+bootJar.enabled(false)
+jar.enabled(true)
 apply plugin: "com.ewerk.gradle.plugins.querydsl"
 
 dependencies {
@@ -33,8 +34,6 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
-//    // https://mvnrepository.com/artifact/com.querydsl/querydsl-core
-//    implementation 'com.querydsl:querydsl-core:5.0.0'
     // https://mvnrepository.com/artifact/com.querydsl/querydsl-jpa
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
     implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
@@ -60,12 +59,9 @@ dependencies {
 
 def querydslDir = "$buildDir/generated/querydsl"
 
-println ("$buildDir")
-
 querydsl {
     jpa = true
     querydslSourcesDir = querydslDir
-    println( querydslDir )
 }
 
 sourceSets {
@@ -82,5 +78,4 @@ compileQuerydsl{
 
 configurations {
     querydsl.extendsFrom compileClasspath
-    print "compileClasspath : " + compileClasspath
 }

@@ -7,11 +7,13 @@ import lombok.Setter;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Getter
 @Setter
-public class LanguageEntity extends MovieBaseEntity {
+@Table(name = "spoken_language")
+public class SpokenLanguageEntity extends MovieBaseEntity {
     
     @Id
     @Column(name = "iso_639_1")
