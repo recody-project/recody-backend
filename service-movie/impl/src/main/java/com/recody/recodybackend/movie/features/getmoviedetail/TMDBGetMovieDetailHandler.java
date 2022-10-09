@@ -5,8 +5,9 @@ import com.recody.recodybackend.movie.Movie;
 import com.recody.recodybackend.movie.data.movie.MovieEntityMapper;
 import com.recody.recodybackend.movie.data.movie.MovieRepository;
 import com.recody.recodybackend.movie.data.movie.MovieEntity;
-import com.recody.recodybackend.movie.features.recognize.MovieRecognizer;
+import com.recody.recodybackend.movie.features.manager.MovieManager;
 import com.recody.recodybackend.movie.features.tmdb.TMDB;
+import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieDetail;
 import com.recody.recodybackend.movie.general.MovieSource;
 import com.recody.recodybackend.movie.general.TMDBAPIRequest;
 import lombok.RequiredArgsConstructor;
@@ -23,25 +24,21 @@ class TMDBGetMovieDetailHandler implements GetMovieDetailHandler {
     
     private final APIRequester<TMDBAPIRequest> requester;
     private final MovieEntityMapper mapper;
-    private final MovieRecognizer movieRecognizer;
+    private final MovieManager movieManager;
     private final MovieRepository movieRepository;
     
     @Override
-    public GetMovieDetailResult handle(GetMovieDetail command) {
-        TMDBGetMovieDetailRequest request = new TMDBGetMovieDetailRequest(command.getMovieId(),
-                                                                          command.getLanguage());
+    public Movie handle(GetMovieDetail command) {
+        TMDBGetMovieDetailRequest request = new TMDBGetMovieDetailRequest(command.getMovieId(), command.getLanguage());
         TMDBMovieDetail tmdbMovieDetail = requester.requestAndGet(request, TMDBMovieDetail.class);
         Movie movie = mapper.map(tmdbMovieDetail);
         movie.setPosterPath(TMDB.fullPosterPath(tmdbMovieDetail.getPosterPath()));
-
+    
         // movie detail 저장
-        String movieId = movieRecognizer.recognize(movie);
+        String movieId = movieManager.register(movie);
         movie.setMovieId(movieId);
         log.info("movieId: {}", movieId);
-        return GetMovieDetailResult.builder()
-                       .requestInfo(command)
-                       .detail(movie)
-                                   .build();
+        return movie;
     }
     
     @Override

@@ -1,6 +1,6 @@
 package com.recody.recodybackend.movie.data.productioncountry;
 
-import com.recody.recodybackend.movie.features.getmoviedetail.ProductionCountry;
+import com.recody.recodybackend.movie.features.getmoviedetail.dto.ProductionCountry;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

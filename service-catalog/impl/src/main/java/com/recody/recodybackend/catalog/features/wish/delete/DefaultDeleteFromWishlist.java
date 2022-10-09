@@ -1,11 +1,13 @@
 package com.recody.recodybackend.catalog.features.wish.delete;
 
-import com.recody.recodybackend.catalog.data.CatalogContentEntity;
-import com.recody.recodybackend.catalog.data.CatalogContentRepository;
+import com.recody.recodybackend.catalog.data.category.CategoryEntity;
+import com.recody.recodybackend.catalog.data.category.CategoryMapper;
+import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
+import com.recody.recodybackend.catalog.data.content.CatalogContentRepository;
 import com.recody.recodybackend.catalog.data.WishEntity;
 import com.recody.recodybackend.catalog.data.WishRepository;
 import com.recody.recodybackend.catalog.exceptions.ContentNotFoundException;
-import com.recody.recodybackend.common.contents.Category;
+import com.recody.recodybackend.common.contents.BasicCategory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -22,15 +24,18 @@ class DefaultDeleteFromWishlist implements DeleteFromWishlistHandler {
     private final CatalogContentRepository contentRepository;
     private final WishRepository wishRepository;
     
+    private final CategoryMapper categoryMapper;
+    
     @Override
     @Transactional
     public void handle(DeleteFromWishlist command) {
         log.debug("handling command: {}", command);
         Long userId = command.getUserId();
         String contentId = command.getContentId();
-        Category category = command.getCategory();
+        BasicCategory category = command.getCategory();
+        CategoryEntity categoryEntity = categoryMapper.map(category);
         Optional<CatalogContentEntity> optionalContent = contentRepository.findByContentIdAndCategory(contentId,
-                                                                                                             category);
+                                                                                                      categoryEntity);
     
         if (optionalContent.isEmpty()) {
             throw new ContentNotFoundException();

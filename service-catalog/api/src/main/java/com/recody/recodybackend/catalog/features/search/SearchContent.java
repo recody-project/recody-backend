@@ -1,6 +1,6 @@
 package com.recody.recodybackend.catalog.features.search;
 
-import com.recody.recodybackend.common.contents.Category;
+import com.recody.recodybackend.common.contents.BasicCategory;
 import lombok.Builder;
 import lombok.Data;
 
@@ -9,7 +9,7 @@ import lombok.Data;
 public class SearchContent {
     
     private String keyword;
-    private Category category;
+    private BasicCategory category;
     private String language;
     private Long userId;
     

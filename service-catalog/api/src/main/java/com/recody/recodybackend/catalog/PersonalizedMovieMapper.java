@@ -12,6 +12,6 @@ public abstract class PersonalizedMovieMapper {
     @Mapping(target = "personalizedUserId", ignore = true)
     @Mapping(target = "genres", ignore = true)
     @Mapping(target = "category", ignore = true)
-    public abstract PersonalizedMovie map(Movie movie);
+    public abstract PersonalizedMovieDetail map(Movie movie);
     
 }

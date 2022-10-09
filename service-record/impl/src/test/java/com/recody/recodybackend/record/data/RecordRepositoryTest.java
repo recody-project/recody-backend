@@ -1,7 +1,11 @@
 package com.recody.recodybackend.record.data;
 
 import com.recody.recodybackend.record.RecodyRecordApplication;
-import org.junit.jupiter.api.AfterEach;
+import com.recody.recodybackend.record.data.category.EmbeddableCategory;
+import com.recody.recodybackend.record.data.content.RecordContentEntity;
+import com.recody.recodybackend.record.data.content.RecordContentRepository;
+import com.recody.recodybackend.record.data.record.RecordEntity;
+import com.recody.recodybackend.record.data.record.RecordRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,33 +16,72 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.transaction.TestTransaction;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @ActiveProfiles("test")
 @ContextConfiguration(classes = RecodyRecordApplication.class)
 class RecordRepositoryTest {
     
+    public static final int RECORD_LENGTH_2 = 10;
+    public static final int RECORD_LENGTH = 100;
+    public static final EmbeddableCategory commonCategory = new EmbeddableCategory("11", "na");
+    public static final EmbeddableCategory commonCategory2 = new EmbeddableCategory("22", "NN");
     public static final long USER_ID = 1L;
-    @Autowired RecordRepository recordRepository;
+    public static final long USER_ID_2 = 2L;
+    @Autowired
+    RecordRepository recordRepository;
     private final List<RecordEntity> savedRecords = new ArrayList<>();
+    private final Map<String, RecordEntity> savedRecordsMap = new HashMap<>();
+    
+    @Autowired
+    RecordContentRepository recordContentRepository;
+    
+    RecordContentEntity savedContent;
+    RecordContentEntity savedContent2;
+    
+    
     
     @BeforeEach
     void before() {
-        for (int i = 0; i < 100; i++) {
-            RecordEntity saved = recordRepository.save(newRecord());
+        // 삭제 순서 유의
+        recordRepository.deleteAllInBatch();
+        recordContentRepository.deleteAllInBatch();
+        RecordContentEntity contentEntity = RecordContentEntity
+                                            .builder()
+                                            .id("cc1")
+                                            .contentId("c1")
+                                            .category(commonCategory)
+                                            .title("conTitle")
+                                            .build();
+        RecordContentEntity contentEntity2 = RecordContentEntity
+                                                    .builder()
+                                                    .id("cc2")
+                                                    .contentId("c2")
+                                                    .category(commonCategory2)
+                                                    .title("conTitle")
+                                                    .build();
+        savedContent = recordContentRepository.save(contentEntity);
+        savedContent2 = recordContentRepository.save(contentEntity2);
+        
+        for (int i = 0; i < RECORD_LENGTH; i++) {
+            RecordEntity saved = recordRepository.save(newRecord(savedContent, USER_ID));
             savedRecords.add(saved);
+            savedRecordsMap.put(saved.getRecordId(), saved);
+        }
+    
+        for (int i = 0; i < RECORD_LENGTH_2; i++) {
+            RecordEntity saved = recordRepository.save(newRecord(savedContent2, USER_ID_2));
+            savedRecords.add(saved);
+            savedRecordsMap.put(saved.getRecordId(), saved);
         }
     }
     
-    private RecordEntity newRecord() {
-        return RecordEntity.builder().contentId("asdf").note("testing").userId(USER_ID).completed(true).build();
+    private RecordEntity newRecord(RecordContentEntity content, Long userId) {
+        return RecordEntity.builder().content(content).note("testing").userId(userId).completed(true).build();
     }
     
     @Test
@@ -158,4 +201,53 @@ class RecordRepositoryTest {
         return recordId;
     }
     
+    @Test
+    @DisplayName("작품 카테고리로 감상평을 필터링하여 가져올 수 있다.")
+    void categoryFilterTest() {
+        // given
+        
+        List<RecordEntity> records = recordRepository
+                                             .findAllFetchJoinContentOnCategory(commonCategory);
+        List<RecordEntity> records2 = recordRepository.findAllFetchJoinContentOnCategory(
+                commonCategory2);
+        List<RecordEntity> all = recordRepository.findAll();
+        System.out.println("all.size() = " + all.size());
+        // when
+    
+        // then
+        assertThat(records.size()).isEqualTo(RECORD_LENGTH);
+        assertThat(records2.size()).isEqualTo(RECORD_LENGTH_2);
+        
+        for (RecordEntity record : records) {
+            assertThat(record.getContent().getCategory())
+                    .isEqualTo(savedRecordsMap.get(record.getRecordId()).getContent().getCategory());
+        }
+    
+        for (RecordEntity record2 : records2) {
+            assertThat(record2.getContent().getCategory())
+                    .isEqualTo(savedRecordsMap.get(record2.getRecordId()).getContent().getCategory());
+        }
+        
+    }
+    
+    @Test
+    @DisplayName("해당 유저 ID 와 카테고리로 조인하여 가져올 수 있다.")
+    void CategoryAndUserIdFetch() {
+        // given
+        List<RecordEntity> records2 = recordRepository.findAllFetchJoinContentWhereCategoryAndUserId(
+                commonCategory2, USER_ID_2);
+        List<RecordEntity> all = recordRepository.findAll();
+        System.out.println("CategoryAndUserIdFetch: all.size() = " + all.size());
+        assertThat(records2.size()).isEqualTo(RECORD_LENGTH_2);
+    
+
+        // when
+        
+        // then
+        for (RecordEntity record2 : records2) {
+            assertThat(record2.getContent().getCategory())
+                    .isEqualTo(savedRecordsMap.get(record2.getRecordId()).getContent().getCategory());
+            assertThat(record2.getUserId()).isEqualTo(USER_ID_2);
+        }
+    }
 }

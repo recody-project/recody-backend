@@ -1,16 +1,16 @@
 package com.recody.recodybackend.record.features.getmyrecords;
 
-import com.recody.recodybackend.common.exceptions.ApplicationException;
+import com.recody.recodybackend.common.contents.Category;
 import com.recody.recodybackend.common.exceptions.InternalServerError;
 import com.recody.recodybackend.record.Record;
-import com.recody.recodybackend.record.data.RecordEntity;
-import com.recody.recodybackend.record.data.RecordMapper;
-import com.recody.recodybackend.record.data.RecordRepository;
-import com.recody.recodybackend.record.exceptions.RecordErrorType;
+import com.recody.recodybackend.record.data.category.EmbeddableCategory;
+import com.recody.recodybackend.record.data.content.RecordContentRepository;
+import com.recody.recodybackend.record.data.record.RecordEntity;
+import com.recody.recodybackend.record.data.record.RecordMapper;
+import com.recody.recodybackend.record.data.record.RecordRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
@@ -26,24 +26,25 @@ class DefaultGetMyRecordsHandler implements GetMyRecordsHandler{
     private final RecordRepository recordRepository;
     private final RecordMapper recordMapper;
     
+    
     @Override
     @Transactional
     public List<Record> handle(GetMyRecords command) {
         log.debug("handling command: {}", command);
         Long userId = command.getUserId();
+        Category category = command.getCategory();
         PageRequest pageable = PageRequest.of(command.getPage(), command.getSize());
-        Optional<List<RecordEntity>> optionalRecords = recordRepository.findByUserIdOrderByCreatedAtDesc(userId, pageable);
-    
-        // repository 는 항상 List 를 반환해야 한다.
-        optionalRecords.orElseThrow(InternalServerError::new);
-    
-        if (optionalRecords.get().isEmpty()){
-            throw new ApplicationException(RecordErrorType.NoRecordFound, HttpStatus.NOT_FOUND);
+        Optional<List<RecordEntity>> optionalRecords;
+        if (category == null){
+            optionalRecords = recordRepository.findAllByUserId(userId);
+        } else {
+            EmbeddableCategory embeddableCategory = new EmbeddableCategory(category.getId(), category.name());
+            optionalRecords = recordRepository.findAllFetchJoinContentWhereCategoryAndUserIdLimit(embeddableCategory,
+                                                                                                  userId, pageable);
         }
-        
-        List<RecordEntity> recordEntities = optionalRecords.get();
+        // repository 는 항상 List 를 반환해야 한다.
+        List<RecordEntity> recordEntities = optionalRecords.orElseThrow(InternalServerError::new);
         ArrayList<Record> records = new ArrayList<>();
-    
         for (RecordEntity recordEntity : recordEntities) {
             Record record = recordMapper.map(recordEntity);
             records.add(record);

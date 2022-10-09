@@ -1,4 +1,18 @@
+buildscript {
+    ext {
+        queryDslVersion = "5.0.0"
+    }
+    dependencies {
+        classpath("gradle.plugin.com.ewerk.gradle.plugins:querydsl-plugin:1.0.10")
+    }
+}
+
+plugins{
+    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+}
+
 bootJar.enabled(true)
+apply plugin: "com.ewerk.gradle.plugins.querydsl"
 
 dependencies {
 
@@ -19,10 +33,54 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
+//    // https://mvnrepository.com/artifact/com.querydsl/querydsl-core
+//    implementation 'com.querydsl:querydsl-core:5.0.0'
+    // https://mvnrepository.com/artifact/com.querydsl/querydsl-jpa
+    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+    implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
+
+
     // aws log appender
     implementation "ca.pjer:logback-awslogs-appender:1.6.0"
 
+    // mapstruct
     implementation 'org.mapstruct:mapstruct:1.5.2.Final'
-
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.2.Final'
+
+    // kafka
+    implementation 'org.springframework.kafka:spring-kafka'
+    testImplementation 'org.springframework.kafka:spring-kafka-test'
+
+    // https://mvnrepository.com/artifact/com.google.code.findbugs/jsr305
+    //warning: unknown enum constant When.MAYBE
+    //  reason: class file for javax.annotation.meta.When not found
+    implementation 'com.google.code.findbugs:jsr305:3.0.2'
+}
+
+
+def querydslDir = "$buildDir/generated/querydsl"
+
+println ("$buildDir")
+
+querydsl {
+    jpa = true
+    querydslSourcesDir = querydslDir
+    println( querydslDir )
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java', querydslDir]
+        }
+    }
+}
+
+compileQuerydsl{
+    options.annotationProcessorPath = configurations.querydsl
+}
+
+configurations {
+    querydsl.extendsFrom compileClasspath
+    print "compileClasspath : " + compileClasspath
 }

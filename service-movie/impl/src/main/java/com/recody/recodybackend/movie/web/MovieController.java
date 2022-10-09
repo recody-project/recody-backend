@@ -1,10 +1,11 @@
 package com.recody.recodybackend.movie.web;
 
 import com.recody.recodybackend.common.web.SuccessResponseBody;
+import com.recody.recodybackend.movie.Movie;
+import com.recody.recodybackend.movie.features.MovieService;
 import com.recody.recodybackend.movie.features.getmoviedetail.GetMovieDetail;
 import com.recody.recodybackend.movie.features.getmoviedetail.GetMovieDetailHandler;
-import com.recody.recodybackend.movie.features.getmoviedetail.GetMovieDetailResult;
-import com.recody.recodybackend.movie.features.searchmovies.MovieSearchService;
+import com.recody.recodybackend.movie.features.searchmovies.SearchMoviesHandler;
 import com.recody.recodybackend.movie.features.searchmovies.SearchMovies;
 import com.recody.recodybackend.movie.features.searchmovies.SearchMoviesResult;
 import lombok.RequiredArgsConstructor;
@@ -23,17 +24,18 @@ import javax.servlet.http.HttpServletRequest;
 public class MovieController {
     
     private final GetMovieDetailHandler getMovieDetailHandler;
-    private final MovieSearchService movieSearchService;
+    private final MovieService movieService;
+    private final SearchMoviesHandler searchMoviesHandler;
     private final MessageSource ms;
     
     @GetMapping("/api/v1/movie/search")
     public ResponseEntity<SearchMoviesResult> search(@RequestParam String movieName,
                                                      @RequestParam(defaultValue = "ko") String language){
         log.debug("controller called");
-        return ResponseEntity.ok().body(movieSearchService.handle(SearchMovies.builder()
-                                                                              .movieName(movieName)
-                                                                              .language(language)
-                                                                              .build()));
+        return ResponseEntity.ok().body(searchMoviesHandler.handle(SearchMovies.builder()
+                                                                               .movieName(movieName)
+                                                                               .language(language)
+                                                                               .build()));
     }
     
     @GetMapping("/api/v2/movie/search")
@@ -42,20 +44,20 @@ public class MovieController {
                                                         @RequestParam(defaultValue = "ko") String language) {
         return ResponseEntity.ok().body(SuccessResponseBody.builder()
                                                            .message(ms.getMessage("movie.search.succeeded", null, request.getLocale()))
-                                                           .data(getSearchMovieResponse(movieName, request, language)).build());
+                                                           .data(getSearchMovieResponse(movieName, language)).build());
     }
     
-    private SearchMoviesResult getSearchMovieResponse(String movieName, HttpServletRequest request, String language) {
-        return movieSearchService.handle(SearchMovies.builder()
-                                                     .movieName(movieName)
-                                                     .language(language)
-                                                     .build());
+    private SearchMoviesResult getSearchMovieResponse(String movieName,  String language) {
+        return searchMoviesHandler.handle(SearchMovies.builder()
+                                                      .movieName(movieName)
+                                                      .language(language)
+                                                      .build());
     }
     
     @GetMapping("/api/v1/movie/detail")
-    public ResponseEntity<GetMovieDetailResult> getMovieInfo(@RequestParam String movieId,
-                                                             HttpServletRequest request,
-                                                             @RequestParam(defaultValue = "ko") String language) {
+    public ResponseEntity<Movie> getMovieInfo(@RequestParam String movieId,
+                                              HttpServletRequest request,
+                                              @RequestParam(defaultValue = "ko") String language) {
         return ResponseEntity.ok()
                              .body(getMovieDetailHandler.handle(new GetMovieDetail(movieId, language)));
         
@@ -67,8 +69,8 @@ public class MovieController {
                                                               @RequestParam(defaultValue = "ko") String language) {
         return ResponseEntity.ok().body(SuccessResponseBody.builder()
                                                            .message(ms.getMessage("movie.get_info.succeeded", null, request.getLocale()))
-                                                           .data(getMovieDetailHandler
-                                                                         .handle(new GetMovieDetail(movieId, language)))
+                                                           .data(movieService
+                                                                         .getMovieDetail(new GetMovieDetail(movieId, language)))
                                                            .build());
     }
 }

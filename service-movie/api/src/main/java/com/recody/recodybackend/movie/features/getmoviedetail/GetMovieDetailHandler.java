@@ -1,5 +1,7 @@
 package com.recody.recodybackend.movie.features.getmoviedetail;
 
+import com.recody.recodybackend.movie.Movie;
+
 /*
  * 영화 정보를 받아오는 핸들러 */
 public interface GetMovieDetailHandler {
@@ -8,7 +10,7 @@ public interface GetMovieDetailHandler {
      * 영화 정보를 API 에서 가져온다.
      * 기본적인 구현체는 TMDB API 를 사용하도록 한다.
      */
-    GetMovieDetailResult handle(GetMovieDetail command);
+    Movie handle(GetMovieDetail command);
     
     /*
      * 영화 정보를 API 에서 가져온다.

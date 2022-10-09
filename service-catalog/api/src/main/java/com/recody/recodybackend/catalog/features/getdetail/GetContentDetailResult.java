@@ -1,6 +1,6 @@
 package com.recody.recodybackend.catalog.features.getdetail;
 
-import com.recody.recodybackend.catalog.PersonalizedContent;
+import com.recody.recodybackend.catalog.PersonalizedContentDetail;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -11,6 +11,6 @@ import lombok.Data;
 @Data
 public class GetContentDetailResult {
     
-    private PersonalizedContent content;
+    private PersonalizedContentDetail content;
 
 }

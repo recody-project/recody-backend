@@ -1,5 +1,6 @@
 package com.recody.recodybackend.catalog.data;
 
+import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

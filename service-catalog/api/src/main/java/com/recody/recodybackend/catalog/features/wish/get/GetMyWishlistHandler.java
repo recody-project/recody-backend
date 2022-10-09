@@ -1,7 +1,7 @@
 package com.recody.recodybackend.catalog.features.wish.get;
 
 
-import com.recody.recodybackend.catalog.features.CatalogContent;
+import com.recody.recodybackend.common.contents.Content;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import java.util.List;
  * */
 public interface GetMyWishlistHandler {
     
-    List<CatalogContent> handle(GetMyWishlist command);
+    List<Content> handle(GetMyWishlist command);
     
     
     

@@ -1,7 +1,9 @@
 package com.recody.recodybackend.common.exceptions;
 
 public enum GlobalErrorType implements ErrorType{
-    UserNotFound(""),
+    UserNotFound("UserNotFound"),
+    
+    ContentNotFound("ContentNotFound"),
     FailedToResolveAccessToken("FailedToResolveAccessToken"),
     InternalServerError("InternalServerError"),
     InsufficientAuthentication("InsufficientAuthentication"),

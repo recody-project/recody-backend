@@ -1,6 +1,6 @@
 package com.recody.recodybackend.movie.general;
 
-import com.recody.recodybackend.common.contents.Category;
+import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.contents.Genre;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,8 +26,8 @@ public class MovieGenre implements Genre {
     }
     
     @Override
-    public Category getCategory() {
-        return Category.Movie;
+    public BasicCategory getCategory() {
+        return BasicCategory.Movie;
     }
     
     @Override

@@ -1,19 +1,19 @@
 package com.recody.recodybackend.movie.data.movie;
 
-import com.recody.recodybackend.common.contents.Category;
+import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.movie.Movie;
 import com.recody.recodybackend.movie.data.genre.MovieGenreMapper;
 import com.recody.recodybackend.movie.data.productioncountry.ProductionCountryMapper;
 import com.recody.recodybackend.movie.data.spokenlanguage.SpokenLanguageMapper;
-import com.recody.recodybackend.movie.features.getmoviedetail.TMDBMovieDetail;
-import com.recody.recodybackend.movie.features.getmoviedetail.TMDBMovieGenre;
+import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieDetail;
+import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieGenre;
 import com.recody.recodybackend.movie.general.MovieGenre;
 import com.recody.recodybackend.movie.general.MovieSource;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring",
-        imports = {MovieSource.class, Category.class},
+        imports = {MovieSource.class, BasicCategory.class},
         uses = {
         MovieGenreMapper.class,
         ProductionCountryMapper.class,
@@ -21,7 +21,7 @@ import org.mapstruct.Mapping;
 })
 public interface MovieEntityMapper {
     
-    @Mapping(target = "category", expression = "java(Category.Movie)")
+    @Mapping(target = "category", expression = "java(BasicCategory.Movie)")
     @Mapping(target = "movieId", ignore = true)
     @Mapping(target = "rootId", ignore = true)
     @Mapping(target = "source", expression = "java(MovieSource.TMDB)")
@@ -36,7 +36,7 @@ public interface MovieEntityMapper {
     MovieEntity toEntity(Movie movie);
     
     
-    @Mapping(target = "category", expression = "java(Category.Movie)")
+    @Mapping(target = "category", expression = "java(com.recody.recodybackend.common.contents.BasicCategory.Movie)")
     @Mapping(target = "movieId", source = "movie.id")
     @Mapping(target = "source", expression = "java((s.equals(MovieSource.TMDB)) ? MovieSource.TMDB : null)")
     @Mapping(target = "rootId", ignore = true)

@@ -28,6 +28,11 @@ public class CustomSequenceIdGenerator extends SequenceStyleGenerator {
     
     @Override
     public Serializable generate(SharedSessionContractImplementor session, Object object) throws HibernateException {
+        // id 가 주어지면 그대로 사용한다.
+        Serializable id = session.getEntityPersister(null, object)
+                                 .getClassMetadata().getIdentifier(object, session);
+        if (id != null ) return id;
+        // 새로운 id 를 시퀀스에서 생성한다.
         Serializable sequenceFromSuper = super.generate(session, object);
         String generatedId = valuePrefix + String.format(numberFormat, sequenceFromSuper);
         log.trace("generatedId: {}", generatedId);
