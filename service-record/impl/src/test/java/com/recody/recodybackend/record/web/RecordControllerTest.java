@@ -5,7 +5,7 @@ import com.recody.recodybackend.record.RecodyRecordApplication;
 import com.recody.recodybackend.record.data.category.EmbeddableCategory;
 import com.recody.recodybackend.record.data.content.RecordContentEntity;
 import com.recody.recodybackend.record.data.content.RecordContentRepository;
-import org.junit.jupiter.api.AfterEach;
+import com.recody.recodybackend.record.data.record.RecordRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -48,10 +48,16 @@ public class RecordControllerTest {
     @Autowired
     RecordContentRepository contentRepository;
     
+    @Autowired
+    RecordRepository recordRepository;
+    
     EmbeddableCategory embeddableCategory = new EmbeddableCategory("con-2222", "sampleName");
     
     @BeforeEach
     void before() {
+        recordRepository.deleteAllInBatch();
+        contentRepository.deleteAllInBatch();
+
         RecordContentEntity contentEntity = RecordContentEntity
                                                     .builder()
                                                     .id("catalogId")
@@ -116,9 +122,5 @@ public class RecordControllerTest {
                 .andExpect(status().isNotFound())
                 .andDo(print())
         ;
-    }
-    @AfterEach
-    void after(){
-        contentRepository.deleteAll();
     }
 }
