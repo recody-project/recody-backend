@@ -8,6 +8,8 @@ import com.recody.recodybackend.record.features.completerecord.CompleteRecord;
 import com.recody.recodybackend.record.features.completerecord.CompleteRecordHandler;
 import com.recody.recodybackend.record.features.continuerecord.ContinueRecord;
 import com.recody.recodybackend.record.features.continuerecord.ContinueRecordHandler;
+import com.recody.recodybackend.record.features.deleterecord.DeleteRecord;
+import com.recody.recodybackend.record.features.deleterecord.DeleteRecordHandler;
 import com.recody.recodybackend.record.features.getcontinuingrecord.GetContinuingRecord;
 import com.recody.recodybackend.record.features.getcontinuingrecord.GetContinuingRecordHandler;
 import com.recody.recodybackend.record.features.getmyrecords.GetMyRecords;
@@ -32,6 +34,7 @@ class DefaultRecordService implements RecordService{
     private final ContinueRecordHandler continueRecordHandler;
     private final GetContinuingRecordHandler getContinuingRecordHandler;
     
+    private final DeleteRecordHandler deleteRecordHandler;
     
     @Override
     public AddRecordResponse addRecord(AddRecord command) {
@@ -77,4 +80,10 @@ class DefaultRecordService implements RecordService{
                                      .events(events)
                                      .build();
     }
+    
+    @Override
+    public DeleteRecordResponse deleteRecord(DeleteRecord command) {
+        return new DeleteRecordResponse(deleteRecordHandler.handle(command));
+    }
+    
 }

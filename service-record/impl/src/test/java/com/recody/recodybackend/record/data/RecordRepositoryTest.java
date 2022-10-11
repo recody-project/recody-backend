@@ -28,6 +28,7 @@ import static org.assertj.core.api.Assertions.*;
 @ContextConfiguration(classes = RecodyRecordApplication.class)
 class RecordRepositoryTest {
     
+
     public static final String CONTENT_ID2 = "c2";
     public static final String CONTENT_ID = "c1";
     public static final int RECORD_LENGTH_2 = 10;
@@ -54,19 +55,20 @@ class RecordRepositoryTest {
         recordRepository.deleteAllInBatch(); recordContentRepository.deleteAllInBatch();
         RecordContentEntity contentEntity = RecordContentEntity
                                                     .builder()
-                                                    .id("cc1")
+                                                    .id("rootId1")
                                                     .contentId(CONTENT_ID)
                                                     .category(commonCategory)
                                                     .title("conTitle")
-                                                    .build(); RecordContentEntity contentEntity2 = RecordContentEntity
-                                                                                                           .builder()
-                                                                                                           .id("cc2")
-                                                                                                           .contentId(
-                                                                                                                   CONTENT_ID2)
-                                                                                                           .category(
-                                                                                                                   commonCategory2)
-                                                                                                           .title("conTitle")
-                                                                                                           .build();
+                                                    .build();
+        RecordContentEntity contentEntity2 = RecordContentEntity
+                                                   .builder()
+                                                   .id("rootId2")
+                                                   .contentId(
+                                                           CONTENT_ID2)
+                                                   .category(
+                                                           commonCategory2)
+                                                   .title("conTitle")
+                                                   .build();
         savedContent = recordContentRepository.save(contentEntity);
         savedContent2 = recordContentRepository.save(contentEntity2);
         
@@ -83,6 +85,10 @@ class RecordRepositoryTest {
     
     private RecordEntity newRecord(RecordContentEntity content, Long userId) {
         return RecordEntity.builder().content(content).note("testing").userId(userId).completed(true).build();
+    }
+    
+    private RecordEntity newRecordWithId(String recordId, Long userId) {
+        return RecordEntity.builder().recordId(recordId).content(savedContent).note("testing").userId(userId).completed(true).build();
     }
     
     @Test
@@ -284,5 +290,86 @@ class RecordRepositoryTest {
         // then
         assertThatNoException().isThrownBy(
                 () -> recordRepository.findAllByContentIdAndUserId(USER_ID, CONTENT_ID, pageable));
+    }
+    
+    @Test
+    @DisplayName("감상평을 지울 수 있다. softDelete")
+    void deleteTest() {
+        // given
+        String localRecordId = "rec-999";
+//        Long userId = 111111L;
+        RecordEntity saved = recordRepository.save(newRecordWithId(localRecordId, USER_ID));
+        
+        // when
+        Optional<RecordEntity> optionalRecord = recordRepository.findByRecordId(localRecordId);
+        assertThat(optionalRecord.isPresent()).isTrue();
+    
+        RecordEntity recordEntity = optionalRecord.get();
+        recordEntity.delete();
+        
+        TestTransaction.flagForCommit();
+        TestTransaction.end();
+        TestTransaction.start();
+        
+        // then
+        Optional<RecordEntity> deletedRecord = recordRepository.findByRecordId(localRecordId);
+        assertThat(deletedRecord.isPresent()).isFalse();
+        
+        RecordEntity recordReference = recordRepository.getReferenceById(localRecordId);
+        assertThatThrownBy(() -> recordReference.getNote());
+    }
+    
+    @Test
+    @DisplayName("repository 로도 감상평을 지울 수 있다. softDelete")
+    void deleteTest2() {
+        // given
+        String localRecordId = "rec-999";
+        RecordEntity saved = recordRepository.save(newRecordWithId(localRecordId, USER_ID));
+        
+        // when
+        Optional<RecordEntity> optionalRecord = recordRepository.findByRecordId(localRecordId);
+        assertThat(optionalRecord.isPresent()).isTrue();
+        
+        RecordEntity recordEntity = optionalRecord.get();
+        recordRepository.deleteById(localRecordId);
+        
+        TestTransaction.flagForCommit();
+        TestTransaction.end();
+        TestTransaction.start();
+        
+        // then
+        Optional<RecordEntity> deletedRecord = recordRepository.findByRecordId(localRecordId);
+        assertThat(deletedRecord.isPresent()).isFalse();
+        
+        RecordEntity recordReference = recordRepository.getReferenceById(localRecordId);
+        assertThatThrownBy(() -> recordReference.getNote());
+    }
+    
+    @Test
+    @DisplayName("삭제된 감상평을 레퍼런스하는 작품을 쿼리시, 포함되어 있어선 안된다.")
+    void deleteTest3() {
+        // given
+        String localRecordId = "rec-999";
+        RecordEntity saved = recordRepository.save(newRecordWithId(localRecordId, USER_ID));
+        
+        // when
+        Optional<RecordEntity> optionalRecord = recordRepository.findByRecordId(localRecordId);
+        assertThat(optionalRecord.isPresent()).isTrue();
+        
+        RecordEntity recordEntity = optionalRecord.get();
+        recordRepository.deleteById(localRecordId);
+        
+        TestTransaction.flagForCommit();
+        TestTransaction.end();
+        TestTransaction.start();
+        
+        // then
+        RecordContentEntity recordContentEntity = recordContentRepository.findByContentId(CONTENT_ID).orElseThrow();
+    
+        List<RecordEntity> records = recordContentEntity.getRecords();
+        for (RecordEntity record : records) {
+            // 삭제된 record 의 ID 가 있어서는 안된다.
+            assertThat(record.getRecordId()).isNotEqualTo(localRecordId);
+        }
     }
 }

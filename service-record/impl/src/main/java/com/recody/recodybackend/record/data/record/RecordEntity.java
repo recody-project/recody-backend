@@ -7,9 +7,12 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -18,6 +21,8 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Table(name = "record")
+@Where(clause = "deleted_at IS null")
+@SQLDelete(sql = "UPDATE record SET deleted_at = NOW() WHERE record_id=?") // repository 사용하는 경우, 등
 public class RecordEntity extends RecordBaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "record_seq")
@@ -54,6 +59,12 @@ public class RecordEntity extends RecordBaseEntity {
     @Column(name = "appreciation_date")
     private LocalDate appreciationDate;
     
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
+    
+    public void delete(){
+        this.deletedAt = LocalDateTime.now();
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
