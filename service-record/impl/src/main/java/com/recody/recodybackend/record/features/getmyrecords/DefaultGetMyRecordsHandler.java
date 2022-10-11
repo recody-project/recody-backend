@@ -4,7 +4,6 @@ import com.recody.recodybackend.common.contents.Category;
 import com.recody.recodybackend.common.exceptions.InternalServerError;
 import com.recody.recodybackend.record.Record;
 import com.recody.recodybackend.record.data.category.EmbeddableCategory;
-import com.recody.recodybackend.record.data.content.RecordContentRepository;
 import com.recody.recodybackend.record.data.record.RecordEntity;
 import com.recody.recodybackend.record.data.record.RecordMapper;
 import com.recody.recodybackend.record.data.record.RecordRepository;

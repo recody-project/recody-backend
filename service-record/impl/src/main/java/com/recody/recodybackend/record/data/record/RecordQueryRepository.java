@@ -20,4 +20,5 @@ public interface RecordQueryRepository {
     
     
     Optional<List<RecordEntity>> findAllFetchJoinContentWhereCategoryAndUserIdLimit(EmbeddableCategory category, Long userid, Pageable pageable);
+    Optional<List<RecordEntity>> findAllByContentIdAndUserId(Long userId, String contentId, Pageable pageable);
 }
