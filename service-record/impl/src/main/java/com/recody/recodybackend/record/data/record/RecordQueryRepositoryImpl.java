@@ -45,6 +45,18 @@ class RecordQueryRepositoryImpl implements RecordQueryRepository{
         return Optional.of(deFetch(category, userId, pageable));
     }
     
+    @Override
+    public Optional<List<RecordEntity>> findAllByContentIdAndUserId(Long userId, String contentId, Pageable pageable) {
+        return Optional.of(jpaQueryFactory.selectFrom(recordEntity)
+                                   .leftJoin(recordEntity.content)
+                                   .where(recordEntity.userId.eq(userId), recordEntity.content.contentId.eq(contentId))
+                                   .limit(pageable.getPageSize())
+                                   .offset(pageable.getOffset())
+                                   .orderBy(QueryDslUtils.getOrderSpecifiers(pageable.getSort(), recordEntity))
+                                   .fetch()
+                          );
+    }
+    
     private List<RecordEntity> deFetch(EmbeddableCategory category, Long userId, Pageable pageable) {
         return jpaQueryFactory
                        .selectFrom(recordEntity)
