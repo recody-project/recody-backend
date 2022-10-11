@@ -17,6 +17,12 @@ public class GetMyRecords {
     
     private Category category;
     
+    private String sortingColumn;
+    
+    private boolean descending = true;
+    
+    private String contentId;
+    
     @Override
     public String toString() {
         return "{\"GetMyRecords\":{" + "\"userId\":" + userId + ", \"page\":" + page + ", \"size\":" + size + "}}";

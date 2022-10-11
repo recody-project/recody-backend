@@ -89,6 +89,7 @@ public class RecordController {
                                                           @Nullable @RequestParam(defaultValue = "0") Integer page,
                                                           @Nullable @RequestParam(defaultValue = "10") Integer size,
                                                           @Nullable @RequestParam String categoryId,
+                                                          @Nullable @RequestParam String contentId,
                                                           @AccessToken String accessToken) {
         return ResponseEntity.ok(SuccessResponseBody
                                          .builder()
@@ -101,6 +102,7 @@ public class RecordController {
                                                                                 .page(page)
                                                                                 .size(size)
                                                                                 .category(categoryResolver.resolve(categoryId))
+                                                                                .contentId(contentId)
                                                                                 .build()))
                                          .build());
     
