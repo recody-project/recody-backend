@@ -5,7 +5,11 @@ import com.recody.recodybackend.common.exceptions.ErrorType;
 public enum RecordErrorType implements ErrorType {
     
     NoRecordFound("NoRecordFound"),
-    RecordAlreadyExists("RecordAlreadyExists")
+    RecordAlreadyExists("RecordAlreadyExists"),
+    FailedToRemoveRecord("FailedToRemoveRecord"),
+    
+    UserDoesNotOwnTheRecord("UserDoesNotOwnTheRecord")
+    
     ;
     
     private final String errorCode;

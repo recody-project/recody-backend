@@ -7,6 +7,7 @@ import com.recody.recodybackend.record.features.RecordService;
 import com.recody.recodybackend.record.features.addrecord.AddRecord;
 import com.recody.recodybackend.record.features.completerecord.CompleteRecord;
 import com.recody.recodybackend.record.features.continuerecord.ContinueRecord;
+import com.recody.recodybackend.record.features.deleterecord.DeleteRecord;
 import com.recody.recodybackend.record.features.getcontinuingrecord.GetContinuingRecord;
 import com.recody.recodybackend.record.features.getmyrecords.GetMyRecords;
 import com.recody.recodybackend.record.features.getrecord.GetRecord;
@@ -27,7 +28,6 @@ public class RecordController {
     private final MessageSource ms;
     private final RecordService recordService;
     private final JwtManager jwtManager;
-    
     private final CategoryResolver categoryResolver;
     
     @PostMapping("/api/v1/record/complete")
@@ -136,6 +136,21 @@ public class RecordController {
                                                                                     .title(request.getTitle())
                                                                                     .build()))
                                          .build());
+    }
+    
+    @DeleteMapping("/api/v1/record/{recordId}")
+    public ResponseEntity<SuccessResponseBody> deleteRecord(HttpServletRequest httpServletRequest,
+                                                            @PathVariable String recordId,
+                                                            @AccessToken String accessToken) {
+        return ResponseEntity.ok(
+                SuccessResponseBody.builder()
+                        .message(ms.getMessage("record.delete.succeeded", null, httpServletRequest.getLocale()))
+                                   .data(recordService.deleteRecord(DeleteRecord.builder()
+                                                                            .recordId(recordId)
+                                                                            .userId(jwtManager.resolveUserId(accessToken))
+                                                                                
+                                                                                .build()))
+                                   .build());
     }
     
     private AddRecord createAddRecordCommand(AddRecordRequest request, String accessToken) {
