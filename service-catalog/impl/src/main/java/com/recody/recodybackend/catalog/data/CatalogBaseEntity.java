@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
 @Getter
-abstract class CatalogBaseEntity {
+public abstract class CatalogBaseEntity {
     @CreatedDate
     private LocalDateTime createdAt;
     

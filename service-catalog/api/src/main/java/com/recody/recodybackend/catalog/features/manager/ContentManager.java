@@ -13,9 +13,5 @@ public interface ContentManager {
      * 해당 작품은 Catalog 서비스에서 사용할 수 있는 객체로서 인식된다. */
     <T extends Content> String register(T content);
     
-    /**
-     * 어떤 작품의 id 를 주면 그에 해당하는 도메인 객체를 반환한다. */
-//    Content recognize(String contentId, Category category);
-    
     //    Movie movie(String contentId);
 }
