@@ -13,5 +13,4 @@ public interface ContentManager {
      * 해당 작품은 Catalog 서비스에서 사용할 수 있는 객체로서 인식된다. */
     <T extends Content> String register(T content);
     
-    //    Movie movie(String contentId);
 }

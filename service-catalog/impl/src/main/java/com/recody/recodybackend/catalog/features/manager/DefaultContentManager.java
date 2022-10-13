@@ -18,7 +18,7 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-class DefaultContentManager implements ContentManager {
+public class DefaultContentManager implements ContentManager {
     
     private final CatalogContentRepository contentRepository;
     private final CatalogContentMapper mapper;
