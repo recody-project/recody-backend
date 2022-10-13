@@ -36,10 +36,25 @@ class DefaultAddRatingHandler implements AddRatingHandler {
         if (score <= 0 || score > 10){
             throw new InvalidRatingScoreException();
         }
-        Optional<CatalogContentEntity> optionalContent = contentRepository.findByContentId(contentId);
-        CatalogContentEntity contentEntity = optionalContent.orElseThrow(ContentNotFoundException::new);
-        RatingEntity ratingEntity = RatingEntity.builder().userId(userId).content(contentEntity).score(score).build();
+        CatalogContentEntity contentEntity = contentRepository.findByContentId(contentId)
+                                                                .orElseThrow(ContentNotFoundException::new);
+        RatingEntity ratingEntity;
+        Optional<RatingEntity> optionalRating = ratingRepository.findByUserIdAndContent(userId, contentEntity);
+        if (optionalRating.isPresent()){
+            ratingEntity = optionalRating.get();
+            ratingEntity.setScore(score);
+            ContentRated event = publishEvent(ratingEntity);
+            log.debug("평점 수정되었습니다.: {}", ratingEntity);
+            return event.getEventId();
+        }
+        ratingEntity = RatingEntity.builder().userId(userId).content(contentEntity).score(score).build();
         RatingEntity saved = ratingRepository.save(ratingEntity);
+        ContentRated event = publishEvent(saved);
+        log.info("평점 추가되었습니다.: {}", ratingEntity);
+        return event.getEventId();
+    }
+    
+    private ContentRated publishEvent(RatingEntity saved) {
         ContentRated event = ContentRated.builder()
                                          .userId(saved.getUserId())
                                          .contentId(saved.getContent().getContentId())
@@ -47,6 +62,6 @@ class DefaultAddRatingHandler implements AddRatingHandler {
                                          .eventId(UUID.randomUUID())
                                          .build();
         contentEventPublisher.publish(event);
-        return event.getEventId();
+        return event;
     }
 }

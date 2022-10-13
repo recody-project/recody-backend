@@ -29,5 +29,11 @@ public class RatingEntity extends CatalogBaseEntity {
     private CatalogContentEntity content;
     
     @Column(nullable = false)
+    @Setter
     private Integer score;
+    
+    @Override
+    public String toString() {
+        return "[{\"RatingEntity\":{" + "\"userId\":" + userId + ", \"content\":" + content + ", \"score\":" + score + "}}, " + super.toString() + "]";
+    }
 }
