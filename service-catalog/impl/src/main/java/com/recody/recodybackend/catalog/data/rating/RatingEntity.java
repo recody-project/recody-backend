@@ -8,6 +8,9 @@ import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 
+/**
+ *
+ */
 @Entity(name = "rating")
 @Table(name = "rating")
 @IdClass(LookupId.class)
@@ -27,7 +30,6 @@ public class RatingEntity extends CatalogBaseEntity {
     @ManyToOne
     @JoinColumn(name = "content_id")
     private CatalogContentEntity content;
-    
     @Column(nullable = false)
     @Setter
     private Integer score;

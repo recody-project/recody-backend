@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "country")
@@ -13,7 +14,9 @@ import javax.persistence.Table;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class CountryEntity {
+public class CountryEntity implements Serializable {
+    
+    
     
     @Id
     @Column(name = "iso_3166_1")

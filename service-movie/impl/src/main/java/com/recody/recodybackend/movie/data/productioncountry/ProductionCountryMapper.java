@@ -10,21 +10,16 @@ import org.mapstruct.Mapping;
 public abstract class ProductionCountryMapper {
 
 
+
 //    @Mapping(target = "movie", source = "")
 //    @Mapping(target = "country", source = "")
 //    @Mapping(target = "id", source = "iso_3166_1")
 //    public abstract ProductionCountryEntity map(ProductionCountry productionCountry);
 //
-//    @Mapping(target = "iso_3166_1", source = "id")
-//    public abstract ProductionCountry map(ProductionCountryEntity productionCountry);
+    @Mapping(target = "iso_3166_1", source = "productionCountry.country.id")
+    @Mapping(target = "name", source = "productionCountry.country.name")
+    public abstract ProductionCountry map(ProductionCountryEntity productionCountry);
     
     @Mapping(target = "id", source = "iso_3166_1")
     public abstract CountryEntity mapCountry(ProductionCountry productionCountry);
-    
-//    public CountryEntity mapCountry(ProductionCountry productionCountry){
-//        return CountryEntity.builder()
-//                       .id(productionCountry.getIso_3166_1())
-//                       .name(productionCountry.getName())
-//                            .build();
-//    }
 }

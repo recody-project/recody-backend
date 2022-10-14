@@ -28,8 +28,7 @@ class DefaultCountryManager implements CountryManager {
         }
         CountryEntity entity = mapper.mapCountry(productionCountry);
         CountryEntity savedEntity = repository.save(entity);
-        String id = savedEntity.getId();
-        log.info("registered Country: id: {}", id);
+        log.info("registered Country: {}", savedEntity);
         
         return savedEntity;
     }

@@ -25,7 +25,7 @@ class DefaultLanguageManager implements LanguageManager {
         if (optionalLanguageEntity.isPresent()){
             return optionalLanguageEntity.get();
         }
-        LanguageEntity spokenLanguageEntity = mapper.toEntity(spokenLanguage);
-        return repository.save(spokenLanguageEntity);
+        LanguageEntity languageEntity = mapper.toEntity(spokenLanguage);
+        return repository.save(languageEntity);
     }
 }
