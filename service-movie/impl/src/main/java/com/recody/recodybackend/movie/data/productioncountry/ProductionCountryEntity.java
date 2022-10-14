@@ -1,28 +1,38 @@
 package com.recody.recodybackend.movie.data.productioncountry;
 
 import com.recody.recodybackend.movie.data.MovieBaseEntity;
-import lombok.Getter;
-import lombok.Setter;
+import com.recody.recodybackend.movie.data.movie.MovieEntity;
+import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "production_country")
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class ProductionCountryEntity extends MovieBaseEntity {
     
     @Id
-    @Column(name = "iso_3166_1")
-    private String id;
+    @GeneratedValue
+    private Long id;
     
-    private String name;
+    @ManyToOne
+    @JoinColumn(name = "movie_id")
+    private MovieEntity movie;
+    
+    @ManyToOne
+    @JoinColumns(value = {
+            @JoinColumn(name = "iso_3166_1", referencedColumnName = "iso_3166_1"),
+            @JoinColumn(name = "country_name", referencedColumnName = "name")
+    })
+    private CountryEntity country;
+    
     
     @Override
     public String toString() {
-        return "{\"ProductionCountryEntity\":{" + "\"id\":" + ((id != null) ? ("\"" + id + "\"") : null) + ", \"name\":" + ((name != null) ? ("\"" + name + "\"") : null) + "}}";
+        return "[{\"ProductionCountryEntity\":{" + "\"id\":" + id + ", \"movie\":" + movie + ", \"country\":" + country + "}}, " + super.toString() + "]";
     }
 }

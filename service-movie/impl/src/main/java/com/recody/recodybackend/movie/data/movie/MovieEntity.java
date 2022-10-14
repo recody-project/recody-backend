@@ -39,7 +39,8 @@ public class MovieEntity extends MovieBaseEntity {
     private String overview;
     private Float popularity;
     private String posterPath;
-    @ManyToMany
+
+    @OneToMany(mappedBy = "movie")
     private List<ProductionCountryEntity> productionCountries;
     private String releaseDate;
     private Integer runtime;

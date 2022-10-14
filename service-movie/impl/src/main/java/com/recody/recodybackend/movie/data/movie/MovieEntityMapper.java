@@ -33,6 +33,7 @@ public interface MovieEntityMapper {
     @Mapping(target = "tmdbId",
              source = "movie.tmdbId",
              conditionExpression = "java(movie.getSource() == MovieSource.TMDB)")
+    @Mapping(target = "productionCountries", source = "productionCountries")
     MovieEntity toEntity(Movie movie);
     
     

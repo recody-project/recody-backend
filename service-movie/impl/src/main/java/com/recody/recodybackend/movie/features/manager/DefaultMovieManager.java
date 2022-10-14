@@ -4,6 +4,7 @@ import com.recody.recodybackend.movie.Movie;
 import com.recody.recodybackend.movie.data.movie.MovieEntityMapper;
 import com.recody.recodybackend.movie.data.movie.MovieRepository;
 import com.recody.recodybackend.movie.data.movie.MovieEntity;
+import com.recody.recodybackend.movie.data.productioncountry.*;
 import com.recody.recodybackend.movie.exceptions.UnsupportedMovieSourceException;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.ProductionCountry;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.SpokenLanguage;
@@ -24,10 +25,15 @@ class DefaultMovieManager implements MovieManager {
     
     private final MovieRepository movieRepository;
     private final MovieEntityMapper movieEntityMapper;
-    private final ProductionCountryManager productionCountryManager;
+    private final CountryManager countryManager;
     private final MovieGenreManager genreRecognizer;
     private final SpokenLanguageManager spokenLanguageRecognizer;
     
+    private final CountryRepository countryRepository;
+    
+    private final ProductionCountryMapper productionCountryMapper;
+    
+    private final ProductionCountryRepository productionCountryRepository;
     
     
     @Override
@@ -40,16 +46,23 @@ class DefaultMovieManager implements MovieManager {
         registerInfos(movie);
         MovieEntity movieEntity = movieEntityMapper.toEntity(movie);
         log.debug("movieEntity: {}", movieEntity);
-        MovieEntity savedEntity = movieRepository.save(movieEntity);
-        return savedEntity.getId();
+        MovieEntity savedMovie = movieRepository.save(movieEntity);
+        
+        List<ProductionCountry> productionCountries = movie.getProductionCountries();
+        
+        for (ProductionCountry productionCountry : productionCountries) {
+            log.debug("productionCountry: {}", productionCountry);
+            CountryEntity savedCountry = countryManager.register(productionCountry);
+            ProductionCountryEntity productionCountryEntity = ProductionCountryEntity.builder()
+                                                                   .movie(savedMovie)
+                                                                   .country(savedCountry)
+                                                                   .build();
+            ProductionCountryEntity savedProductionCountry = productionCountryRepository.save(productionCountryEntity);
+        }
+        return savedMovie.getId();
     }
     
     private void registerInfos(Movie movie) {
-        List<ProductionCountry> productionCountries = movie.getProductionCountries();
-        for (ProductionCountry productionCountry : productionCountries) {
-            log.debug("productionCountry: {}", productionCountry);
-            productionCountryManager.register(productionCountry);
-        }
         List<MovieGenre> genres = movie.getGenres();
         for (MovieGenre genre : genres) {
             log.debug("genre: {}", genre);
