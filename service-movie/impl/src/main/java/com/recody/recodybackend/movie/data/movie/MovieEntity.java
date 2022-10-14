@@ -45,9 +45,10 @@ public class MovieEntity extends MovieBaseEntity {
     private String releaseDate;
     private Integer runtime;
     private Integer revenue;
-    @ManyToMany
+    
+    @OneToMany(mappedBy = "movie")
     private List<MovieGenreEntity> genres;
-    @ManyToMany
+    @OneToMany(mappedBy = "movie")
     private List<SpokenLanguageEntity> spokenLanguages;
     private String status;
     private String title;
