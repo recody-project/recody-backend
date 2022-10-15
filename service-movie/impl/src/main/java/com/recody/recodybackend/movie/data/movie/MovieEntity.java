@@ -5,6 +5,7 @@ import com.recody.recodybackend.movie.data.MovieBaseEntity;
 import com.recody.recodybackend.movie.data.spokenlanguage.SpokenLanguageEntity;
 import com.recody.recodybackend.movie.data.genre.MovieGenreEntity;
 import com.recody.recodybackend.movie.data.productioncountry.ProductionCountryEntity;
+import com.recody.recodybackend.movie.data.title.MovieTitleEntity;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -39,17 +40,18 @@ public class MovieEntity extends MovieBaseEntity {
     private String overview;
     private Float popularity;
     private String posterPath;
-    @ManyToMany
+    @OneToMany(mappedBy = "movie")
     private List<ProductionCountryEntity> productionCountries;
     private String releaseDate;
     private Integer runtime;
     private Integer revenue;
-    @ManyToMany
+    @OneToMany(mappedBy = "movie")
     private List<MovieGenreEntity> genres;
-    @ManyToMany
+    @OneToMany(mappedBy = "movie")
     private List<SpokenLanguageEntity> spokenLanguages;
     private String status;
-    private String title;
+    @OneToOne(mappedBy = "movie")
+    private MovieTitleEntity title;
     private Float voteAverage;
     private Integer voteCount;
     

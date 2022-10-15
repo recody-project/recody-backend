@@ -1,23 +1,37 @@
 package com.recody.recodybackend.movie.data.spokenlanguage;
 
 import com.recody.recodybackend.movie.data.MovieBaseEntity;
-import lombok.Getter;
-import lombok.Setter;
+import com.recody.recodybackend.movie.data.movie.MovieEntity;
+import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
-@Entity
+/**
+ * 특정 영화에 사용된 언어를 의미하는 엔티티입니다.<br>
+ * LanguageEntity 와 MovieEntity 의 각 테이블 매핑에서 연결 테이블 역할을 합니다.
+ */
+@Entity(name = "spoken_language")
 @Getter
 @Setter
 @Table(name = "spoken_language")
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
 public class SpokenLanguageEntity extends MovieBaseEntity {
     
     @Id
-    @Column(name = "iso_639_1")
-    private String id;
+    @GeneratedValue
+    private Long id;
     
-    private String name;
+    @ManyToOne
+    @JoinColumn(name = "movie_id",
+                nullable = false,
+                foreignKey = @ForeignKey(name = "spoken_language_contains_movie_id"))
+    private MovieEntity movie;
+    
+    @ManyToOne
+    @JoinColumn(name = "iso_639_1",
+                nullable = false,
+                foreignKey = @ForeignKey(name = "spoken_language_contains_language_id"))
+    private LanguageEntity language;
 }

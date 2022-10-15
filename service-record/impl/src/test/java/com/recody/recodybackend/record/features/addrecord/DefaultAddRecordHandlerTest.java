@@ -6,8 +6,11 @@ import com.recody.recodybackend.record.RecodyRecordApplication;
 import com.recody.recodybackend.record.data.category.EmbeddableCategory;
 import com.recody.recodybackend.record.data.content.RecordContentEntity;
 import com.recody.recodybackend.record.data.content.RecordContentRepository;
+import com.recody.recodybackend.record.data.rating.RecordRatingEntity;
+import com.recody.recodybackend.record.data.rating.RecordRatingRepository;
 import com.recody.recodybackend.record.data.record.RecordEntity;
 import com.recody.recodybackend.record.data.record.RecordRepository;
+import com.recody.recodybackend.record.exceptions.UserNotRatedOnContentException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -47,17 +50,22 @@ class DefaultAddRecordHandlerTest {
     @Autowired
     RecordContentRepository contentRepository;
     
+    @Autowired
+    RecordRatingRepository recordRatingRepository;
+    
     String recordId;
+    
+    RecordContentEntity content;
     
     @BeforeEach
     void before() {
-        RecordContentEntity content = RecordContentEntity
-                                            .builder()
-                                            .id("catalogId")
-                                            .contentId(CONTENT_ID)
-                                            .title("contentTitle")
-                                            .category(new EmbeddableCategory(BasicCategory.Movie.getId(), BasicCategory.Movie.name()))
-                                            .build();
+        content = RecordContentEntity
+                            .builder()
+                            .id("catalogId")
+                            .contentId(CONTENT_ID)
+                            .title("contentTitle")
+                            .category(new EmbeddableCategory(BasicCategory.Movie.getId(), BasicCategory.Movie.name()))
+                            .build();
         contentRepository.save(content);
     }
     
@@ -65,7 +73,8 @@ class DefaultAddRecordHandlerTest {
     @DisplayName("감상평을 추가할 수 있다. 감상일은 추가하지 않아도 예외가 일어나지 않는다.")
     void addRecordAppreciationDate() {
         // given
-        
+        RecordRatingEntity ratingEntity = RecordRatingEntity.builder().score(1).userId(USER_ID).content(content).build();
+        recordRatingRepository.save(ratingEntity);
         
         // when
         AddRecord command = AddRecord
@@ -87,8 +96,9 @@ class DefaultAddRecordHandlerTest {
     @DisplayName("감상일을 추가할 수 있다.")
     void addRecordAppreciationDate2() {
         // given
+        RecordRatingEntity ratingEntity = RecordRatingEntity.builder().score(1).userId(USER_ID).content(content).build();
+        recordRatingRepository.save(ratingEntity);
         
-    
         LocalDate date = LocalDate.of(2022, 4, 2);
         AddRecord command = AddRecord
                 .builder()
@@ -116,7 +126,8 @@ class DefaultAddRecordHandlerTest {
     @DisplayName("감상평을 저장할 때 없는 작품이면 예외를 일으킨다.")
     void addRecordContentCheck() {
         // given
-
+        RecordRatingEntity ratingEntity = RecordRatingEntity.builder().score(1).userId(USER_ID).content(content).build();
+        recordRatingRepository.save(ratingEntity);
         // when
         assertThatThrownBy(() -> addRecordHandler.handle(AddRecord.builder()
                                                                   .userId(USER_ID)
@@ -128,8 +139,25 @@ class DefaultAddRecordHandlerTest {
         // then
     }
     
+    @Test
+    @DisplayName("감상평을 저장할때 평점이 없으면 예외를 던진다.")
+    void ratingCheck() {
+        // given
+        
+        // when
+        
+        // then
+        assertThatThrownBy(() -> addRecordHandler.handle(AddRecord.builder()
+                                                                  .userId(USER_ID)
+                                                                  .contentId(CONTENT_ID)
+                                                                  .note(SAMPLE_NOTE).build()))
+                .isInstanceOf(UserNotRatedOnContentException.class);
+    }
+    
     @AfterEach
     void after(){
-        recordRepository.deleteAll();
+        recordRatingRepository.deleteAllInBatch();
+        recordRepository.deleteAllInBatch();
+        contentRepository.deleteAllInBatch();
     }
 }

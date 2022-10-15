@@ -1,9 +1,13 @@
 package com.recody.recodybackend.movie.features.manager;
 
 import com.recody.recodybackend.movie.Movie;
+import com.recody.recodybackend.movie.data.genre.MovieGenreCodeEntity;
 import com.recody.recodybackend.movie.data.movie.MovieEntityMapper;
 import com.recody.recodybackend.movie.data.movie.MovieRepository;
 import com.recody.recodybackend.movie.data.movie.MovieEntity;
+import com.recody.recodybackend.movie.data.productioncountry.*;
+import com.recody.recodybackend.movie.data.spokenlanguage.LanguageEntity;
+import com.recody.recodybackend.movie.data.MovieEntityManager;
 import com.recody.recodybackend.movie.exceptions.UnsupportedMovieSourceException;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.ProductionCountry;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.SpokenLanguage;
@@ -15,6 +19,7 @@ import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @Component
@@ -24,55 +29,56 @@ class DefaultMovieManager implements MovieManager {
     
     private final MovieRepository movieRepository;
     private final MovieEntityMapper movieEntityMapper;
-    private final ProductionCountryManager productionCountryManager;
-    private final MovieGenreManager genreRecognizer;
-    private final SpokenLanguageManager spokenLanguageRecognizer;
-    
+    private final CountryManager countryManager;
+    private final MovieGenreCodeManager genreCodeManager;
+    private final LanguageManager languageManager;
+    private final MovieEntityManager movieEntityManager;
     
     
     @Override
     @Transactional
-    public String register(Movie movie) {
-        Optional<String> optionalId = findMovieId(movie);
-        if (optionalId.isPresent()) {
-            return optionalId.get();
+    public String register(Movie movie, Locale locale) {
+        log.debug("locale: {}", locale);
+        Optional<MovieEntity> optionalMovie;
+        String title = movie.getTitle();
+        if (!MovieSource.TMDB.equals(movie.getSource())) {
+            throw new UnsupportedMovieSourceException();
         }
-        registerInfos(movie);
+        
+        optionalMovie = movieRepository.findByTmdbId(movie.getTmdbId());
+        if (optionalMovie.isPresent()) {
+            MovieEntity movieEntity = movieEntityManager.upsertTitleByLocale(optionalMovie.get(), title, locale);
+            return movieEntity.getId();
+        }
+        
         MovieEntity movieEntity = movieEntityMapper.toEntity(movie);
-        log.debug("movieEntity: {}", movieEntity);
-        MovieEntity savedEntity = movieRepository.save(movieEntity);
-        return savedEntity.getId();
-    }
-    
-    private void registerInfos(Movie movie) {
+        MovieEntity savedMovie = movieRepository.save(movieEntity);
+        movieEntityManager.upsertTitleByLocale(savedMovie, title, locale);
+        log.debug("새로운 영화를 저장하였습니다.");
+        
+        /* 영화 정보에 해당하는 정보들을 등록합니다. */
+        
         List<ProductionCountry> productionCountries = movie.getProductionCountries();
         for (ProductionCountry productionCountry : productionCountries) {
             log.debug("productionCountry: {}", productionCountry);
-            productionCountryManager.register(productionCountry);
+            CountryEntity savedCountryEntity = countryManager.register(productionCountry);
+            movieEntityManager.saveProductionCountry(savedMovie, savedCountryEntity);
         }
+        
         List<MovieGenre> genres = movie.getGenres();
         for (MovieGenre genre : genres) {
             log.debug("genre: {}", genre);
-            String genreId = genreRecognizer.register(genre);
-            log.debug("genreId: {}", genreId);
+            MovieGenreCodeEntity savedGenreCodeEntity = genreCodeManager.register(genre);
+            movieEntityManager.saveMovieGenre(movieEntity, savedGenreCodeEntity);
         }
+        
         List<SpokenLanguage> spokenLanguages = movie.getSpokenLanguages();
         for (SpokenLanguage spokenLanguage : spokenLanguages) {
             log.debug("spokenLanguage: {}", spokenLanguage);
-            spokenLanguageRecognizer.register(spokenLanguage);
+            LanguageEntity languageEntity = languageManager.register(spokenLanguage);
+            movieEntityManager.saveSpokenLanguage(movieEntity, languageEntity);
         }
-    }
-    
-    private Optional<String> findMovieId(Movie movie) {
-        Optional<MovieEntity> optionalMovie;
-        if (MovieSource.TMDB.equals(movie.getSource())){
-            optionalMovie = movieRepository.findByTmdbId(movie.getTmdbId());
-            if (optionalMovie.isPresent()){
-                return Optional.of(optionalMovie.get().getId());
-            }
-        } else {
-            throw new UnsupportedMovieSourceException();
-        }
-        return Optional.empty();
+        
+        return savedMovie.getId();
     }
 }

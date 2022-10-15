@@ -5,6 +5,8 @@ import com.recody.recodybackend.record.RecodyRecordApplication;
 import com.recody.recodybackend.record.data.category.EmbeddableCategory;
 import com.recody.recodybackend.record.data.content.RecordContentEntity;
 import com.recody.recodybackend.record.data.content.RecordContentRepository;
+import com.recody.recodybackend.record.data.rating.RecordRatingEntity;
+import com.recody.recodybackend.record.data.rating.RecordRatingRepository;
 import com.recody.recodybackend.record.data.record.RecordRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -33,6 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 public class RecordControllerTest {
     
+    private static final Long USER_ID = 1L;
     @Autowired
     private MockMvc mockMvc;
     @Value("${record.access-token}")
@@ -51,6 +54,10 @@ public class RecordControllerTest {
     @Autowired
     RecordRepository recordRepository;
     
+    @Autowired
+    RecordRatingRepository recordRatingRepository;
+    
+    RecordContentEntity savedContent;
     EmbeddableCategory embeddableCategory = new EmbeddableCategory("con-2222", "sampleName");
     
     @BeforeEach
@@ -65,15 +72,15 @@ public class RecordControllerTest {
                                                     .title("contentTitle")
                                                     .category(embeddableCategory)
                                                     .build();
-        contentRepository.save(contentEntity);
+        savedContent = contentRepository.save(contentEntity);
     }
     @Test
     void postRecord() throws Exception {
         String content = FileUtils.readResourceToString(request);
-        
+        RecordRatingEntity ratingEntity = RecordRatingEntity.builder().score(1).userId(USER_ID).content(savedContent).build();
+        recordRatingRepository.save(ratingEntity);
         mockMvc.perform(addRecordRequest(content)
                        )
-               
                .andExpect(status().isOk())
                .andExpect(content().string(containsString("recordId")))
                .andDo(print())
@@ -86,7 +93,7 @@ public class RecordControllerTest {
         // given
         String contentRequest = FileUtils.readResourceToString(badDateFormat);
     
-    
+        
         // when
     
         // then

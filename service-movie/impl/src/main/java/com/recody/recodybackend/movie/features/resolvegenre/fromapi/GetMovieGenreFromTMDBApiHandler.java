@@ -3,7 +3,8 @@ package com.recody.recodybackend.movie.features.resolvegenre.fromapi;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.recody.recodybackend.common.openapi.APIRequester;
 import com.recody.recodybackend.common.openapi.JsonAPIResponse;
-import com.recody.recodybackend.movie.features.manager.MovieGenreManager;
+import com.recody.recodybackend.movie.data.genre.MovieGenreCodeEntity;
+import com.recody.recodybackend.movie.features.manager.MovieGenreCodeManager;
 import com.recody.recodybackend.movie.general.MovieGenre;
 import com.recody.recodybackend.movie.general.MovieSource;
 import com.recody.recodybackend.movie.general.TMDBAPIRequest;
@@ -25,12 +26,12 @@ class GetMovieGenreFromTMDBApiHandler implements com.recody.recodybackend.movie.
     private final APIRequester<TMDBAPIRequest> apiRequester;
     private final Map<Integer, String> tmdbGenreMap = new HashMap<>();
     private boolean hasGenres = false;
-    private final MovieGenreManager movieGenreManager;
+    private final MovieGenreCodeManager movieGenreCodeManager;
     
     public GetMovieGenreFromTMDBApiHandler(APIRequester<TMDBAPIRequest> apiRequester,
-                                           MovieGenreManager movieGenreManager) {
+                                           MovieGenreCodeManager movieGenreCodeManager) {
         this.apiRequester = apiRequester;
-        this.movieGenreManager = movieGenreManager;
+        this.movieGenreCodeManager = movieGenreCodeManager;
     }
     
     public boolean hasGenres() {
@@ -64,7 +65,7 @@ class GetMovieGenreFromTMDBApiHandler implements com.recody.recodybackend.movie.
         for (Integer key : tmdbGenreMap.keySet()) {
             MovieGenre genre = new MovieGenre(key, tmdbGenreMap.get(key));
             genre.setSource(MovieSource.TMDB);
-            String genreId = movieGenreManager.register(genre);
+            MovieGenreCodeEntity genreId = movieGenreCodeManager.register(genre);
         }
     }
     

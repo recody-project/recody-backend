@@ -7,8 +7,9 @@ public enum RecordErrorType implements ErrorType {
     NoRecordFound("NoRecordFound"),
     RecordAlreadyExists("RecordAlreadyExists"),
     FailedToRemoveRecord("FailedToRemoveRecord"),
+    UserDoesNotOwnTheRecord("UserDoesNotOwnTheRecord"),
     
-    UserDoesNotOwnTheRecord("UserDoesNotOwnTheRecord")
+    UserNotRatedOnContent("UserNotRatedOnContent")
     
     ;
     

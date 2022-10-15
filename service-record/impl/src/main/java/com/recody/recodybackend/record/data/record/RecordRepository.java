@@ -17,7 +17,10 @@ public interface RecordRepository extends JpaRepository<RecordEntity, String>, R
     /**
      * content Id 와 user Id 로 모든 감상평들을 가져온다.*/
     Optional<List<RecordEntity>> findAllByUserIdAndContent(Long userId, RecordContentEntity content);
+    boolean existsByUserIdAndContent(Long userId, RecordContentEntity content);
+    
 
+    
     
     /**
      * 생성일 기준 최근부터 가져온다.
