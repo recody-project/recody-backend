@@ -9,6 +9,7 @@ import com.recody.recodybackend.users.RecodyUserApplication;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
+import org.springframework.context.NoSuchMessageException;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice(basePackageClasses = RecodyUserApplication.class)
@@ -47,7 +49,7 @@ class UsersGlobalExceptionHandler {
     public ResponseEntity<ErrorResponseBody> on(ApplicationException exception, HttpServletRequest request) {
         HttpStatus statusCode = exception.getStatusCode();
         ErrorType errorType = exception.getErrorCode();
-        String message = ms.getMessage(errorType.getErrorCode(), null, "No available message", request.getLocale());
+        String message = resolveMessage(exception, request.getLocale(), errorType);
         log.debug("Application Exception errorCode: {}, statusCode: {}", errorType, statusCode);
         return ResponseEntity.status(statusCode)
                              .body(ErrorResponseBody.type(errorType)
@@ -82,5 +84,20 @@ class UsersGlobalExceptionHandler {
         map.put("field", fieldError.getField());
         map.put("message", fieldError.getDefaultMessage());
         return map;
+    }
+    
+    private String resolveMessage(ApplicationException exception, Locale locale, ErrorType errorType) {
+        String message;
+        try {
+            message = ms.getMessage(errorType.getErrorCode(), null, locale);
+            return message;
+        } catch (NoSuchMessageException ignored){
+        }
+        if (exception.getMessage() != null){
+            message = exception.getMessage();
+        } else {
+            message = "No available message";
+        }
+        return message;
     }
 }

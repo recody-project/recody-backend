@@ -61,6 +61,7 @@ class GlobalExceptionHandler {
         String message;
         try {
             message = ms.getMessage(errorType.getErrorCode(), null, locale);
+            return message;
         } catch (NoSuchMessageException ignored){
         }
         if (exception.getMessage() != null){

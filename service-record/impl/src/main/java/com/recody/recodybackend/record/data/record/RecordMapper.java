@@ -19,6 +19,7 @@ public abstract class RecordMapper {
     @Mapping(target = "contentId", source = "entity.content.contentId")
     public abstract Record map(RecordEntity entity);
     
+    @Mapping(target = "deletedAt", ignore = true)
     @Mapping(target = "recordId", ignore = true)
     @Mapping(target = "nth", ignore = true)
     @Mapping(target = "completed", ignore = true)
