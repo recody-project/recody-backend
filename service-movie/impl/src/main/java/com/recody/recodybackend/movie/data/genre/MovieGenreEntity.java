@@ -4,6 +4,8 @@ import com.recody.recodybackend.movie.data.MovieBaseEntity;
 import com.recody.recodybackend.movie.data.movie.MovieEntity;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -23,6 +25,7 @@ public class MovieGenreEntity extends MovieBaseEntity {
     @JoinColumn(name = "movie_id",
                 nullable = false,
                 foreignKey = @ForeignKey(name = "movie_genre_contains_movie_id"))
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private MovieEntity movie;
     
     @ManyToOne

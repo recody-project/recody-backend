@@ -3,6 +3,8 @@ package com.recody.recodybackend.movie.data.productioncountry;
 import com.recody.recodybackend.movie.data.MovieBaseEntity;
 import com.recody.recodybackend.movie.data.movie.MovieEntity;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -27,6 +29,7 @@ public class ProductionCountryEntity extends MovieBaseEntity {
     @JoinColumn(name = "movie_id",
                 nullable = false,
                 foreignKey = @ForeignKey(name = "production_country_contains_movie_id"))
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private MovieEntity movie;
     
     @ManyToOne

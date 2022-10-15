@@ -2,9 +2,9 @@ package com.recody.recodybackend.movie.data.movie;
 
 import com.recody.recodybackend.commonbootutils.data.CustomSequenceIdGenerator;
 import com.recody.recodybackend.movie.data.MovieBaseEntity;
-import com.recody.recodybackend.movie.data.spokenlanguage.SpokenLanguageEntity;
 import com.recody.recodybackend.movie.data.genre.MovieGenreEntity;
 import com.recody.recodybackend.movie.data.productioncountry.ProductionCountryEntity;
+import com.recody.recodybackend.movie.data.spokenlanguage.SpokenLanguageEntity;
 import com.recody.recodybackend.movie.data.title.MovieTitleEntity;
 import lombok.Getter;
 import lombok.Setter;

@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 @RestControllerAdvice(basePackageClasses = RecodyRecordApplication.class)
 @RequiredArgsConstructor
 @Slf4j
-@Order(999)
+@Order(998)
 class RecordGlobalExceptionHandler {
 
     private final MessageSource ms;

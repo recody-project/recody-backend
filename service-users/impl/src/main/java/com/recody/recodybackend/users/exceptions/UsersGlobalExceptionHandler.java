@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 @RestControllerAdvice(basePackageClasses = RecodyUserApplication.class)
 @RequiredArgsConstructor
 @Slf4j
-@Order(999)
+@Order(998)
 class UsersGlobalExceptionHandler {
     
     private final MessageSource ms;
