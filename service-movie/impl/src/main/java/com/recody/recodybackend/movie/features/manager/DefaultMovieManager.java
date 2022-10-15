@@ -1,13 +1,10 @@
 package com.recody.recodybackend.movie.features.manager;
 
 import com.recody.recodybackend.movie.Movie;
-import com.recody.recodybackend.movie.data.genre.MovieGenreCodeEntity;
+import com.recody.recodybackend.movie.data.MovieEntityManager;
+import com.recody.recodybackend.movie.data.movie.MovieEntity;
 import com.recody.recodybackend.movie.data.movie.MovieEntityMapper;
 import com.recody.recodybackend.movie.data.movie.MovieRepository;
-import com.recody.recodybackend.movie.data.movie.MovieEntity;
-import com.recody.recodybackend.movie.data.productioncountry.*;
-import com.recody.recodybackend.movie.data.spokenlanguage.LanguageEntity;
-import com.recody.recodybackend.movie.data.MovieEntityManager;
 import com.recody.recodybackend.movie.exceptions.UnsupportedMovieSourceException;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.ProductionCountry;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.SpokenLanguage;
@@ -53,32 +50,41 @@ class DefaultMovieManager implements MovieManager {
         
         MovieEntity movieEntity = movieEntityMapper.toEntity(movie);
         MovieEntity savedMovie = movieRepository.save(movieEntity);
+        
         movieEntityManager.upsertTitleByLocale(savedMovie, title, locale);
         log.debug("새로운 영화를 저장하였습니다.");
         
         /* 영화 정보에 해당하는 정보들을 등록합니다. */
-        
         List<ProductionCountry> productionCountries = movie.getProductionCountries();
-        for (ProductionCountry productionCountry : productionCountries) {
-            log.debug("productionCountry: {}", productionCountry);
-            CountryEntity savedCountryEntity = countryManager.register(productionCountry);
-            movieEntityManager.saveProductionCountry(savedMovie, savedCountryEntity);
-        }
-        
+        saveProductionCountries(savedMovie, productionCountries);
         List<MovieGenre> genres = movie.getGenres();
-        for (MovieGenre genre : genres) {
-            log.debug("genre: {}", genre);
-            MovieGenreCodeEntity savedGenreCodeEntity = genreCodeManager.register(genre);
-            movieEntityManager.saveMovieGenre(movieEntity, savedGenreCodeEntity);
-        }
-        
+        saveMovieGenres(movieEntity, genres);
         List<SpokenLanguage> spokenLanguages = movie.getSpokenLanguages();
+        saveSpokenLanguages(movieEntity, spokenLanguages);
+        return savedMovie.getId();
+    }
+    
+    public void saveSpokenLanguages(MovieEntity movieEntity, List<SpokenLanguage> spokenLanguages) {
         for (SpokenLanguage spokenLanguage : spokenLanguages) {
             log.debug("spokenLanguage: {}", spokenLanguage);
-            LanguageEntity languageEntity = languageManager.register(spokenLanguage);
-            movieEntityManager.saveSpokenLanguage(movieEntity, languageEntity);
+            languageManager.registerAsync(spokenLanguage)
+                           .thenAccept(savedLanguageEntity -> movieEntityManager.saveSpokenLanguage(movieEntity, savedLanguageEntity));
         }
-        
-        return savedMovie.getId();
+    }
+    
+    public void saveMovieGenres(MovieEntity movieEntity, List<MovieGenre> genres) {
+        for (MovieGenre genre : genres) {
+            log.debug("genre: {}", genre);
+            genreCodeManager.registerAsync(genre)
+                            .thenAccept(savedGenreCodeEntity -> movieEntityManager.saveMovieGenre(movieEntity, savedGenreCodeEntity));
+        }
+    }
+    
+    public void saveProductionCountries(MovieEntity savedMovie, List<ProductionCountry> productionCountries) {
+        for (ProductionCountry productionCountry : productionCountries) {
+            log.debug("productionCountry: {}", productionCountry);
+            countryManager.registerAsync(productionCountry)
+                          .thenAccept(savedCountryEntity -> movieEntityManager.saveProductionCountry(savedMovie, savedCountryEntity));
+        }
     }
 }

@@ -4,10 +4,12 @@ import com.recody.recodybackend.movie.data.spokenlanguage.*;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.SpokenLanguage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 @Component
 @RequiredArgsConstructor
@@ -27,5 +29,11 @@ class DefaultLanguageManager implements LanguageManager {
         }
         LanguageEntity languageEntity = mapper.toEntity(spokenLanguage);
         return repository.save(languageEntity);
+    }
+    
+    @Override
+    @Async
+    public CompletableFuture<LanguageEntity> registerAsync(SpokenLanguage spokenLanguage) {
+        return CompletableFuture.completedFuture(register(spokenLanguage));
     }
 }

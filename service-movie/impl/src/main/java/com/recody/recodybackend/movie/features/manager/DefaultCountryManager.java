@@ -4,10 +4,12 @@ import com.recody.recodybackend.movie.data.productioncountry.*;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.ProductionCountry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 @Component
 @RequiredArgsConstructor
@@ -31,5 +33,11 @@ class DefaultCountryManager implements CountryManager {
         log.info("registered Country: {}", savedEntity);
         
         return savedEntity;
+    }
+    
+    @Override
+    @Async
+    public CompletableFuture<CountryEntity> registerAsync(ProductionCountry productionCountry) {
+        return CompletableFuture.completedFuture(register(productionCountry));
     }
 }

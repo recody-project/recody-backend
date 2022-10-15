@@ -38,6 +38,7 @@ class DefaultMovieEntityManager implements MovieEntityManager {
     private final MovieGenreRepository movieGenreRepository;
     
     @Override
+    @Transactional
     public MovieEntity upsertTitleByLocale(MovieEntity movieEntity, String title, Locale locale) {
         // 타이틀이 없으면 새로 만들어 저장하고
         // 타이틀이 있으면 업데이트한다.
@@ -55,7 +56,9 @@ class DefaultMovieEntityManager implements MovieEntityManager {
     }
     
     @Override
+    @Transactional
     public ProductionCountryEntity saveProductionCountry(MovieEntity savedMovie, CountryEntity savedCountry) {
+        log.debug("saving production country");
         ProductionCountryEntity productionCountryEntity = ProductionCountryEntity.builder()
                                                                                  .movie(savedMovie)
                                                                                  .country(savedCountry)
@@ -64,7 +67,10 @@ class DefaultMovieEntityManager implements MovieEntityManager {
     }
     
     @Override
+    @Transactional
     public MovieGenreEntity saveMovieGenre(MovieEntity movieEntity, MovieGenreCodeEntity genreCode) {
+        log.debug("saving movie gnere");
+    
         MovieGenreEntity movieGenreEntity = MovieGenreEntity.builder()
                                                             .genre(genreCode)
                                                             .movie(movieEntity)
@@ -73,7 +79,9 @@ class DefaultMovieEntityManager implements MovieEntityManager {
     }
     
     @Override
+    @Transactional
     public SpokenLanguageEntity saveSpokenLanguage(MovieEntity movieEntity, LanguageEntity languageEntity) {
+        log.debug("saving spoken language");
         SpokenLanguageEntity spokenLanguageEntity = SpokenLanguageEntity.builder()
                                                                         .language(languageEntity)
                                                                         .movie(movieEntity)

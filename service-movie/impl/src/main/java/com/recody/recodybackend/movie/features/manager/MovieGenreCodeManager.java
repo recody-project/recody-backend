@@ -3,6 +3,8 @@ package com.recody.recodybackend.movie.features.manager;
 import com.recody.recodybackend.movie.data.genre.MovieGenreCodeEntity;
 import com.recody.recodybackend.movie.general.MovieGenre;
 
+import java.util.concurrent.CompletableFuture;
+
 public interface MovieGenreCodeManager {
     
     /**
@@ -12,5 +14,7 @@ public interface MovieGenreCodeManager {
      * @return 저장한 장르의 entity
      */
     MovieGenreCodeEntity register(MovieGenre genre);
+    
+    CompletableFuture<MovieGenreCodeEntity> registerAsync(MovieGenre genre);
     
 }
