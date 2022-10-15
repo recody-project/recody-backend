@@ -2,9 +2,12 @@ package com.recody.recodybackend.record.data.content;
 
 import com.recody.recodybackend.common.contents.Category;
 import com.recody.recodybackend.common.events.ContentCreated;
+import com.recody.recodybackend.record.RecordContent;
 import com.recody.recodybackend.record.data.category.EmbeddableCategory;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+
+import java.time.LocalDate;
 
 @Mapper(componentModel = "spring", imports = {
         EmbeddableCategory.class
@@ -15,6 +18,9 @@ public interface RecordContentMapper {
     @Mapping(target = "category", expression = "java(new EmbeddableCategory(event.getCategoryId(), event.getCategoryName()))")
     @Mapping(target = "id", source = "event.catalogId")
     RecordContentEntity map(ContentCreated event);
+    
+    
+    RecordContent map(RecordContentEntity entity, LocalDate appreciationDate);
     
     /**
      * 카테고리 정보를 임베더블 카테고리로 매핑한다.

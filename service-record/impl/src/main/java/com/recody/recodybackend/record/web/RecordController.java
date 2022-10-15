@@ -11,6 +11,7 @@ import com.recody.recodybackend.record.features.deleterecord.DeleteRecord;
 import com.recody.recodybackend.record.features.getcontinuingrecord.GetContinuingRecord;
 import com.recody.recodybackend.record.features.getmyrecords.GetMyRecords;
 import com.recody.recodybackend.record.features.getrecord.GetRecord;
+import com.recody.recodybackend.record.features.getrecordcontents.GetRecordContents;
 import com.recody.recodybackend.record.features.resolvecategory.CategoryResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
@@ -105,7 +106,27 @@ public class RecordController {
                                                                                 .contentId(contentId)
                                                                                 .build()))
                                          .build());
+    }
     
+    @GetMapping("/api/v1/record/contents")
+    public ResponseEntity<SuccessResponseBody> getRecordContents(HttpServletRequest httpServletRequest,
+                                                          @Nullable @RequestParam(defaultValue = "0") Integer page,
+                                                          @Nullable @RequestParam(defaultValue = "10") Integer size,
+                                                          @Nullable @RequestParam String categoryId,
+                                                          @Nullable @RequestParam String contentId,
+                                                          @AccessToken String accessToken) {
+        return ResponseEntity.ok(SuccessResponseBody
+                                         .builder()
+                                         .message(ms.getMessage("record.records.get.succeeded", null,
+                                                                httpServletRequest.getLocale()))
+                                         .data(recordService.getRecordContents(GetRecordContents.builder()
+                                                                                       .page(page)
+                                                                                       .size(size)
+                                                                                       .userId(jwtManager.resolveUserId(accessToken))
+                                                                                                .build())
+                                                 
+                                         )
+                                         .build());
     }
     
     @PostMapping("/api/v1/record")
