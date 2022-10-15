@@ -2,7 +2,6 @@ package com.recody.recodybackend.record.features.eventhandlers;
 
 import com.recody.recodybackend.common.events.ContentCreated;
 import com.recody.recodybackend.common.events.ContentRated;
-import com.recody.recodybackend.common.events.MMM;
 import com.recody.recodybackend.common.events.RecodyTopics;
 import com.recody.recodybackend.common.exceptions.ContentNotFoundException;
 import com.recody.recodybackend.record.data.content.RecordContentEntity;
@@ -28,9 +27,6 @@ import java.util.Optional;
 @KafkaListener(topics = RecodyTopics.CONTENT, groupId = "record")
 class KafkaContentEventHandler implements ContentEventHandler{
     
-    public static final String TEST_TOPIC = "testTopic";
-    
-    public static final String TEST_TOPIC2 = "testTopic2";
     private final RecordContentRepository contentRepository;
     private final RecordContentMapper contentMapper;
     
@@ -59,6 +55,7 @@ class KafkaContentEventHandler implements ContentEventHandler{
         if (optionalRating.isPresent()){
             RecordRatingEntity recordRatingEntity = optionalRating.get();
             recordRatingEntity.setScore(score);
+            return;
         }
         RecordRatingEntity ratingEntity = RecordRatingEntity.builder()
                                                             .userId(userId)
@@ -67,15 +64,5 @@ class KafkaContentEventHandler implements ContentEventHandler{
                                                             .build();
         ratingRepository.save(ratingEntity);
         log.info("Content Rated On Record Service: key:{}, payload:{}", key, event);
-    }
-    
-    @KafkaListener(topics = {TEST_TOPIC}, groupId = "testGroup")
-    public void on(String msg){
-        log.info("TEST_TOPIC: {}, received: {}", TEST_TOPIC, msg);
-    }
-    
-    @KafkaListener(topics = {TEST_TOPIC2}, groupId = "testGroup")
-    public void on2(MMM mmm){
-        log.info("TEST_TOPIC: {}, received: {}", TEST_TOPIC, mmm);
     }
 }
