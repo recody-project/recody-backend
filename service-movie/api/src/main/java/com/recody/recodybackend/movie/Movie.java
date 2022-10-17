@@ -2,6 +2,8 @@ package com.recody.recodybackend.movie;
 
 import com.recody.recodybackend.common.contents.*;
 import com.recody.recodybackend.common.contents.BasicCategory;
+import com.recody.recodybackend.movie.features.getmoviecredit.Actor;
+import com.recody.recodybackend.movie.features.getmoviecredit.Director;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.ProductionCountry;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.SpokenLanguage;
 import com.recody.recodybackend.movie.general.MovieGenre;
@@ -41,11 +43,12 @@ public class Movie implements ContentDetail {
     private String status;
     private Float voteAverage;
     private Integer voteCount;
-    
-    
-    
     private String posterPath;
     private List<MovieGenre> genres;
+    
+    private List<Actor> actors;
+    
+    private List<Director> directors;
     
     @Override
     public String getContentId() {

@@ -4,9 +4,8 @@ import com.recody.recodybackend.common.web.SuccessResponseBody;
 import com.recody.recodybackend.movie.Movie;
 import com.recody.recodybackend.movie.features.MovieService;
 import com.recody.recodybackend.movie.features.getmoviedetail.GetMovieDetail;
-import com.recody.recodybackend.movie.features.getmoviedetail.GetMovieDetailHandler;
-import com.recody.recodybackend.movie.features.searchmovies.SearchMoviesHandler;
 import com.recody.recodybackend.movie.features.searchmovies.SearchMovies;
+import com.recody.recodybackend.movie.features.searchmovies.SearchMoviesHandler;
 import com.recody.recodybackend.movie.features.searchmovies.SearchMoviesResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 public class MovieController {
     
-    private final GetMovieDetailHandler getMovieDetailHandler;
     private final MovieService movieService;
     private final SearchMoviesHandler searchMoviesHandler;
     private final MessageSource ms;
@@ -59,7 +57,7 @@ public class MovieController {
                                               HttpServletRequest request,
                                               @RequestParam(defaultValue = "ko") String language) {
         return ResponseEntity.ok()
-                             .body(getMovieDetailHandler.handle(new GetMovieDetail(movieId, language)));
+                             .body(movieService.getMovieDetail(new GetMovieDetail(movieId, language)).getDetail());
         
     }
     

@@ -28,7 +28,7 @@ public class ApplicationConfig {
         executor.setCorePoolSize(5);
         executor.setMaxPoolSize(30);
         executor.setQueueCapacity(200);
-        executor.setThreadNamePrefix("record-task-");
+        executor.setThreadNamePrefix("movie-task-");
         executor.initialize();
         return executor;
     }

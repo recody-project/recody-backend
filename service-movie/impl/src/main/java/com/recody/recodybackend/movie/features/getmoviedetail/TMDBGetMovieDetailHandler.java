@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.RequestEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -22,6 +23,7 @@ import java.net.URI;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 @Component
 @Slf4j
@@ -68,6 +70,12 @@ class TMDBGetMovieDetailHandler implements GetMovieDetailHandler {
         movie.setMovieId(savedMovieId);
         log.info("movieId: {}", savedMovieId);
         return movie;
+    }
+    
+    @Override
+    @Async
+    public CompletableFuture<Movie> handleAsync(GetMovieDetail command) {
+        return CompletableFuture.completedFuture(handle(command));
     }
     
     @Override
