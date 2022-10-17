@@ -5,11 +5,13 @@ import com.recody.recodybackend.movie.features.getmoviecredit.*;
 import com.recody.recodybackend.movie.features.getmoviedetail.GetMovieDetail;
 import com.recody.recodybackend.movie.features.getmoviedetail.GetMovieDetailHandler;
 import com.recody.recodybackend.movie.features.getmoviedetail.GetMovieDetailResult;
+import com.recody.recodybackend.movie.features.manager.MovieManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
 
 @Component
@@ -20,10 +22,13 @@ class DefaultMovieService implements MovieService {
     private final GetMovieDetailHandler getMovieDetailHandler;
     private final GetMovieCreditHandler getMovieCreditHandler;
     
+    private final MovieManager movieManager;
+    
     
     @Override
     public GetMovieDetailResult getMovieDetail(GetMovieDetail command) {
         String movieId = command.getMovieId();
+        String language = command.getLanguage();
         CompletableFuture<Movie> movieFuture = getMovieDetailHandler.handleAsync(command);
         CompletableFuture<GetMovieCreditResult> creditFuture = getMovieCreditHandler.handleAsync(
                 new GetMovieCredit(Long.parseLong(movieId)));
@@ -36,6 +41,10 @@ class DefaultMovieService implements MovieService {
                     log.info("Movie 에 actor 와 director 를 세팅하였습니다.");
                     return movie;
                 })).join();
+        
+        String savedMovieId = movieManager.register(joinedMovie, Locale.forLanguageTag(language));
+        joinedMovie.setMovieId(savedMovieId);
+        log.info("movieId: {}", savedMovieId);
         return GetMovieDetailResult.builder()
                                    .detail(joinedMovie)
                                    .requestInfo(command)

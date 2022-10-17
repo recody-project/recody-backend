@@ -52,7 +52,7 @@ class DefaultMovieManager implements MovieManager {
         MovieEntity savedMovie = movieRepository.save(movieEntity);
         
         movieEntityManager.upsertTitleByLocale(savedMovie, title, locale);
-        log.debug("새로운 영화를 저장하였습니다.");
+        log.info("새로운 영화를 저장하였습니다.");
         
         /* 영화 정보에 해당하는 정보들을 등록합니다. */
         List<ProductionCountry> productionCountries = movie.getProductionCountries();

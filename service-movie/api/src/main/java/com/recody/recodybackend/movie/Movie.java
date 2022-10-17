@@ -1,7 +1,8 @@
 package com.recody.recodybackend.movie;
 
-import com.recody.recodybackend.common.contents.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.recody.recodybackend.common.contents.BasicCategory;
+import com.recody.recodybackend.common.contents.ContentDetail;
 import com.recody.recodybackend.movie.features.getmoviecredit.Actor;
 import com.recody.recodybackend.movie.features.getmoviecredit.Director;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.ProductionCountry;
@@ -18,6 +19,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Movie implements ContentDetail {
+    @JsonIgnore // 유저에게는 contentId 라는 이름으로 노출한다.
     private String movieId;
     private Integer tmdbId;
     private Integer rootId;
@@ -33,7 +35,7 @@ public class Movie implements ContentDetail {
     private String overview;
     private String releaseDate;
     
-
+    
     /* Details */
     private Float popularity;
     private List<ProductionCountry> productionCountries;

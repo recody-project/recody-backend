@@ -5,8 +5,6 @@ import com.recody.recodybackend.movie.data.movie.MovieEntity;
 import com.recody.recodybackend.movie.data.movie.MovieEntityMapper;
 import com.recody.recodybackend.movie.data.movie.MovieRepository;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieDetail;
-import com.recody.recodybackend.movie.features.manager.MovieManager;
-import com.recody.recodybackend.movie.features.tmdb.TMDB;
 import com.recody.recodybackend.movie.general.MovieSource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +33,6 @@ class TMDBGetMovieDetailHandler implements GetMovieDetailHandler {
     private static final String TMDB_LANGUAGE_PARAM_NAME = "language";
     public static final String API_KEY_PARAM_NAME = "api_key";
     private final MovieEntityMapper mapper;
-    private final MovieManager movieManager;
     private final MovieRepository movieRepository;
     private final RestTemplate restTemplate = new RestTemplate();
     
@@ -60,15 +57,9 @@ class TMDBGetMovieDetailHandler implements GetMovieDetailHandler {
             throw new RuntimeException();
         }
         
-        log.debug("tmdbMovieDetail: {}", tmdbMovieDetail);
         Movie movie = mapper.map(tmdbMovieDetail);
-        movie.setPosterPath(TMDB.fullPosterPath(tmdbMovieDetail.getPosterPath()));
+        log.info("TMDB 에서 영화정보를 가져왔습니다.");
         
-        // movie detail 저장
-        // 요청한 language 에 따라서 다른 title 을 저장해야한다.
-        String savedMovieId = movieManager.register(movie, Locale.forLanguageTag(language));
-        movie.setMovieId(savedMovieId);
-        log.info("movieId: {}", savedMovieId);
         return movie;
     }
     
