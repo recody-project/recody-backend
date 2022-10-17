@@ -49,4 +49,8 @@ public class CatalogContentEntity {
     @Column(nullable = false)
     private String  title;
     
+    @Override
+    public String toString() {
+        return "{\"CatalogContentEntity\":{" + "\"id\":" + ((id != null) ? ("\"" + id + "\"") : null) + ", \"category\":" + category + ", \"contentId\":" + ((contentId != null) ? ("\"" + contentId + "\"") : null) + ", \"imageUrl\":" + ((imageUrl != null) ? ("\"" + imageUrl + "\"") : null) + ", \"title\":" + ((title != null) ? ("\"" + title + "\"") : null) + "}}";
+    }
 }

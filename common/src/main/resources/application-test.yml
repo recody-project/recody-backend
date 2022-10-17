@@ -26,5 +26,3 @@ logging:
   level:
     com:
       recody: debug
-    org:
-      springframework: debug

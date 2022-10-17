@@ -1,17 +1,20 @@
 package com.recody.recodybackend.movie.features.resolvegenre.fromapi;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.recody.recodybackend.common.openapi.APIRequester;
 import com.recody.recodybackend.common.openapi.JsonAPIResponse;
 import com.recody.recodybackend.movie.data.genre.MovieGenreCodeEntity;
 import com.recody.recodybackend.movie.features.manager.MovieGenreCodeManager;
 import com.recody.recodybackend.movie.general.MovieGenre;
 import com.recody.recodybackend.movie.general.MovieSource;
-import com.recody.recodybackend.movie.general.TMDBAPIRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.RequestEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.annotation.PostConstruct;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,14 +26,17 @@ class GetMovieGenreFromTMDBApiHandler implements com.recody.recodybackend.movie.
     private static final String GENRES = "genres";
     private static final String ID = "id";
     private static final String NAME = "name";
-    private final APIRequester<TMDBAPIRequest> apiRequester;
+    private static final String baseUrl = "https://api.themoviedb.org/3";
+    private static final String GENRE_PATH = "/genre/movie/list";
+    public static final String API_KEY_PARAM_NAME = "api_key";
     private final Map<Integer, String> tmdbGenreMap = new HashMap<>();
-    private boolean hasGenres = false;
     private final MovieGenreCodeManager movieGenreCodeManager;
+    private final RestTemplate restTemplate = new RestTemplate();
+    private boolean hasGenres = false;
+    @Value("${movie.tmdb.api-key}")
+    private String apiKey;
     
-    public GetMovieGenreFromTMDBApiHandler(APIRequester<TMDBAPIRequest> apiRequester,
-                                           MovieGenreCodeManager movieGenreCodeManager) {
-        this.apiRequester = apiRequester;
+    public GetMovieGenreFromTMDBApiHandler(MovieGenreCodeManager movieGenreCodeManager) {
         this.movieGenreCodeManager = movieGenreCodeManager;
     }
     
@@ -41,8 +47,11 @@ class GetMovieGenreFromTMDBApiHandler implements com.recody.recodybackend.movie.
     @Override
     @PostConstruct
     public void initTmdbGenre() {
-        TMDBGenreListFeature request = new TMDBGenreListFeature();
-        JsonAPIResponse response = apiRequester.requestToJson(request);
+        URI url = makeUrl();
+        RequestEntity<Void> request = RequestEntity.get(url).build();
+        
+        JsonNode jsonNode1 = restTemplate.exchange(request, JsonNode.class).getBody();
+        JsonAPIResponse response = new JsonAPIResponse(jsonNode1);
         try {
             response.rawStream().map(jsonNode -> {
                 List<JsonNode> parents = jsonNode.withArray(GENRES).findParents(ID);
@@ -53,15 +62,14 @@ class GetMovieGenreFromTMDBApiHandler implements com.recody.recodybackend.movie.
                     tmdbGenreMap.put(idField.asInt(), nameField.textValue());
                 }
                 return map;
-            }).findAny()
-                    .orElseThrow(() -> new RuntimeException("json 스트림을 처리하지 못했습니다."));
+            }).findAny().orElseThrow(() -> new RuntimeException("json 스트림을 처리하지 못했습니다."));
             this.hasGenres = true;
             log.info("Initiated Genres From TMDB API");
-        } catch (Exception exception){
+        } catch (Exception exception) {
             log.warn("exception: {}", exception.getMessage());
             this.hasGenres = false;
         }
-    
+        
         for (Integer key : tmdbGenreMap.keySet()) {
             MovieGenre genre = new MovieGenre(key, tmdbGenreMap.get(key));
             genre.setSource(MovieSource.TMDB);
@@ -78,5 +86,14 @@ class GetMovieGenreFromTMDBApiHandler implements com.recody.recodybackend.movie.
         }
         log.trace("for TMDB Genre Id: {},  GenreName: {}", tmdbGenreId, genreName);
         return new MovieGenre(tmdbGenreId, genreName);
+    }
+    
+    private URI makeUrl() {
+        return UriComponentsBuilder.fromUriString(baseUrl)
+                                   .path(GENRE_PATH)
+                                   .queryParam(API_KEY_PARAM_NAME, apiKey)
+                                   .encode()
+                                   .build()
+                                   .toUri();
     }
 }

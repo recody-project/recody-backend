@@ -29,9 +29,9 @@ import java.util.Map;
 @SuppressWarnings("unchecked")
 public abstract class AbstractAPIRequest implements APIRequest {
     
-    private final UriComponentsBuilder uriComponentsBuilder;
+    private UriComponentsBuilder uriComponentsBuilder;
     private final HttpHeaders headers = new HttpHeaders();
-    private final String baseUrl;
+    private String baseUrl;
     private final Map<String, String> requestParams = new HashMap<>();
     protected final Logger log = LoggerFactory.getLogger(getClass());
     private HttpMethod method;
@@ -40,12 +40,33 @@ public abstract class AbstractAPIRequest implements APIRequest {
     private boolean isUriBuilt = false;
     protected String path;
     
+    @Deprecated
     protected AbstractAPIRequest(String baseUrl) {
         this.baseUrl = baseUrl;
         this.uriComponentsBuilder = UriComponentsBuilder.fromUriString(baseUrl);
         this.body = body();
         this.method = method();
     }
+    
+    protected AbstractAPIRequest(){
+        this.body = body();
+        this.method = method();
+    }
+    
+    public void setBaseUrl(String baseUrl) {
+        this.baseUrl = baseUrl;
+        if (baseUrl == null) {
+            throw new IllegalStateException("아직 base url 이 정해지지 않았습니다.");
+        }
+        this.uriComponentsBuilder = UriComponentsBuilder.fromUriString(baseUrl);
+    }
+    
+//    protected void setBaseUrl(){
+//        if (baseUrl == null) {
+//            throw new IllegalStateException("아직 base url 이 정해지지 않았습니다.");
+//        }
+//        this.uriComponentsBuilder = UriComponentsBuilder.fromUriString(baseUrl);
+//    }
     
     public void setBody(Object body) {
         this.body = body;
@@ -70,7 +91,6 @@ public abstract class AbstractAPIRequest implements APIRequest {
         setParameters();
         // uri 생성
         URI uri = consolidateUri();
-        this.uri = uri;
         // validates all uri components
         validateApiComponents();
         return makeEntity(uri, headers);
@@ -112,10 +132,10 @@ public abstract class AbstractAPIRequest implements APIRequest {
      * URI 를 만드는 방식을 바꿀 수 있다.
      * 예를 들어 encode() 방식을 바꿀 수 있다. */
     protected URI consolidateUri() {
-        if (isUriBuilt){
-            log.warn("URI 를 두번 만드려는 시도");
-            return this.uri;
-        }
+//        if (isUriBuilt){
+//            log.warn("URI 를 두번 만드려는 시도");
+//            return this.uri;
+//        }
         URI uri;
         try {
             uri = this.uriComponentsBuilder.encode().build().toUri();
@@ -185,7 +205,5 @@ public abstract class AbstractAPIRequest implements APIRequest {
     }
     
     private void validateApiComponents() {
-        if (method == null) throw new IllegalArgumentException("HttpMethod was not set");
-        if (uri == null) throw new IllegalArgumentException("uri was not set");
     }
 }

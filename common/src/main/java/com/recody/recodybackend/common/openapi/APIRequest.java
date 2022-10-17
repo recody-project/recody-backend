@@ -1,6 +1,5 @@
 package com.recody.recodybackend.common.openapi;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.RequestEntity;
 
 public interface APIRequest{
@@ -13,7 +12,7 @@ public interface APIRequest{
     * 헤더를 추가할 수 있다. */
     void addHeader(String key, String value);
     
-    
+    void setBaseUrl(String baseUrl);
     void basicAuth(String username, String password);
     
     /*

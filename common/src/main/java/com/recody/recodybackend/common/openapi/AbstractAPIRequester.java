@@ -4,7 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.recody.recodybackend.common.exceptions.InternalServerError;
+import com.recody.recodybackend.common.openapi.annotation.APIProviderAnnotationResolver;
 import com.recody.recodybackend.common.openapi.annotation.AuthenticateWith;
+import com.recody.recodybackend.common.openapi.annotation.DefaultAPIProviderAnnotationResolver;
 import org.slf4j.Logger;
 import org.springframework.http.RequestEntity;
 import org.springframework.util.Assert;
@@ -31,12 +33,14 @@ public abstract class AbstractAPIRequester<T extends APIRequest> implements APIR
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final AuthenticationStrategy strategy;
     private final Logger log = getLogger(getClass());
+    private final APIProviderAnnotationResolver providerResolver = new DefaultAPIProviderAnnotationResolver();
     
     
     /**
      * API Requester 는 인증 정보를 가진다.
      * 어노테이션에 명시된 인증 방식을 우선시한다.
      */
+    @Deprecated
     protected AbstractAPIRequester(AuthType authType, String... authArgs) {
         AuthType decidedAuthType = decideAuthenticationType(authType);
         this.strategy = resolveAuthenticationStrategy(decidedAuthType, authArgs);
@@ -47,9 +51,39 @@ public abstract class AbstractAPIRequester<T extends APIRequest> implements APIR
      * 어노테이션에 병시된 인증 방식을 사용한다.
      * 없을 시 예외를 던진다.
      */
+    @Deprecated
     protected AbstractAPIRequester(String... authArgs) {
         AuthType decidedAuthType = decideAuthenticationType();
         this.strategy = resolveAuthenticationStrategy(decidedAuthType, authArgs);
+        logThisImplementation();
+    }
+    
+    /**
+     * {@code @APIProvider} 를 가진 요청 객체를 직접 받아 인증 정보를 세팅한다. <br>
+     * AuthType 도 해당 객체에 명시된 {@code @AuthenticateWith} 어노테이션을 우선적으로 따른다.<br>
+     * <pre> 요청 객체 예시
+     *     {@code
+     *  @APIProvider
+     *  @AuthenticateWith(type = AuthType.API_KEY_QUERY_PARAM)
+     *  public class TMDBAPIRequest extends AbstractAPIRequest {
+     *
+     *      private static final String TMDB_BASE_URI = "https://api.themoviedb.org/3";
+     *
+     *      @APIKeyName
+     *      private String apiParam = "api_key";
+     *
+     *      @APIKeyValue
+     *      @Value("${movie.tmdb.api-key}")
+     *      private String apikeyValue;
+     *   }
+     *   }
+     *   </pre>
+     * @param request {@code @APIProvider} 어노테이션을 가진 객체
+     */
+    protected AbstractAPIRequester(T request){
+        this.strategy = resolveAuthenticationStrategyFromAPIProvider(request);
+        String baseUrl = providerResolver.getBaseUrl();
+        request.setBaseUrl(baseUrl);
         logThisImplementation();
     }
     
@@ -90,6 +124,26 @@ public abstract class AbstractAPIRequester<T extends APIRequest> implements APIR
     @Override
     public <S> S requestAndGet(APIFeature apiFeature, Class<S> clazz) {
         return doExecute(apiFeature, clazz);
+    }
+    
+    @Override
+    public <S> S requestAndGet(APIRequest apiRequest, Class<S> clazz) {
+        return doExecute2(apiRequest, clazz);
+    }
+    
+    private <S> S doExecute2(APIRequest apiRequest, Class<S> clazz) {
+        S body;
+        log.debug("executing request: {}", apiRequest);
+        try {
+            strategy.authenticate(apiRequest);
+            RequestEntity<Object> entity = apiRequest.toEntity();
+            body = restTemplate.exchange(entity, clazz).getBody();
+        } catch (RestClientException exception) {
+            log.warn("exception: {}", exception.getMessage());
+            throw new RuntimeException(
+                    "외부 API 서버에서 정보를 받아오는 데에 실패하였습니다." + " message: " + exception.getMessage() + " request: " + apiRequest);
+        }
+        return body;
     }
     
     private AuthType decideAuthenticationType() {
@@ -200,6 +254,23 @@ public abstract class AbstractAPIRequester<T extends APIRequest> implements APIR
             return new AuthenticationStrategy.ApiKeyRequestParam(apiKeyParamName, apiKey);
         } else if (switchingAuthType == AuthType.BEARER_TOKEN) {
             apiKey = nonNull(authArgs, 0);
+            return new AuthenticationStrategy.Bearer(apiKey);
+        } else {
+            return new AuthenticationStrategy.NoAuth();
+        }
+    }
+    
+    private AuthenticationStrategy resolveAuthenticationStrategyFromAPIProvider(Object request) {
+        providerResolver.init(request);
+        AuthType switchingAuthType = providerResolver.getAuthType();
+        String apiKey;
+        String apiKeyParamName;
+        if (switchingAuthType == AuthType.API_KEY_QUERY_PARAM) {
+            apiKeyParamName = providerResolver.getApiKeyName();
+            apiKey = providerResolver.getApiKeyValue();
+            return new AuthenticationStrategy.ApiKeyRequestParam(apiKeyParamName, apiKey);
+        } else if (switchingAuthType == AuthType.BEARER_TOKEN) {
+            apiKey = providerResolver.getBearerToken();
             return new AuthenticationStrategy.Bearer(apiKey);
         } else {
             return new AuthenticationStrategy.NoAuth();

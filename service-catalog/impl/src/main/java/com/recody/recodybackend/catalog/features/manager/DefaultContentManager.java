@@ -27,6 +27,7 @@ public class DefaultContentManager implements ContentManager {
     
     @Override
     public <T extends Content> String register(T content) {
+        log.debug("registering content: {}", content);
         if (content instanceof Movie){
             Movie movie = (Movie) content;
             Optional<CatalogContentEntity> optionalContent = contentRepository.findByContentId(movie.getMovieId());
@@ -34,6 +35,7 @@ public class DefaultContentManager implements ContentManager {
                 return optionalContent.get().getId();
             }
             CatalogContentEntity contentEntity = mapper.map(movie);
+            log.debug("created contentEntity: {}", contentEntity);
             CatalogContentEntity savedContent = contentRepository.save(contentEntity);
             String catalogId = savedContent.getId();
             log.info("Catalog 에 새로운 작품이 등록됩니다. {}", catalogId);
