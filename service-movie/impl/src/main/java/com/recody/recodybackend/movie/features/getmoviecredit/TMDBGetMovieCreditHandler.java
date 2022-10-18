@@ -14,10 +14,10 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -35,6 +35,8 @@ class TMDBGetMovieCreditHandler implements GetMovieCreditHandler {
     private final ActorMapper actorMapper;
     
     private final DirectorMapper directorMapper;
+    
+    public static final int ACTOR_MAX_SIZE = 5;
     
     @Value("${movie.tmdb.api-key}")
     private String apiKey;
@@ -55,22 +57,22 @@ class TMDBGetMovieCreditHandler implements GetMovieCreditHandler {
             throw new RuntimeException();
         }
         
-        List<Actor> actors = new ArrayList<>();
-        List<Director> directors = new ArrayList<>();
+        List<Actor> actors;
+        List<Director> directors;
         List<TMDBCast> cast = response.getCast();
         List<TMDBCrew> crew = response.getCrew();
-        for (TMDBCast tmdbCast : cast) {
-            if (tmdbCast.getKnownForDepartment().equals(ACTING)){
-                Actor actor = actorMapper.map(tmdbCast);
-                actors.add(actor);
-            }
-        }
-        for (TMDBCrew tmdbCrew : crew) {
-            if (tmdbCrew.getJob().equals(DIRECTOR)) {
-                Director director = directorMapper.map(tmdbCrew);
-                directors.add(director);
-            }
-        }
+        
+        actors = cast.stream()
+                     .filter(tmdbCast -> tmdbCast.getKnownForDepartment().equals(ACTING))
+                     .limit(ACTOR_MAX_SIZE)
+                     .map(actorMapper::map)
+                     .collect(Collectors.toList());
+    
+        directors = crew.stream()
+                     .filter(tmdbCast -> tmdbCast.getJob().equals(DIRECTOR))
+                     .limit(ACTOR_MAX_SIZE)
+                     .map(directorMapper::map)
+                     .collect(Collectors.toList());
         
         return GetMovieCreditResult.builder()
                        .actors(actors)

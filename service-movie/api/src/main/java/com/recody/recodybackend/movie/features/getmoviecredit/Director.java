@@ -1,5 +1,6 @@
 package com.recody.recodybackend.movie.features.getmoviecredit;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 @Data
@@ -7,8 +8,9 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class Director {
+    @JsonIgnore // ID 세팅을 위한 쿼리가 많아 현재는 노출하지 않도록 하였음.
     private Long id;
-    
+    @JsonIgnore // tmdb id 는 노출하지 않는다.
     private Long tmdbId;
     private String name;
     

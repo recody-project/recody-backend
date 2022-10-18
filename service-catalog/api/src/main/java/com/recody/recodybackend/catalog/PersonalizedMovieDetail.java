@@ -3,6 +3,8 @@ package com.recody.recodybackend.catalog;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.contents.Category;
+import com.recody.recodybackend.movie.features.getmoviecredit.Actor;
+import com.recody.recodybackend.movie.features.getmoviecredit.Director;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.ProductionCountry;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.SpokenLanguage;
 import com.recody.recodybackend.movie.general.MovieGenre;
@@ -40,6 +42,9 @@ public class PersonalizedMovieDetail implements PersonalizedContentDetail {
     private String status;
     private Float voteAverage;
     private Integer voteCount;
+    
+    private List<Actor> actors;
+    private List<Director> directors;
     
     @Override
     public Category getCategory() {

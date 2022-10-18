@@ -28,7 +28,7 @@ class DefaultGetContentDetailHandler implements GetContentDetailHandler{
     public GetContentDetailResult handle(GetContentDetail command) {
         log.debug("handling command: {}", command);
         BasicCategory category = command.getCategory();
-        PersonalizedContentDetail personalizedcontent;
+        PersonalizedContentDetail personalizedContent;
         if (category.equals(BasicCategory.Movie)) {
             Movie movie = fetchMovieDetailHandler.handle(
                     FetchMovieDetail.builder()
@@ -36,11 +36,11 @@ class DefaultGetContentDetailHandler implements GetContentDetailHandler{
                                     .language(command.getLanguage())
                                     .build());
             String catalogContentId = contentManager.register(movie);
-            personalizedcontent
+            personalizedContent
                     = movieDetailPersonalizer.personalize(movie, command.getUserId());
         } else {
             throw new ApplicationException(GlobalErrorType.UnsupportedCategory, HttpStatus.BAD_REQUEST);
         }
-        return new GetContentDetailResult(personalizedcontent);
+        return new GetContentDetailResult(personalizedContent);
     }
 }

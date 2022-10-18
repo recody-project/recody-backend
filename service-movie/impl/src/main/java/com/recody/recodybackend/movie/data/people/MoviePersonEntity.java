@@ -17,10 +17,10 @@ public class MoviePersonEntity {
     @GeneratedValue
     private Long id;
     
-    @Column(name = "tmdb_id")
+    @Column(name = "tmdb_id", unique = true)
     private Integer tmdbId;
     
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private MoviePersonNameEntity name;
     
     @Column(name = "profile_path")
