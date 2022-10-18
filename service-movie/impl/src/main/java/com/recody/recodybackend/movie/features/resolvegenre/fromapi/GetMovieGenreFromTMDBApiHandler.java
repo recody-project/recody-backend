@@ -1,9 +1,9 @@
 package com.recody.recodybackend.movie.features.resolvegenre.fromapi;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.recody.recodybackend.common.openapi.JsonAPIResponse;
 import com.recody.recodybackend.movie.data.genre.MovieGenreCodeEntity;
 import com.recody.recodybackend.movie.features.manager.MovieGenreCodeManager;
+import com.recody.recodybackend.movie.features.resolvegenre.fromapi.dto.TMDBGenre;
+import com.recody.recodybackend.movie.features.resolvegenre.fromapi.dto.TMDBGetGenresResponse;
 import com.recody.recodybackend.movie.general.MovieGenre;
 import com.recody.recodybackend.movie.general.MovieSource;
 import lombok.extern.slf4j.Slf4j;
@@ -18,14 +18,11 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Component
 @Slf4j
 class GetMovieGenreFromTMDBApiHandler implements com.recody.recodybackend.movie.features.resolvegenres.fromapi.GetMovieGenreFromTMDBApiHandler {
-    
-    private static final String GENRES = "genres";
-    private static final String ID = "id";
-    private static final String NAME = "name";
     private static final String baseUrl = "https://api.themoviedb.org/3";
     private static final String GENRE_PATH = "/genre/movie/list";
     public static final String API_KEY_PARAM_NAME = "api_key";
@@ -49,20 +46,14 @@ class GetMovieGenreFromTMDBApiHandler implements com.recody.recodybackend.movie.
     public void initTmdbGenre() {
         URI url = makeUrl();
         RequestEntity<Void> request = RequestEntity.get(url).build();
-        
-        JsonNode jsonNode1 = restTemplate.exchange(request, JsonNode.class).getBody();
-        JsonAPIResponse response = new JsonAPIResponse(jsonNode1);
+    
         try {
-            response.rawStream().map(jsonNode -> {
-                List<JsonNode> parents = jsonNode.withArray(GENRES).findParents(ID);
-                HashMap<Integer, String> map = new HashMap<>();
-                for (JsonNode parent : parents) {
-                    JsonNode idField = parent.get(ID);
-                    JsonNode nameField = parent.get(NAME);
-                    tmdbGenreMap.put(idField.asInt(), nameField.textValue());
-                }
-                return map;
-            }).findAny().orElseThrow(() -> new RuntimeException("json 스트림을 처리하지 못했습니다."));
+            TMDBGetGenresResponse response = restTemplate.exchange(request, TMDBGetGenresResponse.class).getBody();
+            List<TMDBGenre> genres = Objects.requireNonNull(response, "TMDB 에서 장르를 받아옺 못했습니다.")
+                                            .getGenres();
+            for (TMDBGenre genre : genres) {
+                tmdbGenreMap.put(genre.getId(), genre.getName());
+            }
             this.hasGenres = true;
             log.info("Initiated Genres From TMDB API");
         } catch (Exception exception) {
