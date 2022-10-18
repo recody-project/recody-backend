@@ -30,7 +30,7 @@ public class DefaultContentManager implements ContentManager {
         log.debug("registering content: {}", content);
         if (content instanceof Movie){
             Movie movie = (Movie) content;
-            Optional<CatalogContentEntity> optionalContent = contentRepository.findByContentId(movie.getMovieId());
+            Optional<CatalogContentEntity> optionalContent = contentRepository.findByContentId(movie.getContentId());
             if (optionalContent.isPresent()){
                 return optionalContent.get().getId();
             }

@@ -6,6 +6,8 @@ import com.recody.recodybackend.movie.data.movie.MovieEntity;
 import com.recody.recodybackend.movie.data.movie.MovieEntityMapper;
 import com.recody.recodybackend.movie.data.movie.MovieRepository;
 import com.recody.recodybackend.movie.exceptions.UnsupportedMovieSourceException;
+import com.recody.recodybackend.movie.features.getmoviecredit.Actor;
+import com.recody.recodybackend.movie.features.getmoviecredit.Director;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.ProductionCountry;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.SpokenLanguage;
 import com.recody.recodybackend.movie.general.MovieGenre;
@@ -30,6 +32,8 @@ class DefaultMovieManager implements MovieManager {
     private final MovieGenreCodeManager genreCodeManager;
     private final LanguageManager languageManager;
     private final MovieEntityManager movieEntityManager;
+    
+    private final PersonManager personManager;
     
     
     @Override
@@ -61,7 +65,25 @@ class DefaultMovieManager implements MovieManager {
         saveMovieGenres(movieEntity, genres);
         List<SpokenLanguage> spokenLanguages = movie.getSpokenLanguages();
         saveSpokenLanguages(movieEntity, spokenLanguages);
+        List<Actor> actors = movie.getActors();
+        saveActorEntity(movieEntity, actors);
+        List<Director> directors = movie.getDirectors();
+        saveDirectorEntity(movieEntity, directors);
         return savedMovie.getId();
+    }
+    
+    private void saveDirectorEntity(MovieEntity movieEntity, List<Director> directors) {
+        for (Director director : directors) {
+            personManager.registerAsync(director)
+                    .thenAccept(personEntity -> movieEntityManager.saveDirector(movieEntity, personEntity));
+        }
+    }
+    
+    private void saveActorEntity(MovieEntity movieEntity, List<Actor> actors) {
+        for (Actor actor : actors) {
+            personManager.registerAsync(actor)
+                    .thenAccept(personEntity -> movieEntityManager.saveActor(movieEntity, personEntity, actor));
+        }
     }
     
     public void saveSpokenLanguages(MovieEntity movieEntity, List<SpokenLanguage> spokenLanguages) {

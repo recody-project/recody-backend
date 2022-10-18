@@ -1,6 +1,5 @@
 package com.recody.recodybackend.movie;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.contents.ContentDetail;
 import com.recody.recodybackend.movie.features.getmoviecredit.Actor;
@@ -19,8 +18,8 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Movie implements ContentDetail {
-    @JsonIgnore // 유저에게는 contentId 라는 이름으로 노출한다.
-    private String movieId;
+    
+    private String contentId;
     private Integer tmdbId;
     private Integer rootId;
     @Builder.Default
@@ -54,7 +53,7 @@ public class Movie implements ContentDetail {
     
     @Override
     public String getContentId() {
-        return movieId;
+        return contentId;
     }
     
     @Override
@@ -64,6 +63,6 @@ public class Movie implements ContentDetail {
     
     @Override
     public String toString() {
-        return "{\"Movie\":{" + "\"movieId\":" + ((movieId != null) ? ("\"" + movieId + "\"") : null) + ", \"tmdbId\":" + tmdbId + ", \"source\":" + ((source != null) ? ("\"" + source + "\"") : null) + ", \"originalLanguage\":" + ((originalLanguage != null) ? ("\"" + originalLanguage + "\"") : null) + ", \"originalTitle\":" + ((originalTitle != null) ? ("\"" + originalTitle + "\"") : null) + ", \"title\":" + ((title != null) ? ("\"" + title + "\"") : null) + ", \"overview\":" + ((overview != null) ? ("\"" + overview + "\"") : null) + ", \"releaseDate\":" + ((releaseDate != null) ? ("\"" + releaseDate + "\"") : null) + ", \"popularity\":" + popularity + ", \"productionCountries\":" + productionCountries + ", \"runtime\":" + runtime + ", \"revenue\":" + revenue + ", \"spokenLanguages\":" + spokenLanguages + ", \"status\":" + ((status != null) ? ("\"" + status + "\"") : null) + ", \"voteAverage\":" + voteAverage + ", \"voteCount\":" + voteCount + ", \"posterPath\":" + ((posterPath != null) ? ("\"" + posterPath + "\"") : null) + ", \"genres\":" + genres + ", \"rootId\":" + rootId + "}}";
+        return "{\"Movie\":{" + "\"movieId\":" + ((contentId != null) ? ("\"" + contentId + "\"") : null) + ", \"tmdbId\":" + tmdbId + ", \"source\":" + ((source != null) ? ("\"" + source + "\"") : null) + ", \"originalLanguage\":" + ((originalLanguage != null) ? ("\"" + originalLanguage + "\"") : null) + ", \"originalTitle\":" + ((originalTitle != null) ? ("\"" + originalTitle + "\"") : null) + ", \"title\":" + ((title != null) ? ("\"" + title + "\"") : null) + ", \"overview\":" + ((overview != null) ? ("\"" + overview + "\"") : null) + ", \"releaseDate\":" + ((releaseDate != null) ? ("\"" + releaseDate + "\"") : null) + ", \"popularity\":" + popularity + ", \"productionCountries\":" + productionCountries + ", \"runtime\":" + runtime + ", \"revenue\":" + revenue + ", \"spokenLanguages\":" + spokenLanguages + ", \"status\":" + ((status != null) ? ("\"" + status + "\"") : null) + ", \"voteAverage\":" + voteAverage + ", \"voteCount\":" + voteCount + ", \"posterPath\":" + ((posterPath != null) ? ("\"" + posterPath + "\"") : null) + ", \"genres\":" + genres + ", \"rootId\":" + rootId + "}}";
     }
 }

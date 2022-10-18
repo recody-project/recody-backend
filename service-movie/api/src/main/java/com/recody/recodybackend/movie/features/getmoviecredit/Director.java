@@ -1,8 +1,11 @@
 package com.recody.recodybackend.movie.features.getmoviecredit;
 
-import lombok.Data;
+import lombok.*;
 
 @Data
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 public class Director {
     private Long id;
     

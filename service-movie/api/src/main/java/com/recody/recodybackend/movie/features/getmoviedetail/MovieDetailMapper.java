@@ -13,7 +13,9 @@ import org.mapstruct.Mapping;
  * TMDB Movie Detail 을 Movie 객체로 변환한다. */
 @Mapper(componentModel = "spring", imports = {MovieSource.class, BasicCategory.class})
 abstract class MovieDetailMapper {
-    @Mapping(target = "movieId", ignore = true) // 알 수 없다.
+    @Mapping(target = "directors", ignore = true)
+    @Mapping(target = "actors", ignore = true)
+    @Mapping(target = "contentId", ignore = true) // 알 수 없다.
     @Mapping(target = "tmdbId", source = "tmdbMovieDetail.id")
     @Mapping(target = "category", expression = "java(com.recody.recodybackend.common.contents.BasicCategory.Movie)")
     @Mapping(target = "rootId", ignore = true)

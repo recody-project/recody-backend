@@ -3,21 +3,26 @@ package com.recody.recodybackend.movie.data.movie;
 import com.recody.recodybackend.commonbootutils.data.CustomSequenceIdGenerator;
 import com.recody.recodybackend.movie.data.MovieBaseEntity;
 import com.recody.recodybackend.movie.data.genre.MovieGenreEntity;
+import com.recody.recodybackend.movie.data.people.MovieActorEntity;
+import com.recody.recodybackend.movie.data.people.MovieDirectorEntity;
 import com.recody.recodybackend.movie.data.productioncountry.ProductionCountryEntity;
 import com.recody.recodybackend.movie.data.spokenlanguage.SpokenLanguageEntity;
 import com.recody.recodybackend.movie.data.title.MovieTitleEntity;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+@Entity(name = "Movie")
 @Table(name = "movie")
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class MovieEntity extends MovieBaseEntity {
     
     @Id
@@ -41,19 +46,25 @@ public class MovieEntity extends MovieBaseEntity {
     private Float popularity;
     private String posterPath;
     @OneToMany(mappedBy = "movie")
-    private List<ProductionCountryEntity> productionCountries;
+    private List<ProductionCountryEntity> productionCountries = new ArrayList<>();
     private String releaseDate;
     private Integer runtime;
     private Integer revenue;
     @OneToMany(mappedBy = "movie")
-    private List<MovieGenreEntity> genres;
+    private List<MovieGenreEntity> genres = new ArrayList<>();
     @OneToMany(mappedBy = "movie")
-    private List<SpokenLanguageEntity> spokenLanguages;
+    private List<SpokenLanguageEntity> spokenLanguages = new ArrayList<>();
     private String status;
     @OneToOne(mappedBy = "movie")
     private MovieTitleEntity title;
     private Float voteAverage;
     private Integer voteCount;
+    
+    @OneToMany(mappedBy = "movie")
+    private List<MovieActorEntity> actors = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "movie")
+    private List<MovieDirectorEntity> directors = new ArrayList<>();
     
     @Override
     public String toString() {

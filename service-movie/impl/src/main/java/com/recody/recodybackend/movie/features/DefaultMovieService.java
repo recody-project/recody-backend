@@ -43,7 +43,7 @@ class DefaultMovieService implements MovieService {
                 })).join();
         
         String savedMovieId = movieManager.register(joinedMovie, Locale.forLanguageTag(language));
-        joinedMovie.setMovieId(savedMovieId);
+        joinedMovie.setContentId(savedMovieId);
         log.info("movieId: {}", savedMovieId);
         return GetMovieDetailResult.builder()
                                    .detail(joinedMovie)
