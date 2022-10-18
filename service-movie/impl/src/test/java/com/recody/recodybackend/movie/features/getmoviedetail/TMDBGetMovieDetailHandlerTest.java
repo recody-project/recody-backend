@@ -26,28 +26,11 @@ class TMDBGetMovieDetailHandlerTest {
     void test01() {
         // given
         GetMovieDetail command = new GetMovieDetail("705996", "ko");
-        Movie handle = getMovieDetailHandler.handle(command);
+        Movie detail = getMovieDetailHandler.handle(command);
     
         // when
         
         // then
-    }
-    
-    @Test
-    @DisplayName("dbtest")
-    void dbtest() {
-        // given
-        GetMovieDetail command = new GetMovieDetail(MOVIE_ID, "ko");
-        Movie handle = getMovieDetailHandler.handle(command);// 저장함.
-        
-        
-        System.out.println("================꺼내오기==================");
-        GetMovieDetailResult result = getMovieDetailHandler.handleFromDB(command);
-        
-        // when
-        
-        // then
-        Movie detail = result.getDetail();
         assertThat(detail.getSource()).isEqualTo(MovieSource.TMDB);
         assertThat(detail.getTmdbId()).isEqualTo(Integer.parseInt(MOVIE_ID));
     }
