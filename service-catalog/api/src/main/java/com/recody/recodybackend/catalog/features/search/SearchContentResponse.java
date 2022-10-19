@@ -1,18 +1,19 @@
 package com.recody.recodybackend.catalog.features.search;
 
 import com.recody.recodybackend.catalog.PersonalizedContent;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.util.List;
 
 @Data
 @Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class SearchContentResponse {
     
     public List<? extends PersonalizedContent> contents;
+    public Integer page;
+    public Integer total;
     
-    public SearchContentResponse(List<? extends PersonalizedContent> contents) {
-        this.contents = contents;
-    }
+    
 }

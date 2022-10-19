@@ -42,7 +42,7 @@ class DefaultGetMyWishlistHandlerTest {
     
     @BeforeEach
     void before() {
-        CategoryEntity categoryEntity = new CategoryEntity(BasicCategory.Movie.getId(), BasicCategory.Movie.name());
+        CategoryEntity categoryEntity = new CategoryEntity(BasicCategory.Movie.getId(), BasicCategory.Movie.getName());
         COMMON_CATEGORY = categoryRepository.save(categoryEntity);
         for (int i = 0; i < contentIds.length; i++) {
             CatalogContentEntity con1 = CatalogContentEntity.builder()

@@ -1,44 +1,48 @@
 package com.recody.recodybackend.common.contents;
 
+import com.fasterxml.jackson.annotation.*;
 import com.recody.recodybackend.common.exceptions.UnsupportedCategoryException;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Objects;
 
-public enum BasicCategory implements Category{
-    Movie("cat-1", "Movie", "영화", "movie"),
-    TVSeries("cat-2", "TV Series", "드라마", "drama"),
-    Music("cat-3", "Music", "음악", "music"),
-    Book("cat-4", "Book", "책", "book"),
-    Performance("cat-5", "Performance", "공연 & 전시", "performance");
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Setter
+public class BasicCategory implements Category {
+    
+    private static final List<String> Ids = List.of("cat-1", "cat-2", "cat-3", "cat-4", "cat-5");
+    public static final BasicCategory Movie = new BasicCategory("cat-1", "Movie", "영화", "movie");
+    public static final BasicCategory TVSeries = new BasicCategory("cat-2", "TV Series", "드라마", "drama");
+    public static final BasicCategory Music = new BasicCategory("cat-3", "Music", "음악", "music");
+    public static final BasicCategory Book = new BasicCategory("cat-4", "Book", "책", "book");
+    public static final BasicCategory Performance = new BasicCategory("cat-5", "Performance", "공연 & 전시", "performance");
     
     
-    private final String englishName;
-    private final String koreanName;
-    private final List<String> aliases;
-    
-    private final String id;
-    
-    private static final List<String> ids = Arrays.stream(BasicCategory.values())
-                                                  .map(BasicCategory::getId)
-                                                  .collect(Collectors.toList());
+    private String id;
+    private String name;
+    @JsonIgnore
+    private String koreanName;
+    private List<String> aliases;
     
     BasicCategory(String id, String englishName, String koreanName, String... aliases) {
         this.id = id;
-        this.englishName = englishName;
+        this.name = englishName;
         this.koreanName = koreanName;
         this.aliases = Arrays.asList(aliases);
     }
     
-    public static boolean isBasic(String categoryId){
-        return ids.contains(categoryId);
+    public static boolean isBasic(String categoryId) {
+        return Ids.contains(categoryId);
     }
     
-    public static BasicCategory idOf(String categoryId){
-        if (matchesId(categoryId, Movie)){
+    public static BasicCategory idOf(String categoryId) {
+        if (matchesId(categoryId, Movie)) {
             return BasicCategory.Movie;
-        } else if (matchesId(categoryId, TVSeries)){
+        } else if (matchesId(categoryId, TVSeries)) {
             return BasicCategory.TVSeries;
         } else if (matchesId(categoryId, Music)) {
             return BasicCategory.Music;
@@ -51,10 +55,10 @@ public enum BasicCategory implements Category{
         }
     }
     
-    public static BasicCategory of(String value){
+    public static BasicCategory of(String value) {
         if (matches(value, Movie)) {
             return BasicCategory.Movie;
-        } else if (matches(value, TVSeries)){
+        } else if (matches(value, TVSeries)) {
             return BasicCategory.TVSeries;
         } else if (matches(value, Music)) {
             return BasicCategory.Music;
@@ -67,20 +71,49 @@ public enum BasicCategory implements Category{
         }
     }
     
+    @JsonIgnore
+    public String getEnglishName() {
+        return name;
+    }
+    
+    public String getKoreanName() {
+        return koreanName;
+    }
+    
     @Override
     public String getId() {
-        return id;
+        return this.id;
+    }
+    
+    @Override
+    public String getName() {
+        return this.name;
     }
     
     private static boolean matches(String value, BasicCategory category) {
-        return category.aliases.contains(value) || category.englishName.equals(value) || category.koreanName.equals(value);
+        return category.aliases.contains(value) || category.name.equals(value) || category.koreanName.equals(
+                value);
     }
     
     private static boolean matchesId(String id, BasicCategory category) {
         return category.id.equals(id);
     }
     
-    public String getEnglishName() { return englishName; }
-
-    public String getKoreanName() { return koreanName; }
+    @Override
+    public String toString() {
+        return "{\"BasicCategory\":{" + "\"englishName\":" + ((name != null) ? ("\"" + name + "\"") : null) + ", \"koreanName\":" + ((koreanName != null) ? ("\"" + koreanName + "\"") : null) + ", \"aliases\":" + aliases + ", \"id\":" + ((id != null) ? ("\"" + id + "\"") : null) + "}}";
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof BasicCategory)) return false;
+        BasicCategory that = (BasicCategory) o;
+        return Objects.equals(getId(), that.getId());
+    }
+    
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
 }
