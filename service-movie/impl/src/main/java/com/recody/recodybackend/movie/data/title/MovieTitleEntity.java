@@ -40,6 +40,6 @@ public class MovieTitleEntity {
     
     @Override
     public String toString() {
-        return "{\"MovieTitleEntity\":{" + "\"movie\":" + movie + ", \"koreanTitle\":" + ((koreanTitle != null) ? ("\"" + koreanTitle + "\"") : null) + ", \"englishTitle\":" + ((englishTitle != null) ? ("\"" + englishTitle + "\"") : null) + "}}";
+        return "{\"MovieTitleEntity\":{" + ", \"koreanTitle\":" + ((koreanTitle != null) ? ("\"" + koreanTitle + "\"") : null) + ", \"englishTitle\":" + ((englishTitle != null) ? ("\"" + englishTitle + "\"") : null) + "}}";
     }
 }

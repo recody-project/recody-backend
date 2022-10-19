@@ -37,6 +37,6 @@ public class MovieDirectorEntity {
     
     @Override
     public String toString() {
-        return "{\"MovieDirectorEntity\":{" + "\"id\":" + ((id != null) ? ("\"" + id + "\"") : null) + ", \"person\":" + person + ", \"movie\":" + movie + "}}";
+        return "{\"MovieDirectorEntity\":{" + "\"id\":" + ((id != null) ? ("\"" + id + "\"") : null) + "}}";
     }
 }

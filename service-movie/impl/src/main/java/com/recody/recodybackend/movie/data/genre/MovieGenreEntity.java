@@ -36,6 +36,6 @@ public class MovieGenreEntity extends MovieBaseEntity {
     
     @Override
     public String toString() {
-        return "[{\"MovieGenreEntity\":{" + "\"id\":" + id + ", \"movie\":" + movie + ", \"genre\":" + genre + "}}, " + super.toString() + "]";
+        return "[{\"MovieGenreEntity\":{" + "\"id\":" + id + ", \"genre\":" + genre + "}}, " + super.toString() + "]";
     }
 }

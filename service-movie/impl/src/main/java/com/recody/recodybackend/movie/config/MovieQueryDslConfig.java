@@ -1,4 +1,4 @@
-package com.recody.recodybackend.record.config;
+package com.recody.recodybackend.movie.config;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -9,15 +9,15 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Configuration
-class QueryDslConfig {
+class MovieQueryDslConfig {
     
     @PersistenceContext
     private EntityManager entityManager;
     
-    
     @Bean
-    @ConditionalOnMissingBean(JPAQueryFactory.class)
+    @ConditionalOnMissingBean(value = JPAQueryFactory.class)
     public JPAQueryFactory jpaQueryFactory() {
         return new JPAQueryFactory(entityManager);
     }
+    
 }

@@ -1,8 +1,12 @@
 package com.recody.recodybackend.movie.features.manager;
 
 import com.recody.recodybackend.movie.MovieDetail;
+import com.recody.recodybackend.movie.data.movie.MovieEntity;
+import com.recody.recodybackend.movie.features.searchmovies.dto.TMDBMovieSearchNode;
 
+import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.CompletableFuture;
 
 
 public interface MovieManager {
@@ -17,5 +21,11 @@ public interface MovieManager {
      * @param movieDetail 영화 정보
      * @return 저장된 영화 정보의 고유 id
      */
-    String register(MovieDetail movieDetail, Locale locale);
+    MovieEntity register(MovieDetail movieDetail, Locale locale);
+    
+    MovieEntity register(TMDBMovieSearchNode movie, Locale locale);
+    
+    List<MovieEntity> registerList(List<TMDBMovieSearchNode> movie, Locale locale);
+    
+    CompletableFuture<List<MovieEntity>> registerListAsync(List<TMDBMovieSearchNode> movies, Locale locale);
 }

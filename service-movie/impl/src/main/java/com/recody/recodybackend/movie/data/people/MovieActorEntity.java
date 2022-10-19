@@ -38,6 +38,6 @@ public class MovieActorEntity {
     
     @Override
     public String toString() {
-        return "{\"MovieActorEntity\":{" + "\"id\":" + ((id != null) ? ("\"" + id + "\"") : null) + ", \"movie\":" + movie + ", \"person\":" + person + ", \"character\":" + ((character != null) ? ("\"" + character + "\"") : null) + "}}";
+        return "{\"MovieActorEntity\":{" + "\"id\":" + ((id != null) ? ("\"" + id + "\"") : null) + ", \"character\":" + ((character != null) ? ("\"" + character + "\"") : null) + "}}";
     }
 }

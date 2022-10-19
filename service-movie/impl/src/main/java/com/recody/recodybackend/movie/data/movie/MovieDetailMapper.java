@@ -1,7 +1,6 @@
 package com.recody.recodybackend.movie.data.movie;
 
 import com.recody.recodybackend.common.contents.BasicCategory;
-import com.recody.recodybackend.movie.Movie;
 import com.recody.recodybackend.movie.MovieDetail;
 import com.recody.recodybackend.movie.data.genre.MovieGenreMapper;
 import com.recody.recodybackend.movie.data.people.MoviePersonMapper;
@@ -17,9 +16,6 @@ import lombok.RequiredArgsConstructor;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 @Mapper(componentModel = "spring",
@@ -32,7 +28,7 @@ import java.util.Locale;
         MoviePersonMapper.class
 })
 @RequiredArgsConstructor
-public abstract class MovieEntityMapper {
+public abstract class MovieDetailMapper {
     
     
     @Mapping(target = "directors", ignore = true)
@@ -62,23 +58,8 @@ public abstract class MovieEntityMapper {
     @Mapping(target = "source", expression = "java((s.equals(MovieSource.TMDB)) ? MovieSource.TMDB : null)")
     @Mapping(target = "rootId", ignore = true)
     @Mapping(target = "tmdbId", source = "movie.tmdbId", conditionExpression = "java(MovieSource.TMDB.equals(s))")
-    @Mapping(target = "title", expression = "java(this.map(movie, locale))")
+    @Mapping(target = "title", expression = "java(this.mapTitle(movie, locale))")
     public abstract MovieDetail map(MovieEntity movie, MovieSource s, Locale locale);
-    
-    
-    @Mapping(target = "category", expression = "java(com.recody.recodybackend.common.contents.BasicCategory.Movie)")
-    @Mapping(target = "contentId", source = "movie.id")
-    @Mapping(target = "title", expression = "java(this.map(movie, locale))")
-    public abstract Movie mapMovie(MovieEntity movie, Locale locale);
-    
-    public List<Movie> mapMovieList(List<MovieEntity> movieEntities, Locale locale){
-        ArrayList<Movie> movies = new ArrayList<>();
-        for (MovieEntity movieEntity : movieEntities) {
-            Movie movie = this.mapMovie(movieEntity, locale);
-            movies.add(movie);
-        }
-        return movies;
-    }
     
     public MovieGenre toGenre(TMDBMovieGenre tmdbMovieGenre){
         MovieGenre movieGenre = new MovieGenre();
@@ -88,8 +69,7 @@ public abstract class MovieEntityMapper {
         return movieGenre;
     }
     
-    @Transactional(Transactional.TxType.REQUIRES_NEW)
-    public String map(MovieEntity entity, Locale locale) {
+    public String mapTitle(MovieEntity entity, Locale locale) {
         if (locale.equals(Locale.KOREAN)){
             String koreanTitle = entity.getTitle().getKoreanTitle();
             if (koreanTitle == null){

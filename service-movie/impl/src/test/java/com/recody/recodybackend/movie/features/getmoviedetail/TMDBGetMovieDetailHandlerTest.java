@@ -19,7 +19,6 @@ class TMDBGetMovieDetailHandlerTest {
     
     public static final String MOVIE_ID = "705996";
     @Autowired GetMovieDetailHandler getMovieDetailHandler;
-    @Autowired MovieDetailMapper movieDetailMapper;
     
     @Test
     @DisplayName("매핑이 잘 이루어지는가?")

@@ -2,7 +2,7 @@ package com.recody.recodybackend.movie.features.getmoviedetail;
 
 import com.recody.recodybackend.movie.MovieDetail;
 import com.recody.recodybackend.movie.data.movie.MovieEntity;
-import com.recody.recodybackend.movie.data.movie.MovieEntityMapper;
+import com.recody.recodybackend.movie.data.movie.MovieDetailMapper;
 import com.recody.recodybackend.movie.data.movie.MovieRepository;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieDetail;
 import com.recody.recodybackend.movie.general.MovieSource;
@@ -32,7 +32,7 @@ class TMDBGetMovieDetailHandler implements GetMovieDetailHandler {
     private static final String PATH = "/movie/";
     private static final String TMDB_LANGUAGE_PARAM_NAME = "language";
     public static final String API_KEY_PARAM_NAME = "api_key";
-    private final MovieEntityMapper mapper;
+    private final MovieDetailMapper mapper;
     private final MovieRepository movieRepository;
     private final RestTemplate restTemplate = new RestTemplate();
     
