@@ -39,16 +39,20 @@ class CatalogController {
     @GetMapping("/api/v1/catalog/search")
     public ResponseEntity<SuccessResponseBody> search(@RequestParam String keyword,
                                                       @Nullable @RequestParam(defaultValue = "movie") String category,
+                                                      @Nullable @RequestParam(defaultValue = "ko") String language,
                                                       @AccessToken String accessToken,
                                                       HttpServletRequest httpServletRequest){
         return ResponseEntity.ok(SuccessResponseBody.builder()
                                                     .message(ms.getMessage("catalog.search.succeeded", null, httpServletRequest.getLocale()))
-                                                    .data(searchContentHandler.handle(
-                                                            SearchContent.builder()
-                                                                         .keyword(keyword)
-                                                                         .category(BasicCategory.of(category))
-                                                                         .userId(jwtManager.resolveUserId(accessToken))
-                                                                         .build()))
+                                                    .data(
+                                                            searchContentHandler.handle(
+                                                                                  SearchContent.builder()
+                                                                                               .keyword(keyword)
+                                                                                               .category(BasicCategory.of(category))
+                                                                                               .userId(jwtManager.resolveUserId(accessToken))
+                                                                                               .language(language)
+                                                                                               .build())
+                                                         )
                                                     .build());
     }
     

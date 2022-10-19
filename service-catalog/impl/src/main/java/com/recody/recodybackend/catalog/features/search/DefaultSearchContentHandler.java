@@ -4,11 +4,11 @@ import com.recody.recodybackend.catalog.PersonalizedContent;
 import com.recody.recodybackend.catalog.PersonalizedMovie;
 import com.recody.recodybackend.catalog.features.personalize.ContentPersonalizer;
 import com.recody.recodybackend.catalog.features.search.movies.SearchMovies;
-import com.recody.recodybackend.catalog.features.search.movies.SearchMoviesHandler;
+import com.recody.recodybackend.catalog.features.search.movies.CatalogSearchMoviesHandler;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.exceptions.UnsupportedCategoryException;
 import com.recody.recodybackend.movie.Movie;
-import com.recody.recodybackend.movie.features.searchmovies.SearchMoviesResult;
+import com.recody.recodybackend.movie.features.searchmovies.SearchMoviesByQueryResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 class DefaultSearchContentHandler implements SearchContentHandler{
     
-    private final SearchMoviesHandler searchMoviesHandler;
+    private final CatalogSearchMoviesHandler catalogSearchMoviesHandler;
     private final ContentPersonalizer<Movie, PersonalizedMovie> movieContentPersonalizer;
     
     @Override
@@ -31,7 +31,7 @@ class DefaultSearchContentHandler implements SearchContentHandler{
         List<PersonalizedContent> personalizedContentDetails = new ArrayList<>();
         
         if (category.equals(BasicCategory.Movie)){
-            SearchMoviesResult movieResult = searchMoviesHandler.handle(
+            SearchMoviesByQueryResult movieResult = catalogSearchMoviesHandler.handle(
                     SearchMovies.builder().keyword(keyword).language(command.getLanguage()).build());
             List<Movie> movies = movieResult.getMovies();
             for (Movie movie : movies) {
@@ -42,6 +42,10 @@ class DefaultSearchContentHandler implements SearchContentHandler{
             throw new UnsupportedCategoryException();
         }
         
-        return new SearchContentResponse(personalizedContentDetails);
+        return SearchContentResponse.builder()
+                       .contents(personalizedContentDetails)
+                       .total(personalizedContentDetails.size())
+                                    
+                                    .build();
     }
 }

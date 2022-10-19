@@ -16,6 +16,7 @@ class MoviePersonalizer implements ContentPersonalizer<Movie, PersonalizedMovie>
     public PersonalizedMovie personalize(Movie content, Long userId) {
         PersonalizedMovie personalizedMovie = personalizedMovieMapper.map(content);
         
+        // 개인화 로직 현재 없음
         personalizedMovie.setCategory(content.getCategory());
         personalizedMovie.setPersonalizedUserId(userId);
         
