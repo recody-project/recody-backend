@@ -1,6 +1,6 @@
 package com.recody.recodybackend.movie.features.searchmovies;
 
-import com.recody.recodybackend.movie.MovieDetail;
+import com.recody.recodybackend.movie.Movie;
 import lombok.*;
 
 import java.util.List;
@@ -15,13 +15,13 @@ public class SearchMoviesResult {
     private Locale requestedLanguage;
     
     // 요청 결과
-    private List<MovieDetail> movieDetails;
+    private List<Movie> movies;
     
     private Integer page;
     private Integer total;
     
     @Override
     public String toString() {
-        return "{\"SearchMoviesResult\":{" + "\"requestedLanguage\":" + requestedLanguage + ", \"movies\":" + movieDetails + ", \"page\":" + page + ", \"total\":" + total + "}}";
+        return "{\"SearchMoviesResult\":{" + "\"requestedLanguage\":" + requestedLanguage + ", \"movies\":" + movies + ", \"page\":" + page + ", \"total\":" + total + "}}";
     }
 }

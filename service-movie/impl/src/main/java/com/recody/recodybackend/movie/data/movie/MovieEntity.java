@@ -9,7 +9,10 @@ import com.recody.recodybackend.movie.data.productioncountry.ProductionCountryEn
 import com.recody.recodybackend.movie.data.spokenlanguage.SpokenLanguageEntity;
 import com.recody.recodybackend.movie.data.title.MovieTitleEntity;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
@@ -20,7 +23,7 @@ import java.util.List;
 @Table(name = "movie")
 @Getter
 @Setter
-@Builder
+@SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class MovieEntity extends MovieBaseEntity {
@@ -55,7 +58,9 @@ public class MovieEntity extends MovieBaseEntity {
     @OneToMany(mappedBy = "movie")
     private List<SpokenLanguageEntity> spokenLanguages = new ArrayList<>();
     private String status;
-    @OneToOne(mappedBy = "movie")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "title_id", nullable = false, foreignKey = @ForeignKey(name = "movie_contains_movie_title_id"))
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private MovieTitleEntity title;
     private Float voteAverage;
     private Integer voteCount;
@@ -68,6 +73,6 @@ public class MovieEntity extends MovieBaseEntity {
     
     @Override
     public String toString() {
-        return "{\"MovieEntity\":{" + "\"id\":" + ((id != null) ? ("\"" + id + "\"") : null) + ", \"tmdbId\":" + tmdbId + ", \"originalLanguage\":" + ((originalLanguage != null) ? ("\"" + originalLanguage + "\"") : null) + ", \"originalTitle\":" + ((originalTitle != null) ? ("\"" + originalTitle + "\"") : null) + ", \"overview\":" + ((overview != null) ? ("\"" + overview + "\"") : null) + ", \"popularity\":" + popularity + ", \"posterPath\":" + ((posterPath != null) ? ("\"" + posterPath + "\"") : null) + ", \"productionCountries\":" + productionCountries + ", \"releaseDate\":" + ((releaseDate != null) ? ("\"" + releaseDate + "\"") : null) + ", \"runtime\":" + runtime + ", \"revenue\":" + revenue + ", \"genres\":" + genres + ", \"spokenLanguages\":" + spokenLanguages + ", \"status\":" + ((status != null) ? ("\"" + status + "\"") : null) + ", \"title\":" + ((title != null) ? ("\"" + title + "\"") : null) + ", \"voteAverage\":" + voteAverage + ", \"voteCount\":" + voteCount + "}}";
+        return "[{\"MovieEntity\":{" + "\"id\":" + ((id != null) ? ("\"" + id + "\"") : null) + ", \"tmdbId\":" + tmdbId + ", \"originalLanguage\":" + ((originalLanguage != null) ? ("\"" + originalLanguage + "\"") : null) + ", \"originalTitle\":" + ((originalTitle != null) ? ("\"" + originalTitle + "\"") : null) + ", \"overview\":" + ((overview != null) ? ("\"" + overview + "\"") : null) + ", \"popularity\":" + popularity + ", \"posterPath\":" + ((posterPath != null) ? ("\"" + posterPath + "\"") : null) + ", \"productionCountries\":" + productionCountries + ", \"releaseDate\":" + ((releaseDate != null) ? ("\"" + releaseDate + "\"") : null) + ", \"runtime\":" + runtime + ", \"revenue\":" + revenue + ", \"genres\":" + genres + ", \"spokenLanguages\":" + spokenLanguages + ", \"status\":" + ((status != null) ? ("\"" + status + "\"") : null) + ", \"title\":" + title + ", \"voteAverage\":" + voteAverage + ", \"voteCount\":" + voteCount + ", \"actors\":" + actors + ", \"directors\":" + directors + "}}, " + super.toString() + "]";
     }
 }

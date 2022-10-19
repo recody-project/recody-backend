@@ -26,6 +26,12 @@ public class ApplicationException extends RuntimeException{
         this.statusCode = statusCode;
     }
     
+    public ApplicationException(HttpStatus statusCode, String message) {
+        super(message);
+        this.errorType = GlobalErrorType.InternalServerError;
+        this.statusCode = statusCode;
+    }
+    
     public ErrorType getErrorCode() { return errorType; }
     public HttpStatus getStatusCode() { return statusCode; }
 }
