@@ -1,7 +1,7 @@
 package com.recody.recodybackend.movie.features.getmoviedetail;
 
 import com.recody.recodybackend.common.contents.BasicCategory;
-import com.recody.recodybackend.movie.Movie;
+import com.recody.recodybackend.movie.MovieDetail;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieDetail;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieGenre;
 import com.recody.recodybackend.movie.general.MovieGenre;
@@ -20,7 +20,7 @@ abstract class MovieDetailMapper {
     @Mapping(target = "category", expression = "java(com.recody.recodybackend.common.contents.BasicCategory.Movie)")
     @Mapping(target = "rootId", ignore = true)
     @Mapping(target = "source", expression = "java(MovieSource.TMDB)")
-    public abstract Movie map(TMDBMovieDetail tmdbMovieDetail);
+    public abstract MovieDetail map(TMDBMovieDetail tmdbMovieDetail);
     
     public MovieGenre toGenre(TMDBMovieGenre tmdbMovieGenre){
         MovieGenre movieGenre = new MovieGenre();

@@ -1,6 +1,6 @@
 package com.recody.recodybackend.movie.features.manager;
 
-import com.recody.recodybackend.movie.Movie;
+import com.recody.recodybackend.movie.MovieDetail;
 
 import java.util.Locale;
 
@@ -14,8 +14,8 @@ public interface MovieManager {
      *     <b>업데이트 하는 정보</b>
      * <li> 제목의 경우, 전달받은 Locale 에 따라 저장한다.</li>
      * </ul>
-     * @param movie 영화 정보
+     * @param movieDetail 영화 정보
      * @return 저장된 영화 정보의 고유 id
      */
-    String register(Movie movie, Locale locale);
+    String register(MovieDetail movieDetail, Locale locale);
 }

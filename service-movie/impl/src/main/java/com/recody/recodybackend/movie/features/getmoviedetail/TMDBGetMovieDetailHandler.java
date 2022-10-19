@@ -1,6 +1,6 @@
 package com.recody.recodybackend.movie.features.getmoviedetail;
 
-import com.recody.recodybackend.movie.Movie;
+import com.recody.recodybackend.movie.MovieDetail;
 import com.recody.recodybackend.movie.data.movie.MovieEntity;
 import com.recody.recodybackend.movie.data.movie.MovieEntityMapper;
 import com.recody.recodybackend.movie.data.movie.MovieRepository;
@@ -40,7 +40,7 @@ class TMDBGetMovieDetailHandler implements GetMovieDetailHandler {
     private String apiKey;
     
     @Override
-    public Movie handle(GetMovieDetail command) {
+    public MovieDetail handle(GetMovieDetail command) {
         log.debug("handling command: {}", command);
         String language = command.getLanguage();
         String movieId = command.getMovieId();
@@ -57,15 +57,15 @@ class TMDBGetMovieDetailHandler implements GetMovieDetailHandler {
             throw new RuntimeException();
         }
         
-        Movie movie = mapper.map(tmdbMovieDetail);
+        MovieDetail movieDetail = mapper.map(tmdbMovieDetail);
         log.info("TMDB 에서 영화정보를 가져왔습니다.");
         
-        return movie;
+        return movieDetail;
     }
     
     @Override
     @Async
-    public CompletableFuture<Movie> handleAsync(GetMovieDetail command) {
+    public CompletableFuture<MovieDetail> handleAsync(GetMovieDetail command) {
         return CompletableFuture.completedFuture(handle(command));
     }
     
@@ -78,8 +78,8 @@ class TMDBGetMovieDetailHandler implements GetMovieDetailHandler {
         }
         
         // 이 movie 는 레코디의 movie. 장르정보는 고유 장르 id 를 가지고 있다.
-        Movie movie = mapper.map(optionalMovie.get(), MovieSource.TMDB, Locale.forLanguageTag(command.getLanguage()));
-        return GetMovieDetailResult.builder().requestInfo(command).detail(movie).build();
+        MovieDetail movieDetail = mapper.map(optionalMovie.get(), MovieSource.TMDB, Locale.forLanguageTag(command.getLanguage()));
+        return GetMovieDetailResult.builder().requestInfo(command).detail(movieDetail).build();
     }
     
     private URI makeUrl(String movieId, String language) {

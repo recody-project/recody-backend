@@ -1,6 +1,6 @@
 package com.recody.recodybackend.movie.features.getmoviedetail;
 
-import com.recody.recodybackend.movie.Movie;
+import com.recody.recodybackend.movie.MovieDetail;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -12,9 +12,9 @@ public interface GetMovieDetailHandler {
      * 영화 정보를 API 에서 가져온다.
      * 기본적인 구현체는 TMDB API 를 사용하도록 한다.
      */
-    Movie handle(GetMovieDetail command);
+    MovieDetail handle(GetMovieDetail command);
     
-    CompletableFuture<Movie> handleAsync(GetMovieDetail command);
+    CompletableFuture<MovieDetail> handleAsync(GetMovieDetail command);
     
     /*
      * 영화 정보를 API 에서 가져온다.

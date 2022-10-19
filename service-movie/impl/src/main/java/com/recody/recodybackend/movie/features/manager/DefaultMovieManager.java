@@ -1,6 +1,6 @@
 package com.recody.recodybackend.movie.features.manager;
 
-import com.recody.recodybackend.movie.Movie;
+import com.recody.recodybackend.movie.MovieDetail;
 import com.recody.recodybackend.movie.data.MovieEntityManager;
 import com.recody.recodybackend.movie.data.movie.MovieEntity;
 import com.recody.recodybackend.movie.data.movie.MovieEntityMapper;
@@ -38,36 +38,36 @@ class DefaultMovieManager implements MovieManager {
     
     @Override
     @Transactional
-    public String register(Movie movie, Locale locale) {
+    public String register(MovieDetail movieDetail, Locale locale) {
         log.debug("locale: {}", locale);
         Optional<MovieEntity> optionalMovie;
-        String title = movie.getTitle();
-        if (!MovieSource.TMDB.equals(movie.getSource())) {
+        String title = movieDetail.getTitle();
+        if (!MovieSource.TMDB.equals(movieDetail.getSource())) {
             throw new UnsupportedMovieSourceException();
         }
         
-        optionalMovie = movieRepository.findByTmdbId(movie.getTmdbId());
+        optionalMovie = movieRepository.findByTmdbId(movieDetail.getTmdbId());
         if (optionalMovie.isPresent()) {
             MovieEntity movieEntity = movieEntityManager.upsertTitleByLocale(optionalMovie.get(), title, locale);
             return movieEntity.getId();
         }
         
-        MovieEntity movieEntity = movieEntityMapper.toEntity(movie);
+        MovieEntity movieEntity = movieEntityMapper.toEntity(movieDetail);
         MovieEntity savedMovie = movieRepository.save(movieEntity);
         
         movieEntityManager.upsertTitleByLocale(savedMovie, title, locale);
         log.info("새로운 영화를 저장하였습니다.");
         
         /* 영화 정보에 해당하는 정보들을 등록합니다. */
-        List<ProductionCountry> productionCountries = movie.getProductionCountries();
+        List<ProductionCountry> productionCountries = movieDetail.getProductionCountries();
         saveProductionCountries(savedMovie, productionCountries);
-        List<MovieGenre> genres = movie.getGenres();
+        List<MovieGenre> genres = movieDetail.getGenres();
         saveMovieGenres(movieEntity, genres);
-        List<SpokenLanguage> spokenLanguages = movie.getSpokenLanguages();
+        List<SpokenLanguage> spokenLanguages = movieDetail.getSpokenLanguages();
         saveSpokenLanguages(movieEntity, spokenLanguages);
-        List<Actor> actors = movie.getActors();
+        List<Actor> actors = movieDetail.getActors();
         saveActorEntity(movieEntity, actors);
-        List<Director> directors = movie.getDirectors();
+        List<Director> directors = movieDetail.getDirectors();
         saveDirectorEntity(movieEntity, directors);
         return savedMovie.getId();
     }

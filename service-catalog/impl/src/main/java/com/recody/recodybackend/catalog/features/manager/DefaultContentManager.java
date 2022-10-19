@@ -8,7 +8,7 @@ import com.recody.recodybackend.catalog.features.projection.ContentEventPublishe
 import com.recody.recodybackend.common.contents.Content;
 import com.recody.recodybackend.common.events.ContentCreated;
 import com.recody.recodybackend.common.exceptions.UnsupportedCategoryException;
-import com.recody.recodybackend.movie.Movie;
+import com.recody.recodybackend.movie.MovieDetail;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -28,13 +28,14 @@ public class DefaultContentManager implements ContentManager {
     @Override
     public <T extends Content> String register(T content) {
         log.debug("registering content: {}", content);
-        if (content instanceof Movie){
-            Movie movie = (Movie) content;
-            Optional<CatalogContentEntity> optionalContent = contentRepository.findByContentId(movie.getContentId());
+        if (content instanceof MovieDetail){
+            MovieDetail movieDetail = (MovieDetail) content;
+            Optional<CatalogContentEntity> optionalContent = contentRepository.findByContentId(
+                    movieDetail.getContentId());
             if (optionalContent.isPresent()){
                 return optionalContent.get().getId();
             }
-            CatalogContentEntity contentEntity = mapper.map(movie);
+            CatalogContentEntity contentEntity = mapper.map(movieDetail);
             log.debug("created contentEntity: {}", contentEntity);
             CatalogContentEntity savedContent = contentRepository.save(contentEntity);
             String catalogId = savedContent.getId();

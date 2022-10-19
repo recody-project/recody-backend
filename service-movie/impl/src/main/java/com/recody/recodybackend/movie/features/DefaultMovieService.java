@@ -1,6 +1,6 @@
 package com.recody.recodybackend.movie.features;
 
-import com.recody.recodybackend.movie.Movie;
+import com.recody.recodybackend.movie.MovieDetail;
 import com.recody.recodybackend.movie.features.getmoviecredit.*;
 import com.recody.recodybackend.movie.features.getmoviedetail.GetMovieDetail;
 import com.recody.recodybackend.movie.features.getmoviedetail.GetMovieDetailHandler;
@@ -29,10 +29,10 @@ class DefaultMovieService implements MovieService {
     public GetMovieDetailResult getMovieDetail(GetMovieDetail command) {
         String movieId = command.getMovieId();
         String language = command.getLanguage();
-        CompletableFuture<Movie> movieFuture = getMovieDetailHandler.handleAsync(command);
+        CompletableFuture<MovieDetail> movieFuture = getMovieDetailHandler.handleAsync(command);
         CompletableFuture<GetMovieCreditResult> creditFuture = getMovieCreditHandler.handleAsync(
                 new GetMovieCredit(Long.parseLong(movieId)));
-        Movie joinedMovie =
+        MovieDetail joinedMovieDetail =
                 movieFuture.thenCombine(creditFuture, ((movie, credits) -> {
                     List<Actor> actors = credits.getActors();
                     List<Director> directors = credits.getDirectors();
@@ -42,11 +42,11 @@ class DefaultMovieService implements MovieService {
                     return movie;
                 })).join();
         
-        String savedMovieId = movieManager.register(joinedMovie, Locale.forLanguageTag(language));
-        joinedMovie.setContentId(savedMovieId);
+        String savedMovieId = movieManager.register(joinedMovieDetail, Locale.forLanguageTag(language));
+        joinedMovieDetail.setContentId(savedMovieId);
         log.info("movieId: {}", savedMovieId);
         return GetMovieDetailResult.builder()
-                                   .detail(joinedMovie)
+                                   .detail(joinedMovieDetail)
                                    .requestInfo(command)
                                    .build();
     }

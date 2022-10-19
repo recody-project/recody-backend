@@ -1,6 +1,6 @@
 package com.recody.recodybackend.movie.features.getmoviedetail;
 
-import com.recody.recodybackend.movie.Movie;
+import com.recody.recodybackend.movie.MovieDetail;
 import com.recody.recodybackend.movie.general.MovieSource;
 import lombok.*;
 
@@ -12,7 +12,7 @@ public class GetMovieDetailResult {
     
     private GetMovieDetail requestInfo;
     private MovieSource source;
-    private Movie detail;
+    private MovieDetail detail;
     
     public MovieSource getSource() { return MovieSource.TMDB; }
 }

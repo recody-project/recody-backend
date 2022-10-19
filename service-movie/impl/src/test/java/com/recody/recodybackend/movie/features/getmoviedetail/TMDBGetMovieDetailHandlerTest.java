@@ -1,6 +1,6 @@
 package com.recody.recodybackend.movie.features.getmoviedetail;
 
-import com.recody.recodybackend.movie.Movie;
+import com.recody.recodybackend.movie.MovieDetail;
 import com.recody.recodybackend.movie.RecodyMovieApplication;
 import com.recody.recodybackend.movie.general.MovieSource;
 import org.junit.jupiter.api.DisplayName;
@@ -26,7 +26,7 @@ class TMDBGetMovieDetailHandlerTest {
     void test01() {
         // given
         GetMovieDetail command = new GetMovieDetail("705996", "ko");
-        Movie detail = getMovieDetailHandler.handle(command);
+        MovieDetail detail = getMovieDetailHandler.handle(command);
     
         // when
         

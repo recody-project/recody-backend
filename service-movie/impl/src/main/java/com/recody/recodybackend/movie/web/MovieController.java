@@ -1,7 +1,7 @@
 package com.recody.recodybackend.movie.web;
 
 import com.recody.recodybackend.common.web.SuccessResponseBody;
-import com.recody.recodybackend.movie.Movie;
+import com.recody.recodybackend.movie.MovieDetail;
 import com.recody.recodybackend.movie.features.MovieService;
 import com.recody.recodybackend.movie.features.getmoviedetail.GetMovieDetail;
 import com.recody.recodybackend.movie.features.searchmovies.SearchMovies;
@@ -27,8 +27,8 @@ public class MovieController {
     private final MessageSource ms;
     
     @GetMapping("/api/v1/movie/detail")
-    public ResponseEntity<Movie> getMovieInfo(@RequestParam String movieId, HttpServletRequest request,
-                                              @RequestParam(defaultValue = "ko") String language) {
+    public ResponseEntity<MovieDetail> getMovieInfo(@RequestParam String movieId, HttpServletRequest request,
+                                                    @RequestParam(defaultValue = "ko") String language) {
         return ResponseEntity.ok().body(movieService.getMovieDetail(new GetMovieDetail(movieId, language)).getDetail());
         
     }

@@ -1,6 +1,6 @@
 package com.recody.recodybackend.movie.features.searchmovies;
 
-import com.recody.recodybackend.movie.Movie;
+import com.recody.recodybackend.movie.MovieDetail;
 import com.recody.recodybackend.movie.features.searchmovies.dto.TMDBMovieSearchNode;
 import com.recody.recodybackend.movie.features.searchmovies.dto.TMDBMovieSearchResponse;
 import lombok.RequiredArgsConstructor;
@@ -52,9 +52,9 @@ class TMDBSearchMoviesHandler implements SearchMoviesHandler {
         
         Locale locale = resolveLocale(command);
         List<TMDBMovieSearchNode> tmdbMovies = response.getResults();
-        List<Movie> movies = movieSearchMapper.mapList(tmdbMovies);
+        List<MovieDetail> movieDetails = movieSearchMapper.mapList(tmdbMovies);
         
-        return SearchMoviesResult.builder().movies(movies).requestedLanguage(locale).build();
+        return SearchMoviesResult.builder().movieDetails(movieDetails).requestedLanguage(locale).build();
     }
     
     private URI makeUrl(String movieName, String language) {

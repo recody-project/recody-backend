@@ -9,7 +9,7 @@ import com.recody.recodybackend.catalog.features.manager.ContentManager;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.exceptions.ApplicationException;
 import com.recody.recodybackend.common.exceptions.GlobalErrorType;
-import com.recody.recodybackend.movie.Movie;
+import com.recody.recodybackend.movie.MovieDetail;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 class DefaultGetContentDetailHandler implements GetContentDetailHandler{
     
     private final FetchMovieDetailHandler fetchMovieDetailHandler;
-    private final ContentDetailPersonalizer<Movie, PersonalizedMovieDetail> movieDetailPersonalizer;
+    private final ContentDetailPersonalizer<MovieDetail, PersonalizedMovieDetail> movieDetailPersonalizer;
     private final ContentManager contentManager;
     
     @Override
@@ -30,14 +30,14 @@ class DefaultGetContentDetailHandler implements GetContentDetailHandler{
         BasicCategory category = command.getCategory();
         PersonalizedContentDetail personalizedContent;
         if (category.equals(BasicCategory.Movie)) {
-            Movie movie = fetchMovieDetailHandler.handle(
+            MovieDetail movieDetail = fetchMovieDetailHandler.handle(
                     FetchMovieDetail.builder()
                                     .movieId(command.getContentId())
                                     .language(command.getLanguage())
                                     .build());
-            String catalogContentId = contentManager.register(movie);
+            String catalogContentId = contentManager.register(movieDetail);
             personalizedContent
-                    = movieDetailPersonalizer.personalize(movie, command.getUserId());
+                    = movieDetailPersonalizer.personalize(movieDetail, command.getUserId());
         } else {
             throw new ApplicationException(GlobalErrorType.UnsupportedCategory, HttpStatus.BAD_REQUEST);
         }

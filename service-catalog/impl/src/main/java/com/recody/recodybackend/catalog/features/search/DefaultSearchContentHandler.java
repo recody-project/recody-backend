@@ -7,7 +7,7 @@ import com.recody.recodybackend.catalog.features.search.movies.SearchMovies;
 import com.recody.recodybackend.catalog.features.search.movies.SearchMoviesHandler;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.exceptions.UnsupportedCategoryException;
-import com.recody.recodybackend.movie.Movie;
+import com.recody.recodybackend.movie.MovieDetail;
 import com.recody.recodybackend.movie.features.searchmovies.SearchMoviesResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -20,7 +20,7 @@ import java.util.List;
 class DefaultSearchContentHandler implements SearchContentHandler{
     
     private final SearchMoviesHandler searchMoviesHandler;
-    private final ContentDetailPersonalizer<Movie, PersonalizedMovieDetail> moviePersonalizer;
+    private final ContentDetailPersonalizer<MovieDetail, PersonalizedMovieDetail> moviePersonalizer;
     
     @Override
     public SearchContentResponse handle(SearchContent command) {
@@ -32,10 +32,10 @@ class DefaultSearchContentHandler implements SearchContentHandler{
         if (category.equals(BasicCategory.Movie)){
             SearchMoviesResult movieResult = searchMoviesHandler.handle(
                     SearchMovies.builder().keyword(keyword).language(command.getLanguage()).build());
-            List<Movie> movies = movieResult.getMovies();
+            List<MovieDetail> movieDetails = movieResult.getMovieDetails();
             // 각 영화 정보에 설정된 장르를 수정한다.
-            for (Movie movie : movies) {
-                personalizedContentDetails.add(moviePersonalizer.personalize(movie, userId));
+            for (MovieDetail movieDetail : movieDetails) {
+                personalizedContentDetails.add(moviePersonalizer.personalize(movieDetail, userId));
             }
         } else {
             // 현재는 영화만 지원한다.

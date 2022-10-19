@@ -46,7 +46,7 @@ class DefaultSearchMoviesHandler implements SearchMoviesHandler{
             log.warn("exception: {}", exception.getMessage());
             throw new RuntimeException();
         }
-        log.debug("movie result size: {}", result.getMovies().size());
+        log.debug("movie result size: {}", result.getMovieDetails().size());
         return result;
     }
     

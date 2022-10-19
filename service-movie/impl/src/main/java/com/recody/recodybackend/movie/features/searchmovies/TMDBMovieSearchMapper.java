@@ -1,6 +1,6 @@
 package com.recody.recodybackend.movie.features.searchmovies;
 
-import com.recody.recodybackend.movie.Movie;
+import com.recody.recodybackend.movie.MovieDetail;
 import com.recody.recodybackend.movie.features.resolvegenres.fromapi.GetMovieGenreFromTMDBApiHandler;
 import com.recody.recodybackend.movie.features.tmdb.TMDB;
 import com.recody.recodybackend.movie.features.searchmovies.dto.TMDBMovieSearchNode;
@@ -19,14 +19,14 @@ public abstract class TMDBMovieSearchMapper {
     @Mapping(target = "genres", source = "tmdbMovie.genreIds", qualifiedByName = "genreMapper")
     @Mapping(target = "tmdbId", source = "tmdbMovie.id")
     @Mapping(target = "posterPath", source = "tmdbMovie.posterPath", qualifiedByName = "posterPathMapper")
-    public abstract Movie map(TMDBMovieSearchNode tmdbMovie);
+    public abstract MovieDetail map(TMDBMovieSearchNode tmdbMovie);
     
-    public List<Movie> mapList(List<TMDBMovieSearchNode> tmdbMovies){
-        ArrayList<Movie> movies = new ArrayList<>();
+    public List<MovieDetail> mapList(List<TMDBMovieSearchNode> tmdbMovies){
+        ArrayList<MovieDetail> movieDetails = new ArrayList<>();
         for (TMDBMovieSearchNode tmdbMovie : tmdbMovies) {
-            movies.add(this.map(tmdbMovie));
+            movieDetails.add(this.map(tmdbMovie));
         }
-        return movies;
+        return movieDetails;
     }
     
     

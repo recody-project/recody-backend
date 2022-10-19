@@ -1,7 +1,7 @@
 package com.recody.recodybackend.movie.data.movie;
 
 import com.recody.recodybackend.common.contents.BasicCategory;
-import com.recody.recodybackend.movie.Movie;
+import com.recody.recodybackend.movie.MovieDetail;
 import com.recody.recodybackend.movie.data.genre.MovieGenreMapper;
 import com.recody.recodybackend.movie.data.people.MoviePersonMapper;
 import com.recody.recodybackend.movie.data.productioncountry.ProductionCountryMapper;
@@ -47,18 +47,18 @@ public abstract class MovieEntityMapper {
     @Mapping(target = "source", expression = "java(MovieSource.TMDB)")
     @Mapping(target = "tmdbId", source = "tmdbMovieDetail.id")
     @Mapping(target = "posterPath", expression = "java(TMDB.fullPosterPath(tmdbMovieDetail.getPosterPath()))")
-    public abstract Movie map(TMDBMovieDetail tmdbMovieDetail);
+    public abstract MovieDetail map(TMDBMovieDetail tmdbMovieDetail);
     
     
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "tmdbId",
-             source = "movie.tmdbId",
-             conditionExpression = "java(movie.getSource() == MovieSource.TMDB)")
+             source = "movieDetail.tmdbId",
+             conditionExpression = "java(movieDetail.getSource() == MovieSource.TMDB)")
     @Mapping(target = "productionCountries", source = "productionCountries")
     @Mapping(target = "title", ignore = true)
     @Mapping(target = "actors", ignore = true)
     @Mapping(target = "directors", ignore = true)
-    public abstract MovieEntity toEntity(Movie movie);
+    public abstract MovieEntity toEntity(MovieDetail movieDetail);
     
     
     @Mapping(target = "category", expression = "java(com.recody.recodybackend.common.contents.BasicCategory.Movie)")
@@ -67,7 +67,7 @@ public abstract class MovieEntityMapper {
     @Mapping(target = "rootId", ignore = true)
     @Mapping(target = "tmdbId", source = "movie.tmdbId", conditionExpression = "java(MovieSource.TMDB.equals(s))")
     @Mapping(target = "title", expression = "java(this.map(movie, locale))")
-    public abstract Movie map(MovieEntity movie, MovieSource s, Locale locale);
+    public abstract MovieDetail map(MovieEntity movie, MovieSource s, Locale locale);
     
     
     public MovieGenre toGenre(TMDBMovieGenre tmdbMovieGenre){
