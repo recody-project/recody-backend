@@ -21,6 +21,7 @@ public class MoviePersonEntity {
     private Integer tmdbId;
     
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "name_id", nullable = false, foreignKey = @ForeignKey(name = "person_contains_person_name_id"))
     private MoviePersonNameEntity name;
     
     @Column(name = "profile_path")

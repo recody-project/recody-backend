@@ -22,7 +22,9 @@ public class MovieTitleEntity {
     @GeneratedValue
     private Long id;
     @OneToOne
-    @JoinColumn(name = "movie_id", nullable = false)
+    @JoinColumn(name = "movie_id",
+                nullable = false,
+                foreignKey = @ForeignKey(name = "movie_title_contains_movie__id"))
     @OnDelete(action = OnDeleteAction.CASCADE)
     private MovieEntity movie;
     

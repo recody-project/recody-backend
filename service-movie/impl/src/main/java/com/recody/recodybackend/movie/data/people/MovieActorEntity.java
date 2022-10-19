@@ -21,12 +21,16 @@ public class MovieActorEntity {
     private UUID id;
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "movie_id", nullable = false)
+    @JoinColumn(name = "movie_id",
+                nullable = false,
+                foreignKey = @ForeignKey(name = "actor_contains_movie_id"))
     @OnDelete(action = OnDeleteAction.CASCADE)
     private MovieEntity movie;
     
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "person_id", nullable = false)
+    @JoinColumn(name = "person_id",
+                nullable = false,
+                foreignKey = @ForeignKey(name = "actor_contains_person_id"))
     private MoviePersonEntity person;
     
     @Column(name = "as_character")

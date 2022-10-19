@@ -23,11 +23,15 @@ public class MovieDirectorEntity {
     private UUID id;
     
     @ManyToOne
-    @JoinColumn(name = "person_id", nullable = false)
+    @JoinColumn(name = "person_id",
+                nullable = false,
+                foreignKey = @ForeignKey(name = "director_contains_person_id"))
     private MoviePersonEntity person;
     
     @ManyToOne
-    @JoinColumn(name = "movie_id", nullable = false)
+    @JoinColumn(name = "movie_id",
+                nullable = false,
+                foreignKey = @ForeignKey(name = "director_contains_movie_id"))
     @OnDelete(action = OnDeleteAction.CASCADE)
     private MovieEntity movie;
     
