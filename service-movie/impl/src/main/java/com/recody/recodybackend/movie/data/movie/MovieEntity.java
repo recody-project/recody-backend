@@ -55,18 +55,23 @@ public class MovieEntity extends MovieBaseEntity {
     private MovieTitleEntity title;
     
     @OneToMany(mappedBy = "movie")
+    @Builder.Default
     private List<MovieGenreEntity> genres = new ArrayList<>();
     
     @OneToMany(mappedBy = "movie")
+    @Builder.Default
     private List<ProductionCountryEntity> productionCountries = new ArrayList<>();
     
     @OneToMany(mappedBy = "movie")
+    @Builder.Default
     private List<SpokenLanguageEntity> spokenLanguages = new ArrayList<>();
     
     @OneToMany(mappedBy = "movie")
+    @Builder.Default
     private List<MovieActorEntity> actors = new ArrayList<>();
     
     @OneToMany(mappedBy = "movie")
+    @Builder.Default
     private List<MovieDirectorEntity> directors = new ArrayList<>();
     
     @Override

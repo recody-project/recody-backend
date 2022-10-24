@@ -62,6 +62,7 @@ class DefaultMovieGenreResolverTest {
         
         
         MovieGenreCodeEntity entity = MovieGenreCodeEntity.builder()
+                                                          .genreId(GENRE_ID)
                                                          .tmdbGenreId(TMDB_GENRE_ID)
                                                          .tmdbGenreName(TMDB_GENRE_NAME)
                                                          .build();

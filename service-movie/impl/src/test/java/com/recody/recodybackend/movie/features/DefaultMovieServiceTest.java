@@ -30,13 +30,17 @@ class DefaultMovieServiceTest {
     MovieRepository movieQueryRepository;
     
     @Test
-    void searchMoviesByQuery() {
+    void searchMoviesByQuery() throws InterruptedException {
         SearchMoviesResult result = movieSearchService.searchMovies(
                 SearchMovies.builder().movieName(TITLE).language(LANGUAGE).build());
         
+        // 저장될 때 까지 현재 쓰레드에서 기다린다.
+        Thread.sleep(1000L);
+        
         System.out.println("result = " + result);
+        
         List<MovieEntity> queriedMovies = movieQueryRepository.findByTitleLike(TITLE, Locale.forLanguageTag(LANGUAGE));
-    
+        
         System.out.println("queriedMovies = " + queriedMovies.size());
         
         assertThat(queriedMovies).isNotEmpty();

@@ -19,6 +19,7 @@ public class GetMyRecords {
     
     private String sortingColumn;
     
+    @Builder.Default
     private boolean descending = true;
     
     private String contentId;

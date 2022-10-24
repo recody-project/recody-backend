@@ -20,6 +20,7 @@ public class TMDBFetchedMovieDetail {
     
     @JsonProperty("tmdbId")
     private Integer contentId;
+    @Builder.Default
     private Category category = BasicCategory.Movie;
     
     private String overview;

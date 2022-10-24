@@ -22,7 +22,8 @@ class MovieRepositoryTest {
     void saveTest() {
         // given
         MovieTitleEntity title = MovieTitleEntity.builder().build();
-        MovieEntity entity = MovieEntity.builder().tmdbId(1).title(title).build();
+        MovieEntity entity = MovieEntity.builder().tmdbId(1).build();
+        entity.setTitle(title);
         MovieEntity saved = movieRepository.save(entity);
     
         // when
