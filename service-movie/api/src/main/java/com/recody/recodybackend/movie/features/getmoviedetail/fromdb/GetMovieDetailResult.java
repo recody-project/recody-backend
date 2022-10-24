@@ -1,4 +1,4 @@
-package com.recody.recodybackend.movie.features.getmoviedetail;
+package com.recody.recodybackend.movie.features.getmoviedetail.fromdb;
 
 import com.recody.recodybackend.movie.MovieDetail;
 import com.recody.recodybackend.movie.general.MovieSource;

@@ -2,6 +2,8 @@ package com.recody.recodybackend.movie.features.getmoviedetail;
 
 import com.recody.recodybackend.movie.MovieDetail;
 import com.recody.recodybackend.movie.RecodyMovieApplication;
+import com.recody.recodybackend.movie.features.getmoviedetail.fromdb.GetMovieDetail;
+import com.recody.recodybackend.movie.features.getmoviedetail.fromdb.GetMovieDetailHandler;
 import com.recody.recodybackend.movie.general.MovieSource;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,22 +17,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @ActiveProfiles("test")
 @ContextConfiguration(classes = RecodyMovieApplication.class)
-class TMDBGetMovieDetailHandlerTest {
+class DefaultGetMovieDetailHandlerTest {
     
-    public static final String MOVIE_ID = "705996";
-    @Autowired GetMovieDetailHandler getMovieDetailHandler;
+    public static final Integer MOVIE_ID = 705996;
+    @Autowired
+    GetMovieDetailHandler getMovieDetailHandler;
     
     @Test
     @DisplayName("매핑이 잘 이루어지는가?")
     void test01() {
         // given
-        GetMovieDetail command = new GetMovieDetail("705996", "ko");
+        GetMovieDetail command = new GetMovieDetail(MOVIE_ID, "ko");
         MovieDetail detail = getMovieDetailHandler.handle(command);
     
         // when
         
         // then
         assertThat(detail.getSource()).isEqualTo(MovieSource.TMDB);
-        assertThat(detail.getTmdbId()).isEqualTo(Integer.parseInt(MOVIE_ID));
     }
 }
