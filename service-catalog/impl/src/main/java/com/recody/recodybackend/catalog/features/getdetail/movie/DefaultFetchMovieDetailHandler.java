@@ -1,6 +1,6 @@
 package com.recody.recodybackend.catalog.features.getdetail.movie;
 
-import com.recody.recodybackend.movie.Movie;
+import com.recody.recodybackend.movie.MovieDetail;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +34,7 @@ class DefaultFetchMovieDetailHandler implements FetchMovieDetailHandler {
     
     
     @Override
-    public Movie handle(FetchMovieDetail command) {
+    public MovieDetail handle(FetchMovieDetail command) {
         log.debug("handling command: {}", command);
         String movieId = command.getMovieId();
         String language = command.getLanguage();
@@ -43,17 +43,17 @@ class DefaultFetchMovieDetailHandler implements FetchMovieDetailHandler {
         HttpHeaders httpHeaders = makeAuthorizedHeaders();
         RequestEntity<Void> requestEntity = RequestEntity.get(uri).headers(httpHeaders).build();
     
-        Movie movie;
+        MovieDetail movieDetail;
         try {
-            movie = restTemplate.exchange(requestEntity, Movie.class).getBody();
-            Objects.requireNonNull(movie);
+            movieDetail = restTemplate.exchange(requestEntity, MovieDetail.class).getBody();
+            Objects.requireNonNull(movieDetail);
         } catch (RestClientException exception){
             log.warn("exception: {}", exception.getMessage());
             throw new RuntimeException();
         }
-        log.debug("movie: {}", movie);
+        log.debug("movie: {}", movieDetail);
         log.info("영화 정보를 Movie 서비스에서 가져왔습니다.");
-        return movie;
+        return movieDetail;
     }
     
     private HttpHeaders makeAuthorizedHeaders() {

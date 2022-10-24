@@ -21,7 +21,7 @@ public class MovieGenreEntity extends MovieBaseEntity {
     @GeneratedValue
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "movie_id",
                 nullable = false,
                 foreignKey = @ForeignKey(name = "movie_genre_contains_movie_id"))
@@ -36,6 +36,6 @@ public class MovieGenreEntity extends MovieBaseEntity {
     
     @Override
     public String toString() {
-        return "[{\"MovieGenreEntity\":{" + "\"id\":" + id + ", \"movie\":" + movie + ", \"genre\":" + genre + "}}, " + super.toString() + "]";
+        return "[{\"MovieGenreEntity\":{" + "\"id\":" + id + ", \"genre\":" + genre + "}}, " + super.toString() + "]";
     }
 }

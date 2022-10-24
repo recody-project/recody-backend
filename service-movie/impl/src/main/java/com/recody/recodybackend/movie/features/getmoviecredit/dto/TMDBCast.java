@@ -1,23 +1,24 @@
 package com.recody.recodybackend.movie.features.getmoviecredit.dto;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
-import lombok.Data;
+import lombok.*;
 
 /**
  * tmdb 에서 한글로는 지원하지 않는다.
  * @author motive
  */
-@Data
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TMDBCast {
 
     private Integer id;
     private String name;
-    
     private String character;
-    
     @JsonAlias("cast_id")
     private Integer castId;
-    
     @JsonAlias("credit_id")
     private String creditId;
     

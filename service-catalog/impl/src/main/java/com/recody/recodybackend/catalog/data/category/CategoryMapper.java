@@ -30,7 +30,7 @@ public abstract class CategoryMapper {
         if (optionalCategory.isEmpty()){
             CategoryEntity categoryEntity = CategoryEntity.builder()
                                                           .id(categoryId)
-                                                          .name(basicCategory.name())
+                                                          .name(basicCategory.getName())
                                                           .basic(true)
                                                           .build();
             savedEntity = categoryRepository.save(categoryEntity);

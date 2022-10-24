@@ -26,6 +26,6 @@ public abstract class MovieBaseEntity {
     
     @Override
     public String toString() {
-        return "{\"RecordBaseEntity\":{" + "\"createdAt\":" + ((createdAt != null) ? ("\"" + createdAt + "\"") : null) + ", \"lastModifiedAt\":" + ((lastModifiedAt != null) ? ("\"" + lastModifiedAt + "\"") : null) + "}}";
+        return "{\"MovieBaseEntity\":{" + "\"createdAt\":" + ((createdAt != null) ? ("\"" + createdAt + "\"") : null) + ", \"lastModifiedAt\":" + ((lastModifiedAt != null) ? ("\"" + lastModifiedAt + "\"") : null) + "}}";
     }
 }

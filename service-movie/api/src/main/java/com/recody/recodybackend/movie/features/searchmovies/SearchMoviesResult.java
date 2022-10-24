@@ -1,6 +1,6 @@
 package com.recody.recodybackend.movie.features.searchmovies;
 
-import com.recody.recodybackend.movie.Movie;
+import com.recody.recodybackend.movie.web.TMDBSearchedMovie;
 import lombok.*;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public class SearchMoviesResult {
     private Locale requestedLanguage;
     
     // 요청 결과
-    private List<Movie> movies;
+    private List<TMDBSearchedMovie> movies;
     
     private Integer page;
     private Integer total;

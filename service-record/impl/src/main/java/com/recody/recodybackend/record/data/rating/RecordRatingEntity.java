@@ -7,7 +7,7 @@ import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 
-@Entity(name = "record_rating")
+@Entity(name = "RecordRating")
 @Table(name = "record_rating")
 @IdClass(LookupId.class)
 @AllArgsConstructor
@@ -24,7 +24,9 @@ public class RecordRatingEntity {
      */
     @Id
     @ManyToOne
-    @JoinColumn(name = "content_id")
+    @JoinColumn(name = "content_id",
+                nullable = false,
+                foreignKey = @ForeignKey(name = "record_rating_contains_record_content_id"))
     private RecordContentEntity content;
     
     @Column(nullable = false)

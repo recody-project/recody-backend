@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GetMovieCredit {
     
-    private Long movieId;
+    private Integer movieId;
 }

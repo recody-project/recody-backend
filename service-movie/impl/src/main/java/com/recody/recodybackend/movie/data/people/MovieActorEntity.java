@@ -12,7 +12,10 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-@Table(name = "movie_actor")
+@Table(name = "movie_actor", uniqueConstraints = {
+        @UniqueConstraint(name = "movie_and_person_pair_should_be_unique",
+                          columnNames = {"movie_id", "person_id"})
+})
 @Getter
 public class MovieActorEntity {
     
@@ -21,12 +24,17 @@ public class MovieActorEntity {
     private UUID id;
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "movie_id", nullable = false)
+    @JoinColumn(name = "movie_id",
+                nullable = false,
+                foreignKey = @ForeignKey(name = "actor_contains_movie_id"))
     @OnDelete(action = OnDeleteAction.CASCADE)
     private MovieEntity movie;
     
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "person_id", nullable = false)
+    @JoinColumn(name = "person_id",
+                nullable = false,
+                foreignKey = @ForeignKey(name = "actor_contains_person_id"))
+    @Setter
     private MoviePersonEntity person;
     
     @Column(name = "as_character")
@@ -34,6 +42,6 @@ public class MovieActorEntity {
     
     @Override
     public String toString() {
-        return "{\"MovieActorEntity\":{" + "\"id\":" + ((id != null) ? ("\"" + id + "\"") : null) + ", \"movie\":" + movie + ", \"person\":" + person + ", \"character\":" + ((character != null) ? ("\"" + character + "\"") : null) + "}}";
+        return "{\"MovieActorEntity\":{" + "\"id\":" + ((id != null) ? ("\"" + id + "\"") : null) + ", \"character\":" + ((character != null) ? ("\"" + character + "\"") : null) + "}}";
     }
 }
