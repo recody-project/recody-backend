@@ -15,11 +15,12 @@ import java.util.Objects;
 public class BasicCategory implements Category {
     
     private static final List<String> Ids = List.of("cat-1", "cat-2", "cat-3", "cat-4", "cat-5");
-    public static final BasicCategory Movie = new BasicCategory("cat-1", "Movie", "영화", "movie");
-    public static final BasicCategory TVSeries = new BasicCategory("cat-2", "TV Series", "드라마", "drama");
-    public static final BasicCategory Music = new BasicCategory("cat-3", "Music", "음악", "music");
-    public static final BasicCategory Book = new BasicCategory("cat-4", "Book", "책", "book");
-    public static final BasicCategory Performance = new BasicCategory("cat-5", "Performance", "공연 & 전시", "performance");
+    
+    public static final BasicCategory Movie = new BasicCategory(Ids.get(0), "Movie", "영화", "movie");
+    public static final BasicCategory TVSeries = new BasicCategory(Ids.get(1), "TV Series", "드라마", "drama");
+    public static final BasicCategory Music = new BasicCategory(Ids.get(2), "Music", "음악", "music");
+    public static final BasicCategory Book = new BasicCategory(Ids.get(3), "Book", "책", "book");
+    public static final BasicCategory Performance = new BasicCategory(Ids.get(4), "Performance", "공연 & 전시", "performance");
     
     
     private String id;
@@ -100,11 +101,6 @@ public class BasicCategory implements Category {
     }
     
     @Override
-    public String toString() {
-        return "{\"BasicCategory\":{" + "\"englishName\":" + ((name != null) ? ("\"" + name + "\"") : null) + ", \"koreanName\":" + ((koreanName != null) ? ("\"" + koreanName + "\"") : null) + ", \"aliases\":" + aliases + ", \"id\":" + ((id != null) ? ("\"" + id + "\"") : null) + "}}";
-    }
-    
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof BasicCategory)) return false;
@@ -115,5 +111,10 @@ public class BasicCategory implements Category {
     @Override
     public int hashCode() {
         return Objects.hash(getId());
+    }
+    
+    @Override
+    public String toString() {
+        return "{\"BasicCategory\":{" + "\"id\":" + ((id != null) ? ("\"" + id + "\"") : null) + ", \"name\":" + ((name != null) ? ("\"" + name + "\"") : null) + "}}";
     }
 }
