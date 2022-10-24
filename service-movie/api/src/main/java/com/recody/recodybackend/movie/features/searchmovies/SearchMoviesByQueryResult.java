@@ -1,7 +1,11 @@
 package com.recody.recodybackend.movie.features.searchmovies;
 
 import com.recody.recodybackend.movie.Movie;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.Locale;

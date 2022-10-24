@@ -84,7 +84,7 @@ class DefaultMovieManager implements MovieManager {
                        .thenAccept(languageEntity ->  movieEntityManager.saveSpokenLanguage(savedEntity, languageEntity));
         genreCodeManager.registerAsync(genres)
                         .thenAccept(genreCodeEntity -> movieEntityManager.saveMovieGenre(savedEntity, genreCodeEntity));
-        // 아직 장르가 저장되지 않았다.
+        
         MovieInfo movie = movieMapper.toMovieInfo(savedEntity, locale);
         log.info("영화를 등록하였습니다. movie: {}", movie);
         return movie;

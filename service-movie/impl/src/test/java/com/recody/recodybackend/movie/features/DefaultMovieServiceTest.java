@@ -24,14 +24,14 @@ class DefaultMovieServiceTest {
     public static final String LANGUAGE = "en";
     public static final String TITLE = "bar";
     @Autowired
-    MovieService movieService;
+    MovieSearchService movieSearchService;
     
     @Autowired
     MovieRepository movieQueryRepository;
     
     @Test
     void searchMoviesByQuery() {
-        SearchMoviesResult result = movieService.searchMovies(
+        SearchMoviesResult result = movieSearchService.searchMovies(
                 SearchMovies.builder().movieName(TITLE).language(LANGUAGE).build());
         
         System.out.println("result = " + result);
