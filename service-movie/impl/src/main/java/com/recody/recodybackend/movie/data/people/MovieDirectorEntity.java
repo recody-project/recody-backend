@@ -1,10 +1,7 @@
 package com.recody.recodybackend.movie.data.people;
 
 import com.recody.recodybackend.movie.data.movie.MovieEntity;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -16,13 +13,14 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @Table(name = "movie_director")
+@Getter
 public class MovieDirectorEntity {
     
     @Id
     @GeneratedValue
     private UUID id;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "person_id",
                 nullable = false,
                 foreignKey = @ForeignKey(name = "director_contains_person_id"))

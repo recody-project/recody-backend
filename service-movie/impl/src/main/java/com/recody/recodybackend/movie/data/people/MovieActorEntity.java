@@ -12,7 +12,10 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-@Table(name = "movie_actor")
+@Table(name = "movie_actor", uniqueConstraints = {
+        @UniqueConstraint(name = "movie_and_person_pair_should_be_unique",
+                          columnNames = {"movie_id", "person_id"})
+})
 @Getter
 public class MovieActorEntity {
     
@@ -31,6 +34,7 @@ public class MovieActorEntity {
     @JoinColumn(name = "person_id",
                 nullable = false,
                 foreignKey = @ForeignKey(name = "actor_contains_person_id"))
+    @Setter
     private MoviePersonEntity person;
     
     @Column(name = "as_character")

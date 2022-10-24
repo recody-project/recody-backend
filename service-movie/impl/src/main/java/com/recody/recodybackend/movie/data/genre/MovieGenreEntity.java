@@ -21,7 +21,7 @@ public class MovieGenreEntity extends MovieBaseEntity {
     @GeneratedValue
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "movie_id",
                 nullable = false,
                 foreignKey = @ForeignKey(name = "movie_genre_contains_movie_id"))
