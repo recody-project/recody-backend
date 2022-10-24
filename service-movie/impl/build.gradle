@@ -28,7 +28,6 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-
     // databases
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'mysql:mysql-connector-java'
@@ -39,14 +38,17 @@ dependencies {
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
     implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
 
-
-
-    implementation 'org.mapstruct:mapstruct:1.5.2.Final'
-
-    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.2.Final'
-
     // aws log appender
     implementation "ca.pjer:logback-awslogs-appender:1.6.0"
+
+    implementation 'org.mapstruct:mapstruct:1.5.2.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.2.Final'
+
+    // https://mvnrepository.com/artifact/org.projectlombok/lombok-mapstruct-binding
+    implementation 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+    annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
+
+
 }
 
 def querydslDir = "$buildDir/generated/querydsl"

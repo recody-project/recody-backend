@@ -1,31 +1,32 @@
 package com.recody.recodybackend.movie.features.manager;
 
-import com.recody.recodybackend.movie.MovieDetail;
-import com.recody.recodybackend.movie.data.movie.MovieEntity;
+import com.recody.recodybackend.movie.*;
+import com.recody.recodybackend.movie.features.getmoviecredit.Actor;
+import com.recody.recodybackend.movie.features.getmoviecredit.Director;
+import com.recody.recodybackend.movie.features.getmoviecredit.dto.TMDBCast;
+import com.recody.recodybackend.movie.features.getmoviecredit.dto.TMDBCrew;
+import com.recody.recodybackend.movie.features.getmoviedetail.MovieInfo;
+import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieDetail;
 import com.recody.recodybackend.movie.features.searchmovies.dto.TMDBMovieSearchNode;
+import com.recody.recodybackend.movie.features.tmdb.TMDBMovieID;
 
-import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.CompletableFuture;
+import java.util.Optional;
 
-
-public interface MovieManager {
+/**
+ * 여러가지 영화 정보를 등록하는 Registrar 를 사용하기 위한 편의 인터페이스.
+ * @author motive
+ */
+public interface MovieManager extends MovieLoader<TMDBMovieID>, DetailedMovieRegistrar<TMDBMovieDetail> {
     
-    /**
-     * 받아온 영화 정보를 저장한다. <br>
-     * 영화의 제목, 장르, 국가 등의 정보를 체크하고 영화 엔티티와 매핑하여 저장한다. <br>
-     * <ul>
-     *     <b>업데이트 하는 정보</b>
-     * <li> 제목의 경우, 전달받은 Locale 에 따라 저장한다.</li>
-     * </ul>
-     * @param movieDetail 영화 정보
-     * @return 저장된 영화 정보의 고유 id
-     */
-    MovieEntity register(MovieDetail movieDetail, Locale locale);
+    Optional<Movie> load(TMDBMovieID sourceIdentifier, Locale locale);
     
-    MovieEntity register(TMDBMovieSearchNode movie, Locale locale);
+    MovieRegistrar<TMDBMovieSearchNode> movie();
     
-    List<MovieEntity> registerList(List<TMDBMovieSearchNode> movie, Locale locale);
+    MovieInfoRegistrar<MovieInfo, TMDBMovieDetail> info();
     
-    CompletableFuture<List<MovieEntity>> registerListAsync(List<TMDBMovieSearchNode> movies, Locale locale);
+    MovieInfoRegistrar<Actor, TMDBCast> actor();
+    
+    MovieInfoRegistrar<Director, TMDBCrew> director();
+    
 }
