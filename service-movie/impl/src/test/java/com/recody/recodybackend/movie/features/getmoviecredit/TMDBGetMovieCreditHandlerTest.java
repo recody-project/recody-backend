@@ -9,14 +9,14 @@ import org.springframework.test.context.ContextConfiguration;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @ActiveProfiles("test")
 @ContextConfiguration(classes = RecodyMovieApplication.class)
 class TMDBGetMovieCreditHandlerTest {
     
-    public static final long MOVIE_ID = 705996L;
+    public static final Integer MOVIE_ID = 705996;
     @Autowired
     private GetMovieCreditHandler getMovieCreditHandler;
     
