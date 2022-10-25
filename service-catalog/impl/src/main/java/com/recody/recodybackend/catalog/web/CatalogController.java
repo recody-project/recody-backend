@@ -44,8 +44,7 @@ class CatalogController {
                                                       HttpServletRequest httpServletRequest){
         return ResponseEntity.ok(SuccessResponseBody.builder()
                                                     .message(ms.getMessage("catalog.search.succeeded", null, httpServletRequest.getLocale()))
-                                                    .data(
-                                                            searchContentHandler.handle(
+                                                    .data(searchContentHandler.handle(
                                                                                   SearchContent.builder()
                                                                                                .keyword(keyword)
                                                                                                .category(BasicCategory.of(category))
@@ -57,21 +56,38 @@ class CatalogController {
     }
     
     @GetMapping("/api/v1/catalog/detail")
-    public ResponseEntity<SuccessResponseBody> detail(@RequestParam String contentId,
-                                                      @Nullable @RequestParam(defaultValue = "movie") String category,
+    public ResponseEntity<SuccessResponseBody> detail(@RequestParam Integer contentId,
+                                                      @Nullable @RequestParam(defaultValue = "movie") String category, // TODO 카테고리 지우기
                                                       @Nullable @RequestParam(defaultValue = "ko") String language,
                                                       @AccessToken String accessToken,
                                                       HttpServletRequest httpServletRequest){
-        return ResponseEntity.ok(SuccessResponseBody.builder()
-                                                    .message(ms.getMessage("catalog.get-detail.succeeded", null, httpServletRequest.getLocale()))
-                                                    .data(getContentDetailHandler.handle(GetContentDetail.builder()
-                                                                                                 .contentId(contentId)
-                                                                                                 .language(language)
-                                                                                                 .category(
-                                                                                                         BasicCategory.of(category))
-                                                                                                 .userId(jwtManager.resolveUserId(accessToken))
-                                                                                                         .build()))
-                                                    .build());
+        return ResponseEntity.ok(
+                SuccessResponseBody.builder()
+                                .message(ms.getMessage("catalog.get-detail.succeeded", null, httpServletRequest.getLocale()))
+                                .data(getContentDetailHandler.handle(GetContentDetail.builder()
+                                                                             .contentId(contentId)
+                                                                             .language(language)
+                                                                             .category(BasicCategory.of(category))
+                                                                             .userId(jwtManager.resolveUserId(accessToken))
+                                                                                     .build()))
+                                .build());
+    }
+    
+    @GetMapping("/api/v1/catalog/movie/{tmdbId}")
+    public ResponseEntity<SuccessResponseBody> movieDetail(@PathVariable Integer tmdbId,
+                                                           @Nullable @RequestParam(defaultValue = "ko") String language,
+                                                           @AccessToken String accessToken,
+                                                           HttpServletRequest httpServletRequest){
+        return ResponseEntity.ok(
+                SuccessResponseBody.builder()
+                                   .message(ms.getMessage("catalog.get-detail.succeeded", null, httpServletRequest.getLocale()))
+                                   .data(getContentDetailHandler.handle(GetContentDetail.builder()
+                                                                                        .contentId(tmdbId)
+                                                                                        .language(language)
+                                                                                        .category(BasicCategory.Movie)
+                                                                                        .userId(jwtManager.resolveUserId(accessToken))
+                                                                                        .build()))
+                                   .build());
     }
     
     /**

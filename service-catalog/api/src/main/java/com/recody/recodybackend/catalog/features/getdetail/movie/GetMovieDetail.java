@@ -2,12 +2,15 @@ package com.recody.recodybackend.catalog.features.getdetail.movie;
 
 import lombok.*;
 
-@Data
+@Getter
+@Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Builder
-public class FetchMovieDetail {
+public class GetMovieDetail {
     
-    private Integer movieId;
+    private Integer tmdbId;
     private String language;
+    private Long userId;
+    
 }

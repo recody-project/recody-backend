@@ -1,6 +1,6 @@
 package com.recody.recodybackend.catalog.features.getdetail.movie;
 
-import com.recody.recodybackend.movie.MovieDetail;
+import com.recody.recodybackend.common.contents.movie.MovieDetail;
 
 public interface FetchMovieDetailHandler {
     

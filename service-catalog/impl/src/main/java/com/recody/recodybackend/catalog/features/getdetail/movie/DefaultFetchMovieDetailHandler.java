@@ -1,6 +1,6 @@
 package com.recody.recodybackend.catalog.features.getdetail.movie;
 
-import com.recody.recodybackend.movie.MovieDetail;
+import com.recody.recodybackend.common.contents.movie.MovieDetail;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +21,6 @@ import java.util.Objects;
 class DefaultFetchMovieDetailHandler implements FetchMovieDetailHandler {
     @Value("${catalog.movie.search.base-url}")
     private String baseUrl;
-    
     @Value("${catalog.movie.access-token}")
     private String bearerToken;
     @Getter
@@ -36,10 +35,10 @@ class DefaultFetchMovieDetailHandler implements FetchMovieDetailHandler {
     @Override
     public MovieDetail handle(FetchMovieDetail command) {
         log.debug("handling command: {}", command);
-        String movieId = command.getMovieId();
+        Integer tmdbId = command.getMovieId();
         String language = command.getLanguage();
     
-        URI uri = makeUrl(movieId, language);
+        URI uri = makeUrl(tmdbId, language);
         HttpHeaders httpHeaders = makeAuthorizedHeaders();
         RequestEntity<Void> requestEntity = RequestEntity.get(uri).headers(httpHeaders).build();
     
@@ -51,7 +50,6 @@ class DefaultFetchMovieDetailHandler implements FetchMovieDetailHandler {
             log.warn("exception: {}", exception.getMessage());
             throw new RuntimeException();
         }
-        log.debug("movie: {}", movieDetail);
         log.info("영화 정보를 Movie 서비스에서 가져왔습니다.");
         return movieDetail;
     }
@@ -62,10 +60,10 @@ class DefaultFetchMovieDetailHandler implements FetchMovieDetailHandler {
         return httpHeaders;
     }
     
-    private URI makeUrl(String movieName, String language) {
+    private URI makeUrl(Integer tmdbId, String language) {
         return UriComponentsBuilder.fromUriString(baseUrl)
                                    .path(path)
-                                   .queryParam(MovieId, movieName)
+                                   .queryParam(MovieId, tmdbId)
                                    .queryParam(LANGUAGE, language)
                                    .encode()
                                    .build()

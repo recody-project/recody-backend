@@ -23,7 +23,6 @@ class DefaultAddToWishlistHandler implements AddToWishlistHandler {
     
     private final CatalogContentRepository contentRepository;
     private final WishRepository wishRepository;
-    
     private final CategoryMapper categoryMapper;
     
     @Override
@@ -34,21 +33,25 @@ class DefaultAddToWishlistHandler implements AddToWishlistHandler {
         String contentId = command.getContentId();
         BasicCategory category = command.getCategory();
         CategoryEntity categoryEntity = categoryMapper.map(category);
-        Optional<CatalogContentEntity> optionalContent = contentRepository.findByContentIdAndCategory(contentId, categoryEntity);
-        if (optionalContent.isEmpty()){
+        Optional<CatalogContentEntity> optionalContent
+                = contentRepository.findByContentIdAndCategory(contentId, categoryEntity);
+        
+        if ( optionalContent.isEmpty() ) {
             log.warn("작품을 찾을 수 없습니다.");
             throw new ContentNotFoundException();
         }
+        
         CatalogContentEntity catalogContent = optionalContent.get();
         WishEntity wishEntity = WishEntity.builder().userId(userId).catalogContent(catalogContent).build();
-    
-        Optional<WishEntity> optionalWish = wishRepository.findByCatalogContentAndUserId(catalogContent,
-                                                                                                      userId);
-        if (optionalWish.isPresent()) {
+        
+        Optional<WishEntity> optionalWish = wishRepository.findByCatalogContentAndUserId(catalogContent, userId);
+        
+        if ( optionalWish.isPresent() ) {
             UUID wishId = optionalWish.get().getId();
             log.debug("이미 위시가 존재하므로 id 를 바로 반환: {}", wishId);
             return wishId;
-        } else {
+        }
+        else {
             WishEntity savedWish = wishRepository.save(wishEntity);
             log.debug("{} 님이 {}를 위시리스트에 추가하였습니다.: {}", userId, contentId, savedWish.getId());
             return savedWish.getId();

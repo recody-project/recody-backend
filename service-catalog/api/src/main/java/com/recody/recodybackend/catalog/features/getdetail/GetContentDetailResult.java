@@ -1,6 +1,6 @@
 package com.recody.recodybackend.catalog.features.getdetail;
 
-import com.recody.recodybackend.catalog.PersonalizedContentDetail;
+import com.recody.recodybackend.catalog.features.PersonalizedContentDetail;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

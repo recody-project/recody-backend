@@ -16,6 +16,9 @@ public abstract class CategoryMapper {
     @Autowired CategoryRepository categoryRepository;
     
     
+    
+//    public abstract CategoryEntity basicEntity(BasicCategory basicCategory);
+    
     /**
      * 기본 카테고리를 엔티티로 변환한다.
      * DB에 없는 카테고리이면 저장 후 반환, DB에 있으면 꺼내서 반환한다.

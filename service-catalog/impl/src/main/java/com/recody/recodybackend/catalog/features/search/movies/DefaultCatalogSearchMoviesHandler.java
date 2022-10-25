@@ -1,6 +1,7 @@
 package com.recody.recodybackend.catalog.features.search.movies;
 
-import com.recody.recodybackend.movie.features.searchmovies.SearchMoviesByQueryResult;
+import com.recody.recodybackend.common.contents.movie.Movie;
+import com.recody.recodybackend.common.contents.movie.Movies;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Objects;
 
 @Component
@@ -24,30 +26,31 @@ class DefaultCatalogSearchMoviesHandler implements CatalogSearchMoviesHandler {
     
     @Value("${catalog.movie.access-token}")
     private String bearerToken;
-    private static final String path = "/api/v1/movie/search-query";
+    private static final String path = "/api/v2/movie/search-query";
     private static final String MOVIE_SEARCH_PARAM_NAME = "movieName";
     private static final String LANGUAGE_PARAM_NAME = "language";
     
     private final RestTemplate restTemplate = new RestTemplate();
     
     @Override
-    public SearchMoviesByQueryResult handle(SearchMovies command) {
+    public List<Movie> handle(SearchMovies command) {
         log.debug("handling command: {}", command);
         String keyword = command.getKeyword();
         String language = command.getLanguage();
         URI uri = makeUrl(keyword, language);
         HttpHeaders httpHeaders = makeAuthorizedHeaders();
         RequestEntity<Void> requestEntity = RequestEntity.get(uri).headers(httpHeaders).build();
-        SearchMoviesByQueryResult result;
+        Movies result;
         try {
-            result = restTemplate.exchange(requestEntity, SearchMoviesByQueryResult.class).getBody();
+            result = restTemplate.exchange(requestEntity, Movies.class).getBody();
             Objects.requireNonNull(result);
         } catch (RestClientException exception){
             log.warn("exception: {}", exception.getMessage());
             throw new RuntimeException();
         }
-        log.debug("movie result size: {}", result.getMovies().size());
-        return result;
+        List<Movie> movies = result.getMovies();
+        log.debug("movie result size: {}", movies.size());
+        return movies;
     }
     
     private HttpHeaders makeAuthorizedHeaders() {

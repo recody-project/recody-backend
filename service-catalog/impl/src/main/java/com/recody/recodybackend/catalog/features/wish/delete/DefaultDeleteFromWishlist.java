@@ -34,19 +34,19 @@ class DefaultDeleteFromWishlist implements DeleteFromWishlistHandler {
         String contentId = command.getContentId();
         BasicCategory category = command.getCategory();
         CategoryEntity categoryEntity = categoryMapper.map(category);
-        Optional<CatalogContentEntity> optionalContent = contentRepository.findByContentIdAndCategory(contentId,
-                                                                                                      categoryEntity);
-    
-        if (optionalContent.isEmpty()) {
+        Optional<CatalogContentEntity> optionalContent
+                = contentRepository.findByContentIdAndCategory(contentId, categoryEntity);
+        
+        if ( optionalContent.isEmpty() ) {
             throw new ContentNotFoundException();
         }
         CatalogContentEntity catalogContent = optionalContent.get();
-        Optional<WishEntity> optionalWish = wishRepository.findByCatalogContentAndUserId(catalogContent,
-                                                                                                      userId);
+        Optional<WishEntity> optionalWish = wishRepository.findByCatalogContentAndUserId(catalogContent, userId);
         
-        if (optionalWish.isEmpty()) {
+        if ( optionalWish.isEmpty() ) {
             log.debug("이미 위시리스트에 없음");
-        } else {
+        }
+        else {
             wishRepository.delete(optionalWish.get());
             log.debug("{} 유저가 {} 작품에 위시를 제거함", userId, contentId);
         }
