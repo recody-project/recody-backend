@@ -1,5 +1,7 @@
 package com.recody.recodybackend.movie.features.getmoviecredit;
 
+import com.recody.recodybackend.common.contents.movie.Actor;
+import com.recody.recodybackend.common.contents.movie.Director;
 import lombok.*;
 
 import java.util.List;

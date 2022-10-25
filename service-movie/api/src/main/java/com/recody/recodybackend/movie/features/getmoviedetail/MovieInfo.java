@@ -1,8 +1,8 @@
 package com.recody.recodybackend.movie.features.getmoviedetail;
 
-import com.recody.recodybackend.movie.Movie;
-import com.recody.recodybackend.movie.general.MovieGenre;
-import com.recody.recodybackend.movie.general.MovieSource;
+import com.recody.recodybackend.common.contents.movie.Movie;
+import com.recody.recodybackend.common.contents.movie.MovieGenre;
+import com.recody.recodybackend.common.contents.movie.MovieSource;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 

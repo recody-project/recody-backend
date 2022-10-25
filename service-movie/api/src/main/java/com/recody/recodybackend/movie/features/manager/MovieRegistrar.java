@@ -1,7 +1,7 @@
 package com.recody.recodybackend.movie.features.manager;
 
 import com.recody.recodybackend.common.contents.register.AsyncContentRegistrar;
-import com.recody.recodybackend.movie.Movie;
+import com.recody.recodybackend.common.contents.movie.Movie;
 
 import javax.transaction.Transactional;
 import java.util.Locale;

@@ -1,10 +1,10 @@
 package com.recody.recodybackend.movie.features.getmoviedetail;
 
-import com.recody.recodybackend.movie.MovieDetail;
+import com.recody.recodybackend.common.contents.movie.MovieDetail;
+import com.recody.recodybackend.common.contents.movie.MovieSource;
 import com.recody.recodybackend.movie.RecodyMovieApplication;
 import com.recody.recodybackend.movie.features.getmoviedetail.fromdb.GetMovieDetail;
 import com.recody.recodybackend.movie.features.getmoviedetail.fromdb.GetMovieDetailHandler;
-import com.recody.recodybackend.movie.general.MovieSource;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

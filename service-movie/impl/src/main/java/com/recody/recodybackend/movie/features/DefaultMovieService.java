@@ -1,14 +1,11 @@
 package com.recody.recodybackend.movie.features;
 
-import com.recody.recodybackend.movie.Movie;
-import com.recody.recodybackend.movie.MovieDetail;
+import com.recody.recodybackend.common.contents.movie.*;
 import com.recody.recodybackend.movie.data.movie.MovieDetailMapper;
 import com.recody.recodybackend.movie.data.movie.MovieEntity;
 import com.recody.recodybackend.movie.data.movie.MovieMapper;
 import com.recody.recodybackend.movie.data.movie.MovieRepository;
 import com.recody.recodybackend.movie.data.people.MoviePersonMapper;
-import com.recody.recodybackend.movie.features.getmoviecredit.Actor;
-import com.recody.recodybackend.movie.features.getmoviecredit.Director;
 import com.recody.recodybackend.movie.features.getmoviecredit.FetchMovieCreditsHandler;
 import com.recody.recodybackend.movie.features.getmoviecredit.dto.TMDBCast;
 import com.recody.recodybackend.movie.features.getmoviecredit.dto.TMDBCrew;
@@ -172,5 +169,17 @@ class DefaultMovieService implements MovieSearchService, MovieDetailService<TMDB
                                         .movies(movies)
                                         .total(movies.size())
                                         .build();
+    }
+    
+    @Override
+    public Movies searchMoviesByQueryData(SearchMovies command) {
+        log.debug("Searching from DB, command: {}", command);
+        String movieName = command.getMovieName();
+        String language = command.getLanguage();
+        Locale locale = Locale.forLanguageTag(language);
+        List<MovieEntity> movieEntities = movieRepository.findByTitleLike(movieName, locale);
+        List<Movie> movies = movieMapper.toMovie(movieEntities, locale);
+        log.debug("Searched movies: {}", movies.size());
+        return new Movies(movies);
     }
 }

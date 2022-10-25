@@ -91,6 +91,11 @@ public class BasicCategory implements Category {
         return this.name;
     }
     
+    @Override
+    public boolean isBasic() {
+        return true;
+    }
+    
     private static boolean matches(String value, BasicCategory category) {
         return category.aliases.contains(value) || category.name.equals(value) || category.koreanName.equals(
                 value);

@@ -1,10 +1,6 @@
-package com.recody.recodybackend.movie;
+package com.recody.recodybackend.common.contents.movie;
 
 import com.recody.recodybackend.common.contents.BasicContentDetail;
-import com.recody.recodybackend.movie.features.getmoviecredit.Actor;
-import com.recody.recodybackend.movie.features.getmoviecredit.Director;
-import com.recody.recodybackend.movie.general.MovieGenre;
-import com.recody.recodybackend.movie.general.MovieSource;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 

@@ -4,5 +4,6 @@ public interface Category {
     
     String getId();
     String getName();
+    boolean isBasic();
     
 }

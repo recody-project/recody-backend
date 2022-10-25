@@ -1,6 +1,6 @@
 package com.recody.recodybackend.movie.features.searchmovies;
 
-import com.recody.recodybackend.movie.Movie;
+import com.recody.recodybackend.common.contents.movie.Movie;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,7 +1,9 @@
 package com.recody.recodybackend.movie.features.manager;
 
+import com.recody.recodybackend.common.contents.movie.Actor;
+import com.recody.recodybackend.common.contents.movie.Director;
 import com.recody.recodybackend.common.exceptions.ContentNotFoundException;
-import com.recody.recodybackend.movie.Movie;
+import com.recody.recodybackend.common.contents.movie.Movie;
 import com.recody.recodybackend.movie.data.MovieEntityManager;
 import com.recody.recodybackend.movie.data.genre.MovieGenreCodeManager;
 import com.recody.recodybackend.movie.data.genre.MovieGenreEntity;
@@ -12,8 +14,6 @@ import com.recody.recodybackend.movie.data.movie.MovieRepository;
 import com.recody.recodybackend.movie.data.people.*;
 import com.recody.recodybackend.movie.data.productioncountry.CountryManager;
 import com.recody.recodybackend.movie.data.spokenlanguage.LanguageManager;
-import com.recody.recodybackend.movie.features.getmoviecredit.Actor;
-import com.recody.recodybackend.movie.features.getmoviecredit.Director;
 import com.recody.recodybackend.movie.features.getmoviecredit.dto.TMDBCast;
 import com.recody.recodybackend.movie.features.getmoviecredit.dto.TMDBCrew;
 import com.recody.recodybackend.movie.features.getmoviedetail.MovieInfo;

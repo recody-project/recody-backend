@@ -1,7 +1,7 @@
 package com.recody.recodybackend.movie.features.getmoviedetail.fromdb;
 
-import com.recody.recodybackend.movie.MovieDetail;
-import com.recody.recodybackend.movie.general.MovieSource;
+import com.recody.recodybackend.common.contents.movie.MovieDetail;
+import com.recody.recodybackend.common.contents.movie.MovieSource;
 import lombok.*;
 
 @Data
