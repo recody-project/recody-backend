@@ -19,7 +19,7 @@ public class ContentIdParser {
             return BasicCategory.Movie;
         }
         else if ( Recody.DRAMA_PREFIX.equals(prefix) ) {
-            return BasicCategory.TVSeries;
+            return BasicCategory.Drama;
         }
         else throw new UnsupportedCategoryException();
     }

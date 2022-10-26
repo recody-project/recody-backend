@@ -41,7 +41,7 @@ class DefaultGetContentHandler implements GetContentHandler {
         
         Content<?> content;
         CategoryEntity categoryEntity = catalogContentEntity.getCategory(); // 영속성에 없으면 쿼리 나감
-        Category category = categoryMapper.map(categoryEntity);
+        Category category = categoryMapper.toCategory(categoryEntity);
         
         if ( BasicCategory.Movie.equals(category) ) {
             content = contentMapper.toCatalogMovie(catalogContentEntity);

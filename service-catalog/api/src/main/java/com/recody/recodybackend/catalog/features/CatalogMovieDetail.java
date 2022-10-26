@@ -25,6 +25,7 @@ public class CatalogMovieDetail implements CatalogContentDetail {
     
     private String contentId;
     
+    @Builder.Default
     private BasicCategory category = BasicCategory.Movie;
     
     /* movie detail */
