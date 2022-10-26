@@ -3,7 +3,7 @@ package com.recody.recodybackend.catalog.data.content;
 import com.recody.recodybackend.catalog.data.category.CategoryMapper;
 import com.recody.recodybackend.catalog.features.CatalogMovie;
 import com.recody.recodybackend.catalog.features.CatalogMovieDetail;
-import com.recody.recodybackend.common.contents.movie.MovieDetail;
+import com.recody.recodybackend.movie.MovieDetail;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

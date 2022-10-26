@@ -1,9 +1,9 @@
 package com.recody.recodybackend.movie.features.getmoviedetail.fromdb;
 
-import com.recody.recodybackend.common.contents.movie.Actor;
-import com.recody.recodybackend.common.contents.movie.Director;
-import com.recody.recodybackend.common.contents.movie.MovieDetail;
-import com.recody.recodybackend.common.contents.movie.MovieSource;
+import com.recody.recodybackend.movie.Actor;
+import com.recody.recodybackend.movie.Director;
+import com.recody.recodybackend.movie.MovieDetail;
+import com.recody.recodybackend.movie.MovieSource;
 import com.recody.recodybackend.movie.data.movie.MovieDetailMapper;
 import com.recody.recodybackend.movie.data.movie.MovieEntity;
 import com.recody.recodybackend.movie.data.movie.MovieRepository;
@@ -11,7 +11,7 @@ import com.recody.recodybackend.movie.features.getmoviecredit.FetchMovieCreditsH
 import com.recody.recodybackend.movie.features.getmoviecredit.dto.TMDBCast;
 import com.recody.recodybackend.movie.features.getmoviecredit.dto.TMDBCrew;
 import com.recody.recodybackend.movie.features.getmoviecredit.dto.TMDBGetMovieCreditResponse;
-import com.recody.recodybackend.movie.features.getmoviedetail.MovieInfo;
+import com.recody.recodybackend.movie.MovieInfo;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieDetail;
 import com.recody.recodybackend.movie.features.getmoviedetail.fromapi.FetchMovieDetailHandler;
 import com.recody.recodybackend.movie.features.manager.MovieManager;

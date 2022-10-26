@@ -1,6 +1,6 @@
 package com.recody.recodybackend.movie.features.getmoviecredit;
 
-import com.recody.recodybackend.common.contents.movie.Director;
+import com.recody.recodybackend.movie.Director;
 import com.recody.recodybackend.movie.data.people.MovieDirectorEntity;
 import com.recody.recodybackend.movie.features.getmoviecredit.dto.TMDBCrew;
 import com.recody.recodybackend.movie.features.tmdb.TMDB;

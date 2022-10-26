@@ -1,8 +1,8 @@
 package com.recody.recodybackend.movie.data.people;
 
 
-import com.recody.recodybackend.common.contents.movie.Actor;
-import com.recody.recodybackend.common.contents.movie.Director;
+import com.recody.recodybackend.movie.Actor;
+import com.recody.recodybackend.movie.Director;
 import com.recody.recodybackend.movie.features.getmoviecredit.dto.TMDBCast;
 import com.recody.recodybackend.movie.features.getmoviecredit.dto.TMDBCrew;
 import com.recody.recodybackend.movie.features.tmdb.TMDB;

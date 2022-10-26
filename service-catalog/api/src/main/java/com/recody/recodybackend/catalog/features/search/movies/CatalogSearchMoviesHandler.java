@@ -1,6 +1,6 @@
 package com.recody.recodybackend.catalog.features.search.movies;
 
-import com.recody.recodybackend.common.contents.movie.Movie;
+import com.recody.recodybackend.movie.Movie;
 
 import java.util.List;
 

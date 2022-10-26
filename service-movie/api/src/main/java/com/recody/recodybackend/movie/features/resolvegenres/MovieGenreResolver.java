@@ -1,6 +1,6 @@
 package com.recody.recodybackend.movie.features.resolvegenres;
 
-import com.recody.recodybackend.common.contents.movie.MovieGenre;
+import com.recody.recodybackend.movie.MovieGenre;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieGenre;
 
 import java.util.List;

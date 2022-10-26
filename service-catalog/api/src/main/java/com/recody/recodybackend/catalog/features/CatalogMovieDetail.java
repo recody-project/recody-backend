@@ -3,9 +3,9 @@ package com.recody.recodybackend.catalog.features;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.recody.recodybackend.catalog.features.manager.CatalogContentDetail;
 import com.recody.recodybackend.common.contents.BasicCategory;
-import com.recody.recodybackend.common.contents.movie.Actor;
-import com.recody.recodybackend.common.contents.movie.Director;
-import com.recody.recodybackend.common.contents.movie.MovieGenre;
+import com.recody.recodybackend.movie.Actor;
+import com.recody.recodybackend.movie.Director;
+import com.recody.recodybackend.movie.MovieGenre;
 import lombok.*;
 
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.recody.recodybackend.catalog.features.search.movies;
 
-import com.recody.recodybackend.common.contents.movie.Movie;
-import com.recody.recodybackend.common.contents.movie.Movies;
+import com.recody.recodybackend.movie.Movie;
+import com.recody.recodybackend.movie.Movies;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,8 +1,5 @@
-package com.recody.recodybackend.movie.features.getmoviedetail;
+package com.recody.recodybackend.movie;
 
-import com.recody.recodybackend.common.contents.movie.Movie;
-import com.recody.recodybackend.common.contents.movie.MovieGenre;
-import com.recody.recodybackend.common.contents.movie.MovieSource;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -16,7 +13,6 @@ import java.util.List;
 public class MovieInfo extends Movie {
     
     private Integer tmdbId;
-    
     private MovieSource source;
     private String originalLanguage;
     

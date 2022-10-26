@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.recody.recodybackend.common.contents.Category;
 import com.recody.recodybackend.common.contents.Genre;
-import com.recody.recodybackend.common.contents.movie.Actor;
-import com.recody.recodybackend.common.contents.movie.Director;
+import com.recody.recodybackend.movie.Actor;
+import com.recody.recodybackend.movie.Director;
 import lombok.*;
 
 import java.util.List;

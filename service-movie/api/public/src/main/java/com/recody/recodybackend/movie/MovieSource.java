@@ -1,4 +1,4 @@
-package com.recody.recodybackend.common.contents.movie;
+package com.recody.recodybackend.movie;
 
 import com.recody.recodybackend.common.contents.ContentSource;
 

@@ -1,6 +1,6 @@
 package com.recody.recodybackend.catalog.features.getdetail.movie;
 
-import com.recody.recodybackend.common.contents.movie.MovieDetail;
+import com.recody.recodybackend.movie.MovieDetail;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,11 +1,11 @@
 package com.recody.recodybackend.movie.data.movie;
 
 import com.recody.recodybackend.common.contents.BasicCategory;
-import com.recody.recodybackend.common.contents.movie.Movie;
-import com.recody.recodybackend.common.contents.movie.MovieSource;
+import com.recody.recodybackend.movie.Movie;
+import com.recody.recodybackend.movie.MovieSource;
 import com.recody.recodybackend.movie.data.genre.MovieGenreMapper;
 import com.recody.recodybackend.movie.data.title.MovieTitleMapper;
-import com.recody.recodybackend.movie.features.getmoviedetail.MovieInfo;
+import com.recody.recodybackend.movie.MovieInfo;
 import com.recody.recodybackend.movie.features.searchmovies.dto.TMDBMovieSearchNode;
 import com.recody.recodybackend.movie.features.tmdb.TMDB;
 import com.recody.recodybackend.movie.web.TMDBSearchedMovie;

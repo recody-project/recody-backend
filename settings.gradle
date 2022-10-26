@@ -2,7 +2,7 @@ rootProject.name = 'recody-backend'
 
 include(":common")
 include(":common-boot-utils")
-include(":service-movie-api", ":service-movie-impl")
+include(":service-movie-api", ":service-movie-api:public", ":service-movie-impl")
 include(":service-catalog-api", ":service-catalog-impl")
 include(":service-users-api", ":service-users-impl")
 include(":service-record-api", ":service-record-impl")
@@ -11,6 +11,7 @@ include(":service-record-api", ":service-record-impl")
 String movieProjectDir = "service-movie"
 project(":service-movie-api").projectDir = new File(settingsDir, "${movieProjectDir}/api")
 project(":service-movie-impl").projectDir = new File(settingsDir, "${movieProjectDir}/impl")
+project(":service-movie-api:public").projectDir = new File(settingsDir, "${movieProjectDir}/api/public")
 
 String catalogProjectDir = "service-catalog"
 project(":service-catalog-api").projectDir = new File(settingsDir, "${catalogProjectDir}/api")
@@ -24,3 +25,4 @@ project(":service-users-impl").projectDir = new File(settingsDir, "${userProject
 String recordProjectDir = "service-record"
 project(":service-record-api").projectDir = new File(settingsDir, "${recordProjectDir}/api")
 project(":service-record-impl").projectDir = new File(settingsDir, "${recordProjectDir}/impl")
+

@@ -1,16 +1,16 @@
 package com.recody.recodybackend.movie.data.movie;
 
 import com.recody.recodybackend.common.contents.BasicCategory;
-import com.recody.recodybackend.common.contents.movie.Actor;
-import com.recody.recodybackend.common.contents.movie.Director;
-import com.recody.recodybackend.common.contents.movie.MovieDetail;
-import com.recody.recodybackend.common.contents.movie.MovieSource;
+import com.recody.recodybackend.movie.Actor;
+import com.recody.recodybackend.movie.Director;
+import com.recody.recodybackend.movie.MovieDetail;
+import com.recody.recodybackend.movie.MovieSource;
 import com.recody.recodybackend.movie.data.genre.MovieGenreMapper;
 import com.recody.recodybackend.movie.data.people.MoviePersonMapper;
 import com.recody.recodybackend.movie.data.productioncountry.ProductionCountryMapper;
 import com.recody.recodybackend.movie.data.spokenlanguage.SpokenLanguageMapper;
 import com.recody.recodybackend.movie.data.title.MovieTitleMapper;
-import com.recody.recodybackend.movie.features.getmoviedetail.MovieInfo;
+import com.recody.recodybackend.movie.MovieInfo;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieDetail;
 import com.recody.recodybackend.movie.features.getmoviedetail.fromapi.TMDBFetchedMovieDetail;
 import com.recody.recodybackend.movie.features.tmdb.TMDB;
@@ -43,7 +43,7 @@ public abstract class MovieDetailMapper {
     @Mapping(target = "category", expression = "java(BasicCategory.Movie)")
     @Mapping(target = "contentId", source = "movieInfo.contentId")
 //    @Mapping(target = "rootId", ignore = true)
-    @Mapping(target = "source", expression = "java(com.recody.recodybackend.common.contents.movie.MovieSource.TMDB)")
+    @Mapping(target = "source", expression = "java(com.recody.recodybackend.movie.MovieSource.TMDB)")
 //    @Mapping(target = "tmdbId", source = "movieInfo.tmdbId")
     @Mapping(target = "genres", source = "movieInfo.genres")
     public abstract MovieDetail makeMovieDetail(MovieInfo movieInfo, List<Actor> actors, List<Director> directors);

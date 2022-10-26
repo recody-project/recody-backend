@@ -8,7 +8,7 @@ import com.recody.recodybackend.catalog.features.CatalogMovieDetail;
 import com.recody.recodybackend.catalog.features.projection.ContentEventPublisher;
 import com.recody.recodybackend.common.contents.register.AsyncContentRegistrar;
 import com.recody.recodybackend.common.events.ContentCreated;
-import com.recody.recodybackend.common.contents.movie.MovieDetail;
+import com.recody.recodybackend.movie.MovieDetail;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

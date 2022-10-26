@@ -1,6 +1,6 @@
 package com.recody.recodybackend.movie.features.getmoviedetail.fromdb;
 
-import com.recody.recodybackend.common.contents.movie.MovieDetail;
+import com.recody.recodybackend.movie.MovieDetail;
 
 /**
  * 영화의 상세정보를 가져온다.

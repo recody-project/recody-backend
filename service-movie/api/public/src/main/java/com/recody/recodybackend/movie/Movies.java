@@ -1,4 +1,4 @@
-package com.recody.recodybackend.common.contents.movie;
+package com.recody.recodybackend.movie;
 
 import lombok.*;
 

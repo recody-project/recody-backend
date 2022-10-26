@@ -1,7 +1,7 @@
 package com.recody.recodybackend.movie.web;
 
-import com.recody.recodybackend.common.contents.movie.MovieDetail;
-import com.recody.recodybackend.common.contents.movie.Movies;
+import com.recody.recodybackend.movie.MovieDetail;
+import com.recody.recodybackend.movie.Movies;
 import com.recody.recodybackend.common.web.SuccessResponseBody;
 import com.recody.recodybackend.movie.features.MovieDetailService;
 import com.recody.recodybackend.movie.features.MovieSearchService;

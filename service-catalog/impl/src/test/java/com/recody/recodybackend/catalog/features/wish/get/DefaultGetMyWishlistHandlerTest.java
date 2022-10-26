@@ -64,12 +64,12 @@ class DefaultGetMyWishlistHandlerTest {
     
     
         // when
-        List<Content> handle = getMyWishlistHandler.handle(command);
+        List<Content<?>> handle = getMyWishlistHandler.handle(command);
 
         
         // then
         for (int i = 0, handleSize = handle.size(); i < handleSize; i++) {
-            Content catalogContent = handle.get(i);
+            Content<?> catalogContent = handle.get(i);
             assertThat(catalogContent.getContentId()).isEqualTo(contentIds[i]);
         }
     }

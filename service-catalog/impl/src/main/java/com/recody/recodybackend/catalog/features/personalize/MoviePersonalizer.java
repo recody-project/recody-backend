@@ -3,7 +3,7 @@ package com.recody.recodybackend.catalog.features.personalize;
 import com.recody.recodybackend.catalog.features.PersonalizedMovie;
 import com.recody.recodybackend.catalog.features.PersonalizedMovieMapper;
 import com.recody.recodybackend.common.contents.BasicCategory;
-import com.recody.recodybackend.common.contents.movie.Movie;
+import com.recody.recodybackend.movie.Movie;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

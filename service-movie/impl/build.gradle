@@ -15,6 +15,7 @@ plugins{
 
 bootJar.enabled(false)
 jar.enabled(true)
+
 apply plugin: "com.ewerk.gradle.plugins.querydsl"
 
 dependencies {
@@ -22,6 +23,7 @@ dependencies {
     implementation project(":common")
     implementation project(":common-boot-utils")
     implementation project(":service-movie-api")
+    implementation project(":service-movie-api:public")
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'

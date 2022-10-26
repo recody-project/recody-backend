@@ -1,5 +1,7 @@
 package com.recody.recodybackend.movie.features.getmoviecredit;
 
+import com.recody.recodybackend.movie.Actor;
+import com.recody.recodybackend.movie.Director;
 import com.recody.recodybackend.movie.RecodyMovieApplication;
 import com.recody.recodybackend.movie.data.movie.MovieEntity;
 import com.recody.recodybackend.movie.data.movie.MovieRepository;

@@ -1,4 +1,4 @@
-package com.recody.recodybackend.common.contents.movie;
+package com.recody.recodybackend.movie;
 
 import com.recody.recodybackend.common.contents.BasicContentDetail;
 import lombok.*;
@@ -6,6 +6,14 @@ import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
+/**
+ * 영화의 상세정보.
+ * <ul>
+ *     <li> 유저에게 보여질 영화의 상세정보입니다.</li>
+ *     <li> 영화의 기본적인 정보, 장르, 카테고리, 배우, 감독 정보가 포함됩니다. </li>
+ * </ul>
+ * @author motive
+ */
 @Getter
 @Setter
 @SuperBuilder

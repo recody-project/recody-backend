@@ -7,7 +7,7 @@ import com.recody.recodybackend.catalog.features.search.movies.SearchMovies;
 import com.recody.recodybackend.catalog.features.search.movies.CatalogSearchMoviesHandler;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.exceptions.UnsupportedCategoryException;
-import com.recody.recodybackend.common.contents.movie.Movie;
+import com.recody.recodybackend.movie.Movie;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

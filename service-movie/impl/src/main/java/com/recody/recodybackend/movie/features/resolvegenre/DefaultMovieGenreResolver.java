@@ -1,7 +1,7 @@
 package com.recody.recodybackend.movie.features.resolvegenre;
 
-import com.recody.recodybackend.common.contents.movie.MovieGenre;
 import com.recody.recodybackend.common.exceptions.ApplicationException;
+import com.recody.recodybackend.movie.MovieGenre;
 import com.recody.recodybackend.movie.data.genre.MovieGenreCodeEntity;
 import com.recody.recodybackend.movie.data.genre.MovieGenreCodeRepository;
 import com.recody.recodybackend.movie.data.genre.MovieGenreMapper;

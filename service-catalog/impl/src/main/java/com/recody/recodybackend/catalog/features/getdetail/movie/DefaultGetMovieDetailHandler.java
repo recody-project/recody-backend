@@ -3,7 +3,7 @@ package com.recody.recodybackend.catalog.features.getdetail.movie;
 import com.recody.recodybackend.catalog.features.PersonalizedMovieDetail;
 import com.recody.recodybackend.catalog.features.CatalogMovieDetail;
 import com.recody.recodybackend.catalog.features.personalize.ContentDetailPersonalizer;
-import com.recody.recodybackend.common.contents.movie.MovieDetail;
+import com.recody.recodybackend.movie.MovieDetail;
 import com.recody.recodybackend.common.contents.register.AsyncContentRegistrar;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

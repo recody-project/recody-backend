@@ -1,6 +1,6 @@
 package com.recody.recodybackend.movie.features;
 
-import com.recody.recodybackend.common.contents.movie.Movies;
+import com.recody.recodybackend.movie.Movies;
 import com.recody.recodybackend.movie.features.searchmovies.SearchMovies;
 import com.recody.recodybackend.movie.features.searchmovies.SearchMoviesByQueryResult;
 import com.recody.recodybackend.movie.features.searchmovies.SearchMoviesResult;
