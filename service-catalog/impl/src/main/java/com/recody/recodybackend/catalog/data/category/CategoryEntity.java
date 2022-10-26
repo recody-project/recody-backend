@@ -6,10 +6,7 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -32,8 +29,13 @@ public class CategoryEntity {
             @Parameter(name = CustomSequenceIdGenerator.NUMBER_FORMAT_PARAMETER, value = "%d")})
     private String id;
     
+    @Column(name = "name", nullable = false)
     private String name;
     
+    @Column(name = "icon_url")
+    private String iconUrl;
+    
+    private Long userId;
     private boolean basic;
     
     public CategoryEntity(String id, String name) {

@@ -3,11 +3,12 @@ package com.recody.recodybackend.catalog.data.content;
 import com.recody.recodybackend.catalog.data.category.CategoryMapper;
 import com.recody.recodybackend.catalog.features.CatalogMovie;
 import com.recody.recodybackend.catalog.features.CatalogMovieDetail;
+import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.movie.MovieDetail;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper( componentModel = "spring", uses = {CategoryMapper.class} )
+@Mapper( componentModel = "spring", imports = {BasicCategory.class}, uses = {CategoryMapper.class} )
 public interface CatalogContentMapper {
     
     
@@ -21,13 +22,13 @@ public interface CatalogContentMapper {
     @Mapping( target = "posterPath", source = "entity.imageUrl" )
     @Mapping( target = "globalContentId", source = "entity.id" )
     @Mapping( target = "contentGroupId", ignore = true )
+    @Mapping( target = "category", expression = "java(BasicCategory.idOf(entity.getId()))" )
     CatalogMovie toCatalogMovie(CatalogContentEntity entity);
     
     @Mapping( target = "title", source = "movieDetail.title" )
     @Mapping( target = "category", source = "movieDetail.category" )
     @Mapping( target = "contentId", source = "movieDetail.contentId" )
     @Mapping( target = "globalContentId", source = "entity.id" )
-    @Mapping( target = "contentGroupId", ignore = true )
-// 구현되지 않음.
+    @Mapping( target = "contentGroupId", ignore = true ) // 구현되지 않음.
     CatalogMovieDetail toCatalogMovieDetail(CatalogContentEntity entity, MovieDetail movieDetail);
 }
