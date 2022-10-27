@@ -1,9 +1,11 @@
 package com.recody.recodybackend.catalog.web;
 
+import com.recody.recodybackend.catalog.features.ContentId;
 import com.recody.recodybackend.catalog.features.LeaveRatingResponse;
+import com.recody.recodybackend.catalog.features.RatingScore;
 import com.recody.recodybackend.catalog.features.rate.AddRating;
 import com.recody.recodybackend.catalog.features.rate.AddRatingHandler;
-import com.recody.recodybackend.catalog.web.rating.LeaveRatingRequest;
+import com.recody.recodybackend.catalog.web.rating.AddRatingRequest;
 import com.recody.recodybackend.common.web.SuccessResponseBody;
 import com.recody.recodybackend.commonbootutils.jwt.JwtManager;
 import com.recody.recodybackend.commonbootutils.web.AccessToken;
@@ -28,21 +30,19 @@ public class RatingController {
     @PostMapping( "/api/v1/catalog/rating" )
     public ResponseEntity<SuccessResponseBody> addRating(@AccessToken String accessToken,
                                                          HttpServletRequest httpServletRequest,
-                                                         @RequestBody LeaveRatingRequest request) {
+                                                         @RequestBody AddRatingRequest request) {
         return ResponseEntity.ok(SuccessResponseBody.builder()
                                                     .message(ms.getMessage("catalog.rating.add.succeeded", null,
                                                                            httpServletRequest.getLocale()))
-                                                    .data(new LeaveRatingResponse(leaveRatingHandler.handle(
-                                                            getLeaveRating(accessToken, request))))
+                                                    .data(new LeaveRatingResponse(leaveRatingHandler.handle(createAddRating(accessToken, request))))
                                                     .build());
     }
     
-    private AddRating getLeaveRating(String accessToken, LeaveRatingRequest request) {
+    private AddRating createAddRating(String accessToken, AddRatingRequest request) {
         return AddRating.builder()
-                        .contentId(request.getContentId())
-                        .score(request.getScore())
+                        .contentId(ContentId.of(request.getContentId()))
+                        .score(RatingScore.of(request.getScore()))
                         .userId(jwtManager.resolveUserId(accessToken))
                         .build();
     }
-    
 }

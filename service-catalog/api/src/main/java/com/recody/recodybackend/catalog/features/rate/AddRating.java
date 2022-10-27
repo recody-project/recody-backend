@@ -1,5 +1,7 @@
 package com.recody.recodybackend.catalog.features.rate;
 
+import com.recody.recodybackend.catalog.features.ContentId;
+import com.recody.recodybackend.catalog.features.RatingScore;
 import lombok.Builder;
 import lombok.Data;
 
@@ -8,6 +10,6 @@ import lombok.Data;
 public class AddRating {
     
     private Long userId;
-    private String contentId;
-    private Integer score;
+    private ContentId contentId;
+    private RatingScore score;
 }

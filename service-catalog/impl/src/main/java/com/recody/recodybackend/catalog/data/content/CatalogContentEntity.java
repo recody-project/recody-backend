@@ -34,7 +34,7 @@ public class CatalogContentEntity {
     /**
      * 작품의 카테고리이다.
      */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
     private CategoryEntity category;
     

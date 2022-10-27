@@ -5,7 +5,7 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class LeaveRatingRequest {
+public class AddRatingRequest {
     @NotNull(message = "${notNull}")
     private String contentId;
     private Integer score;

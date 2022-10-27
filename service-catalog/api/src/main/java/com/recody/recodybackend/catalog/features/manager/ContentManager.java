@@ -11,7 +11,7 @@ import com.recody.recodybackend.common.contents.Content;
  *     <li> 컨텐츠 그룹을 갖는다. </li>
  * </ol>
  */
-public interface ContentManager {
+public interface ContentManager extends ContentLoader{
     
     /**
      * 작품 도메인 객체를 주면 고유 ID를 반환한다.
