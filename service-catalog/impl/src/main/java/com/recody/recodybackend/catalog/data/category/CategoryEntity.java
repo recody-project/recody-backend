@@ -18,7 +18,7 @@ import javax.persistence.*;
 public class CategoryEntity {
     
     @Id
-    @GeneratedValue(generator = "category_seq", strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "category_seq", strategy = GenerationType.SEQUENCE)
     @GenericGenerator(name = "category_seq",
                       strategy = "com.recody.recodybackend.commonbootutils.data.CustomSequenceIdGenerator",
                       parameters = {

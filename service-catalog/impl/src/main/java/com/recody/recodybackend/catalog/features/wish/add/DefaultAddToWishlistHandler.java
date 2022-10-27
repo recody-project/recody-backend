@@ -7,6 +7,8 @@ import com.recody.recodybackend.catalog.data.content.CatalogContentRepository;
 import com.recody.recodybackend.catalog.data.WishEntity;
 import com.recody.recodybackend.catalog.data.WishRepository;
 import com.recody.recodybackend.catalog.exceptions.ContentNotFoundException;
+import com.recody.recodybackend.catalog.features.ContentId;
+import com.recody.recodybackend.catalog.features.parseid.ContentIdParser;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,13 +27,15 @@ class DefaultAddToWishlistHandler implements AddToWishlistHandler {
     private final WishRepository wishRepository;
     private final CategoryMapper categoryMapper;
     
+    private final ContentIdParser idParser = new ContentIdParser();
+    
     @Override
     @Transactional
     public UUID handle(AddToWishlist command) {
         log.debug("handling command: {}", command);
         Long userId = command.getUserId();
         String contentId = command.getContentId();
-        BasicCategory category = command.getCategory();
+        BasicCategory category = idParser.parse(ContentId.of(contentId));
         CategoryEntity categoryEntity = categoryMapper.map(category);
         Optional<CatalogContentEntity> optionalContent
                 = contentRepository.findByContentIdAndCategory(contentId, categoryEntity);

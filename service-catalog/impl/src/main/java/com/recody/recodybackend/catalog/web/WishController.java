@@ -6,7 +6,6 @@ import com.recody.recodybackend.catalog.features.wish.delete.DeleteFromWishlist;
 import com.recody.recodybackend.catalog.features.wish.delete.DeleteFromWishlistHandler;
 import com.recody.recodybackend.catalog.features.wish.get.GetMyWishlist;
 import com.recody.recodybackend.catalog.features.wish.get.GetMyWishlistHandler;
-import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.web.SuccessResponseBody;
 import com.recody.recodybackend.commonbootutils.jwt.JwtManager;
 import com.recody.recodybackend.commonbootutils.web.AccessToken;
@@ -31,50 +30,49 @@ public class WishController {
     
     private final GetMyWishlistHandler getMyWishlistHandler;
     
-    @PostMapping("/api/v1/catalog/wish")
+    @PostMapping( "/api/v1/catalog/wish" )
     public ResponseEntity<SuccessResponseBody> wish(HttpServletRequest httpServletRequest,
-                                                    @RequestBody AddToWishlistRequest request,
-                                                    @AccessToken String accessToken){
-        return ResponseEntity.ok(
-                SuccessResponseBody.builder()
-                        .message(ms.getMessage("catalog.wish.add.succeeded", null, "위시 추가 성공", httpServletRequest.getLocale()))
-                        .data(addToWishlistHandler.handle(AddToWishlist.builder()
-                                                                  .userId(jwtManager.resolveUserId(accessToken))
-                                                                  .contentId(request.getContentId())
-                                                                  .category(BasicCategory.of(request.getCategory()))
-                                                                       .build()))
-                                   .build()
-                                );
+                                                    @Valid @RequestBody AddToWishlistRequest request,
+                                                    @AccessToken String accessToken) {
+        return ResponseEntity.ok(SuccessResponseBody.builder()
+                                                    .message(ms.getMessage("catalog.wish.add.succeeded", null,
+                                                                           "위시 추가 성공", httpServletRequest.getLocale()
+                                                                          ))
+                                                    .data(addToWishlistHandler.handle(AddToWishlist.builder()
+                                                                                                   .userId(jwtManager.resolveUserId(accessToken))
+                                                                                                   .contentId(request.getContentId())
+                                                                                                   .build()))
+                                                    .build());
     }
     
-    @DeleteMapping("/api/v1/catalog/wish")
+    @DeleteMapping( "/api/v1/catalog/wish" )
     public ResponseEntity<SuccessResponseBody> deleteWish(HttpServletRequest httpServletRequest,
-                                                    @Valid @RequestBody DeleteFromWishlistRequest request,
-                                                    @AccessToken String accessToken){
+                                                          @Valid @RequestBody DeleteFromWishlistRequest request,
+                                                          @AccessToken String accessToken) {
         deleteFromWishlistHandler.handle(DeleteFromWishlist.builder()
                                                            .userId(jwtManager.resolveUserId(accessToken))
                                                            .contentId(request.getContentId())
-                                                           .category(BasicCategory.of(request.getCategory()))
                                                            .build());
-        return ResponseEntity.ok(
-                SuccessResponseBody.builder()
-                                   .message(ms.getMessage("catalog.wish.delete.succeeded", null, "위시 제거 성공", httpServletRequest.getLocale()))
-                                   .data(null)
-                                   .build()
-                                );
+        return ResponseEntity.ok(SuccessResponseBody.builder()
+                                                    .message(ms.getMessage("catalog.wish.delete.succeeded", null,
+                                                                           "위시 제거 성공", httpServletRequest.getLocale()
+                                                                          ))
+                                                    .data(null)
+                                                    .build());
         
     }
     
-    @GetMapping("/api/v1/catalog/wish/wishes")
+    @GetMapping( "/api/v1/catalog/wish/wishes" )
     public ResponseEntity<SuccessResponseBody> wishes(HttpServletRequest httpServletRequest,
-                                                    @AccessToken String accessToken){
-        return ResponseEntity.ok(
-                SuccessResponseBody.builder()
-                                   .message(ms.getMessage("catalog.wish.get-wishes.succeeded", null, "위시리스트 가져오기 성공", httpServletRequest.getLocale()))
-                                   .data(getMyWishlistHandler.handle(GetMyWishlist.builder()
-                                                                                  .userId(jwtManager.resolveUserId(accessToken))
-                                                                                  .build()))
-                                   .build()
-                                );
+                                                      @AccessToken String accessToken) {
+        return ResponseEntity.ok(SuccessResponseBody.builder()
+                                                    .message(ms.getMessage("catalog.wish.get-wishes.succeeded", null,
+                                                                           "위시리스트 가져오기 성공",
+                                                                           httpServletRequest.getLocale()
+                                                                          ))
+                                                    .data(getMyWishlistHandler.handle(GetMyWishlist.builder()
+                                                                                                   .userId(jwtManager.resolveUserId(accessToken))
+                                                                                                   .build()))
+                                                    .build());
     }
 }

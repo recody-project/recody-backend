@@ -7,7 +7,10 @@ public enum CatalogErrorType implements ErrorType {
     InvalidCustomCategory("InvalidCustomCategory"),
     CategoryNotFound("CategoryNotFound"),
     ContentNotFound("ContentNotFound"),
+    ContentIdCannotBeEmpty("ContentIdCannotBeEmpty"),
+    MalformedContentId("MalformedContentId"),
     InvalidRatingScore("InvalidRatingScore"),
+    
     IconUrlCannotBeNull("category.icon-url.not-null"),
     ;
     

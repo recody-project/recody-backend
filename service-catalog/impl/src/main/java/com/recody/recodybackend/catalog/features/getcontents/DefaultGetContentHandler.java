@@ -3,6 +3,7 @@ package com.recody.recodybackend.catalog.features.getcontents;
 import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
 import com.recody.recodybackend.catalog.data.content.CatalogContentMapper;
 import com.recody.recodybackend.catalog.data.content.CatalogContentRepository;
+import com.recody.recodybackend.catalog.features.ContentId;
 import com.recody.recodybackend.catalog.features.parseid.ContentIdParser;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.contents.Category;
@@ -32,7 +33,7 @@ class DefaultGetContentHandler implements GetContentHandler {
     public Content<?> handle(GetContent command) {
         log.debug("handling command: {}", command);
         String contentId = command.getContentId();
-        BasicCategory parsedCategory = idParser.parse(contentId);
+        BasicCategory parsedCategory = idParser.parse(ContentId.of(contentId));
         CategoryEntity mappedCategory = categoryMapper.map(parsedCategory);
     
         CatalogContentEntity catalogContentEntity

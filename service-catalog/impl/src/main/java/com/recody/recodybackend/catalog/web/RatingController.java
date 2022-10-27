@@ -25,13 +25,15 @@ public class RatingController {
     private final MessageSource ms;
     
     
-    @PostMapping("/api/v1/catalog/rating")
+    @PostMapping( "/api/v1/catalog/rating" )
     public ResponseEntity<SuccessResponseBody> addRating(@AccessToken String accessToken,
-                                                      HttpServletRequest httpServletRequest,
-                                                      @RequestBody LeaveRatingRequest request){
+                                                         HttpServletRequest httpServletRequest,
+                                                         @RequestBody LeaveRatingRequest request) {
         return ResponseEntity.ok(SuccessResponseBody.builder()
-                                         .message(ms.getMessage("catalog.rating.add.succeeded", null, httpServletRequest.getLocale()))
-                                         .data(new LeaveRatingResponse(leaveRatingHandler.handle(getLeaveRating(accessToken, request))))
+                                                    .message(ms.getMessage("catalog.rating.add.succeeded", null,
+                                                                           httpServletRequest.getLocale()))
+                                                    .data(new LeaveRatingResponse(leaveRatingHandler.handle(
+                                                            getLeaveRating(accessToken, request))))
                                                     .build());
     }
     
