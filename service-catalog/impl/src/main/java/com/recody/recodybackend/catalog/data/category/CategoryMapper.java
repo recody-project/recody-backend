@@ -13,8 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Mapper( componentModel = "spring",
-         imports = {CategoryName.class, CategoryIconUrl.class},
-         builder = @Builder(disableBuilder = true)
+         imports = {CategoryName.class, CategoryIconUrl.class}
 )
 @Slf4j
 public abstract class CategoryMapper {
@@ -23,6 +22,7 @@ public abstract class CategoryMapper {
     CategoryRepository categoryRepository;
     
     
+    @Mapping( target = "basic", source = "entity.basic" )
     @Mapping( target = "name", expression = "java(com.recody.recodybackend.catalog.features.category.CategoryName.of(entity.getName()))")
     @Mapping( target = "iconUrl", expression = "java(com.recody.recodybackend.catalog.features.category.CategoryIconUrl.of(entity.getIconUrl()))")
     public abstract CustomCategory toCustomCategory(CategoryEntity entity);

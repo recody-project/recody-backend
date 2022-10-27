@@ -42,7 +42,9 @@ class DefaultGetMyWishlistHandlerTest {
     
     @BeforeEach
     void before() {
-        CategoryEntity categoryEntity = new CategoryEntity(BasicCategory.Movie.getId(), BasicCategory.Movie.getName());
+        String id = BasicCategory.Movie.getId();
+        System.out.println(id);
+        CategoryEntity categoryEntity = new CategoryEntity(id, BasicCategory.Movie.getName());
         COMMON_CATEGORY = categoryRepository.save(categoryEntity);
         for (int i = 0; i < contentIds.length; i++) {
             CatalogContentEntity con1 = CatalogContentEntity.builder()
@@ -52,6 +54,7 @@ class DefaultGetMyWishlistHandlerTest {
             CatalogContentEntity savedEntity = contentRepository.save(con1);
             WishEntity wishEntity = WishEntity.builder().catalogContent(savedEntity).userId(USER_ID).build();
             WishEntity saved = wishRepository.save(wishEntity);
+            System.out.println("saved = " + saved);
         }
     }
     

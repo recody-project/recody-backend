@@ -14,6 +14,7 @@ import org.springframework.util.StringUtils;
 @Getter
 @Setter
 @NoArgsConstructor( access = AccessLevel.PROTECTED )
+@Builder
 public class CustomCategory implements Category {
     
     public static final int MAX_CUSTOM_CATEGORIES = 5;

@@ -22,7 +22,7 @@ public interface CatalogContentMapper {
     @Mapping( target = "posterPath", source = "entity.imageUrl" )
     @Mapping( target = "globalContentId", source = "entity.id" )
     @Mapping( target = "contentGroupId", ignore = true )
-    @Mapping( target = "category", expression = "java(BasicCategory.idOf(entity.getId()))" )
+    @Mapping( target = "category", expression = "java(BasicCategory.idOf(entity.getCategory().getId()))" )
     CatalogMovie toCatalogMovie(CatalogContentEntity entity);
     
     @Mapping( target = "title", source = "movieDetail.title" )
