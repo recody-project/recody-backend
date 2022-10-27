@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.contents.Category;
-import com.recody.recodybackend.movie.features.getmoviecredit.Actor;
-import com.recody.recodybackend.movie.features.getmoviecredit.Director;
+import com.recody.recodybackend.movie.Actor;
+import com.recody.recodybackend.movie.Director;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieGenre;
 import lombok.*;
 

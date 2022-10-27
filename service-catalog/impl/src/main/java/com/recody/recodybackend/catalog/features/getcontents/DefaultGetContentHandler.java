@@ -3,6 +3,7 @@ package com.recody.recodybackend.catalog.features.getcontents;
 import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
 import com.recody.recodybackend.catalog.data.content.CatalogContentMapper;
 import com.recody.recodybackend.catalog.data.content.CatalogContentRepository;
+import com.recody.recodybackend.catalog.features.parseid.ContentIdParser;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.contents.Category;
 import com.recody.recodybackend.common.contents.Content;
@@ -14,28 +15,38 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
+
 @Component
 @RequiredArgsConstructor
 @Slf4j
-class DefaultGetContentHandler implements GetContentHandler{
+class DefaultGetContentHandler implements GetContentHandler {
     
     private final CatalogContentRepository contentRepository;
     private final CatalogContentMapper contentMapper;
     private final CategoryMapper categoryMapper;
+    private final ContentIdParser idParser = new ContentIdParser();
     
     @Override
-    public Content handle(GetContent command) {
+    @Transactional
+    public Content<?> handle(GetContent command) {
         log.debug("handling command: {}", command);
         String contentId = command.getContentId();
-        CatalogContentEntity catalogContentEntity = contentRepository
-                                                            .findByContentId(contentId)
-                                                            .orElseThrow(ContentNotFoundException::new);
-        Content content;
-        CategoryEntity categoryEntity = catalogContentEntity.getCategory();
-        Category category = categoryMapper.map(categoryEntity);
-        if (BasicCategory.Movie.equals(category)) {
-            content = contentMapper.mapToMovie(catalogContentEntity);
-        } else {
+        BasicCategory parsedCategory = idParser.parse(contentId);
+        CategoryEntity mappedCategory = categoryMapper.map(parsedCategory);
+    
+        CatalogContentEntity catalogContentEntity
+                = contentRepository.findByContentIdAndCategory(contentId, mappedCategory)
+                                   .orElseThrow(ContentNotFoundException::new);
+        
+        Content<?> content;
+        CategoryEntity categoryEntity = catalogContentEntity.getCategory(); // 영속성에 없으면 쿼리 나감
+        Category category = categoryMapper.toCategory(categoryEntity);
+        
+        if ( BasicCategory.Movie.equals(category) ) {
+            content = contentMapper.toCatalogMovie(catalogContentEntity);
+        }
+        else {
             throw new UnsupportedCategoryException();
         }
         return content;

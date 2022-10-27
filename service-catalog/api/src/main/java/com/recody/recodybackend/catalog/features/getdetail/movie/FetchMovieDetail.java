@@ -8,6 +8,6 @@ import lombok.*;
 @Builder
 public class FetchMovieDetail {
     
-    private String movieId;
+    private Integer movieId;
     private String language;
 }

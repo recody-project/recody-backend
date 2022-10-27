@@ -36,4 +36,8 @@ public class WishEntity extends CatalogBaseEntity{
     @Version
     private Integer version;
     
+    @Override
+    public String toString() {
+        return "[{\"WishEntity\":{" + "\"id\":" + ((id != null) ? ("\"" + id + "\"") : null) + ", \"catalogContent\":" + catalogContent + ", \"userId\":" + userId + "}}, " + super.toString() + "]";
+    }
 }

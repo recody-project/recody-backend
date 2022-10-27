@@ -1,14 +1,13 @@
 package com.recody.recodybackend.catalog.features.search;
 
-import com.recody.recodybackend.catalog.PersonalizedContent;
-import com.recody.recodybackend.catalog.PersonalizedMovie;
+import com.recody.recodybackend.catalog.features.PersonalizedContent;
+import com.recody.recodybackend.catalog.features.PersonalizedMovie;
 import com.recody.recodybackend.catalog.features.personalize.ContentPersonalizer;
 import com.recody.recodybackend.catalog.features.search.movies.SearchMovies;
 import com.recody.recodybackend.catalog.features.search.movies.CatalogSearchMoviesHandler;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.exceptions.UnsupportedCategoryException;
 import com.recody.recodybackend.movie.Movie;
-import com.recody.recodybackend.movie.features.searchmovies.SearchMoviesByQueryResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -31,9 +30,8 @@ class DefaultSearchContentHandler implements SearchContentHandler{
         List<PersonalizedContent> personalizedContentDetails = new ArrayList<>();
         
         if (category.equals(BasicCategory.Movie)){
-            SearchMoviesByQueryResult movieResult = catalogSearchMoviesHandler.handle(
+            List<Movie> movies = catalogSearchMoviesHandler.handle(
                     SearchMovies.builder().keyword(keyword).language(command.getLanguage()).build());
-            List<Movie> movies = movieResult.getMovies();
             for (Movie movie : movies) {
                 personalizedContentDetails.add(movieContentPersonalizer.personalize(movie, userId));
             }

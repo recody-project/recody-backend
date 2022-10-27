@@ -1,5 +1,6 @@
 package com.recody.recodybackend.movie.features.getmoviecredit;
 
+import com.recody.recodybackend.movie.Director;
 import com.recody.recodybackend.movie.data.people.MovieDirectorEntity;
 import com.recody.recodybackend.movie.features.getmoviecredit.dto.TMDBCrew;
 import com.recody.recodybackend.movie.features.tmdb.TMDB;
@@ -8,7 +9,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-@Mapper(componentModel = "spring", imports = {
+@Mapper(componentModel = "spring",
+        imports = {
         TMDB.class
 })
 @Slf4j

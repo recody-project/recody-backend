@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 
+/**
+ * @author motive
+ */
 public class ErrorResponseBody {
     private static final String INTERNAL_SERVER_ERROR = "요청을 처리하지 못했습니다.";
     private transient final ObjectMapper objectMapper = new ObjectMapper();
@@ -58,6 +61,10 @@ public class ErrorResponseBody {
         return new ErrorResponseBody(new ErrorResponse(exception.getClass().getSimpleName(), message, requestUri));
     }
     
+    
+    
+    /* *********** Builder Methods *********** */
+    
     public static MessageBuilder type(String type){
         return new MessageBuilder(type);
     }
@@ -73,6 +80,9 @@ public class ErrorResponseBody {
     public String asJson() throws IOException {
         return objectMapper.writeValueAsString(this);
     }
+    
+    
+    
     /* ********************** Getters for Jackson ********************** */
     public ErrorResponse getError() { return error; }
     
@@ -80,6 +90,13 @@ public class ErrorResponseBody {
     public String toString() {
         return "{\"ErrorResponseBody\":{" + "\"error\":" + error + "}}";
     }
+    
+    
+    
+    
+    
+    
+    
     
     /* ********************** Builders ********************** */
     

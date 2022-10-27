@@ -2,7 +2,7 @@ dependencies {
     implementation project(":common")
     implementation project(":common-boot-utils")
     implementation project(":service-catalog-api")
-    implementation project(":service-movie-api")
+    implementation project(":service-movie-api:public")
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
@@ -26,6 +26,10 @@ dependencies {
 
     implementation 'org.springframework.kafka:spring-kafka'
     testImplementation 'org.springframework.kafka:spring-kafka-test'
+
+    // https://mvnrepository.com/artifact/org.projectlombok/lombok-mapstruct-binding
+    implementation 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+    annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
 }
 
 bootJar.enabled(false)

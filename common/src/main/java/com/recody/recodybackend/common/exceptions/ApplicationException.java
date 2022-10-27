@@ -15,7 +15,7 @@ public class ApplicationException extends RuntimeException{
     /*
     * 메시지를 직접 입력할 때의 생성자. */
     public ApplicationException(ErrorType errorType, HttpStatus statusCode, String message) {
-        super(message);
+        super(message + ": " + errorType.toString());
         this.errorType = errorType;
         this.statusCode = statusCode;
     }

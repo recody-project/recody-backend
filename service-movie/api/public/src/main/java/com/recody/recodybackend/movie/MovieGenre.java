@@ -1,4 +1,4 @@
-package com.recody.recodybackend.movie.general;
+package com.recody.recodybackend.movie;
 
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.contents.Genre;

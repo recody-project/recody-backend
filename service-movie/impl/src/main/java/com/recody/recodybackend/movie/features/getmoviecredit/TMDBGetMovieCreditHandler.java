@@ -1,5 +1,7 @@
 package com.recody.recodybackend.movie.features.getmoviecredit;
 
+import com.recody.recodybackend.movie.Actor;
+import com.recody.recodybackend.movie.Director;
 import com.recody.recodybackend.common.exceptions.ContentNotFoundException;
 import com.recody.recodybackend.movie.Movie;
 import com.recody.recodybackend.movie.features.getmoviecredit.dto.TMDBCast;
