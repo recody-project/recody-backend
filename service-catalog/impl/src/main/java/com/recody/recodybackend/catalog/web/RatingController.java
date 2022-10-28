@@ -1,12 +1,11 @@
 package com.recody.recodybackend.catalog.web;
 
 import com.recody.recodybackend.catalog.features.ContentId;
-import com.recody.recodybackend.catalog.features.LeaveRatingResponse;
 import com.recody.recodybackend.catalog.features.RatingScore;
-import com.recody.recodybackend.catalog.features.rate.AddRating;
-import com.recody.recodybackend.catalog.features.rate.AddRatingHandler;
-import com.recody.recodybackend.catalog.features.rate.getmycontentrating.GetMyContentRating;
-import com.recody.recodybackend.catalog.features.rate.getmycontentrating.GetMyContentRatingHandler;
+import com.recody.recodybackend.catalog.features.rating.add.AddRating;
+import com.recody.recodybackend.catalog.features.rating.add.AddRatingHandler;
+import com.recody.recodybackend.catalog.features.rating.getmycontentrating.GetMyContentRating;
+import com.recody.recodybackend.catalog.features.rating.getmycontentrating.GetMyContentRatingHandler;
 import com.recody.recodybackend.catalog.web.rating.AddRatingRequest;
 import com.recody.recodybackend.catalog.web.rating.GetMyRatingResponse;
 import com.recody.recodybackend.common.web.SuccessResponseBody;
@@ -37,7 +36,7 @@ public class RatingController {
         return ResponseEntity.ok(SuccessResponseBody.builder()
                                                     .message(ms.getMessage("catalog.rating.add.succeeded", null,
                                                                            httpServletRequest.getLocale()))
-                                                    .data(new LeaveRatingResponse(leaveRatingHandler.handle(createAddRating(accessToken, request))))
+                                                    .data(new AddRatingResponse( leaveRatingHandler.handle( createAddRating( accessToken, request ) )) )
                                                     .build());
     }
     

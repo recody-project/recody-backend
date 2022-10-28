@@ -5,7 +5,7 @@ import com.recody.recodybackend.common.contents.Category;
 
 import java.util.List;
 
-public interface CategoryManager extends CategoryRegistrar {
+public interface CategoryManager {
     
     Category load(String categoryId, CatalogUser user);
     

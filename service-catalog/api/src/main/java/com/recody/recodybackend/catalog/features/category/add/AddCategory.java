@@ -1,5 +1,7 @@
 package com.recody.recodybackend.catalog.features.category.add;
 
+import com.recody.recodybackend.catalog.features.CategoryIconUrl;
+import com.recody.recodybackend.catalog.features.CategoryName;
 import lombok.*;
 
 @Getter
@@ -9,8 +11,16 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class AddCategory {
     
-    private String name;
+    private CategoryName name;
     private Long userId;
-    private String iconUrl;
+    private CategoryIconUrl iconUrl;
     
+    @Override
+    public String toString() {
+        return "{\"AddCategory\":{"
+               + "\"name\":" + name
+               + ", \"userId\":" + userId
+               + ", \"iconUrl\":" + iconUrl
+               + "}}";
+    }
 }

@@ -4,11 +4,7 @@ import com.recody.recodybackend.catalog.data.category.CategoryEntity;
 import com.recody.recodybackend.catalog.data.category.CategoryMapper;
 import com.recody.recodybackend.catalog.data.category.CategoryRepository;
 import com.recody.recodybackend.catalog.exceptions.CategoryNotFoundException;
-import com.recody.recodybackend.catalog.exceptions.CustomCategoryException;
 import com.recody.recodybackend.catalog.features.CatalogUser;
-import com.recody.recodybackend.catalog.features.CustomCategory;
-import com.recody.recodybackend.catalog.features.category.CategoryIconUrl;
-import com.recody.recodybackend.catalog.features.category.CategoryName;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.contents.Category;
 import lombok.RequiredArgsConstructor;
@@ -23,36 +19,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 public class DefaultCategoryManager implements CategoryManager {
-    
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
-    
-    @Override
-    @Transactional
-    public CustomCategory register(CategoryName categoryname, CategoryIconUrl categoryIconUrl, CatalogUser user) {
-        Long userId = user.getUserId();
-        String name = categoryname.getName();
-        String iconUrl = categoryIconUrl.getIconUrl();
-        
-        Optional<CategoryEntity> optionalCategoryEntity = categoryRepository.findByNameAndUserId( name, userId );
-        
-        if ( optionalCategoryEntity.isPresent() ) {
-            throw new CustomCategoryException( CustomCategory.CustomCategoryErrorType.CustomCategoryAlreadyExists );
-        }
-        
-        int count = categoryRepository.countByUserIdAndBasicIsFalse( userId );
-        
-        if ( count >= CustomCategory.MAX_CUSTOM_CATEGORIES ) {
-            throw new CustomCategoryException( CustomCategory.CustomCategoryErrorType.CannotOver5CustomCategories );
-        }
-        
-        CategoryEntity entity = newCategoryEntity( userId, name, iconUrl );
-        CategoryEntity savedEntity = categoryRepository.save( entity );
-        CustomCategory customCategory = categoryMapper.toCustomCategory( savedEntity );
-        log.debug( "new Custom Category.: {}", customCategory );
-        
-        return customCategory;
-    }
     
     @Override
     @Transactional
@@ -83,9 +51,5 @@ public class DefaultCategoryManager implements CategoryManager {
         categories.addAll( customCategory );
         log.debug( "{} 개의 카테고리 반환 ", categories.size() );
         return categories;
-    }
-    
-    private static CategoryEntity newCategoryEntity(Long userId, String name, String iconUrl) {
-        return CategoryEntity.builder().iconUrl( iconUrl ).userId( userId ).name( name ).build();
     }
 }

@@ -1,9 +1,10 @@
 package com.recody.recodybackend.catalog.web;
 
 
+import com.recody.recodybackend.catalog.features.CategoryIconUrl;
+import com.recody.recodybackend.catalog.features.CategoryName;
 import com.recody.recodybackend.catalog.features.category.add.AddCategory;
 import com.recody.recodybackend.catalog.features.category.add.AddCategoryHandler;
-import com.recody.recodybackend.catalog.features.category.add.AddCategoryResponse;
 import com.recody.recodybackend.catalog.features.category.getmycategories.GetMyCategories;
 import com.recody.recodybackend.catalog.features.category.getmycategories.GetMyCategoriesHandler;
 import com.recody.recodybackend.common.web.SuccessResponseBody;
@@ -39,13 +40,12 @@ public class CategoryController {
                                                           ) {
         return ResponseEntity.ok(SuccessResponseBody.builder()
                                                     .message(ms.getMessage("catalog.category.add.succeeded", null,
-                                                                           "카테고리 추가 성공", httpServletRequest.getLocale()
-                                                                          ))
+                                                                           "카테고리 추가 성공", httpServletRequest.getLocale() ))
                                                     .data(new AddCategoryResponse(addCategoryHandler.handle(
                                                             AddCategory.builder()
-                                                                       .iconUrl(request.getIconUrl())
+                                                                       .iconUrl( CategoryIconUrl.of(  request.getIconUrl() ))
                                                                        .userId(jwtManager.resolveUserId(accessToken))
-                                                                       .name(request.getName())
+                                                                       .name( CategoryName.of(  request.getName() ))
                                                                        .build())))
                                                     .build());
         

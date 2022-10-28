@@ -1,5 +1,6 @@
 package com.recody.recodybackend.catalog.features.wish.add;
 
+import com.recody.recodybackend.catalog.features.ContentId;
 import lombok.Builder;
 import lombok.Data;
 
@@ -7,7 +8,7 @@ import lombok.Data;
 @Builder
 public class AddToWishlist {
     
-    private String contentId;
+    private ContentId contentId;
     private Long userId;
     
     @Override
