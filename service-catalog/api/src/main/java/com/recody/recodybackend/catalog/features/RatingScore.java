@@ -1,8 +1,10 @@
 package com.recody.recodybackend.catalog.features;
 
 import com.recody.recodybackend.catalog.exceptions.InvalidRatingScoreException;
+import lombok.Builder;
 
-public class RatingScore {
+@Builder
+public class RatingScore implements Rating{
     
     /**
      * 1을 포함하여 가능합니다.
