@@ -19,7 +19,7 @@ public class ApplicationExceptions {
     }
     
     public static ApplicationException badRequestOf(ErrorType errorType) {
-        return new ApplicationException(errorType, HttpStatus.BAD_REQUEST);
+        return new ApplicationException(errorType, HttpStatus.BAD_REQUEST, errorType.name());
     }
     
     public static ApplicationException badRequestOf(ErrorType errorType, String message) {
