@@ -4,32 +4,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.recody.recodybackend.common.exceptions.ErrorType;
 
 import java.io.IOException;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeoutException;
+import java.util.Locale;
 
 /**
  * @author motive
  */
 public class ErrorResponseBody {
     private static final String INTERNAL_SERVER_ERROR = "요청을 처리하지 못했습니다.";
-    private transient final ObjectMapper objectMapper = new ObjectMapper();
+    private static final ObjectMapper objectMapper = new ObjectMapper();
     
     private ErrorResponse error;
     
-    public ErrorResponseBody(ErrorResponse error) { this.error = error; }
+    private ErrorResponseBody(ErrorResponse error) { this.error = error; }
     
-    /* 사전에 정의된 예외들에 대한 응답 */
-    public static ErrorResponseBody internalServerErrorOf(ExecutionException exception, String requestUri) {
-        return new ErrorResponseBody(new ErrorResponse(exception.getClass().getSimpleName(), INTERNAL_SERVER_ERROR, requestUri));
-    }
-    
-    public static ErrorResponseBody internalServerErrorOf(InterruptedException exception, String requestUri) {
-        return new ErrorResponseBody(new ErrorResponse(exception.getClass().getSimpleName(), INTERNAL_SERVER_ERROR, requestUri));
-    }
-    
-    public static ErrorResponseBody internalServerErrorOf(TimeoutException exception, String requestUri) {
-        return new ErrorResponseBody(new ErrorResponse(exception.getClass().getSimpleName(), INTERNAL_SERVER_ERROR, requestUri));
-    }
     
     public static ErrorResponseBody internalServerErrorOf(Exception exception, String requestUri) {
         String message = exception.getMessage();
@@ -94,10 +81,6 @@ public class ErrorResponseBody {
     
     
     
-    
-    
-    
-    
     /* ********************** Builders ********************** */
     
     public static class MessageBuilder {
@@ -134,6 +117,7 @@ public class ErrorResponseBody {
         private final String type;
         private final Object message;
         private Object details;
+        private String method;
     
         public RequestUriBuilder(String type, Object message) {
             this.type = type;
@@ -145,12 +129,27 @@ public class ErrorResponseBody {
             this.message = message;
             this.details = details;
         }
+        
+        public RequestUriBuilder method(String method){
+            this.method = method;
+            return this;
+        }
     
         public ErrorResponseBody requestUri(String requestUri){
-            if (details != null){
-                return new ErrorResponseBody(new ErrorResponse(type, message, details, requestUri));
+            String requestUriWithMethod;
+            
+            if (method != null){
+                requestUriWithMethod = method.toUpperCase(Locale.ROOT) + " " + requestUri;
+            } else {
+                requestUriWithMethod = requestUri;
             }
-            return new ErrorResponseBody(new ErrorResponse(type, message, requestUri));
+    
+            if ( details != null ) {
+                return new ErrorResponseBody(new ErrorResponse(type, message, details, requestUriWithMethod));
+            }
+            else {
+                return new ErrorResponseBody(new ErrorResponse(type, message, requestUriWithMethod));
+            }
         }
     }
 }

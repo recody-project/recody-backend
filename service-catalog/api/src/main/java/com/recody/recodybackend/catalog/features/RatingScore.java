@@ -1,8 +1,15 @@
 package com.recody.recodybackend.catalog.features;
 
 import com.recody.recodybackend.catalog.exceptions.InvalidRatingScoreException;
+import com.recody.recodybackend.common.exceptions.ApplicationExceptions;
+import lombok.Builder;
 
-public class RatingScore {
+import java.util.Objects;
+
+import static com.recody.recodybackend.catalog.exceptions.CatalogErrorType.RatingScoreCannotBeNull;
+
+@Builder
+public class RatingScore implements Rating{
     
     /**
      * 1을 포함하여 가능합니다.
@@ -18,12 +25,19 @@ public class RatingScore {
         this.value = value;
     }
     
-    public static RatingScore of(int value) {
-        assertThatValueOutOfBound(value);
+    public static RatingScore of(Integer value) {
+        requireNonNull( value );
+        requireValueInBound( value );
         return new RatingScore(value);
     }
     
-    private static void assertThatValueOutOfBound(int value) {
+    private static void requireNonNull(Integer value) {
+        if ( Objects.isNull( value )){
+            throw ApplicationExceptions.badRequestOf( RatingScoreCannotBeNull );
+        }
+    }
+    
+    private static void requireValueInBound(int value) {
         if (value < MIN || value > MAX) {
             throw new InvalidRatingScoreException();
         }

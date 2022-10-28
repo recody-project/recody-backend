@@ -28,24 +28,26 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 @RequiredArgsConstructor
 @Slf4j
-@Order(999)
+@Order( 999 )
 class GlobalExceptionHandler {
     
     private final MessageSource ms;
     
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler( Exception.class )
     public ResponseEntity<ErrorResponseBody> on(Exception exception, HttpServletRequest request) {
         log.error("Global exception: {}", exception.toString());
-        return ResponseEntity.internalServerError().body(ErrorResponseBody.internalServerErrorOf(exception, request.getRequestURI()));
+        return ResponseEntity.internalServerError()
+                             .body(ErrorResponseBody.internalServerErrorOf(exception, request.getRequestURI()));
     }
     
-    @ExceptionHandler(InternalServerError.class)
+    @ExceptionHandler( InternalServerError.class )
     public ResponseEntity<ErrorResponseBody> on(InternalServerError exception, HttpServletRequest request) {
         log.error("Global exception: {}", exception.toString());
-        return ResponseEntity.internalServerError().body(ErrorResponseBody.internalServerErrorOf(exception, request.getRequestURI()));
+        return ResponseEntity.internalServerError()
+                             .body(ErrorResponseBody.internalServerErrorOf(exception, request.getRequestURI()));
     }
     
-    @ExceptionHandler(ApplicationException.class)
+    @ExceptionHandler( ApplicationException.class )
     public ResponseEntity<ErrorResponseBody> on(ApplicationException exception, HttpServletRequest request) {
         HttpStatus statusCode = exception.getStatusCode();
         ErrorType errorType = exception.getErrorCode();
@@ -54,52 +56,36 @@ class GlobalExceptionHandler {
         return ResponseEntity.status(statusCode)
                              .body(ErrorResponseBody.type(errorType)
                                                     .message(message)
+                                                    .method(request.getMethod())
                                                     .requestUri(request.getRequestURI()));
     }
     
-    private String resolveMessage(ApplicationException exception, Locale locale, ErrorType errorType) {
-        String message;
-        try {
-            message = ms.getMessage(errorType.getErrorCode(), null, locale);
-            return message;
-        } catch (NoSuchMessageException ignored){
-        }
-        if (exception.getMessage() != null){
-            message = exception.getMessage();
-        } else {
-            message = "No available message";
-        }
-        return message;
-    }
-    
-    @ExceptionHandler(BindException.class)
+    @ExceptionHandler( BindException.class )
     public ResponseEntity<ErrorResponseBody> on(BindException exception, HttpServletRequest request) {
         log.debug("exception: {}", exception.getMessage());
         List<FieldError> allFieldErrors = exception.getFieldErrors();
-        List<HashMap<String, String>> details = allFieldErrors.stream().map(this::createFieldErrorMap).collect(
-                Collectors.toList());
+        List<HashMap<String, String>> details = allFieldErrors.stream()
+                                                              .map(this::createFieldErrorMap)
+                                                              .collect(Collectors.toList());
         ErrorResponseBody body = ErrorResponseBody.type(exception)
                                                   .messageAnd(MessageUtils.seeDetails(exception.getMessage()))
                                                   .details(details)
+                                                  .method(request.getMethod())
                                                   .requestUri(request.getRequestURI());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
     }
     
-    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ExceptionHandler( HttpMessageNotReadableException.class )
     public ResponseEntity<ErrorResponseBody> on(HttpMessageNotReadableException exception, HttpServletRequest request) {
         log.debug("exception: {}", exception.getMessage());
-        String thatValue = null;
-        if (exception.getMessage() != null) {
-            String[] stringSplit = exception.getMessage().split(" String ", 2);
-            log.info("split: {}", Arrays.toString(stringSplit));
-            String[] valueSplit = stringSplit[1].split(":", 2);
-            thatValue = valueSplit[0].replaceAll("\"", "");
-            log.info("{} 는 적절한 타입이 아닙니다.", thatValue);
-        }
+        String message;
+        message = resolveMessageWithException(exception, request);
+        
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                             .body(ErrorResponseBody.badRequestOf(exception,
-                                                                  ms.getMessage("jsonParseError.arg", new String[]{thatValue}, request.getLocale()),
-                                                                  request.getRequestURI()));
+                             .body(ErrorResponseBody.type(exception)
+                                                    .message(message)
+                                                    .method(request.getMethod())
+                                                    .requestUri(request.getRequestURI()));
     }
     
     private HashMap<String, String> createFieldErrorMap(FieldError fieldError) {
@@ -107,6 +93,43 @@ class GlobalExceptionHandler {
         map.put("field", fieldError.getField());
         map.put("message", fieldError.getDefaultMessage());
         return map;
+    }
+    
+    private String resolveMessage(ApplicationException exception, Locale locale, ErrorType errorType) {
+        String message;
+        try {
+            message = ms.getMessage(errorType.getErrorCode(), null, locale);
+            return message;
+        } catch ( NoSuchMessageException ignored ) {
+        }
+        if ( exception.getMessage() != null ) {
+            message = exception.getMessage();
+        }
+        else {
+            message = "No available message";
+        }
+        return message;
+    }
+    
+    private String resolveMessageWithException(HttpMessageNotReadableException exception, HttpServletRequest request) {
+        String message;
+        String thatValue;
+        if ( exception.getMessage() != null ) {
+            try {
+                String[] stringSplit = exception.getMessage().split(" String ", 2);
+                log.info("split: {}", Arrays.toString(stringSplit));
+                String[] valueSplit = stringSplit[1].split(":", 2);
+                thatValue = valueSplit[0].replaceAll("\"", "");
+                log.info("{} 는 적절한 타입이 아닙니다.", thatValue);
+                message = ms.getMessage("jsonParseError.arg", new String[]{thatValue}, request.getLocale());
+            } catch ( Exception ignored ) {
+                message = ms.getMessage("jsonParseError", null, request.getLocale());
+            }
+        }
+        else {
+            message = "No available message";
+        }
+        return message;
     }
     
 }

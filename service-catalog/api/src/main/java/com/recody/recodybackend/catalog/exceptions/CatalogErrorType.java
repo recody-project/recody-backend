@@ -12,6 +12,7 @@ public enum CatalogErrorType implements ErrorType {
     InvalidRatingScore("InvalidRatingScore"),
     
     IconUrlCannotBeNull("category.icon-url.not-null"),
+    RatingScoreCannotBeNull("category.rating.not-null"),
     ;
     
     private final String errorCode;

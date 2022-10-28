@@ -22,8 +22,7 @@ public class CategoryEntity {
     @GenericGenerator(name = "category_seq",
                       strategy = "com.recody.recodybackend.commonbootutils.data.CustomSequenceIdGenerator",
                       parameters = {
-            @Parameter(name = CustomSequenceIdGenerator.INCREMENT_PARAM, value = "50"),
-            // 기본 카테고리를 위한 시퀀스를 미리 선점한다.
+            @Parameter(name = CustomSequenceIdGenerator.INCREMENT_PARAM, value = "50"),// 기본 카테고리를 위한 시퀀스를 미리 선점한다.
             @Parameter(name = CustomSequenceIdGenerator.INITIAL_PARAM, value = "11"),
             @Parameter(name = CustomSequenceIdGenerator.VALUE_PREFIX_PARAMETER, value = "cat-"),
             @Parameter(name = CustomSequenceIdGenerator.NUMBER_FORMAT_PARAMETER, value = "%d")})
