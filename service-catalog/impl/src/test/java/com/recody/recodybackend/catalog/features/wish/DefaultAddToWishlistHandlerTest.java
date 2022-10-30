@@ -1,6 +1,7 @@
 package com.recody.recodybackend.catalog.features.wish;
 
 import com.recody.recodybackend.catalog.RecodyCatalogApplication;
+import com.recody.recodybackend.catalog.features.ContentId;
 import com.recody.recodybackend.catalog.features.wish.add.AddToWishlist;
 import com.recody.recodybackend.catalog.features.wish.add.AddToWishlistHandler;
 import org.junit.jupiter.api.DisplayName;
@@ -31,7 +32,7 @@ class DefaultAddToWishlistHandlerTest {
     @DisplayName("test01")
     void test01() {
         // given
-        AddToWishlist command = AddToWishlist.builder().contentId("4232").userId(32423L).build();
+        AddToWishlist command = AddToWishlist.builder().contentId( ContentId.of( "4232" ) ).userId( 32423L ).build();
         UUID catalogId = UUID.randomUUID();
 
         

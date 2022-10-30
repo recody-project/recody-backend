@@ -2,8 +2,6 @@ package com.recody.recodybackend.catalog.features;
 
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.recody.recodybackend.catalog.exceptions.CustomCategoryException;
-import com.recody.recodybackend.catalog.features.category.CategoryIconUrl;
-import com.recody.recodybackend.catalog.features.category.CategoryName;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.contents.Category;
 import com.recody.recodybackend.common.exceptions.ErrorType;

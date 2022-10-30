@@ -5,8 +5,11 @@ import com.recody.recodybackend.commonbootutils.data.CustomSequenceIdGenerator;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -15,6 +18,8 @@ import javax.persistence.*;
 @Getter
 @Builder
 @Table(name = "category")
+@Where(clause = "deleted_at IS null")
+@SQLDelete(sql = "UPDATE category SET deleted_at = NOW() WHERE id=?")
 public class CategoryEntity {
     
     @Id
@@ -37,10 +42,17 @@ public class CategoryEntity {
     private Long userId;
     private boolean basic;
     
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
+    
     public CategoryEntity(String id, String name) {
         this.id = id;
         this.name = name;
         this.basic = BasicCategory.isBasic(id);
+    }
+    
+    public void delete(){
+        this.deletedAt = LocalDateTime.now();
     }
     
     @Override

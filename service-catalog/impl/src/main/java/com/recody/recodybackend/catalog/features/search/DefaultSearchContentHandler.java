@@ -5,6 +5,7 @@ import com.recody.recodybackend.catalog.features.PersonalizedMovie;
 import com.recody.recodybackend.catalog.features.personalize.ContentPersonalizer;
 import com.recody.recodybackend.catalog.features.search.movies.SearchMovies;
 import com.recody.recodybackend.catalog.features.search.movies.CatalogSearchMoviesHandler;
+import com.recody.recodybackend.catalog.web.SearchContentResponse;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.exceptions.UnsupportedCategoryException;
 import com.recody.recodybackend.movie.Movie;
