@@ -26,4 +26,13 @@ public class ModifyCategory {
     private CategoryName categoryName;
     private CategoryIconUrl categoryIconUrl;
     
+    @Override
+    public String toString() {
+        return "{\"ModifyCategory\":{"
+               + "\"categoryId\":" + categoryId
+               + ", \"userId\":" + userId
+               + ", \"categoryName\":" + categoryName
+               + ", \"categoryIconUrl\":" + categoryIconUrl
+               + "}}";
+    }
 }

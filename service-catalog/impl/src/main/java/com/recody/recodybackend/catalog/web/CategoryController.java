@@ -22,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
@@ -41,8 +42,7 @@ public class CategoryController {
     @PostMapping( "/api/v1/catalog/category" )
     public ResponseEntity<SuccessResponseBody> addCategory(@AccessToken String accessToken,
                                                            HttpServletRequest httpServletRequest,
-                                                           @RequestBody AddCategoryRequest request
-    
+                                                           @Valid @RequestBody AddCategoryRequest request
                                                           ) {
         return ResponseEntity.ok(
                 SuccessResponseBody.builder()
@@ -77,7 +77,7 @@ public class CategoryController {
     @PutMapping( "/api/v1/catalog/category/{categoryId}" )
     public ResponseEntity<SuccessResponseBody> modifyCategory(@AccessToken String accessToken,
                                                               @PathVariable String categoryId,
-                                                              @RequestBody ModifyCategoryRequest request,
+                                                              @Valid @RequestBody ModifyCategoryRequest request,
                                                               HttpServletRequest httpServletRequest) {
         return ResponseEntity.ok(
                 SuccessResponseBody.builder()

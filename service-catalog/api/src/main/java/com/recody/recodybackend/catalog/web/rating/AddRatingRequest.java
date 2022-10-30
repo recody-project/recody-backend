@@ -8,5 +8,7 @@ import javax.validation.constraints.NotNull;
 public class AddRatingRequest {
     @NotNull(message = "${notNull}")
     private String contentId;
+    @NotNull(message = "${notNull}")
     private Integer score;
+    
 }
