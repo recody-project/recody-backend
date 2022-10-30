@@ -10,6 +10,8 @@ import com.recody.recodybackend.catalog.features.category.delete.DeleteCategory;
 import com.recody.recodybackend.catalog.features.category.delete.DeleteCategoryHandler;
 import com.recody.recodybackend.catalog.features.category.getmycategories.GetMyCategories;
 import com.recody.recodybackend.catalog.features.category.getmycategories.GetMyCategoriesHandler;
+import com.recody.recodybackend.catalog.features.category.modify.ModifyCategory;
+import com.recody.recodybackend.catalog.features.category.modify.ModifyCategoryHandler;
 import com.recody.recodybackend.common.web.SuccessResponseBody;
 import com.recody.recodybackend.commonbootutils.jwt.JwtManager;
 import com.recody.recodybackend.commonbootutils.web.AccessToken;
@@ -28,6 +30,8 @@ public class CategoryController {
     
     private final JwtManager jwtManager;
     private final AddCategoryHandler addCategoryHandler;
+    
+    private final ModifyCategoryHandler modifyCategoryHandler;
     
     private final DeleteCategoryHandler deleteCategoryHandler;
     private final GetMyCategoriesHandler getMyCategoriesHandler;
@@ -62,11 +66,31 @@ public class CategoryController {
                 SuccessResponseBody.builder()
                                    .message( ms.getMessage( "catalog.category.delete.succeeded", null,
                                                             "카테고리 삭제 성공", httpServletRequest.getLocale() ) )
-                                   .data( new DeleteCategoryResponse(deleteCategoryHandler.handle(
+                                   .data( new DeleteCategoryResponse( deleteCategoryHandler.handle(
                                            DeleteCategory.builder()
                                                          .userId( jwtManager.resolveUserId( accessToken ) )
                                                          .customCategoryId( CustomCategoryId.of( categoryId ) )
-                                                         .build() ) ))
+                                                         .build() ) ) )
+                                   .build() );
+    }
+    
+    @PutMapping( "/api/v1/catalog/category/{categoryId}" )
+    public ResponseEntity<SuccessResponseBody> modifyCategory(@AccessToken String accessToken,
+                                                              @PathVariable String categoryId,
+                                                              @RequestBody ModifyCategoryRequest request,
+                                                              HttpServletRequest httpServletRequest) {
+        return ResponseEntity.ok(
+                SuccessResponseBody.builder()
+                                   .message( ms.getMessage( "catalog.category.modify.succeeded", null,
+                                                            "카테고리 변경 성공", httpServletRequest.getLocale() ) )
+                                   .data( new ModifyCategoryResponse(
+                                           modifyCategoryHandler.handle(
+                                                   ModifyCategory.builder()
+                                                                 .userId( jwtManager.resolveUserId( accessToken ) )
+                                                                 .categoryId( CustomCategoryId.of( categoryId ) )
+                                                                 .categoryName( CategoryName.of( request.getName() ) )
+                                                                 .categoryIconUrl( CategoryIconUrl.of( request.getIconUrl() ) )
+                                                                 .build() ) ) )
                                    .build() );
     }
     
