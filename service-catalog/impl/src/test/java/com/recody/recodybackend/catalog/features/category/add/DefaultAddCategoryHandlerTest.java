@@ -2,6 +2,8 @@ package com.recody.recodybackend.catalog.features.category.add;
 
 import com.recody.recodybackend.catalog.RecodyCatalogApplication;
 import com.recody.recodybackend.catalog.exceptions.CustomCategoryException;
+import com.recody.recodybackend.catalog.features.CategoryIconUrl;
+import com.recody.recodybackend.catalog.features.CategoryName;
 import com.recody.recodybackend.catalog.features.CustomCategory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,7 +24,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @ContextConfiguration( classes = RecodyCatalogApplication.class )
 class DefaultAddCategoryHandlerTest {
     
-    public static final String ICON_URL = "ICON_URL";
+    public static final CategoryIconUrl ICON_URL = CategoryIconUrl.of( "ICON_URL" );
     public static final long USER_ID = 123L;
     @Autowired
     AddCategoryHandler addCategoryHandler;
@@ -47,7 +49,7 @@ class DefaultAddCategoryHandlerTest {
     }
     
     private static AddCategory newCommandWithSameUser(String name) {
-        return AddCategory.builder().name(name).userId(USER_ID).iconUrl(ICON_URL).build();
+        return AddCategory.builder().name( CategoryName.of(  name )).userId( USER_ID ).iconUrl( ICON_URL ).build();
     }
     
     @Test
@@ -67,17 +69,13 @@ class DefaultAddCategoryHandlerTest {
     @Test
     @DisplayName( "이름은 null 이거나 빈 값일 수 없다." )
     void nameCannotBeBlank() {
-        // given
-        AddCategory nullCommand = newCommandWithSameUser(null);
-        AddCategory blankCommand = newCommandWithSameUser("");
         
-        // when
-        
-        // then
-        assertThatThrownBy(() -> addCategoryHandler.handle(nullCommand))
-                .isInstanceOf(CustomCategoryException.class);
-        assertThatThrownBy(() -> addCategoryHandler.handle(blankCommand))
-                .isInstanceOf(CustomCategoryException.class);
+        assertThatThrownBy(
+                () -> {
+                    AddCategory nullCommand = newCommandWithSameUser(null);
+                    AddCategory blankCommand = newCommandWithSameUser("");
+                }
+                          );
     }
     
 }
