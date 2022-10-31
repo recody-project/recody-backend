@@ -4,6 +4,7 @@ include(":common")
 include(":common-boot-utils")
 include(":service-movie-api", ":service-movie-api-core", ":service-movie-impl")
 include(":service-music-api", ":service-music-api-core", ":service-music-impl")
+include(":service-performance-api", ":service-performance-api-core", ":service-performance-impl")
 include(":service-catalog-api", ":service-catalog-api-core", ":service-catalog-impl")
 include(":service-users-api", ":service-users-impl")
 include(":service-record-api", ":service-record-impl")
@@ -14,15 +15,24 @@ project(":service-movie-api").projectDir = new File(settingsDir, "${movieProject
 project(":service-movie-api-core").projectDir = new File(settingsDir, "${movieProjectDir}/api/core")
 project(":service-movie-impl").projectDir = new File(settingsDir, "${movieProjectDir}/impl")
 
+
 String musicProjectDir = "service-music"
 project(":service-music-api").projectDir = new File(settingsDir, "${musicProjectDir}/api")
 project(":service-music-api-core").projectDir = new File(settingsDir, "${musicProjectDir}/api/core")
 project(":service-music-impl").projectDir = new File(settingsDir, "${musicProjectDir}/impl")
 
+
+String performanceProjectDir = "service-performance"
+project(":service-performance-api").projectDir = new File(settingsDir, "${performanceProjectDir}/api")
+project(":service-performance-api-core").projectDir = new File(settingsDir, "${performanceProjectDir}/api/core")
+project(":service-performance-impl").projectDir = new File(settingsDir, "${performanceProjectDir}/impl")
+
+
 String catalogProjectDir = "service-catalog"
 project(":service-catalog-api").projectDir = new File(settingsDir, "${catalogProjectDir}/api")
 project(":service-catalog-api-core").projectDir = new File(settingsDir, "${catalogProjectDir}/api/core")
 project(":service-catalog-impl").projectDir = new File(settingsDir, "${catalogProjectDir}/impl")
+
 
 String userProjectDir = "service-users"
 project(":service-users-api").projectDir = new File(settingsDir, "${userProjectDir}/api")
