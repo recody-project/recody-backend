@@ -1,4 +1,4 @@
-package com.recody.recodybackend.catalog.features;
+package com.recody.recodybackend.catalog;
 
 import com.recody.recodybackend.catalog.exceptions.InvalidRatingScoreException;
 import com.recody.recodybackend.common.exceptions.ApplicationExceptions;
@@ -9,7 +9,7 @@ import java.util.Objects;
 import static com.recody.recodybackend.catalog.exceptions.CatalogErrorType.RatingScoreCannotBeNull;
 
 @Builder
-public class RatingScore implements Rating{
+public class RatingScore implements Rating {
     
     /**
      * 1을 포함하여 가능합니다.

@@ -1,7 +1,7 @@
 package com.recody.recodybackend.catalog.features.personalize;
 
-import com.recody.recodybackend.catalog.features.PersonalizedContentDetail;
-import com.recody.recodybackend.catalog.features.manager.CatalogContentDetail;
+import com.recody.recodybackend.catalog.PersonalizedContentDetail;
+import com.recody.recodybackend.catalog.CatalogContentDetail;
 
 /**
  * Content 객체의 내용을 유저가 수정한 내용에 따라 개인화된 내용으로 바꾼다.

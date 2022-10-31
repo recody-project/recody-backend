@@ -1,6 +1,6 @@
 package com.recody.recodybackend.catalog.features.category.delete;
 
-import com.recody.recodybackend.catalog.features.CustomCategoryId;
+import com.recody.recodybackend.catalog.CustomCategoryId;
 import lombok.*;
 
 @Getter

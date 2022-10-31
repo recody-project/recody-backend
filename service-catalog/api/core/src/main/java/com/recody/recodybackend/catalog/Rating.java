@@ -1,4 +1,4 @@
-package com.recody.recodybackend.catalog.features;
+package com.recody.recodybackend.catalog;
 
 /**
  * 별점을 의미합니다.

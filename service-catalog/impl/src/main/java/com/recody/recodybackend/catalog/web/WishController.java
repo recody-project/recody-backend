@@ -1,6 +1,6 @@
 package com.recody.recodybackend.catalog.web;
 
-import com.recody.recodybackend.catalog.features.ContentId;
+import com.recody.recodybackend.catalog.ContentId;
 import com.recody.recodybackend.catalog.features.wish.add.AddToWishlist;
 import com.recody.recodybackend.catalog.features.wish.add.AddToWishlistHandler;
 import com.recody.recodybackend.catalog.features.wish.delete.DeleteFromWishlist;

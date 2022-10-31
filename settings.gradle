@@ -2,25 +2,26 @@ rootProject.name = 'recody-backend'
 
 include(":common")
 include(":common-boot-utils")
-include(":service-movie-api", ":service-movie-api:core", ":service-movie-impl")
-include(":service-music-api", ":service-music-api:core", ":service-music-impl")
-include(":service-catalog-api", ":service-catalog-impl")
+include(":service-movie-api", ":service-movie-api-core", ":service-movie-impl")
+include(":service-music-api", ":service-music-api-core", ":service-music-impl")
+include(":service-catalog-api", ":service-catalog-api-core", ":service-catalog-impl")
 include(":service-users-api", ":service-users-impl")
 include(":service-record-api", ":service-record-impl")
 
 
 String movieProjectDir = "service-movie"
 project(":service-movie-api").projectDir = new File(settingsDir, "${movieProjectDir}/api")
+project(":service-movie-api-core").projectDir = new File(settingsDir, "${movieProjectDir}/api/core")
 project(":service-movie-impl").projectDir = new File(settingsDir, "${movieProjectDir}/impl")
-project(":service-movie-api:core").projectDir = new File(settingsDir, "${movieProjectDir}/api/core")
 
 String musicProjectDir = "service-music"
 project(":service-music-api").projectDir = new File(settingsDir, "${musicProjectDir}/api")
+project(":service-music-api-core").projectDir = new File(settingsDir, "${musicProjectDir}/api/core")
 project(":service-music-impl").projectDir = new File(settingsDir, "${musicProjectDir}/impl")
-project(":service-music-api:core").projectDir = new File(settingsDir, "${musicProjectDir}/api/core")
 
 String catalogProjectDir = "service-catalog"
 project(":service-catalog-api").projectDir = new File(settingsDir, "${catalogProjectDir}/api")
+project(":service-catalog-api-core").projectDir = new File(settingsDir, "${catalogProjectDir}/api/core")
 project(":service-catalog-impl").projectDir = new File(settingsDir, "${catalogProjectDir}/impl")
 
 String userProjectDir = "service-users"

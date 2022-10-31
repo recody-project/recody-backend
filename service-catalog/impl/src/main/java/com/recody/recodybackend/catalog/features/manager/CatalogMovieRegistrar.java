@@ -4,7 +4,7 @@ import com.recody.recodybackend.catalog.data.category.CategoryEntity;
 import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
 import com.recody.recodybackend.catalog.data.content.CatalogContentMapper;
 import com.recody.recodybackend.catalog.data.content.CatalogContentRepository;
-import com.recody.recodybackend.catalog.features.CatalogMovieDetail;
+import com.recody.recodybackend.catalog.CatalogMovieDetail;
 import com.recody.recodybackend.catalog.features.projection.ContentEventPublisher;
 import com.recody.recodybackend.common.contents.register.AsyncContentRegistrar;
 import com.recody.recodybackend.common.events.ContentCreated;

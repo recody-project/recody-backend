@@ -1,7 +1,7 @@
 package com.recody.recodybackend.catalog.features.content.getdetail;
 
-import com.recody.recodybackend.catalog.features.PersonalizedContentDetail;
-import com.recody.recodybackend.catalog.features.PersonalizedMovieDetail;
+import com.recody.recodybackend.catalog.PersonalizedContentDetail;
+import com.recody.recodybackend.catalog.PersonalizedMovieDetail;
 import com.recody.recodybackend.catalog.features.content.getdetail.movie.GetMovieDetail;
 import com.recody.recodybackend.catalog.features.content.getdetail.movie.GetMovieDetailHandler;
 import com.recody.recodybackend.common.contents.BasicCategory;

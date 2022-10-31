@@ -1,6 +1,9 @@
-package com.recody.recodybackend.catalog.features;
+package com.recody.recodybackend.catalog.features.personalize;
 
 
+import com.recody.recodybackend.catalog.CatalogMovieDetail;
+import com.recody.recodybackend.catalog.PersonalizedMovie;
+import com.recody.recodybackend.catalog.PersonalizedMovieDetail;
 import com.recody.recodybackend.movie.Movie;
 import com.recody.recodybackend.movie.MovieDetail;
 import org.mapstruct.Mapper;

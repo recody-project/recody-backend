@@ -1,4 +1,4 @@
-package com.recody.recodybackend.catalog.features;
+package com.recody.recodybackend.catalog;
 
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.recody.recodybackend.catalog.exceptions.CustomCategoryException;

@@ -1,6 +1,6 @@
 package com.recody.recodybackend.catalog.web;
 
-import com.recody.recodybackend.catalog.features.ContentId;
+import com.recody.recodybackend.catalog.ContentId;
 import com.recody.recodybackend.catalog.features.content.getcontents.GetContent;
 import com.recody.recodybackend.catalog.features.content.getcontents.GetContentHandler;
 import com.recody.recodybackend.catalog.features.content.getdetail.GetContentDetail;

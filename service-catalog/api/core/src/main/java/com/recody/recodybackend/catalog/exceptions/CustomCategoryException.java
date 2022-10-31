@@ -1,6 +1,6 @@
 package com.recody.recodybackend.catalog.exceptions;
 
-import com.recody.recodybackend.catalog.features.CustomCategory;
+import com.recody.recodybackend.catalog.CustomCategory;
 import com.recody.recodybackend.common.exceptions.ApplicationException;
 import org.springframework.http.HttpStatus;
 

@@ -1,6 +1,6 @@
 package com.recody.recodybackend.catalog.web;
 
-import com.recody.recodybackend.catalog.features.CustomCategory;
+import com.recody.recodybackend.catalog.CustomCategory;
 import lombok.*;
 
 @Getter

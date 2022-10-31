@@ -1,6 +1,6 @@
 package com.recody.recodybackend.catalog.features.rating.getmycontentrating;
 
-import com.recody.recodybackend.catalog.features.ContentId;
+import com.recody.recodybackend.catalog.ContentId;
 import lombok.*;
 
 @Getter

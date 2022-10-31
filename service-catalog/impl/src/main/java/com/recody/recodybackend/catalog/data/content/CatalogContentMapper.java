@@ -1,8 +1,8 @@
 package com.recody.recodybackend.catalog.data.content;
 
 import com.recody.recodybackend.catalog.data.category.CategoryMapper;
-import com.recody.recodybackend.catalog.features.CatalogMovie;
-import com.recody.recodybackend.catalog.features.CatalogMovieDetail;
+import com.recody.recodybackend.catalog.CatalogMovie;
+import com.recody.recodybackend.catalog.CatalogMovieDetail;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.movie.MovieDetail;
 import org.mapstruct.Mapper;

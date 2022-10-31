@@ -1,4 +1,4 @@
-package com.recody.recodybackend.catalog.features;
+package com.recody.recodybackend.catalog;
 
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.contents.Recody;

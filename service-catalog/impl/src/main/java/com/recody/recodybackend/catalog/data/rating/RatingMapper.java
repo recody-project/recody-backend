@@ -1,6 +1,6 @@
 package com.recody.recodybackend.catalog.data.rating;
 
-import com.recody.recodybackend.catalog.features.RatingScore;
+import com.recody.recodybackend.catalog.RatingScore;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

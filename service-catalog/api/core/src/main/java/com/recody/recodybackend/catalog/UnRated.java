@@ -1,4 +1,4 @@
-package com.recody.recodybackend.catalog.features;
+package com.recody.recodybackend.catalog;
 
 import lombok.*;
 
@@ -11,7 +11,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UnRated implements Rating{
+public class UnRated implements Rating {
     
     private int value;
     private String description = "unrated";

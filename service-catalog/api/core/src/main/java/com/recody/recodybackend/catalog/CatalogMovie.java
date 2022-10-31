@@ -1,7 +1,6 @@
-package com.recody.recodybackend.catalog.features;
+package com.recody.recodybackend.catalog;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.recody.recodybackend.catalog.features.manager.CatalogContent;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import lombok.*;
 

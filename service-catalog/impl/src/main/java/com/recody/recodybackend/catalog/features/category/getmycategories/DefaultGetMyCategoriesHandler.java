@@ -1,6 +1,6 @@
 package com.recody.recodybackend.catalog.features.category.getmycategories;
 
-import com.recody.recodybackend.catalog.features.CatalogUser;
+import com.recody.recodybackend.catalog.CatalogUser;
 import com.recody.recodybackend.catalog.features.manager.CatalogUserManager;
 import com.recody.recodybackend.catalog.features.manager.CategoryManager;
 import com.recody.recodybackend.common.contents.Category;

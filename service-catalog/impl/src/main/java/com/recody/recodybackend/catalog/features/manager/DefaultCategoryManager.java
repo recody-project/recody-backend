@@ -4,7 +4,7 @@ import com.recody.recodybackend.catalog.data.category.CategoryEntity;
 import com.recody.recodybackend.catalog.data.category.CategoryMapper;
 import com.recody.recodybackend.catalog.data.category.CategoryRepository;
 import com.recody.recodybackend.catalog.exceptions.CategoryNotFoundException;
-import com.recody.recodybackend.catalog.features.CatalogUser;
+import com.recody.recodybackend.catalog.CatalogUser;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.contents.Category;
 import lombok.RequiredArgsConstructor;

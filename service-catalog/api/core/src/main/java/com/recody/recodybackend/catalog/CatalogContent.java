@@ -1,4 +1,4 @@
-package com.recody.recodybackend.catalog.features.manager;
+package com.recody.recodybackend.catalog;
 
 import com.recody.recodybackend.common.contents.Content;
 

@@ -1,8 +1,8 @@
 package com.recody.recodybackend.catalog.features.category.modify;
 
-import com.recody.recodybackend.catalog.features.CategoryIconUrl;
-import com.recody.recodybackend.catalog.features.CategoryName;
-import com.recody.recodybackend.catalog.features.CustomCategoryId;
+import com.recody.recodybackend.catalog.CategoryIconUrl;
+import com.recody.recodybackend.catalog.CategoryName;
+import com.recody.recodybackend.catalog.CustomCategoryId;
 import lombok.*;
 
 /**

@@ -1,6 +1,6 @@
 package com.recody.recodybackend.catalog.features.personalize;
 
-import com.recody.recodybackend.catalog.features.PersonalizedContent;
+import com.recody.recodybackend.catalog.PersonalizedContent;
 import com.recody.recodybackend.common.contents.Content;
 
 public interface ContentPersonalizer<T extends Content<?>, P extends PersonalizedContent>{

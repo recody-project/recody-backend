@@ -1,9 +1,9 @@
 package com.recody.recodybackend.catalog.web;
 
 
-import com.recody.recodybackend.catalog.features.CategoryIconUrl;
-import com.recody.recodybackend.catalog.features.CustomCategoryId;
-import com.recody.recodybackend.catalog.features.CategoryName;
+import com.recody.recodybackend.catalog.CategoryIconUrl;
+import com.recody.recodybackend.catalog.CategoryName;
+import com.recody.recodybackend.catalog.CustomCategoryId;
 import com.recody.recodybackend.catalog.features.category.add.AddCategory;
 import com.recody.recodybackend.catalog.features.category.add.AddCategoryHandler;
 import com.recody.recodybackend.catalog.features.category.delete.DeleteCategory;

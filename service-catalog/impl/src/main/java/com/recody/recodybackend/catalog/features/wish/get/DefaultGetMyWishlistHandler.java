@@ -3,7 +3,7 @@ package com.recody.recodybackend.catalog.features.wish.get;
 import com.recody.recodybackend.catalog.data.content.CatalogContentMapper;
 import com.recody.recodybackend.catalog.data.WishEntity;
 import com.recody.recodybackend.catalog.data.WishRepository;
-import com.recody.recodybackend.catalog.features.CatalogMovie;
+import com.recody.recodybackend.catalog.CatalogMovie;
 import com.recody.recodybackend.common.contents.Content;
 import com.recody.recodybackend.common.exceptions.InternalServerError;
 import lombok.RequiredArgsConstructor;

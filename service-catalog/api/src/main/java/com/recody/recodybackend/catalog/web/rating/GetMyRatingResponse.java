@@ -1,6 +1,6 @@
 package com.recody.recodybackend.catalog.web.rating;
 
-import com.recody.recodybackend.catalog.features.Rating;
+import com.recody.recodybackend.catalog.Rating;
 import lombok.*;
 
 @Getter
