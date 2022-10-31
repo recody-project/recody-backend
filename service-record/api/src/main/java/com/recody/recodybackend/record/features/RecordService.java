@@ -8,13 +8,13 @@ import com.recody.recodybackend.record.features.getcontinuingrecord.GetContinuin
 import com.recody.recodybackend.record.features.getmyrecords.GetMyRecords;
 import com.recody.recodybackend.record.features.getrecord.GetRecord;
 import com.recody.recodybackend.record.features.getrecordcontents.GetRecordContents;
+import com.recody.recodybackend.record.web.*;
 
 public interface RecordService {
     
     AddRecordResponse addRecord(AddRecord command);
     GetRecordResponse getRecord(GetRecord command);
     GetRecordsResponse getRecords(GetMyRecords command);
-    
     GetMyRecordContentsResponse getRecordContents(GetRecordContents command);
     GetContinuingRecordResponse getContinuingRecord(GetContinuingRecord command);
     CompleteRecordResponse completeRecord(CompleteRecord command);

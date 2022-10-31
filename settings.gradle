@@ -7,7 +7,7 @@ include(":service-music-api", ":service-music-api-core", ":service-music-impl")
 include(":service-performance-api", ":service-performance-api-core", ":service-performance-impl")
 include(":service-catalog-api", ":service-catalog-api-core", ":service-catalog-impl")
 include(":service-users-api", ":service-users-impl")
-include(":service-record-api", ":service-record-impl")
+include(":service-record-api", ":service-record-api-core", ":service-record-impl")
 
 
 String movieProjectDir = "service-movie"
@@ -41,5 +41,6 @@ project(":service-users-impl").projectDir = new File(settingsDir, "${userProject
 
 String recordProjectDir = "service-record"
 project(":service-record-api").projectDir = new File(settingsDir, "${recordProjectDir}/api")
+project(":service-record-api-core").projectDir = new File(settingsDir, "${recordProjectDir}/api/core")
 project(":service-record-impl").projectDir = new File(settingsDir, "${recordProjectDir}/impl")
 

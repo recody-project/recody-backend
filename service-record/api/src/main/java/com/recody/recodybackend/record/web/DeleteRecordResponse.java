@@ -1,12 +1,14 @@
-package com.recody.recodybackend.record.features;
+package com.recody.recodybackend.record.web;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
+@Builder
 @AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class DeleteRecordResponse {
     
     private LocalDateTime deletedAt;

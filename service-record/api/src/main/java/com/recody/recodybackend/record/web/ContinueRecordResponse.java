@@ -1,13 +1,15 @@
-package com.recody.recodybackend.record.features;
+package com.recody.recodybackend.record.web;
 
 import com.recody.recodybackend.record.RecordEvent;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ContinueRecordResponse {
     
     private String recordId;

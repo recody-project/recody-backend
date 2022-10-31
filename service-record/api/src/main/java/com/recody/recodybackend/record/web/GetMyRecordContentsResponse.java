@@ -1,14 +1,13 @@
-package com.recody.recodybackend.record.features;
+package com.recody.recodybackend.record.web;
 
 import com.recody.recodybackend.record.RecordContent;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class GetMyRecordContentsResponse {

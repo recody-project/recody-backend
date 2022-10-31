@@ -1,12 +1,12 @@
-package com.recody.recodybackend.record.features;
+package com.recody.recodybackend.record.web;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
-@AllArgsConstructor
+@Getter
+@Setter
 @Builder
-@Data
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CompleteRecordResponse {
     
     private String recordId;
