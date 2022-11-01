@@ -1,6 +1,5 @@
-package com.recody.recodybackend.catalog.features.setcustomcategory;
+package com.recody.recodybackend.common.events;
 
-import com.recody.recodybackend.common.events.CategoryEventType;
 import lombok.*;
 
 @Getter

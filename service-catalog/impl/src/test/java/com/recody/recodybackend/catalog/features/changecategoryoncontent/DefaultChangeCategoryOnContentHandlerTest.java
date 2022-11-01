@@ -1,4 +1,4 @@
-package com.recody.recodybackend.catalog.features.setcustomcategory;
+package com.recody.recodybackend.catalog.features.changecategoryoncontent;
 
 import com.recody.recodybackend.catalog.ContentId;
 import com.recody.recodybackend.catalog.CustomCategoryId;
@@ -9,6 +9,7 @@ import com.recody.recodybackend.catalog.data.category.PersonalizedCategoryReposi
 import com.recody.recodybackend.catalog.data.category.CategoryRepository;
 import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
 import com.recody.recodybackend.catalog.data.content.CatalogContentRepository;
+import com.recody.recodybackend.common.events.CategoryPersonalized;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,13 +28,13 @@ import static org.assertj.core.api.Assertions.*;
 @SpringBootTest
 @ActiveProfiles( "test" )
 @ContextConfiguration( classes = RecodyCatalogApplication.class )
-class DefaultSetCustomCategoryOnContentHandlerTest {
+class DefaultChangeCategoryOnContentHandlerTest {
     
     public static final String CATEGORY_ID = "cat-6";
     public static final String CONTENT_ID = "mov-1";
     public static final long USER_ID = 123L;
     @Autowired
-    SetCustomCategoryOnContentHandler setCustomCategoryOnContentHandler;
+    ChangeCategoryOnContentHandler changeCategoryOnContentHandler;
     
     @Autowired
     PersonalizedCategoryRepository personalizedCategoryRepository;
@@ -65,14 +66,14 @@ class DefaultSetCustomCategoryOnContentHandlerTest {
     @DisplayName( "커스텀 카테고리를 작품에 등록하면 개인화된 커스텀 카테고리 정보가 저장된다." )
     void setCustomCategory() {
         // given
-        SetCustomCategoryOnContent command = SetCustomCategoryOnContent.builder()
-                                                                     .contentId( ContentId.of( CONTENT_ID ) )
-                                                                     .userId( USER_ID )
-                                                                     .categoryId( CustomCategoryId.of( CATEGORY_ID ) )
-                                                                     .build();
+        ChangeCategoryOnContent command = ChangeCategoryOnContent.builder()
+                                                                 .contentId( ContentId.of( CONTENT_ID ) )
+                                                                 .userId( USER_ID )
+                                                                 .categoryId( CustomCategoryId.of( CATEGORY_ID ) )
+                                                                 .build();
     
         // when
-        CategoryPersonalized handle = setCustomCategoryOnContentHandler.handle( command );
+        CategoryPersonalized handle = changeCategoryOnContentHandler.handle( command );
     
         // then
         Optional<PersonalizedCategoryEntity> optionalCategoryPersonalization

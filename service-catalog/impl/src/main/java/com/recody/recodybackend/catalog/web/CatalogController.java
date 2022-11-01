@@ -10,8 +10,8 @@ import com.recody.recodybackend.catalog.features.content.getdetail.movie.GetMovi
 import com.recody.recodybackend.catalog.features.content.getdetail.movie.GetMovieDetailHandler;
 import com.recody.recodybackend.catalog.features.search.SearchContent;
 import com.recody.recodybackend.catalog.features.search.SearchContentHandler;
-import com.recody.recodybackend.catalog.features.setcustomcategory.SetCustomCategoryOnContent;
-import com.recody.recodybackend.catalog.features.setcustomcategory.SetCustomCategoryOnContentHandler;
+import com.recody.recodybackend.catalog.features.changecategoryoncontent.ChangeCategoryOnContent;
+import com.recody.recodybackend.catalog.features.changecategoryoncontent.ChangeCategoryOnContentHandler;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.events.MMM;
 import com.recody.recodybackend.common.web.SuccessResponseBody;
@@ -39,7 +39,7 @@ class CatalogController {
     
     private final GetContentHandler getContentHandler;
     
-    private final SetCustomCategoryOnContentHandler setCustomCategoryOnContentHandler;
+    private final ChangeCategoryOnContentHandler changeCategoryOnContentHandler;
     private final JwtManager jwtManager;
     private final MessageSource ms;
     
@@ -137,10 +137,10 @@ class CatalogController {
                 SuccessResponseBody.builder()
                                    .message( ms.getMessage( "catalog.content.detail.change-category.succeeded", null,
                                                             httpServletRequest.getLocale() ) )
-                                   .data( SetCustomCategoryResponse
+                                   .data( ChangeCategoryOnContentResponse
                                                   .builder()
-                                                  .event( setCustomCategoryOnContentHandler.handle(
-                                                          SetCustomCategoryOnContent
+                                                  .event( changeCategoryOnContentHandler.handle(
+                                                          ChangeCategoryOnContent
                                                                   .builder()
                                                                   .categoryId( CustomCategoryId.of( request.getCategoryId() ) )
                                                                   .userId( jwtManager.resolveUserId( accessToken ) )

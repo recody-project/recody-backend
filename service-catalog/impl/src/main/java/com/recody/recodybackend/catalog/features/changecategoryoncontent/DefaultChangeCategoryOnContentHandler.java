@@ -1,4 +1,4 @@
-package com.recody.recodybackend.catalog.features.setcustomcategory;
+package com.recody.recodybackend.catalog.features.changecategoryoncontent;
 
 import com.recody.recodybackend.catalog.data.category.CategoryEntity;
 import com.recody.recodybackend.catalog.data.category.PersonalizedCategoryEntity;
@@ -7,6 +7,7 @@ import com.recody.recodybackend.catalog.data.category.CategoryRepository;
 import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
 import com.recody.recodybackend.catalog.data.content.CatalogContentRepository;
 import com.recody.recodybackend.catalog.exceptions.CategoryNotFoundException;
+import com.recody.recodybackend.common.events.CategoryPersonalized;
 import com.recody.recodybackend.common.exceptions.ContentNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +19,7 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-class DefaultSetCustomCategoryOnContentHandler implements SetCustomCategoryOnContentHandler {
+class DefaultChangeCategoryOnContentHandler implements ChangeCategoryOnContentHandler {
     
     private final PersonalizedCategoryRepository personalizedCategoryRepository;
     
@@ -28,7 +29,7 @@ class DefaultSetCustomCategoryOnContentHandler implements SetCustomCategoryOnCon
     
     @Override
     @Transactional
-    public CategoryPersonalized handle(SetCustomCategoryOnContent command) {
+    public CategoryPersonalized handle(ChangeCategoryOnContent command) {
         log.debug( "handling command: {}", command );
         String categoryId = command.getCategoryId().getCategoryId();
         String contentId = command.getContentId().getContentId();
