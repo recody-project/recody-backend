@@ -1,4 +1,4 @@
-package com.recody.recodybackend.catalog.web.rating;
+package com.recody.recodybackend.catalog.web;
 
 import com.recody.recodybackend.catalog.Rating;
 import lombok.*;

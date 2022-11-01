@@ -6,8 +6,6 @@ import com.recody.recodybackend.catalog.features.rating.add.AddRating;
 import com.recody.recodybackend.catalog.features.rating.add.AddRatingHandler;
 import com.recody.recodybackend.catalog.features.rating.getmycontentrating.GetMyContentRating;
 import com.recody.recodybackend.catalog.features.rating.getmycontentrating.GetMyContentRatingHandler;
-import com.recody.recodybackend.catalog.web.rating.AddRatingRequest;
-import com.recody.recodybackend.catalog.web.rating.GetMyRatingResponse;
 import com.recody.recodybackend.common.web.SuccessResponseBody;
 import com.recody.recodybackend.commonbootutils.jwt.JwtManager;
 import com.recody.recodybackend.commonbootutils.web.AccessToken;
