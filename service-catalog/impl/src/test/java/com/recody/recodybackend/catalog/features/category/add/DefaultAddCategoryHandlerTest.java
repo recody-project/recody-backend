@@ -1,10 +1,10 @@
 package com.recody.recodybackend.catalog.features.category.add;
 
+import com.recody.recodybackend.catalog.CategoryIconUrl;
+import com.recody.recodybackend.catalog.CategoryName;
+import com.recody.recodybackend.catalog.CustomCategory;
 import com.recody.recodybackend.catalog.RecodyCatalogApplication;
 import com.recody.recodybackend.catalog.exceptions.CustomCategoryException;
-import com.recody.recodybackend.catalog.features.CategoryIconUrl;
-import com.recody.recodybackend.catalog.features.CategoryName;
-import com.recody.recodybackend.catalog.features.CustomCategory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -49,7 +49,7 @@ class DefaultAddCategoryHandlerTest {
     }
     
     private static AddCategory newCommandWithSameUser(String name) {
-        return AddCategory.builder().name( CategoryName.of(  name )).userId( USER_ID ).iconUrl( ICON_URL ).build();
+        return AddCategory.builder().name( CategoryName.of( name ) ).userId( USER_ID ).iconUrl( ICON_URL ).build();
     }
     
     @Test
@@ -59,7 +59,7 @@ class DefaultAddCategoryHandlerTest {
         AddCategory command1 = newCommandWithSameUser("1");
         AddCategory command2 = newCommandWithSameUser("1");
         // when
-        CustomCategory handled = addCategoryHandler.handle(command1);
+        CustomCategory handled = addCategoryHandler.handle( command1 );
         
         // then
         assertThatThrownBy(() -> addCategoryHandler.handle(command2))

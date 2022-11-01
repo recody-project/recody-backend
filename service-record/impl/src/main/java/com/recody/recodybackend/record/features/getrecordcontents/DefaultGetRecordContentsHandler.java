@@ -29,13 +29,18 @@ class DefaultGetRecordContentsHandler implements GetRecordContentsHandler{
     public List<RecordContent> handle(GetRecordContents command) {
         log.debug("handling command: {}", command);
         Long userId = command.getUserId();
+        
         PageRequest pageable = PageRequest.of(command.getPage(), command.getSize());
+        // 유저가 작성한 감상평들을 가져온다.
         List<RecordEntity> recordEntities = recordRepository.findByUserIdOrderByCreatedAtDesc(userId, pageable)
                                                             .orElseThrow(RecordNotFound::new);
-    
+        
+        // 감상평에서 작품정보를 꺼내고 필요한 필터를 적용한다.
+        String categoryId = command.getCategoryId();
         ArrayList<RecordContent> recordContents = new ArrayList<>();
         for (RecordEntity recordEntity : recordEntities) {
             RecordContentEntity content = recordEntity.getContent();
+            content.getCategory().getCategoryId();
             LocalDate appreciationDate = recordEntity.getAppreciationDate();
             RecordContent mapped = contentMapper.map(content, appreciationDate);
             recordContents.add(mapped);
