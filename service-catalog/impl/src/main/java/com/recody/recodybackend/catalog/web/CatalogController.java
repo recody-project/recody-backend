@@ -127,7 +127,7 @@ class CatalogController {
                                    .build() );
     }
     
-    @PostMapping( "/api/v1/catalog/content/{contentId}" )
+    @PatchMapping( "/api/v1/catalog/content/{contentId}/category" )
     public ResponseEntity<SuccessResponseBody> changeContentInfo(@AccessToken String accessToken,
                                                                  HttpServletRequest httpServletRequest,
                                                                  @PathVariable String contentId,
@@ -135,6 +135,8 @@ class CatalogController {
                                                                 ) {
         return ResponseEntity.ok(
                 SuccessResponseBody.builder()
+                                   .message( ms.getMessage( "catalog.content.detail.change-category.succeeded", null,
+                                                            httpServletRequest.getLocale() ) )
                                    .data( SetCustomCategoryResponse
                                                   .builder()
                                                   .event( setCustomCategoryOnContentHandler.handle(

@@ -35,7 +35,7 @@ public class PersonalizedMovieDetail implements PersonalizedContentDetail {
     private String releaseDate;
     private Integer runtime;
     
-    private List<Genre> genres;
+    private List<? extends Genre> genres;
     private List<Actor> actors;
     private List<Director> directors;
 }
