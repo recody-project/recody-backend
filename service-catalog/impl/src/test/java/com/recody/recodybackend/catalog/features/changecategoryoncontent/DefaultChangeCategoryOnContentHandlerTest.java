@@ -10,6 +10,7 @@ import com.recody.recodybackend.catalog.data.category.CategoryRepository;
 import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
 import com.recody.recodybackend.catalog.data.content.CatalogContentRepository;
 import com.recody.recodybackend.common.events.CategoryPersonalized;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -84,5 +85,10 @@ class DefaultChangeCategoryOnContentHandlerTest {
         assertThat( handle.getUserId() ).isEqualTo( USER_ID );
         assertThat( handle.getContentId() ).isEqualTo(  CONTENT_ID );
     }
-    
+    @AfterEach
+    void after(){
+        personalizedCategoryRepository.deleteAllInBatch();
+        contentRepository.deleteAllInBatch();
+        categoryRepository.deleteAllInBatch();
+    }
 }

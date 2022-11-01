@@ -42,6 +42,8 @@ class DefaultGetMyWishlistHandlerTest {
     
     @BeforeEach
     void before() {
+        contentRepository.deleteAllInBatch();
+        categoryRepository.deleteAllInBatch();
         String id = BasicCategory.Movie.getId();
         System.out.println(id);
         CategoryEntity categoryEntity = new CategoryEntity(id, BasicCategory.Movie.getName());
