@@ -1,6 +1,6 @@
 package com.recody.recodybackend.catalog.features.content.getdetail;
 
-import com.recody.recodybackend.catalog.features.PersonalizedContentDetail;
+import com.recody.recodybackend.catalog.PersonalizedContentDetail;
 
 /**
  * 작품 정보를 가져와 개인화한 후 반환한다.

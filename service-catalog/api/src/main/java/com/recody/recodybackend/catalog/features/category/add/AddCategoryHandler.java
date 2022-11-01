@@ -1,6 +1,7 @@
 package com.recody.recodybackend.catalog.features.category.add;
 
-import com.recody.recodybackend.catalog.features.CustomCategory;
+
+import com.recody.recodybackend.catalog.CustomCategory;
 
 /**
  * 커스텀 카테고리를 추가한다.

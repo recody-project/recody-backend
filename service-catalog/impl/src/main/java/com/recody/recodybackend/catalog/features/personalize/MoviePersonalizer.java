@@ -1,7 +1,6 @@
 package com.recody.recodybackend.catalog.features.personalize;
 
-import com.recody.recodybackend.catalog.features.PersonalizedMovie;
-import com.recody.recodybackend.catalog.features.PersonalizedMovieMapper;
+import com.recody.recodybackend.catalog.PersonalizedMovie;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.movie.Movie;
 import lombok.RequiredArgsConstructor;

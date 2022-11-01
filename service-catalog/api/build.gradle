@@ -2,8 +2,10 @@
 
 dependencies {
     implementation project(":common")
-    implementation project(":service-movie-api")
-    implementation project(":service-movie-api:public")
+    implementation project(":service-catalog-api-core")
+    implementation project(":service-movie-api-core")
+    implementation project(":service-music-api-core")
+
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'

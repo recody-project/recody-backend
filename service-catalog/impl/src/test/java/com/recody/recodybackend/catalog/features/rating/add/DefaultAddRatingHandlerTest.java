@@ -2,7 +2,7 @@ package com.recody.recodybackend.catalog.features.rating.add;
 
 import com.recody.recodybackend.catalog.RecodyCatalogApplication;
 import com.recody.recodybackend.catalog.exceptions.InvalidRatingScoreException;
-import com.recody.recodybackend.catalog.features.RatingScore;
+import com.recody.recodybackend.catalog.RatingScore;
 import com.recody.recodybackend.common.exceptions.ContentNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;

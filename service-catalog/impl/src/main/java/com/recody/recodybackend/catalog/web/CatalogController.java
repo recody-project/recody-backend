@@ -1,6 +1,7 @@
 package com.recody.recodybackend.catalog.web;
 
-import com.recody.recodybackend.catalog.features.ContentId;
+import com.recody.recodybackend.catalog.ContentId;
+import com.recody.recodybackend.catalog.CustomCategoryId;
 import com.recody.recodybackend.catalog.features.content.getcontents.GetContent;
 import com.recody.recodybackend.catalog.features.content.getcontents.GetContentHandler;
 import com.recody.recodybackend.catalog.features.content.getdetail.GetContentDetail;
@@ -9,6 +10,8 @@ import com.recody.recodybackend.catalog.features.content.getdetail.movie.GetMovi
 import com.recody.recodybackend.catalog.features.content.getdetail.movie.GetMovieDetailHandler;
 import com.recody.recodybackend.catalog.features.search.SearchContent;
 import com.recody.recodybackend.catalog.features.search.SearchContentHandler;
+import com.recody.recodybackend.catalog.features.changecategoryoncontent.ChangeCategoryOnContent;
+import com.recody.recodybackend.catalog.features.changecategoryoncontent.ChangeCategoryOnContentHandler;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.events.MMM;
 import com.recody.recodybackend.common.web.SuccessResponseBody;
@@ -35,6 +38,8 @@ class CatalogController {
     private final GetMovieDetailHandler getMovieDetailHandler;
     
     private final GetContentHandler getContentHandler;
+    
+    private final ChangeCategoryOnContentHandler changeCategoryOnContentHandler;
     private final JwtManager jwtManager;
     private final MessageSource ms;
     
@@ -79,7 +84,8 @@ class CatalogController {
                                                            @AccessToken String accessToken, HttpServletRequest httpServletRequest) {
         return ResponseEntity.ok(
                 SuccessResponseBody.builder()
-                                   .message( ms.getMessage( "catalog.content.movie.detail.get.succeeded", null, httpServletRequest.getLocale() ) )
+                                   .message( ms.getMessage( "catalog.content.movie.detail.get.succeeded", null,
+                                                            httpServletRequest.getLocale() ) )
                                    .data( new GetContentDetailResponse(
                                            getMovieDetailHandler.handle( GetMovieDetail.builder()
                                                                                        .movieId( tmdbId )
@@ -118,6 +124,29 @@ class CatalogController {
                                                         .userId( jwtManager.resolveUserId( accessToken ) )
                                                         .language( language )
                                                         .build() ) )
+                                   .build() );
+    }
+    
+    @PatchMapping( "/api/v1/catalog/content/{contentId}/category" )
+    public ResponseEntity<SuccessResponseBody> changeContentInfo(@AccessToken String accessToken,
+                                                                 HttpServletRequest httpServletRequest,
+                                                                 @PathVariable String contentId,
+                                                                 @RequestBody SetCustomCategoryRequest request
+                                                                ) {
+        return ResponseEntity.ok(
+                SuccessResponseBody.builder()
+                                   .message( ms.getMessage( "catalog.content.detail.change-category.succeeded", null,
+                                                            httpServletRequest.getLocale() ) )
+                                   .data( ChangeCategoryOnContentResponse
+                                                  .builder()
+                                                  .event( changeCategoryOnContentHandler.handle(
+                                                          ChangeCategoryOnContent
+                                                                  .builder()
+                                                                  .categoryId( CustomCategoryId.of( request.getCategoryId() ) )
+                                                                  .userId( jwtManager.resolveUserId( accessToken ) )
+                                                                  .contentId( ContentId.of( contentId ) )
+                                                                  .build() ) ).build()
+                                        )
                                    .build() );
     }
 }

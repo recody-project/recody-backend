@@ -1,5 +1,6 @@
 package com.recody.recodybackend.catalog.features;
 
+import com.recody.recodybackend.catalog.RatingScore;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

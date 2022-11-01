@@ -1,7 +1,7 @@
 package com.recody.recodybackend.catalog.features.rating.add;
 
-import com.recody.recodybackend.catalog.features.ContentId;
-import com.recody.recodybackend.catalog.features.RatingScore;
+import com.recody.recodybackend.catalog.ContentId;
+import com.recody.recodybackend.catalog.RatingScore;
 import lombok.Builder;
 import lombok.Data;
 

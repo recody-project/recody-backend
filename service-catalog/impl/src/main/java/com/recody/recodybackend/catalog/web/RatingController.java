@@ -1,13 +1,11 @@
 package com.recody.recodybackend.catalog.web;
 
-import com.recody.recodybackend.catalog.features.ContentId;
-import com.recody.recodybackend.catalog.features.RatingScore;
+import com.recody.recodybackend.catalog.ContentId;
+import com.recody.recodybackend.catalog.RatingScore;
 import com.recody.recodybackend.catalog.features.rating.add.AddRating;
 import com.recody.recodybackend.catalog.features.rating.add.AddRatingHandler;
 import com.recody.recodybackend.catalog.features.rating.getmycontentrating.GetMyContentRating;
 import com.recody.recodybackend.catalog.features.rating.getmycontentrating.GetMyContentRatingHandler;
-import com.recody.recodybackend.catalog.web.rating.AddRatingRequest;
-import com.recody.recodybackend.catalog.web.rating.GetMyRatingResponse;
 import com.recody.recodybackend.common.web.SuccessResponseBody;
 import com.recody.recodybackend.commonbootutils.jwt.JwtManager;
 import com.recody.recodybackend.commonbootutils.web.AccessToken;
@@ -60,7 +58,7 @@ public class RatingController {
     
     private AddRating createAddRating(String accessToken, AddRatingRequest request) {
         return AddRating.builder()
-                        .contentId(ContentId.of(request.getContentId()))
+                        .contentId( ContentId.of( request.getContentId() ) )
                         .score(RatingScore.of(request.getScore()))
                         .userId(jwtManager.resolveUserId(accessToken))
                         .build();

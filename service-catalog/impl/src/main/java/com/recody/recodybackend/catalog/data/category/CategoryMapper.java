@@ -1,8 +1,8 @@
 package com.recody.recodybackend.catalog.data.category;
 
-import com.recody.recodybackend.catalog.features.CategoryIconUrl;
-import com.recody.recodybackend.catalog.features.CategoryName;
-import com.recody.recodybackend.catalog.features.CustomCategory;
+import com.recody.recodybackend.catalog.CategoryIconUrl;
+import com.recody.recodybackend.catalog.CategoryName;
+import com.recody.recodybackend.catalog.CustomCategory;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.contents.Category;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@ public abstract class CategoryMapper {
     
     @Mapping( target = "basic", source = "entity.basic" )
     @Mapping( target = "name", expression = "java(CategoryName.of(entity.getName()))")
-    @Mapping( target = "iconUrl", expression = "java(CategoryIconUrl.of(entity.getIconUrl()))")
+    @Mapping( target = "iconUrl", expression = "java(com.recody.recodybackend.catalog.CategoryIconUrl.of(entity.getIconUrl()))")
     public abstract CustomCategory toCustomCategory(CategoryEntity entity);
     
     /**

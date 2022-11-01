@@ -1,6 +1,6 @@
 package com.recody.recodybackend.catalog.web;
 
-import com.recody.recodybackend.catalog.features.PersonalizedContent;
+import com.recody.recodybackend.catalog.PersonalizedContent;
 import lombok.*;
 
 import java.util.List;

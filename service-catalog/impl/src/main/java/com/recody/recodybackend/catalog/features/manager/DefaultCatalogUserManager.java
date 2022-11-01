@@ -1,6 +1,6 @@
 package com.recody.recodybackend.catalog.features.manager;
 
-import com.recody.recodybackend.catalog.features.CatalogUser;
+import com.recody.recodybackend.catalog.CatalogUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

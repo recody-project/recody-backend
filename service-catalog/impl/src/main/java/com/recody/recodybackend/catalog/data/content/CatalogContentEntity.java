@@ -32,7 +32,7 @@ public class CatalogContentEntity {
     
     
     /**
-     * 작품의 카테고리이다.
+     * 작품의 기본 카테고리이다.
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
