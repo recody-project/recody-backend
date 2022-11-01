@@ -12,6 +12,7 @@ import com.recody.recodybackend.catalog.features.search.SearchContent;
 import com.recody.recodybackend.catalog.features.search.SearchContentHandler;
 import com.recody.recodybackend.catalog.features.changecategoryoncontent.ChangeCategoryOnContent;
 import com.recody.recodybackend.catalog.features.changecategoryoncontent.ChangeCategoryOnContentHandler;
+import com.recody.recodybackend.catalog.features.search.SearchContentWithFilters;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.events.MMM;
 import com.recody.recodybackend.common.web.SuccessResponseBody;
@@ -26,6 +27,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -45,6 +47,29 @@ class CatalogController {
     
     private final KafkaTemplate<String, String> kt;
     private final KafkaTemplate<String, MMM> kt2;
+    
+    @PatchMapping( "/api/v1/catalog/content/{contentId}/category" )
+    public ResponseEntity<SuccessResponseBody> changeContentInfo(@AccessToken String accessToken,
+                                                                 HttpServletRequest httpServletRequest,
+                                                                 @PathVariable String contentId,
+                                                                 @RequestBody SetCustomCategoryRequest request
+                                                                ) {
+        return ResponseEntity.ok(
+                SuccessResponseBody.builder()
+                                   .message( ms.getMessage( "catalog.content.detail.change-category.succeeded", null,
+                                                            httpServletRequest.getLocale() ) )
+                                   .data( ChangeCategoryOnContentResponse
+                                                  .builder()
+                                                  .event( changeCategoryOnContentHandler.handle(
+                                                          ChangeCategoryOnContent
+                                                                  .builder()
+                                                                  .categoryId( CustomCategoryId.of( request.getCategoryId() ) )
+                                                                  .userId( jwtManager.resolveUserId( accessToken ) )
+                                                                  .contentId( ContentId.of( contentId ) )
+                                                                  .build() ) ).build()
+                                        )
+                                   .build() );
+    }
     
     @GetMapping( "/api/v1/catalog/detail" )
     public ResponseEntity<SuccessResponseBody> detail(@RequestParam Integer contentId,
@@ -110,6 +135,7 @@ class CatalogController {
     }
     
     @GetMapping( "/api/v1/catalog/search" )
+    @Deprecated
     public ResponseEntity<SuccessResponseBody> search(@RequestParam String keyword,
                                                       @Nullable @RequestParam( defaultValue = "movie" ) String category,
                                                       @Nullable @RequestParam( defaultValue = "ko" ) String language,
@@ -127,26 +153,23 @@ class CatalogController {
                                    .build() );
     }
     
-    @PatchMapping( "/api/v1/catalog/content/{contentId}/category" )
-    public ResponseEntity<SuccessResponseBody> changeContentInfo(@AccessToken String accessToken,
-                                                                 HttpServletRequest httpServletRequest,
-                                                                 @PathVariable String contentId,
-                                                                 @RequestBody SetCustomCategoryRequest request
-                                                                ) {
+    @GetMapping( "/api/v2/catalog/search" )
+    public ResponseEntity<SuccessResponseBody> searchV2(@RequestParam String keyword,
+                                                        @Nullable @RequestParam( defaultValue = "all" ) String categoryId,
+                                                        @Nullable @RequestParam( defaultValue = "ko" ) String language,
+                                                        @AccessToken String accessToken,
+                                                        HttpServletRequest httpServletRequest) {
         return ResponseEntity.ok(
                 SuccessResponseBody.builder()
-                                   .message( ms.getMessage( "catalog.content.detail.change-category.succeeded", null,
-                                                            httpServletRequest.getLocale() ) )
-                                   .data( ChangeCategoryOnContentResponse
-                                                  .builder()
-                                                  .event( changeCategoryOnContentHandler.handle(
-                                                          ChangeCategoryOnContent
-                                                                  .builder()
-                                                                  .categoryId( CustomCategoryId.of( request.getCategoryId() ) )
-                                                                  .userId( jwtManager.resolveUserId( accessToken ) )
-                                                                  .contentId( ContentId.of( contentId ) )
-                                                                  .build() ) ).build()
-                                        )
+                                   .message( ms.getMessage( "catalog.searchV2.succeeded", null, httpServletRequest.getLocale() ) )
+                                   .data( searchContentHandler.handle(
+                                           SearchContentWithFilters.builder()
+                                                                   .keyword( keyword )
+                                                                   .language( language )
+                                                                   .categories( BasicCategory.isBasic( categoryId )
+                                                                               ? List.of( BasicCategory.idOf( categoryId ) )
+                                                                               : BasicCategory.all() )
+                                                                   .build() ) )
                                    .build() );
     }
 }

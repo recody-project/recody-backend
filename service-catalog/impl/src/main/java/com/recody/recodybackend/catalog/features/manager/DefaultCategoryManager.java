@@ -41,7 +41,7 @@ public class DefaultCategoryManager implements CategoryManager {
         log.debug( "loading category for user: {}", user );
         Long userId = user.getUserId();
         
-        List<Category> categories = BasicCategory.getAll();
+        List<Category> categories = BasicCategory.allAsCategories();
         
         // 유저가 등록한 카테고리만 포함된다.
         List<CategoryEntity> entities = categoryRepository.findAllByUserId( userId );

@@ -39,15 +39,23 @@ public class BasicCategory implements Category {
     }
     
     /**
-     * ArrayList 에 모든 기본 카테고리를 담아 반환합니다.
+     * ArrayList 에 모든 기본 카테고리를 담아 Category 로 반환합니다.
      * <ul>
      *     <li> List.of(...) 는 unmodifiable List 이기 때문에 ArrayList 로 반환합니다. </li>
      * </ul>
      *
-     * @return 모든 BasicCategory 를 담은 ArrayList
+     * @return 모든 BasicCategory 를 담은 List
      */
-    public static ArrayList<Category> getAll() {
+    public static List<Category> allAsCategories() {
         return new ArrayList<>(List.of(Movie, Drama, Music, Book, Performance));
+    }
+    
+    /**
+     * 모든 기본 카테고리를 담아 BasicCategory 로 반환합니다.
+     * @return 모든 BasicCategory 를 담은 List
+     */
+    public static List<BasicCategory> all() {
+        return List.of(Movie, Drama, Music, Book, Performance);
     }
     
     public static boolean isBasic(String categoryId) {

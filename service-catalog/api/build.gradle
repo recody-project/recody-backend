@@ -15,6 +15,10 @@ dependencies {
     implementation 'org.mapstruct:mapstruct:1.5.2.Final'
 
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.2.Final'
+
+    // https://mvnrepository.com/artifact/io.projectreactor/reactor-core
+    implementation 'io.projectreactor:reactor-core:3.4.22'
+
 }
 
 bootJar.enabled(false)
