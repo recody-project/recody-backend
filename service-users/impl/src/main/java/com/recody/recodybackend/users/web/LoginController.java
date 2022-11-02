@@ -4,10 +4,12 @@ import com.recody.recodybackend.common.web.SuccessResponseBody;
 import com.recody.recodybackend.users.RecodyUserEmail;
 import com.recody.recodybackend.users.features.jwt.reissuetokens.ReissueTokens;
 import com.recody.recodybackend.users.features.jwt.reissuetokens.ReissueTokensHandler;
-import com.recody.recodybackend.users.features.login.ProcessLogin;
+import com.recody.recodybackend.users.features.login.ProcessSocialLogin;
 import com.recody.recodybackend.users.features.login.SocialLoginService;
 import com.recody.recodybackend.users.features.login.admin.SignInAdminUser;
 import com.recody.recodybackend.users.features.login.admin.SignInAdminUserHandler;
+import com.recody.recodybackend.users.features.login.normalsignin.SignInUser;
+import com.recody.recodybackend.users.features.login.normalsignin.SignInUserHandler;
 import com.recody.recodybackend.users.features.signup.SignUpUser;
 import com.recody.recodybackend.users.features.signup.SignUpUserHandler;
 import lombok.RequiredArgsConstructor;
@@ -31,15 +33,17 @@ class LoginController {
     private final SignUpUserHandler signUpUserHandler;
     private final SignInAdminUserHandler signInAdminUserHandler;
     
+    private final SignInUserHandler signInUserHandler;
+    
     @PostMapping( "/api/v1/login/naver" )
     public ResponseEntity<SuccessResponseBody> loginNaver(@RequestHeader( "User-Agent" ) String userAgent,
                                                           @RequestBody SocialLoginRequest request,
                                                           HttpServletRequest httpRequest) {
         return ResponseEntity.ok( SuccessResponseBody
                                           .builder()
-                                          .message( ms.getMessage( "users.login.succeeded", null, httpRequest.getLocale() ) )
+                                          .message( ms.getMessage( "users.sign-in.succeeded", null, httpRequest.getLocale() ) )
                                           .data( socialLoginService.handleNaverLogin(
-                                                  ProcessLogin
+                                                  ProcessSocialLogin
                                                           .builder()
                                                           .resourceAccessToken( request.getResourceAccessToken() )
                                                           .resourceRefreshToken( request.getResourceRefreshToken() )
@@ -61,8 +65,8 @@ class LoginController {
                                                            HttpServletRequest httpRequest) {
         return ResponseEntity.ok( SuccessResponseBody
                                           .builder()
-                                          .message( ms.getMessage( "users.login.succeeded", null, httpRequest.getLocale() ) )
-                                          .data( socialLoginService.handleGoogleLogin( ProcessLogin
+                                          .message( ms.getMessage( "users.sign-in.succeeded", null, httpRequest.getLocale() ) )
+                                          .data( socialLoginService.handleGoogleLogin( ProcessSocialLogin
                                                                                                .builder()
                                                                                                .resourceAccessToken(
                                                                                                        request.getResourceAccessToken() )
@@ -92,7 +96,6 @@ class LoginController {
                                                                                                               request.getRefreshToken() )
                                                                                                       .userAgent( userAgent ).build() ) )
                                                      .build() );
-        
     }
     
     @PostMapping( "/api/v1/users/signup" )
@@ -120,23 +123,26 @@ class LoginController {
     private static SignUpUser signUpUserCommand(SignUpUserRequest request) {
         return SignUpUser
                        .builder()
+                       .name( request.getName() )
                        .nickname( request.getNickname() )
                        .email( RecodyUserEmail.of( request.getEmail() ) )
                        .password( request.getPassword() )
                        .passwordConfirm( request.getPasswordConfirm() )
+                       .pictureUrl( request.getPictureUrl() )
                        .build();
     }
     
     @PostMapping( "/api/v1/users/signup/check-duplicate" )
     public ResponseEntity<SuccessResponseBody> existsEmail(@RequestBody CheckDuplicateEmailRequest request,
                                                            HttpServletRequest httpRequest) {
-        return ResponseEntity.ok( SuccessResponseBody
-                                          .builder()
-                                          .message( ms.getMessage( "users.signup.email.check-duplicate.succeeded", null,
-                                                                   httpRequest.getLocale() ) )
-                                          .data( new CheckDuplicateEmailResponse(
-                                                  signUpUserHandler.checkDuplicateEmail( RecodyUserEmail.of( request.getEmail() ) ) ) )
-                                          .build()
+        return ResponseEntity.ok(
+                SuccessResponseBody
+                        .builder()
+                        .message( ms.getMessage( "users.signup.email.check-duplicate.succeeded", null,
+                                                 httpRequest.getLocale() ) )
+                        .data( new CheckDuplicateEmailResponse(
+                                signUpUserHandler.checkDuplicateEmail( RecodyUserEmail.of( request.getEmail() ) ) ) )
+                        .build()
                                 );
     }
     
@@ -147,5 +153,26 @@ class LoginController {
                                           .builder()
                                           .message( ms.getMessage( "users.admin.sign-in.succeeded", null, httpRequest.getLocale() ) )
                                           .data( signInAdminUserHandler.handle( command ) ).build() );
+    }
+    
+    @PostMapping( "/api/v2/users/sign-in" )
+    public ResponseEntity<SuccessResponseBody> signInV2(@RequestBody SignInUserRequest request,
+                                                        @RequestHeader( value = "User-Agent" ) String userAgent,
+                                                        HttpServletRequest httpRequest) {
+        return ResponseEntity.ok(
+                SuccessResponseBody
+                        .builder()
+                        .message( ms.getMessage( "users.sign-in.succeeded", null, httpRequest.getLocale() ) )
+                        .data( SignInUserResponse
+                                       .builder()
+                                       .signInInfo(
+                                               signInUserHandler.handle( SignInUser
+                                                                                 .builder()
+                                                                                 .email( RecodyUserEmail.of( request.getEmail() ) )
+                                                                                 .password( request.getPassword() )
+                                                                                 .userAgent( userAgent )
+                                                                                 .build() ) )
+                                       .build() )
+                        .build() );
     }
 }

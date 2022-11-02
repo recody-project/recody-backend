@@ -21,22 +21,13 @@ public interface MembershipManager {
     RecodyUserInfo signUp(OAuthUserInfo userInfo);
     
     
+    /**
+     * 어드민 유저를 회원가입 시킵니다.
+     * 현재 기본 어드민 유저 외에는 가입시키지 않습니다.
+     */
     RecodyUserInfo signUpAdmin(AdminUserInfo userInfo);
     
-    /**
-     * 레코디 유저를 로그인 처리하고 토큰들을 반환한다.
-     *
-     * @param recodyUserInfo: 레코디 유저정보입니다.
-     * @return : accessToken, refreshToken 을 포함하는 로그인 응답을 반환한다.
-     */
-    RecodySignInSession signIn(RecodyUserInfo recodyUserInfo);
     
-    /**
-     * 소셜로그인 정보를 이용하여 로그인 처리하고 토큰을 반환한다.
-     * 유저가 레코디 서비스에 회원가입되어 있다고 가정하고 처리한다.
-     * @param userInfo: 소셜 로그인 유저 정보(email, nickname, socialProvider, username, profileUrl)
-     * @return : accessToken, refreshToken 을 포함하는 로그인 응답을 반환한다.
-     * */
-    RecodySignInSession signIn(OAuthUserInfo userInfo);
+    RecodySignInSession createSessionInfo(RecodyUserInfo recodyUserInfo, String userAgent);
     
 }

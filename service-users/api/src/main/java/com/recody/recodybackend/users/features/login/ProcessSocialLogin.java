@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Data
-public class ProcessLogin {
+public class ProcessSocialLogin {
     private String resourceAccessToken;
     private String resourceRefreshToken;
     private String userAgent;

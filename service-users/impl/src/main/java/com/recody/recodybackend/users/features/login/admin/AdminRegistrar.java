@@ -21,8 +21,6 @@ import java.util.Optional;
 @Profile({"local", "test"})
 class AdminRegistrar {
     
-    private final DefaultSuperJwtManager superJwtManager;
-    
     private final RecodyUserRepository recodyUserRepository;
     
     @Value("${users.admin.username}")
@@ -39,6 +37,7 @@ class AdminRegistrar {
         Optional<RecodyUserEntity> optionalUser = recodyUserRepository.findByEmail( email );
         if (optionalUser.isPresent()){
             log.info("이미 어드민 유저가 있음. optionalUser: {}", optionalUser);
+            return;
         }
         RecodyUserEntity adminUser = RecodyUserEntity.builder().userId( 1L ).username( username ).password( password ).email( email ).socialType(
                 SocialProvider.NONE ).role(Role.ROLE_ADMIN).build();

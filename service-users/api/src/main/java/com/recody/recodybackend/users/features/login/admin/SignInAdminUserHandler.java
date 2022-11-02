@@ -1,7 +1,10 @@
 package com.recody.recodybackend.users.features.login.admin;
 
+import com.recody.recodybackend.users.RecodySignInSession;
+
 public interface SignInAdminUserHandler {
     
-    SignInAdminUserResponse handle(SignInAdminUser command);
+    
+    RecodySignInSession handle(SignInAdminUser command);
     
 }

@@ -28,7 +28,7 @@ class DefaultRefreshTokenManager implements RefreshTokenManager{
                                                                   .refreshTokenValue(signInSession.getRefreshToken())
                                                                   .userAgent(userAgent)
                                                                   .subject(subject).build();
-        repository.save(refreshTokenEntity);
+        RefreshTokenEntity savedEntity = repository.save( refreshTokenEntity );
     }
     
     @Override

@@ -7,6 +7,7 @@ public enum UsersErrorType implements ErrorType {
     UserAlreadyExists("UserAlreadyExists"),
     EmailShouldNotBeNull("users.email.not-null"),
     PasswordConfirmNotMatch("users.signup.password.not-match"),
+    IncorrectPassword("users.sign-in.password.incorrect"),
     RefreshTokenNotFound("RefreshTokenNotFound"),
     InvalidUserAgentValue("InvalidUserAgentValue"),
     FailedToResolveAccessToken("FailedToResolveAccessToken"),
