@@ -1,6 +1,6 @@
 package com.recody.recodybackend.users.features.login;
 
-import com.recody.recodybackend.users.features.login.membership.RecodySignInSession;
+import com.recody.recodybackend.users.RecodySignInSession;
 
 public interface SocialLoginService {
     RecodySignInSession handleNaverLogin(ProcessLogin command);

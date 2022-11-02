@@ -5,8 +5,8 @@ import com.recody.recodybackend.common.exceptions.ErrorType;
 public enum UsersErrorType implements ErrorType {
     UserNotFound("UserNotFound"),
     UserAlreadyExists("UserAlreadyExists"),
-    
-    
+    EmailShouldNotBeNull("users.email.not-null"),
+    PasswordConfirmNotMatch("users.signup.password.not-match"),
     RefreshTokenNotFound("RefreshTokenNotFound"),
     InvalidUserAgentValue("InvalidUserAgentValue"),
     FailedToResolveAccessToken("FailedToResolveAccessToken"),

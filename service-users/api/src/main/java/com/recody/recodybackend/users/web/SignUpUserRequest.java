@@ -1,33 +1,38 @@
-package com.recody.recodybackend.users.features.signup;
+package com.recody.recodybackend.users.web;
 
-import com.recody.recodybackend.users.RecodyUserEmail;
 import lombok.*;
+
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class SignUpUser {
-    @NonNull
-    private RecodyUserEmail email;
-    @NonNull
+public class SignUpUserRequest {
+    
+    
+    @NotNull
+    private String email;
+    @NotNull
     private String password;
-    @NonNull
+    @NotNull
     private String passwordConfirm;
     
     private String name;
     private String nickname;
-    
     private String pictureUrl;
+    
     
     @Override
     public String toString() {
-        return "{\"SignUpUser\":{"
-               + "\"email\":" + email
+        return "{\"SignUpUserRequest\":{"
+               + "\"email\":" + ((email != null) ? ("\"" + email + "\"") : null)
                + ", \"password\":" + ((password != null) ? ("\"" + password + "\"") : null)
                + ", \"passwordConfirm\":" + ((passwordConfirm != null) ? ("\"" + passwordConfirm + "\"") : null)
+               + ", \"name\":" + ((name != null) ? ("\"" + name + "\"") : null)
                + ", \"nickname\":" + ((nickname != null) ? ("\"" + nickname + "\"") : null)
+               + ", \"pictureUrl\":" + ((pictureUrl != null) ? ("\"" + pictureUrl + "\"") : null)
                + "}}";
     }
 }

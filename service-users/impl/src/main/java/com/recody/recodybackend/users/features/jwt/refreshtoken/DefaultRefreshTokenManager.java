@@ -6,7 +6,7 @@ import com.recody.recodybackend.commonbootutils.jwt.JwtManager;
 import com.recody.recodybackend.users.data.RefreshTokenEntity;
 import com.recody.recodybackend.users.data.RefreshTokenRepository;
 import com.recody.recodybackend.users.exceptions.UsersErrorType;
-import com.recody.recodybackend.users.features.login.membership.RecodySignInSession;
+import com.recody.recodybackend.users.RecodySignInSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;

@@ -5,7 +5,7 @@ import com.recody.recodybackend.commonbootutils.jwt.CreateAccessToken;
 import com.recody.recodybackend.commonbootutils.jwt.CreateRefreshToken;
 import com.recody.recodybackend.commonbootutils.jwt.JwtManager;
 import com.recody.recodybackend.users.OAuthUserInfo;
-import com.recody.recodybackend.users.data.RecodyUser;
+import com.recody.recodybackend.users.data.RecodyUserEntity;
 import com.recody.recodybackend.users.data.RecodyUserMapper;
 import com.recody.recodybackend.users.data.RecodyUserRepository;
 import com.recody.recodybackend.users.Role;
@@ -13,7 +13,7 @@ import com.recody.recodybackend.users.exceptions.UserNotFoundException;
 import com.recody.recodybackend.users.features.generatenickname.NicknameGenerator;
 import com.recody.recodybackend.users.features.login.membership.AdminUserInfo;
 import com.recody.recodybackend.users.features.login.membership.MembershipManager;
-import com.recody.recodybackend.users.features.login.membership.RecodySignInSession;
+import com.recody.recodybackend.users.RecodySignInSession;
 import com.recody.recodybackend.users.RecodyUserInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,22 +35,22 @@ class DefaultMembershipManager implements MembershipManager {
     
     @Override
     public boolean exists(String email) {
-        Optional<RecodyUser> optionalUser = userRepository.findByEmail(email);
+        Optional<RecodyUserEntity> optionalUser = userRepository.findByEmail( email );
         return optionalUser.isPresent();
     }
     
     @Override
     public RecodyUserInfo signUp(OAuthUserInfo userInfo) {
         
-        Optional<RecodyUser> optionalUser = userRepository.findByEmail(userInfo.getEmail());
-        RecodyUser recodyUser;
+        Optional<RecodyUserEntity> optionalUser = userRepository.findByEmail( userInfo.getEmail() );
+        RecodyUserEntity recodyUserEntity;
         if (optionalUser.isEmpty()) {
-            recodyUser = doSignup(userInfo);
-            log.info("회원가입 되었습니다.: {}", recodyUser);
+            recodyUserEntity = doSignup( userInfo );
+            log.info( "회원가입 되었습니다.: {}", recodyUserEntity );
         } else {
-            recodyUser = optionalUser.get();
+            recodyUserEntity = optionalUser.get();
         }
-        return mapper.map(recodyUser);
+        return mapper.map( recodyUserEntity );
     }
     
     @Override
@@ -70,7 +70,7 @@ class DefaultMembershipManager implements MembershipManager {
     @Override
     public RecodySignInSession signIn(OAuthUserInfo userInfo) {
         // 이메일과 소셜 정보를 사용해 유저 정보를 가져온다.
-        Optional<RecodyUser> optionalUser = userRepository.findByEmail(userInfo.getEmail());
+        Optional<RecodyUserEntity> optionalUser = userRepository.findByEmail( userInfo.getEmail() );
         if (optionalUser.isEmpty()) {
             throw new UserNotFoundException();
         }
@@ -102,9 +102,9 @@ class DefaultMembershipManager implements MembershipManager {
                 .build();
     }
     
-    private RecodyUser doSignup(OAuthUserInfo userInfo) {
-        RecodyUser targetUser;
-        targetUser = RecodyUser
+    private RecodyUserEntity doSignup(OAuthUserInfo userInfo) {
+        RecodyUserEntity targetUser;
+        targetUser = RecodyUserEntity
                 .builder()
                 .email(userInfo.getEmail())
                 .socialType(userInfo.getSocialProvider())
@@ -113,7 +113,7 @@ class DefaultMembershipManager implements MembershipManager {
                 .pictureUrl(userInfo.getProfileImageUrl())
                 .name(userInfo.getName())
                 .build();
-        RecodyUser savedUser;
+        RecodyUserEntity savedUser;
         try {
             savedUser = userRepository.save(targetUser);
         } catch (PersistenceException exception) {

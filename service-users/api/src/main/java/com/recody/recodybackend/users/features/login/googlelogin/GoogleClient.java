@@ -1,8 +1,8 @@
 package com.recody.recodybackend.users.features.login.googlelogin;
 
 import com.recody.recodybackend.users.exceptions.ResourceAccessTokenExpiredException;
-import com.recody.recodybackend.users.features.login.ResourceAccessToken;
-import com.recody.recodybackend.users.features.login.ResourceRefreshToken;
+import com.recody.recodybackend.users.sociallogin.ResourceAccessToken;
+import com.recody.recodybackend.users.sociallogin.ResourceRefreshToken;
 import com.recody.recodybackend.users.features.login.SocialLoginClient;
 
 public interface GoogleClient extends SocialLoginClient {

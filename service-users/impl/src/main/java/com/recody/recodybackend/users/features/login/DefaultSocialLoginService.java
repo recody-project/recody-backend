@@ -6,8 +6,10 @@ import com.recody.recodybackend.users.features.jwt.refreshtoken.RefreshTokenMana
 import com.recody.recodybackend.users.features.login.fetchuserinfo.FetchUserInfo;
 import com.recody.recodybackend.users.features.login.fetchuserinfo.FetchUserInfoHandler;
 import com.recody.recodybackend.users.features.login.membership.MembershipManager;
-import com.recody.recodybackend.users.features.login.membership.RecodySignInSession;
+import com.recody.recodybackend.users.RecodySignInSession;
 import com.recody.recodybackend.users.RecodyUserInfo;
+import com.recody.recodybackend.users.sociallogin.ResourceAccessToken;
+import com.recody.recodybackend.users.sociallogin.ResourceRefreshToken;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -49,8 +51,8 @@ class DefaultSocialLoginService implements SocialLoginService {
         
         return FetchUserInfo
                 .builder()
-                .resourceAccessToken(ResourceAccessToken.googleOf(resourceAccessTokenValue))
-                .resourceRefreshToken(ResourceRefreshToken.googleOf(resourceRefreshTokenValue))
+                .resourceAccessToken( ResourceAccessToken.googleOf( resourceAccessTokenValue ) )
+                .resourceRefreshToken( ResourceRefreshToken.googleOf( resourceRefreshTokenValue ) )
                 .socialProvider( SocialProvider.GOOGLE )
                 .build();
     }

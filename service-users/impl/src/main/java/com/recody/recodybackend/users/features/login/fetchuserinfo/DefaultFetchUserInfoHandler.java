@@ -7,6 +7,8 @@ import com.recody.recodybackend.users.exceptions.ResourceAccessTokenExpiredExcep
 import com.recody.recodybackend.users.exceptions.UsersErrorType;
 import com.recody.recodybackend.users.features.login.*;
 import com.recody.recodybackend.users.features.login.googlelogin.GoogleClient;
+import com.recody.recodybackend.users.sociallogin.ResourceAccessToken;
+import com.recody.recodybackend.users.sociallogin.ResourceRefreshToken;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

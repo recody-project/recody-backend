@@ -1,7 +1,7 @@
 package com.recody.recodybackend.users.features.login.admin;
 
 import com.recody.recodybackend.commonbootutils.jwt.DefaultSuperJwtManager;
-import com.recody.recodybackend.users.data.RecodyUser;
+import com.recody.recodybackend.users.data.RecodyUserEntity;
 import com.recody.recodybackend.users.data.RecodyUserRepository;
 import com.recody.recodybackend.users.Role;
 import com.recody.recodybackend.users.SocialProvider;
@@ -36,13 +36,13 @@ class AdminRegistrar {
     
     @PostConstruct
     void register(){
-        Optional<RecodyUser> optionalUser = recodyUserRepository.findByEmail(email);
+        Optional<RecodyUserEntity> optionalUser = recodyUserRepository.findByEmail( email );
         if (optionalUser.isPresent()){
             log.info("이미 어드민 유저가 있음. optionalUser: {}", optionalUser);
         }
-        RecodyUser adminUser = RecodyUser.builder().userId(1L).username(username).password(password).email(email).socialType(
-                SocialProvider.NONE).role(Role.ROLE_ADMIN).build();
-        RecodyUser savedAdmin = recodyUserRepository.save(adminUser);
+        RecodyUserEntity adminUser = RecodyUserEntity.builder().userId( 1L ).username( username ).password( password ).email( email ).socialType(
+                SocialProvider.NONE ).role(Role.ROLE_ADMIN).build();
+        RecodyUserEntity savedAdmin = recodyUserRepository.save( adminUser );
         log.info("어드민 유저 등록 성공 savedAdmin: {}", savedAdmin);
     }
 }

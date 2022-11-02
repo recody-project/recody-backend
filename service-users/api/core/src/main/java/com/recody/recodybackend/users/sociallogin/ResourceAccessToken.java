@@ -1,4 +1,4 @@
-package com.recody.recodybackend.users.features.login;
+package com.recody.recodybackend.users.sociallogin;
 
 import com.recody.recodybackend.users.SocialProvider;
 

@@ -1,6 +1,6 @@
 package com.recody.recodybackend.users.features.login.admin;
 
-import com.recody.recodybackend.users.data.RecodyUser;
+import com.recody.recodybackend.users.data.RecodyUserEntity;
 import com.recody.recodybackend.users.data.RecodyUserRepository;
 import com.recody.recodybackend.commonbootutils.jwt.CreateAccessToken;
 import com.recody.recodybackend.commonbootutils.jwt.CreateRefreshToken;
@@ -24,11 +24,11 @@ class DefaultSignInAdminUserHandler implements SignInAdminUserHandler{
     @Override
     public SignInAdminUserResponse handle(SignInAdminUser command) {
         String username = command.getUsername();
-        Optional<RecodyUser> optionalUser = recodyUserRepository.findByUsername(username);
+        Optional<RecodyUserEntity> optionalUser = recodyUserRepository.findByUsername( username );
         if (optionalUser.isEmpty()) {
             throw new IllegalArgumentException("존재하지 않는 유저입니다.");
         }
-        RecodyUser adminUser = optionalUser.get();
+        RecodyUserEntity adminUser = optionalUser.get();
         String password = adminUser.getPassword();
         if (!password.equals(command.getPassword())) {
             throw new IllegalArgumentException("패스워드가 틀림.");
@@ -39,16 +39,16 @@ class DefaultSignInAdminUserHandler implements SignInAdminUserHandler{
         return response;
     }
     
-    private SignInAdminUserResponse createSignInRecodyUserResponse(RecodyUser recodyUser) {
+    private SignInAdminUserResponse createSignInRecodyUserResponse(RecodyUserEntity recodyUserEntity) {
         String accessToken = jwtManager.createAccessToken(
-                CreateAccessToken.builder().userId(recodyUser.getUserId()).email(recodyUser.getEmail()).build());
+                CreateAccessToken.builder().userId( recodyUserEntity.getUserId() ).email( recodyUserEntity.getEmail() ).build() );
         String refreshToken = jwtManager.createRefreshToken(
-                CreateRefreshToken.builder().userId(recodyUser.getUserId()).email(recodyUser.getEmail()).build());
+                CreateRefreshToken.builder().userId( recodyUserEntity.getUserId() ).email( recodyUserEntity.getEmail() ).build() );
         //TODO: 리프레시 토큰 저장 로직
         
         return SignInAdminUserResponse
                 .builder()
-                .role(recodyUser.getRole())
+                .role( recodyUserEntity.getRole() )
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .accessExpireTime(jwtManager.getExpireTimeFromToken(accessToken))

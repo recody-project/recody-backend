@@ -19,11 +19,12 @@ import javax.persistence.*;
        uniqueConstraints = {
         @UniqueConstraint(name = "recody_user_social_identity", columnNames = {"email", "social_type"})
 })
-public class RecodyUser {
+public class RecodyUserEntity {
     @Id @GeneratedValue
     private Long userId;
     
     private String username;
+    @Column(name = "password", nullable = false)
     private String password;
     
     private String pictureUrl;
