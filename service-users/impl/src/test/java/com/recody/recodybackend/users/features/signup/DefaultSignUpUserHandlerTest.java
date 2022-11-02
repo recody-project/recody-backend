@@ -25,7 +25,6 @@ class DefaultSignUpUserHandlerTest {
     @DisplayName( "비밀번호 확인이 다르면 회원가입되지 않는다." )
     void signupTest() {
         // given
-        String username = "user1";
         String password = "pass";
         String passwordConfirm = "passssss";
         String email = "email";
@@ -37,10 +36,9 @@ class DefaultSignUpUserHandlerTest {
     }
     
     @ParameterizedTest
-    @CsvSource( value = {"user1/pass/pass/", "/pass/pass/email", "user//pass/email", "user/pass//email"}, delimiter = '/' )
-    void nullCheckTest(String username, String password, String passwordConfirm, String email) {
+    @CsvSource( value = {"pass/pass/", "/pass/email", "pass//email"}, delimiter = '/' )
+    void nullCheckTest(String password, String passwordConfirm, String email) {
         // given
-        System.out.println( "username = " + username + " / isNull: " + (username == null) );
         System.out.println( "password = " + password + " / isNull: " + (password == null) );
         System.out.println( "passwordConfirm = " + passwordConfirm + " / isNull: " + (passwordConfirm == null) );
         System.out.println( "email = " + email + " / isNull: " + (email == null) );
