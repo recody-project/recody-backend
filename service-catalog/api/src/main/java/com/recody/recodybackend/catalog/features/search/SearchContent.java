@@ -9,8 +9,10 @@ import lombok.Data;
 public class SearchContent {
     
     private String keyword;
+    @Deprecated
     private BasicCategory category;
     private String language;
+    @Deprecated
     private Long userId;
     
 }

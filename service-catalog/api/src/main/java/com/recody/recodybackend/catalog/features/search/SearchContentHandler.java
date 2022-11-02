@@ -1,6 +1,7 @@
 package com.recody.recodybackend.catalog.features.search;
 
 import com.recody.recodybackend.catalog.web.SearchContentResponse;
+import com.recody.recodybackend.catalog.web.SearchContentWithFiltersResponse;
 
 /**
  * 작품을 검색한다.
@@ -8,4 +9,6 @@ import com.recody.recodybackend.catalog.web.SearchContentResponse;
 public interface SearchContentHandler {
     
     SearchContentResponse handle(SearchContent command);
+    
+    SearchContentWithFiltersResponse handle(SearchContentWithFilters command);
 }
