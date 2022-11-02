@@ -2,7 +2,7 @@ package com.recody.recodybackend.users.features.login.fetchuserinfo;
 
 import com.recody.recodybackend.users.features.login.ResourceAccessToken;
 import com.recody.recodybackend.users.features.login.ResourceRefreshToken;
-import com.recody.recodybackend.users.features.login.SocialProvider;
+import com.recody.recodybackend.users.SocialProvider;
 import lombok.*;
 
 @Builder

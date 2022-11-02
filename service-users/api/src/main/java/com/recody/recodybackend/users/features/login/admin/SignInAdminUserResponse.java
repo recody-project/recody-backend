@@ -1,6 +1,6 @@
 package com.recody.recodybackend.users.features.login.admin;
 
-import com.recody.recodybackend.users.data.Role;
+import com.recody.recodybackend.users.Role;
 import lombok.Builder;
 import lombok.Data;
 

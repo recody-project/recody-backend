@@ -1,6 +1,6 @@
 package com.recody.recodybackend.users.features.login.fetchuserinfo;
 
-import com.recody.recodybackend.users.features.login.OAuthUserInfo;
+import com.recody.recodybackend.users.OAuthUserInfo;
 
 /*
 * 각 소셜 로그인 서비스에서 유저의 정보를 가져온다.

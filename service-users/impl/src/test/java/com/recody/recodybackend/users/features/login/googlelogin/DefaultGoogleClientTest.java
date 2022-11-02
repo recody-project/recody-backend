@@ -2,7 +2,7 @@ package com.recody.recodybackend.users.features.login.googlelogin;
 
 import com.recody.recodybackend.users.RecodyUserApplication;
 import com.recody.recodybackend.users.exceptions.ResourceAccessTokenExpiredException;
-import com.recody.recodybackend.users.features.login.OAuthUserInfo;
+import com.recody.recodybackend.users.OAuthUserInfo;
 import com.recody.recodybackend.users.features.login.ResourceAccessToken;
 import com.recody.recodybackend.users.features.login.ResourceRefreshToken;
 import org.junit.jupiter.api.DisplayName;

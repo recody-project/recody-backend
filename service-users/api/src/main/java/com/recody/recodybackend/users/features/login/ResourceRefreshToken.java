@@ -1,5 +1,7 @@
 package com.recody.recodybackend.users.features.login;
 
+import com.recody.recodybackend.users.SocialProvider;
+
 public class ResourceRefreshToken {
     
     private final String value;

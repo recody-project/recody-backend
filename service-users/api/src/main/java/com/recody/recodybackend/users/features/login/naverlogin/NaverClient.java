@@ -1,5 +1,6 @@
 package com.recody.recodybackend.users.features.login.naverlogin;
 
+import com.recody.recodybackend.users.OAuthUserInfo;
 import com.recody.recodybackend.users.features.login.*;
 
 public interface NaverClient extends SocialLoginClient {

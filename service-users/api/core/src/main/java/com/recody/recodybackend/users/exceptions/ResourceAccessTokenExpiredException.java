@@ -1,8 +1,5 @@
 package com.recody.recodybackend.users.exceptions;
 
-import com.recody.recodybackend.common.exceptions.ApplicationException;
-import org.springframework.http.HttpStatus;
-
 public class ResourceAccessTokenExpiredException extends Exception {
     
 //    public SocialAccessTokenExpiredException() {

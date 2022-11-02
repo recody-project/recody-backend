@@ -1,4 +1,4 @@
-package com.recody.recodybackend.users.data;
+package com.recody.recodybackend.users;
 
 import lombok.Getter;
 

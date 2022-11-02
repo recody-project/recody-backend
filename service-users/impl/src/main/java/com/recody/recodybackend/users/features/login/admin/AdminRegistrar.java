@@ -3,8 +3,8 @@ package com.recody.recodybackend.users.features.login.admin;
 import com.recody.recodybackend.commonbootutils.jwt.DefaultSuperJwtManager;
 import com.recody.recodybackend.users.data.RecodyUser;
 import com.recody.recodybackend.users.data.RecodyUserRepository;
-import com.recody.recodybackend.users.data.Role;
-import com.recody.recodybackend.users.features.login.SocialProvider;
+import com.recody.recodybackend.users.Role;
+import com.recody.recodybackend.users.SocialProvider;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;

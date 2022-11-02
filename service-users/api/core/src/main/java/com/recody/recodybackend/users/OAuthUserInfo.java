@@ -1,4 +1,4 @@
-package com.recody.recodybackend.users.features.login;
+package com.recody.recodybackend.users;
 
 /**
  * 소셜 로그인 서비스에서 받아온 유저 정보이다.

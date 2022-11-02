@@ -1,7 +1,5 @@
-package com.recody.recodybackend.users.features.login.membership;
+package com.recody.recodybackend.users;
 
-import com.recody.recodybackend.users.data.Role;
-import com.recody.recodybackend.users.features.login.SocialProvider;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;

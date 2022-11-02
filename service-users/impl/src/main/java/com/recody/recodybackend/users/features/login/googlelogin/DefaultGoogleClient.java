@@ -6,7 +6,7 @@ import com.recody.recodybackend.users.exceptions.ResourceAccessTokenExpiredExcep
 import com.recody.recodybackend.users.exceptions.UsersErrorType;
 import com.recody.recodybackend.users.features.login.ResourceAccessToken;
 import com.recody.recodybackend.users.features.login.ResourceRefreshToken;
-import com.recody.recodybackend.users.features.login.SocialProvider;
+import com.recody.recodybackend.users.SocialProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

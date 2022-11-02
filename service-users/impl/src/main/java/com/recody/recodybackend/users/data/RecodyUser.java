@@ -1,10 +1,10 @@
 package com.recody.recodybackend.users.data;
 
-import com.recody.recodybackend.users.features.login.SocialProvider;
+import com.recody.recodybackend.users.Role;
+import com.recody.recodybackend.users.SocialProvider;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 /**
  * UniqueConstraint: email 과 social_type 컬럼의 조합이 유일해야 한다.

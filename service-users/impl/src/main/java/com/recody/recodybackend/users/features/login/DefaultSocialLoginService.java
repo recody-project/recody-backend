@@ -1,11 +1,13 @@
 package com.recody.recodybackend.users.features.login;
 
+import com.recody.recodybackend.users.OAuthUserInfo;
+import com.recody.recodybackend.users.SocialProvider;
 import com.recody.recodybackend.users.features.jwt.refreshtoken.RefreshTokenManager;
 import com.recody.recodybackend.users.features.login.fetchuserinfo.FetchUserInfo;
 import com.recody.recodybackend.users.features.login.fetchuserinfo.FetchUserInfoHandler;
 import com.recody.recodybackend.users.features.login.membership.MembershipManager;
 import com.recody.recodybackend.users.features.login.membership.RecodySignInSession;
-import com.recody.recodybackend.users.features.login.membership.RecodyUserInfo;
+import com.recody.recodybackend.users.RecodyUserInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,7 +28,7 @@ class DefaultSocialLoginService implements SocialLoginService {
     
     @Override
     public RecodySignInSession handleGoogleLogin(ProcessLogin command) {
-        OAuthUserInfo userInfo = fetchUserInfoHandler.handle(createGoogleFetchUserInfoCommand(command));
+        OAuthUserInfo userInfo = fetchUserInfoHandler.handle( createGoogleFetchUserInfoCommand( command ) );
         RecodyUserInfo recodyUserInfo = membershipManager.signUp(userInfo);
         RecodySignInSession session = membershipManager.signIn(recodyUserInfo);
         refreshTokenManager.integrate(session, command.getUserAgent());
@@ -49,7 +51,7 @@ class DefaultSocialLoginService implements SocialLoginService {
                 .builder()
                 .resourceAccessToken(ResourceAccessToken.googleOf(resourceAccessTokenValue))
                 .resourceRefreshToken(ResourceRefreshToken.googleOf(resourceRefreshTokenValue))
-                .socialProvider(SocialProvider.GOOGLE)
+                .socialProvider( SocialProvider.GOOGLE )
                 .build();
     }
 }

@@ -2,8 +2,8 @@ package com.recody.recodybackend.users.features.login.googlelogin;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.recody.recodybackend.users.features.login.OAuthUserInfo;
-import com.recody.recodybackend.users.features.login.SocialProvider;
+import com.recody.recodybackend.users.OAuthUserInfo;
+import com.recody.recodybackend.users.SocialProvider;
 import lombok.*;
 
 /*

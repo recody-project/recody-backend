@@ -1,6 +1,6 @@
 package com.recody.recodybackend.users.data;
 
-import com.recody.recodybackend.users.features.login.membership.RecodyUserInfo;
+import com.recody.recodybackend.users.RecodyUserInfo;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

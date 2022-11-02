@@ -1,6 +1,8 @@
 package com.recody.recodybackend.users.features.login.fetchuserinfo;
 
 import com.recody.recodybackend.common.exceptions.ApplicationException;
+import com.recody.recodybackend.users.OAuthUserInfo;
+import com.recody.recodybackend.users.SocialProvider;
 import com.recody.recodybackend.users.exceptions.ResourceAccessTokenExpiredException;
 import com.recody.recodybackend.users.exceptions.UsersErrorType;
 import com.recody.recodybackend.users.features.login.*;

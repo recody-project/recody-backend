@@ -1,6 +1,7 @@
 package com.recody.recodybackend.users.features.login.membership;
 
-import com.recody.recodybackend.users.features.login.OAuthUserInfo;
+import com.recody.recodybackend.users.OAuthUserInfo;
+import com.recody.recodybackend.users.RecodyUserInfo;
 
 public interface MembershipManager {
     

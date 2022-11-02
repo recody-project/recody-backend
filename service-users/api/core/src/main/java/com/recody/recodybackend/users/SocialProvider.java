@@ -1,4 +1,4 @@
-package com.recody.recodybackend.users.features.login;
+package com.recody.recodybackend.users;
 
 public enum SocialProvider {
     GOOGLE("GOOGLE"), NAVER("NAVER"), KAKAO("KAKAO"), APPLE("APPLE"),NONE("NONE")
