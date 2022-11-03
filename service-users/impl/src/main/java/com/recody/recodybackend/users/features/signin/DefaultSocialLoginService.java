@@ -1,7 +1,9 @@
 package com.recody.recodybackend.users.features.signin;
 
-import com.recody.recodybackend.users.*;
-import com.recody.recodybackend.users.features.jwt.refreshtoken.RefreshTokenManager;
+import com.recody.recodybackend.users.OAuthUserInfo;
+import com.recody.recodybackend.users.RecodySignInSession;
+import com.recody.recodybackend.users.RecodyUserInfo;
+import com.recody.recodybackend.users.SocialProvider;
 import com.recody.recodybackend.users.features.signin.fetchuserinfo.FetchUserInfo;
 import com.recody.recodybackend.users.features.signin.fetchuserinfo.FetchUserInfoHandler;
 import com.recody.recodybackend.users.features.signin.membership.MembershipManager;
@@ -15,8 +17,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Slf4j
 class DefaultSocialLoginService implements SocialLoginService {
-    
-    private final RefreshTokenManager refreshTokenManager;
     private final FetchUserInfoHandler fetchUserInfoHandler;
     private final MembershipManager membershipManager;
     
@@ -30,7 +30,6 @@ class DefaultSocialLoginService implements SocialLoginService {
         OAuthUserInfo userInfo = fetchUserInfoHandler.handle( createGoogleFetchUserInfoCommand( command ) );
         RecodyUserInfo recodyUserInfo = membershipManager.signUp(userInfo);
         RecodySignInSession session = membershipManager.createSessionInfo(recodyUserInfo, command.getUserAgent());
-        refreshTokenManager.integrate(session, command.getUserAgent());
         log.info("{} 님의 로그인 정보를 반환합니다.: {}", userInfo.getName(), session);
         
         return session;
