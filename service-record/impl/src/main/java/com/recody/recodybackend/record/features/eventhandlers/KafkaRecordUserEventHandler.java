@@ -13,6 +13,8 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
+
 @Component
 @RequiredArgsConstructor
 @Slf4j
@@ -23,6 +25,7 @@ class KafkaRecordUserEventHandler implements RecordUserEventHandler {
     
     @Override
     @KafkaHandler
+    @Transactional
     public void on(@Header( name = KafkaHeaders.RECEIVED_MESSAGE_KEY, required = false) String key,
                    @Payload UserCreated event) {
         log.debug( "consuming event: {}", event );
