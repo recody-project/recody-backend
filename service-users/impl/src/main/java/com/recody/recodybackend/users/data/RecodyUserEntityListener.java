@@ -21,6 +21,7 @@ public class RecodyUserEntityListener {
     
     private UserEventPublisher userEventPublisher;
     
+
     @Autowired
     public RecodyUserEntityListener(UserEventPublisher userEventPublisher) {
         this.userEventPublisher = userEventPublisher;
