@@ -1,4 +1,4 @@
-package com.recody.recodybackend.users.features.signin.admin;
+package com.recody.recodybackend.users.features.signin.adminsignin;
 
 import com.recody.recodybackend.users.data.RecodyUserEntity;
 import com.recody.recodybackend.users.data.RecodyUserRepository;

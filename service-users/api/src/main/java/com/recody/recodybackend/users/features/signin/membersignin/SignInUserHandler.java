@@ -1,4 +1,4 @@
-package com.recody.recodybackend.users.features.signin.normalsignin;
+package com.recody.recodybackend.users.features.signin.membersignin;
 
 import com.recody.recodybackend.users.RecodySignInSession;
 
