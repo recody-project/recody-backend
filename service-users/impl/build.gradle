@@ -34,6 +34,10 @@ dependencies {
 
     // aws log appender
     implementation "ca.pjer:logback-awslogs-appender:1.6.0"
+
+    // kafka
+    implementation 'org.springframework.kafka:spring-kafka'
+    testImplementation 'org.springframework.kafka:spring-kafka-test'
 }
 
 bootJar.enabled(false)

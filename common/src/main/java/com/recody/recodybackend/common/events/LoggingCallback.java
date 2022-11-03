@@ -1,4 +1,4 @@
-package com.recody.recodybackend.catalog.features.projection;
+package com.recody.recodybackend.common.events;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.concurrent.ListenableFutureCallback;

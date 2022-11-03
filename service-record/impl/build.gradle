@@ -22,6 +22,7 @@ dependencies {
     implementation project(":common-boot-utils")
     implementation project(":service-record-api")
     implementation project(":service-record-api-core")
+    implementation project(":service-users-api-core")
 
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
