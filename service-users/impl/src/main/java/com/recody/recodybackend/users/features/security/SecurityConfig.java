@@ -23,8 +23,8 @@ class SecurityConfig {
     private final UserDetailsService userDetailsService;
     private final UsersAuthenticationEntryPoint authenticationEntryPoint;
     public static final String[] permittingEndpoints = {"/", "/index.html", "/test/**",
-                                                         "/api/v1/users/signup","/api/v1/users/sign-in",
-                                                         "/api/v1/users/refresh-token", "/errors"};
+                                                         "/api/*/users/signup/**","/api/*/users/sign-in",
+                                                         "/api/*/users/refresh-token", "/errors"};
     
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {

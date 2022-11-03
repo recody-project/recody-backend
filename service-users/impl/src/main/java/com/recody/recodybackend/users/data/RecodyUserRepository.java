@@ -4,10 +4,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface RecodyUserRepository extends JpaRepository<RecodyUser, Long> {
-    Optional<RecodyUser> findByEmail(String email);
-    RecodyUser getByEmail(String email);
+public interface RecodyUserRepository extends JpaRepository<RecodyUserEntity, Long> {
+    Optional<RecodyUserEntity> findByEmail(String email);
+    RecodyUserEntity getByEmail(String email);
     
-    Optional<RecodyUser> findByUsername(String username);
-    RecodyUser getByUsername(String username);
+    boolean existsByEmail(String email);
+    
+    Optional<RecodyUserEntity> findByUsername(String username);
+    RecodyUserEntity getByUsername(String username);
 }

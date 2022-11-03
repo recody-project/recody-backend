@@ -6,7 +6,7 @@ include(":service-movie-api", ":service-movie-api-core", ":service-movie-impl")
 include(":service-music-api", ":service-music-api-core", ":service-music-impl")
 include(":service-performance-api", ":service-performance-api-core", ":service-performance-impl")
 include(":service-catalog-api", ":service-catalog-api-core", ":service-catalog-impl")
-include(":service-users-api", ":service-users-impl")
+include(":service-users-api", ":service-users-api-core", ":service-users-impl")
 include(":service-record-api", ":service-record-api-core", ":service-record-impl")
 
 
@@ -36,6 +36,7 @@ project(":service-catalog-impl").projectDir = new File(settingsDir, "${catalogPr
 
 String userProjectDir = "service-users"
 project(":service-users-api").projectDir = new File(settingsDir, "${userProjectDir}/api")
+project(":service-users-api-core").projectDir = new File(settingsDir, "${userProjectDir}/api/core")
 project(":service-users-impl").projectDir = new File(settingsDir, "${userProjectDir}/impl")
 
 

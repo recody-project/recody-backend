@@ -4,6 +4,8 @@ dependencies {
 
     implementation project(":common")
     implementation project(":service-record-api-core")
+    implementation project(":service-users-api-core")
+
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'

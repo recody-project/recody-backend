@@ -1,6 +1,6 @@
 package com.recody.recodybackend.users.features.jwt.refreshtoken;
 
-import com.recody.recodybackend.users.features.login.membership.RecodySignInSession;
+import com.recody.recodybackend.users.RecodySignInSession;
 
 public interface RefreshTokenManager {
     
