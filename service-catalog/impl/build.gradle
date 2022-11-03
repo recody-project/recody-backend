@@ -1,14 +1,32 @@
+buildscript {
+    ext {
+        queryDslVersion = "5.0.0"
+    }
+    dependencies {
+        classpath("gradle.plugin.com.ewerk.gradle.plugins:querydsl-plugin:1.0.10")
+    }
+}
+
+plugins{
+    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+}
+
+apply plugin: "com.ewerk.gradle.plugins.querydsl"
+
 dependencies {
     implementation project(":common")
     implementation project(":common-boot-utils")
     implementation project(":service-catalog-api")
-    implementation project(":service-movie-api")
+    implementation project(":service-catalog-api-core")
+    implementation project(":service-movie-api-core")
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
 
     // databases
     runtimeOnly 'com.h2database:h2'
@@ -26,6 +44,37 @@ dependencies {
 
     implementation 'org.springframework.kafka:spring-kafka'
     testImplementation 'org.springframework.kafka:spring-kafka-test'
+
+    // https://mvnrepository.com/artifact/org.projectlombok/lombok-mapstruct-binding
+    implementation 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+    annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
+
+    // https://mvnrepository.com/artifact/com.querydsl/querydsl-jpa
+    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+    implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
+}
+
+def querydslDir = "$buildDir/generated/querydsl"
+
+querydsl {
+    jpa = true
+    querydslSourcesDir = querydslDir
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java', querydslDir]
+        }
+    }
+}
+
+compileQuerydsl{
+    options.annotationProcessorPath = configurations.querydsl
+}
+
+configurations {
+    querydsl.extendsFrom compileClasspath
 }
 
 bootJar.enabled(false)

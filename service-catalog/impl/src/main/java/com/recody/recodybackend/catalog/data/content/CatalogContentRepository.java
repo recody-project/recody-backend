@@ -9,6 +9,9 @@ public interface CatalogContentRepository extends JpaRepository<CatalogContentEn
     
     Optional<CatalogContentEntity> findByContentId(String contentId);
     
+    
+    Optional<CatalogContentEntity> findByContentIdAndCategory_Id(String contentId, String categoryId);
+    
     Optional<CatalogContentEntity> findByContentIdAndCategory(String contentId, CategoryEntity categoryEntity);
     
 }

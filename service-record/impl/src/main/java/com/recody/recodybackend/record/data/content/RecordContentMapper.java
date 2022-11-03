@@ -30,7 +30,7 @@ public interface RecordContentMapper {
      */
     default EmbeddableCategory map(Category category) {
         String id = category.getId();
-        String name = category.name();
+        String name = category.getName();
         return new EmbeddableCategory(id, name);
     }
 }

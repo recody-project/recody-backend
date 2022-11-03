@@ -24,7 +24,7 @@ public class WishEntity extends CatalogBaseEntity{
     
     /**
      * 1개의 컨텐츠와 대응된다. */
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "catalog_content_id", nullable = false)
     private CatalogContentEntity catalogContent;
     
@@ -36,4 +36,8 @@ public class WishEntity extends CatalogBaseEntity{
     @Version
     private Integer version;
     
+    @Override
+    public String toString() {
+        return "[{\"WishEntity\":{" + "\"id\":" + ((id != null) ? ("\"" + id + "\"") : null) + ", \"catalogContent\":" + catalogContent + ", \"userId\":" + userId + "}}, " + super.toString() + "]";
+    }
 }

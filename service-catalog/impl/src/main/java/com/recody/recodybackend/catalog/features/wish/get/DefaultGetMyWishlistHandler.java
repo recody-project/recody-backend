@@ -3,7 +3,7 @@ package com.recody.recodybackend.catalog.features.wish.get;
 import com.recody.recodybackend.catalog.data.content.CatalogContentMapper;
 import com.recody.recodybackend.catalog.data.WishEntity;
 import com.recody.recodybackend.catalog.data.WishRepository;
-import com.recody.recodybackend.catalog.features.CatalogMovie;
+import com.recody.recodybackend.catalog.CatalogMovie;
 import com.recody.recodybackend.common.contents.Content;
 import com.recody.recodybackend.common.exceptions.InternalServerError;
 import lombok.RequiredArgsConstructor;
@@ -25,16 +25,16 @@ class DefaultGetMyWishlistHandler implements GetMyWishlistHandler {
     
     @Override
     @Transactional
-    public List<Content> handle(GetMyWishlist command) {
+    public List<Content<?>> handle(GetMyWishlist command) {
         Long userId = command.getUserId();
         Optional<List<WishEntity>> optionalWishes = wishRepository.findAllByUserId(userId);
-        ArrayList<Content> contents = new ArrayList<>();
+        ArrayList<Content<?>> contents = new ArrayList<>();
         
         if (optionalWishes.isPresent()){
             List<WishEntity> wishEntities = optionalWishes.get();
             if (!wishEntities.isEmpty()){
                 for (WishEntity wishEntity : wishEntities) {
-                    CatalogMovie catalogMovie = contentMapper.mapToMovie(wishEntity.getCatalogContent());
+                    CatalogMovie catalogMovie = contentMapper.toCatalogMovie(wishEntity.getCatalogContent());
                     contents.add(catalogMovie);
                 }
                 log.debug("반환할 위시리스트를 추가하였습니다. size: {}", contents.size());

@@ -27,8 +27,9 @@ public class RatingEntity extends CatalogBaseEntity {
      * 작품과 매핑된다. 하나의 작품에 한 유저는 1개의 평점만 남길 수 있다.
      */
     @Id
-    @ManyToOne
-    @JoinColumn(name = "content_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "content_id",
+                foreignKey = @ForeignKey(name = "rating_contains_content_id"))
     private CatalogContentEntity content;
     @Column(nullable = false)
     @Setter

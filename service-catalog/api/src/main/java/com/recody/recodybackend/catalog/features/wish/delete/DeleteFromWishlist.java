@@ -1,6 +1,6 @@
 package com.recody.recodybackend.catalog.features.wish.delete;
 
-import com.recody.recodybackend.common.contents.BasicCategory;
+import com.recody.recodybackend.catalog.ContentId;
 import lombok.Builder;
 import lombok.Data;
 
@@ -8,13 +8,12 @@ import lombok.Data;
 @Builder
 public class DeleteFromWishlist {
     
-    private String contentId;
-    private BasicCategory category;
+    private ContentId contentId;
     private Long userId;
     
     @Override
     public String toString() {
-        return "{\"AddToWishlist\":{" + "\"contentId\":" + ((contentId != null) ? ("\"" + contentId + "\"") : null) + ", \"category\":" + ((category != null) ? ("\"" + category + "\"") : null) + ", \"userId\":" + userId + "}}";
+        return "{\"DeleteFromWishlist\":{" + "\"contentId\":" + ((contentId != null) ? ("\"" + contentId + "\"") : null) + ", \"userId\":" + userId + "}}";
     }
     
 }

@@ -19,10 +19,15 @@ import javax.persistence.*;
 public class MovieTitleEntity {
     
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne
-    @JoinColumn(name = "movie_id", nullable = false)
+    /**
+     * 외래키를 Movie 에 두는 것으로도 가능하나, 그러면 Title 만 가져올 수 없다.
+     */
+    @JoinColumn(name = "movie_id",
+                nullable = false,
+                foreignKey = @ForeignKey(name = "title_contains_movie_id"))
+    @OneToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private MovieEntity movie;
     
@@ -44,6 +49,6 @@ public class MovieTitleEntity {
     
     @Override
     public String toString() {
-        return "{\"MovieTitleEntity\":{" + "\"movie\":" + movie + ", \"koreanTitle\":" + ((koreanTitle != null) ? ("\"" + koreanTitle + "\"") : null) + ", \"englishTitle\":" + ((englishTitle != null) ? ("\"" + englishTitle + "\"") : null) + "}}";
+        return "{\"MovieTitleEntity\":{" + ", \"koreanTitle\":" + ((koreanTitle != null) ? ("\"" + koreanTitle + "\"") : null) + ", \"englishTitle\":" + ((englishTitle != null) ? ("\"" + englishTitle + "\"") : null) + "}}";
     }
 }

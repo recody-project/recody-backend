@@ -1,13 +1,15 @@
 package com.recody.recodybackend.catalog.web;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 
-@Data
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class DeleteFromWishlistRequest {
-    @NotNull
+    @NotNull(message = "${notNull}")
     private String contentId;
-    @NotNull
-    private String category;
 }

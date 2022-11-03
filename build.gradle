@@ -24,6 +24,7 @@ dependencies {
     implementation project(":common-boot-utils")
     implementation project(":service-book-impl")
     implementation project(":service-movie-impl")
+    implementation project(":service-music-impl")
     implementation project(":service-catalog-impl")
     implementation project(":service-users-impl")
     implementation project(":service-record-impl")

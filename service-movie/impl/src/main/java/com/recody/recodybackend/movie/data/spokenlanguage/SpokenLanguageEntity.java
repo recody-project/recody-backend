@@ -37,4 +37,9 @@ public class SpokenLanguageEntity extends MovieBaseEntity {
                 nullable = false,
                 foreignKey = @ForeignKey(name = "spoken_language_contains_language_id"))
     private LanguageEntity language;
+    
+    @Override
+    public String toString() {
+        return "[{\"SpokenLanguageEntity\":{" + "\"id\":" + id + "}}, " + super.toString() + "]";
+    }
 }

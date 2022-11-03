@@ -11,8 +11,6 @@ import java.util.List;
  * */
 public interface GetMyWishlistHandler {
     
-    List<Content> handle(GetMyWishlist command);
-    
-    
+    List<Content<?>> handle(GetMyWishlist command);
     
 }

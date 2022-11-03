@@ -1,5 +1,6 @@
 package com.recody.recodybackend.movie.features.resolvegenre.fromapi.dto;
 
+import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieGenre;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,6 +13,6 @@ import java.util.List;
 @AllArgsConstructor
 public class TMDBGetGenresResponse {
     
-    private List<TMDBGenre> genres;
+    private List<TMDBMovieGenre> genres;
     
 }

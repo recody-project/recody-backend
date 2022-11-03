@@ -1,0 +1,25 @@
+
+
+dependencies {
+    implementation project(":common")
+    implementation project(":service-movie-api-core")
+    implementation project(":service-music-api-core")
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.3'
+
+    // https://mvnrepository.com/artifact/org.springframework/spring-web
+    implementation 'org.springframework:spring-web:5.3.22'
+
+    // https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
+    implementation 'ch.qos.logback:logback-classic:1.4.0'
+
+    // https://mvnrepository.com/artifact/org.slf4j/jcl-over-slf4j
+    implementation 'org.slf4j:jcl-over-slf4j:2.0.0'
+}
+
+bootJar.enabled(false)
+jar.enabled(true)

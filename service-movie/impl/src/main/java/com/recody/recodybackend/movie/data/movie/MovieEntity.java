@@ -9,6 +9,7 @@ import com.recody.recodybackend.movie.data.productioncountry.ProductionCountryEn
 import com.recody.recodybackend.movie.data.spokenlanguage.SpokenLanguageEntity;
 import com.recody.recodybackend.movie.data.title.MovieTitleEntity;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -20,21 +21,20 @@ import java.util.List;
 @Table(name = "movie")
 @Getter
 @Setter
-@Builder
+@SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class MovieEntity extends MovieBaseEntity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "movie_seq")
-    @GenericGenerator(
-            name = "movie_seq",
-            strategy = "com.recody.recodybackend.commonbootutils.data.CustomSequenceIdGenerator",
-            parameters = {
-                    @Parameter(name = CustomSequenceIdGenerator.INCREMENT_PARAM, value = "50"),// high-low 최적화
-                    @Parameter(name = CustomSequenceIdGenerator.VALUE_PREFIX_PARAMETER, value = "mov-"),
-                    @Parameter(name = CustomSequenceIdGenerator.NUMBER_FORMAT_PARAMETER, value = "%d") })
+    @GenericGenerator(name = "movie_seq",
+                      strategy = "com.recody.recodybackend.commonbootutils.data.CustomSequenceIdGenerator",
+                      parameters = {@Parameter(name = CustomSequenceIdGenerator.INCREMENT_PARAM, value = "50"),// high-low 최적화
+                                    @Parameter(name = CustomSequenceIdGenerator.VALUE_PREFIX_PARAMETER, value = "mov-"),
+                                    @Parameter(name = CustomSequenceIdGenerator.NUMBER_FORMAT_PARAMETER, value = "%d")})
     private String id;
+    @Column(name = "tmdb_id", unique = true)
     private Integer tmdbId;
     
     
@@ -45,29 +45,42 @@ public class MovieEntity extends MovieBaseEntity {
     private String overview;
     private Float popularity;
     private String posterPath;
-    @OneToMany(mappedBy = "movie")
-    private List<ProductionCountryEntity> productionCountries = new ArrayList<>();
     private String releaseDate;
     private Integer runtime;
     private Integer revenue;
-    @OneToMany(mappedBy = "movie")
-    private List<MovieGenreEntity> genres = new ArrayList<>();
-    @OneToMany(mappedBy = "movie")
-    private List<SpokenLanguageEntity> spokenLanguages = new ArrayList<>();
     private String status;
-    @OneToOne(mappedBy = "movie")
-    private MovieTitleEntity title;
     private Float voteAverage;
     private Integer voteCount;
+    @OneToOne(mappedBy = "movie", cascade = CascadeType.ALL)
+    private MovieTitleEntity title;
     
     @OneToMany(mappedBy = "movie")
+    @Builder.Default
+    private List<MovieGenreEntity> genres = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "movie")
+    @Builder.Default
+    private List<ProductionCountryEntity> productionCountries = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "movie")
+    @Builder.Default
+    private List<SpokenLanguageEntity> spokenLanguages = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "movie")
+    @Builder.Default
     private List<MovieActorEntity> actors = new ArrayList<>();
     
     @OneToMany(mappedBy = "movie")
+    @Builder.Default
     private List<MovieDirectorEntity> directors = new ArrayList<>();
     
     @Override
     public String toString() {
-        return "{\"MovieEntity\":{" + "\"id\":" + ((id != null) ? ("\"" + id + "\"") : null) + ", \"tmdbId\":" + tmdbId + ", \"originalLanguage\":" + ((originalLanguage != null) ? ("\"" + originalLanguage + "\"") : null) + ", \"originalTitle\":" + ((originalTitle != null) ? ("\"" + originalTitle + "\"") : null) + ", \"overview\":" + ((overview != null) ? ("\"" + overview + "\"") : null) + ", \"popularity\":" + popularity + ", \"posterPath\":" + ((posterPath != null) ? ("\"" + posterPath + "\"") : null) + ", \"productionCountries\":" + productionCountries + ", \"releaseDate\":" + ((releaseDate != null) ? ("\"" + releaseDate + "\"") : null) + ", \"runtime\":" + runtime + ", \"revenue\":" + revenue + ", \"genres\":" + genres + ", \"spokenLanguages\":" + spokenLanguages + ", \"status\":" + ((status != null) ? ("\"" + status + "\"") : null) + ", \"title\":" + ((title != null) ? ("\"" + title + "\"") : null) + ", \"voteAverage\":" + voteAverage + ", \"voteCount\":" + voteCount + "}}";
+        return "[{\"MovieEntity\":{" + "\"id\":" + ((id != null) ? ("\"" + id + "\"") : null) + ", \"tmdbId\":" + tmdbId + ", \"originalLanguage\":" + ((originalLanguage != null) ? ("\"" + originalLanguage + "\"") : null) + ", \"originalTitle\":" + ((originalTitle != null) ? ("\"" + originalTitle + "\"") : null) + ", \"overview\":" + ((overview != null) ? ("\"" + overview + "\"") : null) + ", \"popularity\":" + popularity + ", \"posterPath\":" + ((posterPath != null) ? ("\"" + posterPath + "\"") : null) + ", \"releaseDate\":" + ((releaseDate != null) ? ("\"" + releaseDate + "\"") : null) + ", \"runtime\":" + runtime + ", \"revenue\":" + revenue + ", \"status\":" + ((status != null) ? ("\"" + status + "\"") : null) + ", \"voteAverage\":" + voteAverage + ", \"voteCount\":" + voteCount + ", \"title\":" + title + "}}, " + super.toString() + "]";
+    }
+    
+    public void setTitle(MovieTitleEntity title) {
+        this.title = title;
+        title.setMovie(this);
     }
 }

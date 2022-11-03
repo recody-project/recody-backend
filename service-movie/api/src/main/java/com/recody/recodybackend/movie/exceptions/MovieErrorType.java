@@ -4,7 +4,11 @@ import com.recody.recodybackend.common.exceptions.ErrorType;
 
 public enum MovieErrorType implements ErrorType {
     UnsupportedMovieSource("UnsupportedMovieSource"),
-    NoMovieTitleFound("NoMovieTitleFound")
+    NoMovieTitleFound("NoMovieTitleFound"),
+    GenreNotFound("GenreNotFound"),
+    
+    
+    
     ;
     
     private final String errorCode;

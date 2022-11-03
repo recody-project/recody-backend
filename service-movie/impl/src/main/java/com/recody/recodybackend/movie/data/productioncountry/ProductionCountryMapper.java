@@ -21,5 +21,5 @@ public abstract class ProductionCountryMapper {
     public abstract ProductionCountry map(ProductionCountryEntity productionCountry);
     
     @Mapping(target = "id", source = "iso_3166_1")
-    public abstract CountryEntity mapCountry(ProductionCountry productionCountry);
+    public abstract CountryEntity newCountryEntity(ProductionCountry productionCountry);
 }

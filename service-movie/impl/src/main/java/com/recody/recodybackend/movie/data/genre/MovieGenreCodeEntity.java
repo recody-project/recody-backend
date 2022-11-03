@@ -1,10 +1,7 @@
 package com.recody.recodybackend.movie.data.genre;
 
 import com.recody.recodybackend.commonbootutils.data.CustomSequenceIdGenerator;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -15,6 +12,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Table(name = "movie_genre_code")
 @Getter
+@Builder
 public class MovieGenreCodeEntity {
     
     @Id

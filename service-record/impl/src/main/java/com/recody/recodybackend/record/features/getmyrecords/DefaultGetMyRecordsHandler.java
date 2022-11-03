@@ -44,7 +44,7 @@ class DefaultGetMyRecordsHandler implements GetMyRecordsHandler{
             optionalRecords = recordRepository.findAllByUserId(userId);
         }
         else {
-            EmbeddableCategory embeddableCategory = new EmbeddableCategory(category.getId(), category.name());
+            EmbeddableCategory embeddableCategory = new EmbeddableCategory(category.getId(), category.getName());
             optionalRecords = recordRepository.findAllFetchJoinContentWhereCategoryAndUserIdLimit(embeddableCategory,
                                                                                                   userId, pageable);
         }

@@ -2,7 +2,10 @@
 
 dependencies {
     implementation project(":common")
-    implementation project(":service-movie-api")
+    implementation project(":service-catalog-api-core")
+    implementation project(":service-movie-api-core")
+    implementation project(":service-music-api-core")
+
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
@@ -12,6 +15,10 @@ dependencies {
     implementation 'org.mapstruct:mapstruct:1.5.2.Final'
 
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.2.Final'
+
+    // https://mvnrepository.com/artifact/io.projectreactor/reactor-core
+    implementation 'io.projectreactor:reactor-core:3.4.22'
+
 }
 
 bootJar.enabled(false)

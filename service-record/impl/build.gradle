@@ -13,6 +13,7 @@ plugins{
 
 bootJar.enabled(false)
 jar.enabled(true)
+
 apply plugin: "com.ewerk.gradle.plugins.querydsl"
 
 dependencies {
@@ -20,6 +21,8 @@ dependencies {
     implementation project(":common")
     implementation project(":common-boot-utils")
     implementation project(":service-record-api")
+    implementation project(":service-record-api-core")
+
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -54,6 +57,9 @@ dependencies {
     //warning: unknown enum constant When.MAYBE
     //  reason: class file for javax.annotation.meta.When not found
     implementation 'com.google.code.findbugs:jsr305:3.0.2'
+
+    implementation 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+    annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
 }
 
 
