@@ -1,10 +1,14 @@
 package com.recody.recodybackend.record;
 
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDate;
 
-@Data
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RecordContent {
     
     private String contentId;
@@ -12,4 +16,13 @@ public class RecordContent {
     private String title;
     private LocalDate appreciationDate;
     
+    @Override
+    public String toString() {
+        return "{\"RecordContent\":{"
+               + "\"contentId\":" + ((contentId != null) ? ("\"" + contentId + "\"") : null)
+               + ", \"imageUrl\":" + ((imageUrl != null) ? ("\"" + imageUrl + "\"") : null)
+               + ", \"title\":" + ((title != null) ? ("\"" + title + "\"") : null)
+               + ", \"appreciationDate\":" + appreciationDate
+               + "}}";
+    }
 }

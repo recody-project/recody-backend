@@ -5,7 +5,6 @@ import com.recody.recodybackend.record.data.content.RecordContentEntity;
 import com.recody.recodybackend.record.data.content.RecordContentMapper;
 import com.recody.recodybackend.record.data.record.RecordEntity;
 import com.recody.recodybackend.record.data.record.RecordRepository;
-import com.recody.recodybackend.record.exceptions.RecordNotFound;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -31,16 +30,24 @@ class DefaultGetRecordContentsHandler implements GetRecordContentsHandler{
         Long userId = command.getUserId();
         
         PageRequest pageable = PageRequest.of(command.getPage(), command.getSize());
+        List<RecordEntity> recordEntities;
         // 유저가 작성한 감상평들을 가져온다.
-        List<RecordEntity> recordEntities = recordRepository.findByUserIdOrderByCreatedAtDesc(userId, pageable)
-                                                            .orElseThrow(RecordNotFound::new);
+        Boolean continuing = command.getCompleted();
         
-        // 감상평에서 작품정보를 꺼내고 필요한 필터를 적용한다.
-        String categoryId = command.getCategoryId();
+        if ( continuing == null ){
+            recordEntities = recordRepository.findByUserIdOrderByCreatedAtDesc(userId, pageable)
+                                             .orElseGet( ArrayList::new );
+        }
+        else {
+            recordEntities = recordRepository.findByUserIdAndCompletedOrderByCreatedAtDesc( userId, continuing, pageable )
+                                     .orElseGet( ArrayList::new );
+        }
+        
+        
+        // 감상평에서 작품정보를 꺼내 정리한다.
         ArrayList<RecordContent> recordContents = new ArrayList<>();
         for (RecordEntity recordEntity : recordEntities) {
             RecordContentEntity content = recordEntity.getContent();
-            content.getCategory().getCategoryId();
             LocalDate appreciationDate = recordEntity.getAppreciationDate();
             RecordContent mapped = contentMapper.map(content, appreciationDate);
             recordContents.add(mapped);
