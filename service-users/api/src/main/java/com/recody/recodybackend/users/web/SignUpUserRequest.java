@@ -2,6 +2,7 @@ package com.recody.recodybackend.users.web;
 
 import lombok.*;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 @Getter
@@ -13,6 +14,7 @@ public class SignUpUserRequest {
     
     
     @NotNull
+    @Email
     private String email;
     @NotNull
     private String password;
