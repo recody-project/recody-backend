@@ -1,9 +1,10 @@
 package com.recody.recodybackend.movie.features.manager;
 
+import com.recody.recodybackend.common.exceptions.ContentNotFoundException;
 import com.recody.recodybackend.movie.Actor;
 import com.recody.recodybackend.movie.Director;
-import com.recody.recodybackend.common.exceptions.ContentNotFoundException;
 import com.recody.recodybackend.movie.Movie;
+import com.recody.recodybackend.movie.MovieInfo;
 import com.recody.recodybackend.movie.data.MovieEntityManager;
 import com.recody.recodybackend.movie.data.genre.MovieGenreCodeManager;
 import com.recody.recodybackend.movie.data.genre.MovieGenreEntity;
@@ -12,13 +13,8 @@ import com.recody.recodybackend.movie.data.movie.MovieEntity;
 import com.recody.recodybackend.movie.data.movie.MovieMapper;
 import com.recody.recodybackend.movie.data.movie.MovieRepository;
 import com.recody.recodybackend.movie.data.people.*;
-import com.recody.recodybackend.movie.data.productioncountry.CountryManager;
-import com.recody.recodybackend.movie.data.spokenlanguage.LanguageManager;
 import com.recody.recodybackend.movie.features.getmoviecredit.dto.TMDBCast;
 import com.recody.recodybackend.movie.features.getmoviecredit.dto.TMDBCrew;
-import com.recody.recodybackend.movie.MovieInfo;
-import com.recody.recodybackend.movie.features.getmoviedetail.dto.ProductionCountry;
-import com.recody.recodybackend.movie.features.getmoviedetail.dto.SpokenLanguage;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieDetail;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieGenre;
 import com.recody.recodybackend.movie.features.resolvegenres.MovieGenreResolver;
@@ -49,8 +45,6 @@ class DefaultMovieManager implements MovieManager {
     private final MovieMapper movieMapper;
     private final MovieDetailMapper movieDetailMapper;
     private final MovieEntityManager movieEntityManager;
-    private final CountryManager countryManager;
-    private final LanguageManager languageManager;
     private final MovieGenreCodeManager genreCodeManager;
     
     @Override
@@ -69,8 +63,6 @@ class DefaultMovieManager implements MovieManager {
         }
     
         List<TMDBMovieGenre> genres = source.getGenres();
-        List<ProductionCountry> productionCountries = source.getProductionCountries();
-        List<SpokenLanguage> spokenLanguages = source.getSpokenLanguages();
         
         MovieEntity movieEntity = movieDetailMapper.newEntity(source, locale);
         log.debug("new movieEntity: {}", movieEntity);
@@ -78,10 +70,6 @@ class DefaultMovieManager implements MovieManager {
         MovieEntity savedEntity = movieRepository.save(movieEntity);
         log.debug("savedEntity: {}", savedEntity);
         
-        countryManager.registerAsync(productionCountries)
-                      .thenAccept(entity -> movieEntityManager.saveProductionCountry(savedEntity, entity));
-        languageManager.registerAsync(spokenLanguages)
-                       .thenAccept(languageEntity ->  movieEntityManager.saveSpokenLanguage(savedEntity, languageEntity));
         genreCodeManager.registerAsync(genres)
                         .thenAccept(genreCodeEntity -> movieEntityManager.saveMovieGenre(savedEntity, genreCodeEntity));
         
