@@ -49,6 +49,11 @@ public class CatalogContentEntity {
     @OneToOne(mappedBy = "content", cascade = CascadeType.ALL)
     private CatalogContentTitleEntity title;
     
+    public void setTitle(CatalogContentTitleEntity title) {
+        this.title = title;
+        title.setContent( this );
+    }
+    
     @Override
     public String toString() {
         return "{\"CatalogContentEntity\":{" + "\"id\":" + ((id != null) ? ("\"" + id + "\"") : null) + ", \"category\":" + category + ", \"contentId\":" + ((contentId != null) ? ("\"" + contentId + "\"") : null) + ", \"imageUrl\":" + ((imageUrl != null) ? ("\"" + imageUrl + "\"") : null) + ", \"title\":" + ((title != null) ? ("\"" + title + "\"") : null) + "}}";

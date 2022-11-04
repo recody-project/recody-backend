@@ -6,7 +6,6 @@ import com.recody.recodybackend.users.features.jwt.reissuetokens.ReissueTokens;
 import com.recody.recodybackend.users.features.jwt.reissuetokens.ReissueTokensHandler;
 import com.recody.recodybackend.users.features.signin.ProcessSocialLogin;
 import com.recody.recodybackend.users.features.signin.SocialLoginService;
-import com.recody.recodybackend.users.features.signin.adminsignin.AdminRegistrar;
 import com.recody.recodybackend.users.features.signin.adminsignin.SignInAdminUser;
 import com.recody.recodybackend.users.features.signin.adminsignin.SignInAdminUserHandler;
 import com.recody.recodybackend.users.features.signin.membersignin.SignInUser;
@@ -16,7 +15,10 @@ import com.recody.recodybackend.users.features.signup.SignUpUserHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -32,13 +34,13 @@ class LoginController {
     private final SignInAdminUserHandler signInAdminUserHandler;
     private final SignInUserHandler signInUserHandler;
     
-    private final AdminRegistrar adminRegistrar;
-    
-    @GetMapping("/api/v1/signup/admin")
-    public ResponseEntity<String> signupAdmin(){
-        adminRegistrar.register();
-        return ResponseEntity.ok("등록 성공");
-    }
+//    private final AdminRegistrar adminRegistrar;
+//
+//    @GetMapping("/api/v1/signup/admin")
+//    public ResponseEntity<String> signupAdmin(){
+//        adminRegistrar.register();
+//        return ResponseEntity.ok("등록 성공");
+//    }
     
     @PostMapping( "/api/v1/login/naver" )
     public ResponseEntity<SuccessResponseBody> loginNaver(@RequestHeader( "User-Agent" ) String userAgent,
