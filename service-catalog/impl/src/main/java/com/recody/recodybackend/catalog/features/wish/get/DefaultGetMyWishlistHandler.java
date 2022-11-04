@@ -34,7 +34,7 @@ class DefaultGetMyWishlistHandler implements GetMyWishlistHandler {
             List<WishEntity> wishEntities = optionalWishes.get();
             if (!wishEntities.isEmpty()){
                 for (WishEntity wishEntity : wishEntities) {
-                    CatalogMovie catalogMovie = contentMapper.toCatalogMovie(wishEntity.getCatalogContent());
+                    CatalogMovie catalogMovie = contentMapper.toCatalogMovie(wishEntity.getCatalogContent(), command.getLocale());
                     contents.add(catalogMovie);
                 }
                 log.debug("반환할 위시리스트를 추가하였습니다. size: {}", contents.size());

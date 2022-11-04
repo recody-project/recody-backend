@@ -1,9 +1,10 @@
 package com.recody.recodybackend.movie.features.manager;
 
+import com.recody.recodybackend.common.exceptions.ContentNotFoundException;
 import com.recody.recodybackend.movie.Actor;
 import com.recody.recodybackend.movie.Director;
-import com.recody.recodybackend.common.exceptions.ContentNotFoundException;
 import com.recody.recodybackend.movie.Movie;
+import com.recody.recodybackend.movie.MovieInfo;
 import com.recody.recodybackend.movie.data.MovieEntityManager;
 import com.recody.recodybackend.movie.data.genre.MovieGenreCodeManager;
 import com.recody.recodybackend.movie.data.genre.MovieGenreEntity;
@@ -12,15 +13,12 @@ import com.recody.recodybackend.movie.data.movie.MovieEntity;
 import com.recody.recodybackend.movie.data.movie.MovieMapper;
 import com.recody.recodybackend.movie.data.movie.MovieRepository;
 import com.recody.recodybackend.movie.data.people.*;
-import com.recody.recodybackend.movie.data.productioncountry.CountryManager;
-import com.recody.recodybackend.movie.data.spokenlanguage.LanguageManager;
+import com.recody.recodybackend.movie.events.MovieCreated;
 import com.recody.recodybackend.movie.features.getmoviecredit.dto.TMDBCast;
 import com.recody.recodybackend.movie.features.getmoviecredit.dto.TMDBCrew;
-import com.recody.recodybackend.movie.MovieInfo;
-import com.recody.recodybackend.movie.features.getmoviedetail.dto.ProductionCountry;
-import com.recody.recodybackend.movie.features.getmoviedetail.dto.SpokenLanguage;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieDetail;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieGenre;
+import com.recody.recodybackend.movie.features.projection.MovieEventPublisher;
 import com.recody.recodybackend.movie.features.resolvegenres.MovieGenreResolver;
 import com.recody.recodybackend.movie.features.searchmovies.dto.TMDBMovieSearchNode;
 import com.recody.recodybackend.movie.features.tmdb.TMDB;
@@ -49,9 +47,8 @@ class DefaultMovieManager implements MovieManager {
     private final MovieMapper movieMapper;
     private final MovieDetailMapper movieDetailMapper;
     private final MovieEntityManager movieEntityManager;
-    private final CountryManager countryManager;
-    private final LanguageManager languageManager;
     private final MovieGenreCodeManager genreCodeManager;
+    private final MovieEventPublisher movieEventPublisher;
     
     @Override
     @Transactional
@@ -69,19 +66,15 @@ class DefaultMovieManager implements MovieManager {
         }
     
         List<TMDBMovieGenre> genres = source.getGenres();
-        List<ProductionCountry> productionCountries = source.getProductionCountries();
-        List<SpokenLanguage> spokenLanguages = source.getSpokenLanguages();
         
         MovieEntity movieEntity = movieDetailMapper.newEntity(source, locale);
         log.debug("new movieEntity: {}", movieEntity);
         
         MovieEntity savedEntity = movieRepository.save(movieEntity);
         log.debug("savedEntity: {}", savedEntity);
-        
-        countryManager.registerAsync(productionCountries)
-                      .thenAccept(entity -> movieEntityManager.saveProductionCountry(savedEntity, entity));
-        languageManager.registerAsync(spokenLanguages)
-                       .thenAccept(languageEntity ->  movieEntityManager.saveSpokenLanguage(savedEntity, languageEntity));
+    
+        publishNewMovieCreated( savedEntity );
+    
         genreCodeManager.registerAsync(genres)
                         .thenAccept(genreCodeEntity -> movieEntityManager.saveMovieGenre(savedEntity, genreCodeEntity));
         
@@ -122,6 +115,13 @@ class DefaultMovieManager implements MovieManager {
         return directorRegistrar;
     }
     
+    private void publishNewMovieCreated(MovieEntity savedEntity) {
+        MovieCreated event = MovieCreated.builder()
+                                         .contentId( savedEntity.getId() )
+                                         .posterUrl( savedEntity.getPosterPath() )
+                                         .build();
+        movieEventPublisher.publish( event );
+    }
     
     @Component
     @RequiredArgsConstructor
@@ -133,7 +133,10 @@ class DefaultMovieManager implements MovieManager {
         private final MovieGenreCodeManager genreCodeManager;
         private final MovieEntityManager movieEntityManager;
         private final MovieGenreResolver genreResolver;
-        
+    
+        private final MovieEventPublisher movieEventPublisher;
+    
+    
         @Override
         public Movie register(TMDBMovieSearchNode source, Locale locale) {
             log.debug("registering TMDBMovieSearchNode, locale: {}", locale);
@@ -157,7 +160,9 @@ class DefaultMovieManager implements MovieManager {
             
             MovieEntity savedMovieEntity = movieRepository.saveAndFlush(movieEntity);
             log.debug("savedMovieEntity id: {}", savedMovieEntity.getId());
-    
+            
+            publishNewMovieCreated( savedMovieEntity );
+            
             genreCodeManager.registerAsync(movieGenres)
                             .thenAccept(genres -> {
                                 movieEntityManager.saveMovieGenre(savedMovieEntity, genres);
@@ -166,6 +171,14 @@ class DefaultMovieManager implements MovieManager {
     
             log.debug("검색한 영화를 저장하였습니다.: {}", savedMovieEntity.getId());
             return movieMapper.toMovie(savedMovieEntity, locale);
+        }
+        
+        private void publishNewMovieCreated(MovieEntity savedEntity) {
+            MovieCreated event = MovieCreated.builder()
+                                             .contentId( savedEntity.getId() )
+                                             .posterUrl( savedEntity.getPosterPath() )
+                                             .build();
+            movieEventPublisher.publish( event );
         }
         
         @Override

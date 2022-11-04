@@ -32,8 +32,15 @@ class LoginController {
     private final ReissueTokensHandler reissueTokensHandler;
     private final SignUpUserHandler signUpUserHandler;
     private final SignInAdminUserHandler signInAdminUserHandler;
-    
     private final SignInUserHandler signInUserHandler;
+    
+//    private final AdminRegistrar adminRegistrar;
+//
+//    @GetMapping("/api/v1/signup/admin")
+//    public ResponseEntity<String> signupAdmin(){
+//        adminRegistrar.register();
+//        return ResponseEntity.ok("등록 성공");
+//    }
     
     @PostMapping( "/api/v1/login/naver" )
     public ResponseEntity<SuccessResponseBody> loginNaver(@RequestHeader( "User-Agent" ) String userAgent,

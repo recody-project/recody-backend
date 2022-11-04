@@ -32,14 +32,14 @@ class DefaultGetRecordContentsHandler implements GetRecordContentsHandler{
         PageRequest pageable = PageRequest.of(command.getPage(), command.getSize());
         List<RecordEntity> recordEntities;
         // 유저가 작성한 감상평들을 가져온다.
-        Boolean continuing = command.getCompleted();
+        Boolean completed = command.getCompleted();
         
-        if ( continuing == null ){
+        if ( completed == null ){
             recordEntities = recordRepository.findByUserIdOrderByCreatedAtDesc(userId, pageable)
                                              .orElseGet( ArrayList::new );
         }
         else {
-            recordEntities = recordRepository.findByUserIdAndCompletedOrderByCreatedAtDesc( userId, continuing, pageable )
+            recordEntities = recordRepository.findByUserIdAndCompletedOrderByCreatedAtDesc( userId, completed, pageable )
                                      .orElseGet( ArrayList::new );
         }
         

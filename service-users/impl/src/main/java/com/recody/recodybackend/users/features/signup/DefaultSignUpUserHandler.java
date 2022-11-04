@@ -9,7 +9,9 @@ import com.recody.recodybackend.users.SocialProvider;
 import com.recody.recodybackend.users.data.RecodyUserEntity;
 import com.recody.recodybackend.users.data.RecodyUserMapper;
 import com.recody.recodybackend.users.data.RecodyUserRepository;
+import com.recody.recodybackend.users.events.UserCreated;
 import com.recody.recodybackend.users.exceptions.UsersErrorType;
+import com.recody.recodybackend.users.features.projection.UserEventPublisher;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -26,6 +28,9 @@ class DefaultSignUpUserHandler implements SignUpUserHandler {
     private final RecodyUserRepository recodyUserRepository;
     private final PasswordEncoder passwordEncoder;
     private final RecodyUserMapper userMapper;
+    
+    private final UserEventPublisher userEventPublisher;
+    
     
     @Override
     @Transactional
@@ -64,9 +69,21 @@ class DefaultSignUpUserHandler implements SignUpUserHandler {
                                            .build();
         
         RecodyUserEntity savedUser = recodyUserRepository.save( newUser );
+        
+        publishUserCreatedEvent( savedUser );
+    
         RecodyUserInfo userInfo = userMapper.map( savedUser );
         log.info( "회원가입 완료: {}", userInfo );
         return userInfo;
+    }
+    
+    private void publishUserCreatedEvent(RecodyUserEntity savedUser) {
+        UserCreated event = UserCreated.builder()
+                                       .userId( savedUser.getUserId() )
+                                       .role( savedUser.getRole() )
+                                       .email( savedUser.getEmail() )
+                                       .build();
+        userEventPublisher.publish( event );
     }
     
     @Override

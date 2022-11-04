@@ -33,14 +33,13 @@ class CatalogMovieRegistrar implements AsyncContentRegistrar<CatalogMovieDetail,
         Optional<CatalogContentEntity> optionalContent =
                 contentRepository.findByContentId(movieDetail.getContentId());
         if (optionalContent.isPresent()){
-            // TODO: 작품정보 업데이트
             CatalogContentEntity entity = optionalContent.get();
             CatalogMovieDetail catalogMovieDetail = mapper.toCatalogMovieDetail(entity, movieDetail);
             log.info("Catalog 작품을 업데이트하고 반환합니다. {}", catalogMovieDetail.getContentId());
             return catalogMovieDetail;
         }
         
-        CatalogContentEntity contentEntity = mapper.newEntity(movieDetail);
+        CatalogContentEntity contentEntity = mapper.newEntity(movieDetail, locale);
         CatalogContentEntity savedContentEntity = contentRepository.save(contentEntity);
         ContentCreated event = createEvent(savedContentEntity);
         contentEventPublisher.publish(event);
@@ -54,7 +53,7 @@ class CatalogMovieRegistrar implements AsyncContentRegistrar<CatalogMovieDetail,
         return ContentCreated.builder()
                              .catalogId(entity.getId())
                              .contentId(entity.getContentId())
-                             .title(entity.getTitle())
+                             .title(entity.getTitle().getKoreanTitle()) // TODO Locale 처리
                              .imageUrl(entity.getImageUrl())
                              .categoryId(categoryEntity.getId())
                              .categoryName(categoryEntity.getName())

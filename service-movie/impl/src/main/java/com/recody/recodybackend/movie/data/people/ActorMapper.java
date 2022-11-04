@@ -1,7 +1,6 @@
-package com.recody.recodybackend.movie.features.getmoviecredit;
+package com.recody.recodybackend.movie.data.people;
 
 import com.recody.recodybackend.movie.Actor;
-import com.recody.recodybackend.movie.data.people.MovieActorEntity;
 import com.recody.recodybackend.movie.features.getmoviecredit.dto.TMDBCast;
 import com.recody.recodybackend.movie.features.tmdb.TMDB;
 import lombok.extern.slf4j.Slf4j;

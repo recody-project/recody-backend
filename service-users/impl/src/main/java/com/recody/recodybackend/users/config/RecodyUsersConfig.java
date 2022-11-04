@@ -12,4 +12,18 @@ class RecodyUsersConfig {
     PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
+    
+//    @Bean(value = "userTopic")
+//    @Profile( "test" )
+//    NewTopic userTopic(){
+//        return new NewTopic( RecodyTopics.USER, 3, (short) 3);
+//    }
+    
+//    @Bean
+//    @DependsOn(value = "userTopic")
+//    @Profile({"local", "test"})
+//    @Order( Ordered.LOWEST_PRECEDENCE )
+//    AdminRegistrar adminRegistrar(@Autowired RecodyUserRepository recodyUserRepository){
+//        return new AdminRegistrar( recodyUserRepository );
+//    }
 }

@@ -5,8 +5,6 @@ import com.recody.recodybackend.movie.data.MovieBaseEntity;
 import com.recody.recodybackend.movie.data.genre.MovieGenreEntity;
 import com.recody.recodybackend.movie.data.people.MovieActorEntity;
 import com.recody.recodybackend.movie.data.people.MovieDirectorEntity;
-import com.recody.recodybackend.movie.data.productioncountry.ProductionCountryEntity;
-import com.recody.recodybackend.movie.data.spokenlanguage.SpokenLanguageEntity;
 import com.recody.recodybackend.movie.data.title.MovieTitleEntity;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -57,14 +55,6 @@ public class MovieEntity extends MovieBaseEntity {
     @OneToMany(mappedBy = "movie")
     @Builder.Default
     private List<MovieGenreEntity> genres = new ArrayList<>();
-    
-    @OneToMany(mappedBy = "movie")
-    @Builder.Default
-    private List<ProductionCountryEntity> productionCountries = new ArrayList<>();
-    
-    @OneToMany(mappedBy = "movie")
-    @Builder.Default
-    private List<SpokenLanguageEntity> spokenLanguages = new ArrayList<>();
     
     @OneToMany(mappedBy = "movie")
     @Builder.Default

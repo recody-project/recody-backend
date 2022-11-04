@@ -11,8 +11,10 @@ import com.recody.recodybackend.users.Role;
 import com.recody.recodybackend.users.data.RecodyUserEntity;
 import com.recody.recodybackend.users.data.RecodyUserMapper;
 import com.recody.recodybackend.users.data.RecodyUserRepository;
+import com.recody.recodybackend.users.events.UserCreated;
 import com.recody.recodybackend.users.features.generatenickname.NicknameGenerator;
 import com.recody.recodybackend.users.features.jwt.refreshtoken.RefreshTokenManager;
+import com.recody.recodybackend.users.features.projection.UserEventPublisher;
 import com.recody.recodybackend.users.features.signin.membership.AdminUserInfo;
 import com.recody.recodybackend.users.features.signin.membership.MembershipManager;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +34,9 @@ class DefaultMembershipManager implements MembershipManager {
     private final NicknameGenerator nicknameGenerator;
     private final RecodyUserMapper recodyUserMapper;
     private final RefreshTokenManager refreshTokenManager;
+    
+    private final UserEventPublisher userEventPublisher;
+    
     
     
     @Override
@@ -100,10 +105,19 @@ class DefaultMembershipManager implements MembershipManager {
         RecodyUserEntity savedUser;
         try {
             savedUser = recodyUserRepository.save( targetUser );
+            publishUserCreatedEvent( savedUser );
         } catch ( PersistenceException exception ) {
             log.error( "저장 에러 exception: {}", exception.getMessage() );
             throw new InternalServerError( exception.getMessage() );
         }
         return savedUser;
+    }
+    private void publishUserCreatedEvent(RecodyUserEntity savedUser) {
+        UserCreated event = UserCreated.builder()
+                                       .userId( savedUser.getUserId() )
+                                       .role( savedUser.getRole() )
+                                       .email( savedUser.getEmail() )
+                                       .build();
+        userEventPublisher.publish( event );
     }
 }
