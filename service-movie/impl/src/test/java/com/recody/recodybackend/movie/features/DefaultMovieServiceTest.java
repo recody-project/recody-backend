@@ -4,7 +4,7 @@ import com.recody.recodybackend.movie.RecodyMovieApplication;
 import com.recody.recodybackend.movie.data.movie.MovieEntity;
 import com.recody.recodybackend.movie.data.movie.MovieRepository;
 import com.recody.recodybackend.movie.features.searchmovies.SearchMovies;
-import com.recody.recodybackend.movie.features.searchmovies.SearchMoviesResult;
+import com.recody.recodybackend.movie.web.SearchMoviesResult;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

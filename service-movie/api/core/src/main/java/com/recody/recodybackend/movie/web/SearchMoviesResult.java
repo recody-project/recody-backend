@@ -1,6 +1,5 @@
-package com.recody.recodybackend.movie.features.searchmovies;
+package com.recody.recodybackend.movie.web;
 
-import com.recody.recodybackend.movie.web.TMDBSearchedMovie;
 import lombok.*;
 
 import java.util.List;

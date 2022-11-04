@@ -22,7 +22,7 @@ import com.recody.recodybackend.movie.features.manager.MovieManager;
 import com.recody.recodybackend.movie.features.searchmovies.SearchMovies;
 import com.recody.recodybackend.movie.features.searchmovies.SearchMoviesByQueryResult;
 import com.recody.recodybackend.movie.features.searchmovies.SearchMoviesHandler;
-import com.recody.recodybackend.movie.features.searchmovies.SearchMoviesResult;
+import com.recody.recodybackend.movie.web.SearchMoviesResult;
 import com.recody.recodybackend.movie.features.searchmovies.dto.TMDBMovieSearchNode;
 import com.recody.recodybackend.movie.features.tmdb.TMDBMovieID;
 import com.recody.recodybackend.movie.web.TMDBSearchedMovie;
