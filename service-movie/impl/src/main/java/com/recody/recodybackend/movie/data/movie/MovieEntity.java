@@ -24,6 +24,7 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@EntityListeners( MovieEntityListener.class )
 public class MovieEntity extends MovieBaseEntity {
     
     @Id

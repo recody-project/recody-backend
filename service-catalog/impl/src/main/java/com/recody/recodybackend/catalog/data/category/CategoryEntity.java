@@ -40,6 +40,7 @@ public class CategoryEntity {
     private String iconUrl;
     
     private Long userId;
+    
     private boolean basic;
     
     @Column(name = "deleted_at")

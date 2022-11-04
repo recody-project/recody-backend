@@ -46,8 +46,8 @@ public class CatalogContentEntity {
     
     private String imageUrl;
     
-    @Column(nullable = false)
-    private String  title;
+    @OneToOne(mappedBy = "content", cascade = CascadeType.ALL)
+    private CatalogContentTitleEntity title;
     
     @Override
     public String toString() {

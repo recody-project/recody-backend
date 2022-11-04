@@ -42,7 +42,7 @@ class DefaultGetContentHandler implements GetContentHandler {
         Category category = categoryMapper.toCategory(categoryEntity);
         
         if ( BasicCategory.Movie.equals(category) ) {
-            content = contentMapper.toCatalogMovie(catalogContentEntity);
+            content = contentMapper.toCatalogMovie(catalogContentEntity, command.getLocale());
         }
         else {
             throw new UnsupportedCategoryException();
