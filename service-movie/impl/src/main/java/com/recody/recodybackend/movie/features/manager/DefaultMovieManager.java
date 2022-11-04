@@ -119,6 +119,8 @@ class DefaultMovieManager implements MovieManager {
         MovieCreated event = MovieCreated.builder()
                                          .contentId( savedEntity.getId() )
                                          .posterUrl( savedEntity.getPosterPath() )
+                                         .koreanTitle( savedEntity.getTitle().getKoreanTitle() )
+                                         .englishTitle( savedEntity.getTitle().getEnglishTitle() )
                                          .build();
         movieEventPublisher.publish( event );
     }
@@ -177,6 +179,8 @@ class DefaultMovieManager implements MovieManager {
             MovieCreated event = MovieCreated.builder()
                                              .contentId( savedEntity.getId() )
                                              .posterUrl( savedEntity.getPosterPath() )
+                                             .koreanTitle( savedEntity.getTitle().getKoreanTitle() )
+                                             .englishTitle( savedEntity.getTitle().getEnglishTitle() )
                                              .build();
             movieEventPublisher.publish( event );
         }

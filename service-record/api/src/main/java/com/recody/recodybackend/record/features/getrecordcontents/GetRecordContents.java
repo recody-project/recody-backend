@@ -3,6 +3,8 @@ package com.recody.recodybackend.record.features.getrecordcontents;
 
 import lombok.*;
 
+import java.util.Locale;
+
 @Getter
 @Setter
 @Builder
@@ -20,6 +22,8 @@ public class GetRecordContents {
     private Boolean completed = null;
     private Integer size;
     private Integer page;
+    
+    private Locale locale;
     
     @Override
     public String toString() {

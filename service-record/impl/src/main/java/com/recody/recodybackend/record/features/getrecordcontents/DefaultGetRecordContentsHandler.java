@@ -49,7 +49,7 @@ class DefaultGetRecordContentsHandler implements GetRecordContentsHandler{
         for (RecordEntity recordEntity : recordEntities) {
             RecordContentEntity content = recordEntity.getContent();
             LocalDate appreciationDate = recordEntity.getAppreciationDate();
-            RecordContent mapped = contentMapper.map(content, appreciationDate);
+            RecordContent mapped = contentMapper.map(content, appreciationDate, command.getLocale());
             recordContents.add(mapped);
         }
         

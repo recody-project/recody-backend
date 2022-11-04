@@ -30,8 +30,9 @@ public class RecordContentEntity extends RecordBaseEntity {
     
     private String imageUrl;
     
-    @Column(nullable = false)
-    private String  title;
+    private String koreanTitle;
+    
+    private String englishTitle;
     
     @OneToMany(mappedBy = "content")
     @Builder.Default
@@ -39,6 +40,13 @@ public class RecordContentEntity extends RecordBaseEntity {
     
     @Override
     public String toString() {
-        return "[{\"RecordContentEntity\":{" + "\"id\":" + ((id != null) ? ("\"" + id + "\"") : null) + ", \"category\":" + ((category != null) ? ("\"" + category + "\"") : null) + ", \"contentId\":" + ((contentId != null) ? ("\"" + contentId + "\"") : null) + ", \"imageUrl\":" + ((imageUrl != null) ? ("\"" + imageUrl + "\"") : null) + ", \"title\":" + ((title != null) ? ("\"" + title + "\"") : null) + "}}, " + super.toString() + "]";
+        return "[{\"RecordContentEntity\":{"
+               + "\"id\":" + ((id != null) ? ("\"" + id + "\"") : null)
+               + ", \"category\":" + category
+               + ", \"contentId\":" + ((contentId != null) ? ("\"" + contentId + "\"") : null)
+               + ", \"imageUrl\":" + ((imageUrl != null) ? ("\"" + imageUrl + "\"") : null)
+               + ", \"koreanTitle\":" + ((koreanTitle != null) ? ("\"" + koreanTitle + "\"") : null)
+               + ", \"englishTitle\":" + ((englishTitle != null) ? ("\"" + englishTitle + "\"") : null)
+               + "}}, " + super.toString() + "]";
     }
 }

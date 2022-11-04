@@ -13,7 +13,9 @@ public class ContentCreated {
     
     private String contentId;
     
-    private String title;
+    private String koreanTitle;
+    
+    private String englishTitle;
     
     private String imageUrl;
     

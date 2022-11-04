@@ -124,6 +124,7 @@ public class RecordController {
                                                  .page( page )
                                                  .size( size )
                                                  .userId( jwtManager.resolveUserId( accessToken ) )
+                                                 .locale( httpServletRequest.getLocale() )
                                                  .build() )
                         
                              )
@@ -146,6 +147,7 @@ public class RecordController {
                                                  .size( size )
                                                  .completed( false )
                                                  .userId( jwtManager.resolveUserId( accessToken ) )
+                                                 .locale( httpServletRequest.getLocale() )
                                                  .build() )
                         
                              )

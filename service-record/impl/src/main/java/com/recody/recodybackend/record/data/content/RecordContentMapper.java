@@ -4,10 +4,14 @@ import com.recody.recodybackend.common.contents.Category;
 import com.recody.recodybackend.common.events.ContentCreated;
 import com.recody.recodybackend.record.RecordContent;
 import com.recody.recodybackend.record.data.category.EmbeddableCategory;
+import jdk.jfr.Name;
+import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 
 import java.time.LocalDate;
+import java.util.Locale;
 
 @Mapper(componentModel = "spring", imports = {
         EmbeddableCategory.class
@@ -20,7 +24,8 @@ public interface RecordContentMapper {
     RecordContentEntity map(ContentCreated event);
     
     
-    RecordContent map(RecordContentEntity entity, LocalDate appreciationDate);
+    @Mapping( target = "title", source = "entity", qualifiedByName = "titleMapper")
+    RecordContent map(RecordContentEntity entity, LocalDate appreciationDate, @Context Locale locale);
     
     /**
      * 카테고리 정보를 임베더블 카테고리로 매핑한다.
@@ -32,5 +37,15 @@ public interface RecordContentMapper {
         String id = category.getId();
         String name = category.getName();
         return new EmbeddableCategory(id, name);
+    }
+    
+    @Named( "titleMapper" )
+    default String mapTitle(RecordContentEntity entity, @Context Locale locale){
+        if ( locale.equals( Locale.KOREAN ) ) {
+            return entity.getKoreanTitle();
+        }
+        else {
+            return entity.getEnglishTitle();
+        }
     }
 }

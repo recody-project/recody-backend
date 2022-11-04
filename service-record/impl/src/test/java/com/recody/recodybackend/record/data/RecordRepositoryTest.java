@@ -58,13 +58,13 @@ class RecordRepositoryTest {
                                                                .id("rootId1")
                                                                .contentId(CONTENT_ID)
                                                                .category(commonCategory)
-                                                               .title("conTitle")
+                                                               .englishTitle("conTitle")
                                                                .build();
         RecordContentEntity contentEntity2 = RecordContentEntity.builder()
                                                                 .id("rootId2")
                                                                 .contentId(CONTENT_ID2)
                                                                 .category(commonCategory2)
-                                                                .title("conTitle")
+                                                                .englishTitle("conTitle")
                                                                 .build();
         savedContent = recordContentRepository.save(contentEntity);
         savedContent2 = recordContentRepository.save(contentEntity2);

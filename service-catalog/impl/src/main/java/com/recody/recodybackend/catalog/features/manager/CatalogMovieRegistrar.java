@@ -53,7 +53,8 @@ class CatalogMovieRegistrar implements AsyncContentRegistrar<CatalogMovieDetail,
         return ContentCreated.builder()
                              .catalogId(entity.getId())
                              .contentId(entity.getContentId())
-                             .title(entity.getTitle().getKoreanTitle()) // TODO Locale 처리
+                             .koreanTitle(entity.getTitle().getKoreanTitle()) // TODO Locale 처리
+                             .englishTitle( entity.getTitle().getEnglishTitle() )
                              .imageUrl(entity.getImageUrl())
                              .categoryId(categoryEntity.getId())
                              .categoryName(categoryEntity.getName())

@@ -2,6 +2,8 @@ package com.recody.recodybackend.movie.events;
 
 import lombok.*;
 
+import java.util.Locale;
+
 @Getter
 @Setter
 @Builder
@@ -11,6 +13,8 @@ public class MovieCreated {
     
     private String contentId;
     private String posterUrl;
+    private String koreanTitle;
+    private String englishTitle;
     
     @Override
     public String toString() {

@@ -69,7 +69,7 @@ public class RecordControllerTest {
                                                     .builder()
                                                     .id("catalogId")
                                                     .contentId("con-1111")
-                                                    .title("contentTitle")
+                                                    .englishTitle("contentTitle")
                                                     .category(embeddableCategory)
                                                     .build();
         savedContent = contentRepository.save(contentEntity);

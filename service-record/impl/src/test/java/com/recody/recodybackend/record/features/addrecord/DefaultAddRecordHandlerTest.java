@@ -63,7 +63,7 @@ class DefaultAddRecordHandlerTest {
                             .builder()
                             .id("catalogId")
                             .contentId(CONTENT_ID)
-                            .title("contentTitle")
+                            .englishTitle("contentTitle")
                             .category(new EmbeddableCategory(BasicCategory.Movie.getId(), BasicCategory.Movie.getName()))
                             .build();
         contentRepository.save(content);
