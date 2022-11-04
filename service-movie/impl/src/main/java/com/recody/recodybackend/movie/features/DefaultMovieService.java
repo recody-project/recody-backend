@@ -42,7 +42,7 @@ import java.util.concurrent.CompletableFuture;
 @Slf4j
 class DefaultMovieService implements MovieSearchService, MovieDetailService<TMDBFetchedMovieDetail, GetMovieDetail> {
     
-    public static final int MINIMUM_SEARCH_RESULT_SIZE = 20;
+    public static final int MINIMUM_SEARCH_RESULT_SIZE = 10;
     private final GetMovieDetailHandler getMovieDetailHandler;
     private final SearchMoviesHandler<TMDBMovieSearchNode> tMDBSearchMoviesHandler;
     private final MovieMapper movieMapper;
@@ -152,6 +152,31 @@ class DefaultMovieService implements MovieSearchService, MovieDetailService<TMDB
         List<TMDBSearchedMovie> movies = movieMapper.toTMDBMovie(tmdbMovies);
         
         return SearchMoviesResult.builder().requestedLanguage(locale).movies(movies).total(movies.size()).build();
+    }
+    
+    @Override
+    @Transactional
+    public Movies searchMoviesMix(SearchMovies command) {
+        String movieName = command.getMovieName();
+        Locale locale = Locale.forLanguageTag(command.getLanguage());
+        List<MovieEntity> movieEntities = movieRepository.findByTitleLike(movieName, locale);
+    
+        // db 에 결과가 있는 경우에는 그 결과를 반환한다.
+        if ( movieEntities.size() > MINIMUM_SEARCH_RESULT_SIZE ) {
+            List<Movie> movies = movieMapper.toMovie(movieEntities, locale);
+            return new Movies( movies );
+        }
+    
+        // API 에서 가져옴.
+        List<TMDBMovieSearchNode> tmdbMovies = tMDBSearchMoviesHandler.handle(command);
+    
+        CompletableFuture<List<Movie>> moviesFuture = movieManager.movie()
+                                                                  .registerAsync( tmdbMovies, locale );
+        
+        moviesFuture.thenAccept(them -> log.info("registered movies: {}", them.size()));
+        /* event: MovieSearched */
+        
+        return new Movies( moviesFuture.join() );
     }
     
     @Override

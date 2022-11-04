@@ -9,6 +9,8 @@ public interface MovieSearchService {
     
     SearchMoviesResult searchMovies(SearchMovies command);
     
+    Movies searchMoviesMix(SearchMovies command);
+    
     SearchMoviesByQueryResult searchMoviesByQuery(SearchMovies command);
     
     
