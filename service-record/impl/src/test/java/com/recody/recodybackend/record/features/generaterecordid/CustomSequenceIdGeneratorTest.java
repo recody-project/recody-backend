@@ -1,12 +1,13 @@
 package com.recody.recodybackend.record.features.generaterecordid;
 
+import com.recody.recodybackend.catalog.data.category.CategoryEntity;
+import com.recody.recodybackend.catalog.data.category.CategoryRepository;
+import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
+import com.recody.recodybackend.catalog.data.content.CatalogContentRepository;
+import com.recody.recodybackend.catalog.data.record.RecordEntity;
+import com.recody.recodybackend.catalog.data.record.RecordRepository;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.record.RecodyRecordApplication;
-import com.recody.recodybackend.record.data.category.EmbeddableCategory;
-import com.recody.recodybackend.record.data.content.RecordContentEntity;
-import com.recody.recodybackend.record.data.content.RecordContentRepository;
-import com.recody.recodybackend.record.data.record.RecordEntity;
-import com.recody.recodybackend.record.data.record.RecordRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,10 +16,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @ActiveProfiles("test")
 @ContextConfiguration(classes = RecodyRecordApplication.class)
@@ -30,23 +32,30 @@ class CustomSequenceIdGeneratorTest {
     RecordRepository repository;
     
     @Autowired
-    RecordContentRepository contentRepository;
-    RecordContentEntity savedContent;
+    CatalogContentRepository contentRepository;
+    CatalogContentEntity savedContent;
+    
+    @Autowired
+    CategoryRepository categoryRepository;
+    
+    CategoryEntity savedCategory;
     
     @BeforeEach
     void before() {
-        RecordContentEntity content = RecordContentEntity
+        CategoryEntity categoryEntity = new CategoryEntity( BasicCategory.Movie.getId(), BasicCategory.Movie.getName() );
+        savedCategory = categoryRepository.save( categoryEntity );
+        CatalogContentEntity content = CatalogContentEntity
                                               .builder()
                                               .id("catalogId")
                                               .contentId(CONTENT_ID)
-                                              .englishTitle("contentTitle")
-                                              .category(new EmbeddableCategory(BasicCategory.Movie.getId(), BasicCategory.Movie.getName()))
+                                              .category( savedCategory )
                                               .build();
         savedContent = contentRepository.save(content);
     }
     
     @Test
     @DisplayName("저장 시 id 체크")
+    @Transactional
     void test02() {
         // given
         long userId = 1L;

@@ -22,6 +22,7 @@ public class ApplicationException extends RuntimeException{
     /*
     * 에러코드, 상태코드만으로 처리할 때의 생성자. */
     public ApplicationException(ErrorType errorType, HttpStatus statusCode) {
+        super(errorType.name());
         this.errorType = errorType;
         this.statusCode = statusCode;
     }

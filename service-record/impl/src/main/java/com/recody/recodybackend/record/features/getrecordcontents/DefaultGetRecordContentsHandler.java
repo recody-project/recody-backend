@@ -1,10 +1,10 @@
 package com.recody.recodybackend.record.features.getrecordcontents;
 
+import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
+import com.recody.recodybackend.catalog.data.content.CatalogContentMapper;
 import com.recody.recodybackend.record.RecordContent;
-import com.recody.recodybackend.record.data.content.RecordContentEntity;
-import com.recody.recodybackend.record.data.content.RecordContentMapper;
-import com.recody.recodybackend.record.data.record.RecordEntity;
-import com.recody.recodybackend.record.data.record.RecordRepository;
+import com.recody.recodybackend.catalog.data.record.RecordEntity;
+import com.recody.recodybackend.catalog.data.record.RecordRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -21,7 +21,7 @@ import java.util.List;
 class DefaultGetRecordContentsHandler implements GetRecordContentsHandler{
     
     private final RecordRepository recordRepository;
-    private final RecordContentMapper contentMapper;
+    private final CatalogContentMapper contentMapper;
     
     @Override
     @Transactional
@@ -47,7 +47,7 @@ class DefaultGetRecordContentsHandler implements GetRecordContentsHandler{
         // 감상평에서 작품정보를 꺼내 정리한다.
         ArrayList<RecordContent> recordContents = new ArrayList<>();
         for (RecordEntity recordEntity : recordEntities) {
-            RecordContentEntity content = recordEntity.getContent();
+            CatalogContentEntity content = recordEntity.getContent();
             LocalDate appreciationDate = recordEntity.getAppreciationDate();
             RecordContent mapped = contentMapper.map(content, appreciationDate, command.getLocale());
             recordContents.add(mapped);

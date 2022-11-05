@@ -1,7 +1,7 @@
 package com.recody.recodybackend.catalog.features.wish.delete;
 
-import com.recody.recodybackend.catalog.data.WishEntity;
-import com.recody.recodybackend.catalog.data.WishRepository;
+import com.recody.recodybackend.catalog.data.wish.WishEntity;
+import com.recody.recodybackend.catalog.data.wish.WishRepository;
 import com.recody.recodybackend.catalog.data.category.CategoryEntity;
 import com.recody.recodybackend.catalog.data.category.CategoryMapper;
 import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;

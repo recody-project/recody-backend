@@ -1,11 +1,13 @@
 package com.recody.recodybackend.record.data;
 
+import com.recody.recodybackend.catalog.data.RecordBaseEntity;
+import com.recody.recodybackend.catalog.data.category.CategoryEntity;
+import com.recody.recodybackend.catalog.data.category.CategoryRepository;
+import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
+import com.recody.recodybackend.catalog.data.content.CatalogContentRepository;
 import com.recody.recodybackend.record.RecodyRecordApplication;
-import com.recody.recodybackend.record.data.category.EmbeddableCategory;
-import com.recody.recodybackend.record.data.content.RecordContentEntity;
-import com.recody.recodybackend.record.data.content.RecordContentRepository;
-import com.recody.recodybackend.record.data.record.RecordEntity;
-import com.recody.recodybackend.record.data.record.RecordRepository;
+import com.recody.recodybackend.catalog.data.record.RecordEntity;
+import com.recody.recodybackend.catalog.data.record.RecordRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,8 +35,8 @@ class RecordRepositoryTest {
     public static final String CONTENT_ID = "c1";
     public static final int RECORD_LENGTH_2 = 10;
     public static final int RECORD_LENGTH = 100;
-    public static final EmbeddableCategory commonCategory = new EmbeddableCategory("11", "na");
-    public static final EmbeddableCategory commonCategory2 = new EmbeddableCategory("22", "NN");
+    public static final CategoryEntity commonCategory = CategoryEntity.builder().id( "11" ).name( "na" ).build();
+    public static final CategoryEntity commonCategory2 = CategoryEntity.builder().id( "22" ).name( "NN" ).build();
     public static final long USER_ID = 1L;
     public static final long USER_ID_2 = 2L;
     @Autowired
@@ -43,31 +45,34 @@ class RecordRepositoryTest {
     private final Map<String, RecordEntity> savedRecordsMap = new HashMap<>();
     
     @Autowired
-    RecordContentRepository recordContentRepository;
+    CatalogContentRepository contentRepository;
     
-    RecordContentEntity savedContent;
-    RecordContentEntity savedContent2;
+    CatalogContentEntity savedContent;
+    CatalogContentEntity savedContent2;
+    
+    @Autowired
+    CategoryRepository categoryRepository;
     
     
     @BeforeEach
     void before() {
+        categoryRepository.save( commonCategory );
+        categoryRepository.save( commonCategory2 );
         // 삭제 순서 유의
         recordRepository.deleteAllInBatch();
-        recordContentRepository.deleteAllInBatch();
-        RecordContentEntity contentEntity = RecordContentEntity.builder()
+        contentRepository.deleteAllInBatch();
+        CatalogContentEntity contentEntity = CatalogContentEntity.builder()
                                                                .id("rootId1")
                                                                .contentId(CONTENT_ID)
                                                                .category(commonCategory)
-                                                               .englishTitle("conTitle")
                                                                .build();
-        RecordContentEntity contentEntity2 = RecordContentEntity.builder()
+        CatalogContentEntity contentEntity2 = CatalogContentEntity.builder()
                                                                 .id("rootId2")
                                                                 .contentId(CONTENT_ID2)
                                                                 .category(commonCategory2)
-                                                                .englishTitle("conTitle")
                                                                 .build();
-        savedContent = recordContentRepository.save(contentEntity);
-        savedContent2 = recordContentRepository.save(contentEntity2);
+        savedContent = contentRepository.save( contentEntity );
+        savedContent2 = contentRepository.save( contentEntity2 );
         
         for (int i = 0; i < RECORD_LENGTH; i++) {
             RecordEntity saved = recordRepository.save(newRecord(savedContent, USER_ID));
@@ -82,7 +87,7 @@ class RecordRepositoryTest {
         }
     }
     
-    private RecordEntity newRecord(RecordContentEntity content, Long userId) {
+    private RecordEntity newRecord(CatalogContentEntity content, Long userId) {
         return RecordEntity.builder().content(content).note("testing").userId(userId).completed(true).build();
     }
     
@@ -112,7 +117,7 @@ class RecordRepositoryTest {
         }
         
         List<RecordEntity> top10 = allRecordEntities.stream()
-                                                    .sorted(Comparator.comparing(RecordBaseEntity::getCreatedAt)
+                                                    .sorted(Comparator.comparing( RecordBaseEntity::getCreatedAt )
                                                                       .reversed())
                                                     .limit(10)
                                                     .collect(Collectors.toList());
@@ -379,7 +384,7 @@ class RecordRepositoryTest {
         TestTransaction.start();
         
         // then
-        RecordContentEntity recordContentEntity = recordContentRepository.findByContentId(CONTENT_ID).orElseThrow();
+        CatalogContentEntity recordContentEntity = contentRepository.findByContentId( CONTENT_ID ).orElseThrow();
         
         List<RecordEntity> records = recordContentEntity.getRecords();
         for (RecordEntity record : records) {

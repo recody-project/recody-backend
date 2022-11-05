@@ -2,8 +2,6 @@ package com.recody.recodybackend.movie.events;
 
 import lombok.*;
 
-import java.util.Locale;
-
 @Getter
 @Setter
 @Builder
@@ -21,6 +19,8 @@ public class MovieCreated {
         return "{\"MovieCreated\":{"
                + "\"contentId\":" + ((contentId != null) ? ("\"" + contentId + "\"") : null)
                + ", \"posterUrl\":" + ((posterUrl != null) ? ("\"" + posterUrl + "\"") : null)
+               + ", \"koreanTitle\":" + ((koreanTitle != null) ? ("\"" + koreanTitle + "\"") : null)
+               + ", \"englishTitle\":" + ((englishTitle != null) ? ("\"" + englishTitle + "\"") : null)
                + "}}";
     }
 }

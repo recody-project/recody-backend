@@ -8,7 +8,11 @@ public enum RecordErrorType implements ErrorType {
     RecordAlreadyExists("RecordAlreadyExists"),
     FailedToRemoveRecord("FailedToRemoveRecord"),
     UserDoesNotOwnTheRecord("UserDoesNotOwnTheRecord"),
-    UserNotRatedOnContent("UserNotRatedOnContent")
+    UserNotRatedOnContent("UserNotRatedOnContent"),
+    
+    RecordCountCannotBeNull("record.count.not-null"),
+    
+    RecordCountCannotBeNegative("record.count.not-negative"),
     
     ;
     

@@ -13,6 +13,8 @@ import com.recody.recodybackend.record.features.getmyrecords.GetMyRecords;
 import com.recody.recodybackend.record.features.getrecord.GetRecord;
 import com.recody.recodybackend.record.features.getrecordcontents.GetRecordContents;
 import com.recody.recodybackend.record.features.resolvecategory.CategoryResolver;
+import com.recody.recodybackend.record.features.totalrecords.CountTotalRecords;
+import com.recody.recodybackend.record.features.totalrecords.CountTotalRecordsHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
@@ -196,6 +198,21 @@ public class RecordController {
                                                                                   .userId( jwtManager.resolveUserId( accessToken ) )
                 
                                                                                   .build() ) )
+                                   .build() );
+    }
+    
+    @GetMapping( "/api/v1/record/records/total" )
+    public ResponseEntity<SuccessResponseBody> countRecords(HttpServletRequest httpServletRequest,
+                                                            @RequestParam(defaultValue = "false") Boolean thisMonth,
+                                                            @AccessToken String accessToken) {
+        return ResponseEntity.ok(
+                SuccessResponseBody.builder()
+                                   .message( ms.getMessage( "record.records.count.total.succeeded", null, httpServletRequest.getLocale() ) )
+                                   .data( recordService.countRecords(
+                                           CountTotalRecords.builder()
+                                                            .userId( jwtManager.resolveUserId( accessToken ) )
+                                                            .thisMonth( thisMonth )
+                                                            .build() ) )
                                    .build() );
     }
     

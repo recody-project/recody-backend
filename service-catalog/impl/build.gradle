@@ -18,6 +18,7 @@ dependencies {
     implementation project(":common-boot-utils")
     implementation project(":service-catalog-api")
     implementation project(":service-catalog-api-core")
+    implementation project(":service-catalog-data")
     implementation project(":service-movie-api-core")
     implementation project(":service-users-api-core")
 

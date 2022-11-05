@@ -1,11 +1,12 @@
 package com.recody.recodybackend.catalog.features.wish.get;
 
 import com.recody.recodybackend.catalog.RecodyCatalogApplication;
-import com.recody.recodybackend.catalog.data.*;
 import com.recody.recodybackend.catalog.data.category.CategoryRepository;
 import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
 import com.recody.recodybackend.catalog.data.content.CatalogContentRepository;
 import com.recody.recodybackend.catalog.data.content.CatalogContentTitleEntity;
+import com.recody.recodybackend.catalog.data.wish.WishEntity;
+import com.recody.recodybackend.catalog.data.wish.WishRepository;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.contents.Content;
 import com.recody.recodybackend.catalog.data.category.CategoryEntity;
@@ -57,7 +58,7 @@ class DefaultGetMyWishlistHandlerTest {
             CatalogContentTitleEntity titleEntity = CatalogContentTitleEntity.builder().englishTitle( "TITLE OF" + contentIds[i] ).build();
             con1.setTitle( titleEntity );
             CatalogContentEntity savedEntity = contentRepository.save(con1);
-            WishEntity wishEntity = WishEntity.builder().catalogContent(savedEntity).userId(USER_ID).build();
+            WishEntity wishEntity = WishEntity.builder().catalogContent( savedEntity ).userId( USER_ID ).build();
             WishEntity saved = wishRepository.save(wishEntity);
             System.out.println("saved = " + saved);
         }

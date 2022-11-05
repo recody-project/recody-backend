@@ -24,11 +24,9 @@ class RatingMapperTest {
     void test01() {
         // given
         RatingEntity entity = RatingEntity.builder().score( 1 ).build();
-        
         // when
         RatingScore score = ratingMapper.map( entity );
         // then
-    
         assertThat( score.getValue() ).isEqualTo( entity.getScore() );
         
     }

@@ -5,7 +5,7 @@ include(":common-boot-utils")
 include(":service-movie-api", ":service-movie-api-core", ":service-movie-impl")
 include(":service-music-api", ":service-music-api-core", ":service-music-impl")
 include(":service-performance-api", ":service-performance-api-core", ":service-performance-impl")
-include(":service-catalog-api", ":service-catalog-api-core", ":service-catalog-impl")
+include(":service-catalog-api", ":service-catalog-api-core", ":service-catalog-data", ":service-catalog-impl")
 include(":service-users-api", ":service-users-api-core", ":service-users-impl")
 include(":service-record-api", ":service-record-api-core", ":service-record-impl")
 
@@ -31,6 +31,7 @@ project(":service-performance-impl").projectDir = new File(settingsDir, "${perfo
 String catalogProjectDir = "service-catalog"
 project(":service-catalog-api").projectDir = new File(settingsDir, "${catalogProjectDir}/api")
 project(":service-catalog-api-core").projectDir = new File(settingsDir, "${catalogProjectDir}/api/core")
+project(":service-catalog-data").projectDir = new File(settingsDir, "${catalogProjectDir}/data")
 project(":service-catalog-impl").projectDir = new File(settingsDir, "${catalogProjectDir}/impl")
 
 
