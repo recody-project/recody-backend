@@ -4,6 +4,7 @@ import com.recody.recodybackend.catalog.CatalogMovie;
 import com.recody.recodybackend.catalog.CatalogMovieDetail;
 import com.recody.recodybackend.catalog.data.category.CategoryEntity;
 import com.recody.recodybackend.catalog.data.category.CategoryMapper;
+import com.recody.recodybackend.catalog.data.record.RecordEntity;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.events.ContentCreated;
 import com.recody.recodybackend.movie.MovieDetail;
@@ -11,7 +12,6 @@ import com.recody.recodybackend.record.RecordContent;
 import lombok.extern.slf4j.Slf4j;
 import org.mapstruct.*;
 
-import java.time.LocalDate;
 import java.util.Locale;
 
 @Mapper( componentModel = "spring",
@@ -49,28 +49,28 @@ public abstract class CatalogContentMapper {
     @Mapping(target = "id", source = "event.catalogId")
     public abstract CatalogContentEntity map(ContentCreated event);
     
-    @Mapping( target = "title", source = "entity", qualifiedByName = "titleMapper")
-    public abstract RecordContent map(CatalogContentEntity entity, LocalDate appreciationDate, @Context Locale locale);
-    
-//    /**
-//     * 카테고리 정보를 임베더블 카테고리로 매핑한다.
-//     * 기본 카테고리인 경우, id 를
-//     * @param category 도메인 Category
-//     * @return EmbeddableCategory: 저장하기 위한 카테고리
-//     */
-//    EmbeddableCategory map(Category category) {
-//        String id = category.getId();
-//        String name = category.getName();
-//        return new EmbeddableCategory(id, name);
-//    }
+    @Mapping( target = "title", source = "contentEntity", qualifiedByName = "titleMapper")
+    @Mapping( target = "recordId", source = "recordEntity.recordId" )
+    public abstract RecordContent map(CatalogContentEntity contentEntity, RecordEntity recordEntity, @Context Locale locale);
     
     @Named( "titleMapper" )
     String mapTitle(CatalogContentEntity entity, @Context Locale locale){
+        String koreanTitle = entity.getTitle().getKoreanTitle();
+        String englishTitle = entity.getTitle().getEnglishTitle();
+    
         if ( locale.equals( Locale.KOREAN ) ) {
-            return entity.getTitle().getKoreanTitle();
+            if (koreanTitle == null){
+                log.debug( "한국어 타이틀이 없어서 영어 타이들을 매핑: {}", englishTitle );
+                return englishTitle;
+            }
+            return koreanTitle;
         }
         else {
-            return entity.getTitle().getEnglishTitle();
+            if (englishTitle == null){
+                log.debug( "영어 타이틀이 없어서 한국어 타이들을 매핑: {}", koreanTitle );
+                return koreanTitle;
+            }
+            return englishTitle;
         }
     }
     @AfterMapping

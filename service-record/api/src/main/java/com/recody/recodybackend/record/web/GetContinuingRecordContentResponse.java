@@ -3,15 +3,13 @@ package com.recody.recodybackend.record.web;
 import com.recody.recodybackend.record.RecordContent;
 import lombok.*;
 
-import java.util.List;
-
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class GetMyRecordContentsResponse {
+public class GetContinuingRecordContentResponse {
     
-    private List<RecordContent> recordContents;
+    private RecordContent recordContent;
     
 }

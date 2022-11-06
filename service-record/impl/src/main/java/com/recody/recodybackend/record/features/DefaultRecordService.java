@@ -17,6 +17,8 @@ import com.recody.recodybackend.record.features.getmyrecords.GetMyRecords;
 import com.recody.recodybackend.record.features.getmyrecords.GetMyRecordsHandler;
 import com.recody.recodybackend.record.features.getrecord.GetRecord;
 import com.recody.recodybackend.record.features.getrecord.GetRecordHandler;
+import com.recody.recodybackend.record.features.getrecordcontent.GetContinuingRecordContent;
+import com.recody.recodybackend.record.features.getrecordcontent.GetContinuingRecordContentHandler;
 import com.recody.recodybackend.record.features.getrecordcontents.GetRecordContents;
 import com.recody.recodybackend.record.features.getrecordcontents.GetRecordContentsHandler;
 import com.recody.recodybackend.record.features.totalrecords.CountTotalRecords;
@@ -42,6 +44,8 @@ class DefaultRecordService implements RecordService {
     private final GetContinuingRecordHandler getContinuingRecordHandler;
     private final DeleteRecordHandler deleteRecordHandler;
     private final CountTotalRecordsHandler countTotalRecordsHandler;
+    
+    private final GetContinuingRecordContentHandler getContinuingRecordContentHandler;
     
     @Override
     public AddRecordResponse addRecord(AddRecord command) {
@@ -70,6 +74,13 @@ class DefaultRecordService implements RecordService {
         List<RecordContent> contents = getRecordContentsHandler.handle( command );
         log.debug( "Get {} contents", contents.size() );
         return new GetMyRecordContentsResponse( contents );
+    }
+    
+    @Override
+    public GetContinuingRecordContentResponse getContinuingRecordContent(GetContinuingRecordContent command) {
+        return GetContinuingRecordContentResponse.builder()
+                                                 .recordContent( getContinuingRecordContentHandler.handle( command ) )
+                                                 .build();
     }
     
     @Override
