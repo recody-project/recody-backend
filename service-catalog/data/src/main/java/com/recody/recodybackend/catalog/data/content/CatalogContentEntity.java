@@ -1,5 +1,6 @@
 package com.recody.recodybackend.catalog.data.content;
 
+import com.recody.recodybackend.catalog.data.CatalogBaseEntity;
 import com.recody.recodybackend.catalog.data.category.CategoryEntity;
 import com.recody.recodybackend.catalog.data.record.RecordEntity;
 import com.recody.recodybackend.commonbootutils.data.CustomSequenceIdGenerator;
@@ -18,7 +19,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CatalogContentEntity {
+public class CatalogContentEntity extends CatalogBaseEntity {
     
     /**
      * Catalog 서비스에서 부여하는 고유 ID 이다. 카테고리와 관련없이 고유한 형태로 부여된다.

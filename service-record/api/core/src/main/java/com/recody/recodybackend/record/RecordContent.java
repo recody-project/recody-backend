@@ -3,6 +3,7 @@ package com.recody.recodybackend.record;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -17,6 +18,8 @@ public class RecordContent {
     private String title;
     private LocalDate appreciationDate;
     
+    private LocalDateTime lastModifiedAt;
+    
     @Override
     public String toString() {
         return "{\"RecordContent\":{"
@@ -25,6 +28,7 @@ public class RecordContent {
                + ", \"imageUrl\":" + ((imageUrl != null) ? ("\"" + imageUrl + "\"") : null)
                + ", \"title\":" + ((title != null) ? ("\"" + title + "\"") : null)
                + ", \"appreciationDate\":" + appreciationDate
+               + ", \"lastModifiedAt\":" + ((lastModifiedAt != null) ? ("\"" + lastModifiedAt + "\"") : null)
                + "}}";
     }
 }
