@@ -51,6 +51,7 @@ public abstract class CatalogContentMapper {
     
     @Mapping( target = "title", source = "contentEntity", qualifiedByName = "titleMapper")
     @Mapping( target = "recordId", source = "recordEntity.recordId" )
+    @Mapping( target = "lastModifiedAt", source = "recordEntity.lastModifiedAt")
     public abstract RecordContent map(CatalogContentEntity contentEntity, RecordEntity recordEntity, @Context Locale locale);
     
     @Named( "titleMapper" )
