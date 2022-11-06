@@ -11,10 +11,10 @@ import com.recody.recodybackend.record.features.deleterecord.DeleteRecord;
 import com.recody.recodybackend.record.features.getcontinuingrecord.GetContinuingRecord;
 import com.recody.recodybackend.record.features.getmyrecords.GetMyRecords;
 import com.recody.recodybackend.record.features.getrecord.GetRecord;
+import com.recody.recodybackend.record.features.getrecordcontent.GetContinuingRecordContent;
 import com.recody.recodybackend.record.features.getrecordcontents.GetRecordContents;
 import com.recody.recodybackend.record.features.resolvecategory.CategoryResolver;
 import com.recody.recodybackend.record.features.totalrecords.CountTotalRecords;
-import com.recody.recodybackend.record.features.totalrecords.CountTotalRecordsHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
@@ -76,15 +76,20 @@ public class RecordController {
                                           .build() );
     }
     
-    @GetMapping( "/api/v1/record/content/{recordId}" )
+    @GetMapping( "/api/v1/record/content/continuing" )
     public ResponseEntity<SuccessResponseBody> getRecordContent(HttpServletRequest httpServletRequest,
-                                                                @PathVariable String recordId) {
-        return ResponseEntity.ok( SuccessResponseBody
-                                          .builder()
-                                          .message( ms.getMessage( "record.get-content.succeeded", null,
-                                                                   httpServletRequest.getLocale() ) )
-                                          .data( recordService.getRecord( GetRecord.builder().recordId( recordId ).build() ) )
-                                          .build() );
+                                                                @AccessToken String accessToken) {
+        return ResponseEntity.ok(
+                SuccessResponseBody
+                        .builder()
+                        .message( ms.getMessage( "record.content.continuing.get.succeeded", null,
+                                                 httpServletRequest.getLocale() ) )
+                        .data( recordService.getContinuingRecordContent(
+                                GetContinuingRecordContent.builder()
+                                                          .userId( jwtManager.resolveUserId( accessToken ) )
+                                                          .locale( httpServletRequest.getLocale() )
+                                                          .build() ) )
+                        .build() );
     }
     
     @GetMapping( "/api/v1/record/records" )
@@ -203,7 +208,7 @@ public class RecordController {
     
     @GetMapping( "/api/v1/record/records/total" )
     public ResponseEntity<SuccessResponseBody> countRecords(HttpServletRequest httpServletRequest,
-                                                            @RequestParam(defaultValue = "false") Boolean thisMonth,
+                                                            @RequestParam( defaultValue = "false" ) Boolean thisMonth,
                                                             @AccessToken String accessToken) {
         return ResponseEntity.ok(
                 SuccessResponseBody.builder()

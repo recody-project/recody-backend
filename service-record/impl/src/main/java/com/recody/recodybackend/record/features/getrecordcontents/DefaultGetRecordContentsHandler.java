@@ -2,16 +2,15 @@ package com.recody.recodybackend.record.features.getrecordcontents;
 
 import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
 import com.recody.recodybackend.catalog.data.content.CatalogContentMapper;
-import com.recody.recodybackend.record.RecordContent;
 import com.recody.recodybackend.catalog.data.record.RecordEntity;
 import com.recody.recodybackend.catalog.data.record.RecordRepository;
+import com.recody.recodybackend.record.RecordContent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,8 +47,7 @@ class DefaultGetRecordContentsHandler implements GetRecordContentsHandler{
         ArrayList<RecordContent> recordContents = new ArrayList<>();
         for (RecordEntity recordEntity : recordEntities) {
             CatalogContentEntity content = recordEntity.getContent();
-            LocalDate appreciationDate = recordEntity.getAppreciationDate();
-            RecordContent mapped = contentMapper.map(content, appreciationDate, command.getLocale());
+            RecordContent mapped = contentMapper.map(content, recordEntity, command.getLocale());
             recordContents.add(mapped);
         }
         
