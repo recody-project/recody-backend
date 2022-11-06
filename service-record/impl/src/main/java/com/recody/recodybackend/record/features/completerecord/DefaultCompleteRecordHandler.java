@@ -1,7 +1,7 @@
 package com.recody.recodybackend.record.features.completerecord;
 
-import com.recody.recodybackend.record.data.record.RecordEntity;
-import com.recody.recodybackend.record.data.record.RecordRepository;
+import com.recody.recodybackend.catalog.data.record.RecordEntity;
+import com.recody.recodybackend.catalog.data.record.RecordRepository;
 import com.recody.recodybackend.record.exceptions.RecordNotFound;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

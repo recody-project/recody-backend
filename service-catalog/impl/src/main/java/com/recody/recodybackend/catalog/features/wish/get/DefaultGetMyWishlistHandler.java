@@ -1,8 +1,8 @@
 package com.recody.recodybackend.catalog.features.wish.get;
 
 import com.recody.recodybackend.catalog.data.content.CatalogContentMapper;
-import com.recody.recodybackend.catalog.data.WishEntity;
-import com.recody.recodybackend.catalog.data.WishRepository;
+import com.recody.recodybackend.catalog.data.wish.WishEntity;
+import com.recody.recodybackend.catalog.data.wish.WishRepository;
 import com.recody.recodybackend.catalog.CatalogMovie;
 import com.recody.recodybackend.common.contents.Content;
 import com.recody.recodybackend.common.exceptions.InternalServerError;
@@ -34,7 +34,7 @@ class DefaultGetMyWishlistHandler implements GetMyWishlistHandler {
             List<WishEntity> wishEntities = optionalWishes.get();
             if (!wishEntities.isEmpty()){
                 for (WishEntity wishEntity : wishEntities) {
-                    CatalogMovie catalogMovie = contentMapper.toCatalogMovie(wishEntity.getCatalogContent());
+                    CatalogMovie catalogMovie = contentMapper.toCatalogMovie(wishEntity.getCatalogContent(), command.getLocale());
                     contents.add(catalogMovie);
                 }
                 log.debug("반환할 위시리스트를 추가하였습니다. size: {}", contents.size());

@@ -45,8 +45,6 @@ public abstract class MovieMapper {
     @Mapping(target = "runtime", ignore = true)
     @Mapping(target = "revenue", ignore = true)
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "spokenLanguages", ignore = true)
-    @Mapping(target = "productionCountries", ignore = true)
     @Mapping(target = "directors", ignore = true)
     @Mapping(target = "actors", ignore = true)
     @Mapping(target = "genres", ignore = true)

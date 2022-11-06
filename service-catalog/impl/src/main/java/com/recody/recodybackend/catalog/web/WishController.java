@@ -81,6 +81,7 @@ public class WishController {
                                    .data( getMyWishlistHandler.handle(
                                            GetMyWishlist.builder()
                                                         .userId( jwtManager.resolveUserId( accessToken ) )
+                                                        .locale( httpServletRequest.getLocale() )
                                                         .build() ) )
                                    .build() );
     }

@@ -1,12 +1,13 @@
 package com.recody.recodybackend.record.features.completerecord;
 
+import com.recody.recodybackend.catalog.data.category.CategoryEntity;
+import com.recody.recodybackend.catalog.data.category.CategoryRepository;
+import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
+import com.recody.recodybackend.catalog.data.content.CatalogContentRepository;
+import com.recody.recodybackend.catalog.data.record.RecordEntity;
+import com.recody.recodybackend.catalog.data.record.RecordRepository;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.record.RecodyRecordApplication;
-import com.recody.recodybackend.record.data.category.EmbeddableCategory;
-import com.recody.recodybackend.record.data.content.RecordContentEntity;
-import com.recody.recodybackend.record.data.content.RecordContentRepository;
-import com.recody.recodybackend.record.data.record.RecordEntity;
-import com.recody.recodybackend.record.data.record.RecordRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,7 @@ import org.springframework.test.context.ContextConfiguration;
 
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SpringBootTest
@@ -33,17 +34,21 @@ class DefaultCompleteRecordHandlerTest {
     RecordRepository repository;
     
     @Autowired
-    RecordContentRepository contentRepository;
-    RecordContentEntity savedContent;
+    CatalogContentRepository contentRepository;
+    CatalogContentEntity savedContent;
+    
+    @Autowired
+    CategoryRepository categoryRepository;
     
     @BeforeEach
     void before() {
-        RecordContentEntity content = RecordContentEntity
+        CategoryEntity categoryEntity = new CategoryEntity( BasicCategory.Movie.getId(), BasicCategory.Movie.getName() );
+        categoryRepository.save( categoryEntity );
+        CatalogContentEntity content = CatalogContentEntity
                                               .builder()
                                               .id("catalogId")
                                               .contentId(CONTENT_ID)
-                                              .title("contentTitle")
-                                              .category(new EmbeddableCategory(BasicCategory.Movie.getId(), BasicCategory.Movie.getName()))
+                                              .category( categoryEntity )
                                               .build();
         savedContent = contentRepository.save(content);
         

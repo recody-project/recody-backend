@@ -2,6 +2,7 @@ package com.recody.recodybackend.catalog.features.projection;
 
 import com.recody.recodybackend.common.events.ContentCreated;
 import com.recody.recodybackend.common.events.ContentRated;
+import com.recody.recodybackend.common.events.LoggingCallback;
 import com.recody.recodybackend.common.events.RecodyTopics;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +20,7 @@ class KafkaContentEventPublisher implements ContentEventPublisher {
     @Override
     public void publish(ContentCreated event) {
         contentCreatedTemplate.send(RecodyTopics.CONTENT, event)
-                              .addCallback(new LoggingCallback());
+                              .addCallback(new LoggingCallback() );
     }
     
     @Override

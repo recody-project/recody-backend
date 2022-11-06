@@ -1,18 +1,33 @@
 package com.recody.recodybackend.users.features.signup;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.recody.recodybackend.users.RecodyUserEmail;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SignUpUser {
-    
-    private String username;
+    @NonNull
+    private RecodyUserEmail email;
+    @NonNull
     private String password;
-    private String email;
+    @NonNull
+    private String passwordConfirm;
+
+    private String name;
     private String nickname;
+
+    private String pictureUrl;
+
+    @Override
+    public String toString() {
+        return "{\"SignUpUser\":{"
+               + "\"email\":" + email
+               + ", \"password\":" + ((password != null) ? ("\"" + password + "\"") : null)
+               + ", \"passwordConfirm\":" + ((passwordConfirm != null) ? ("\"" + passwordConfirm + "\"") : null)
+               + ", \"nickname\":" + ((nickname != null) ? ("\"" + nickname + "\"") : null)
+               + "}}";
+    }
 }

@@ -3,13 +3,15 @@ package com.recody.recodybackend.record;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-/*
-* test 환경에서 Movie 모듈만으로도 스프링 애플리케이션으로 빌드될 수 있어야 한다.
-* 필요한 환경변수들도 불러올 수 있도록 설정한다. */
-@EnableAutoConfiguration
+@EnableAutoConfiguration(exclude = JpaRepositoriesAutoConfiguration.class)
+@EnableJpaRepositories(basePackages = {"com.recody.recodybackend"})
+@EntityScan(basePackages = "com.recody.recodybackend")
 @ComponentScan(basePackages = "com.recody.recodybackend")
 @PropertySource(value = {"classpath:env.${spring.config.activate.on-profile}.properties"})
 public class RecodyRecordApplication {

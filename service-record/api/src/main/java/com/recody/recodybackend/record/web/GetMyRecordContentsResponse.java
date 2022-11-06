@@ -12,6 +12,6 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class GetMyRecordContentsResponse {
     
-    private List<RecordContent> contents;
+    private List<RecordContent> recordContents;
     
 }

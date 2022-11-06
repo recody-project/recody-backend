@@ -1,13 +1,14 @@
 package com.recody.recodybackend.record.web;
 
+import com.recody.recodybackend.catalog.data.category.CategoryEntity;
+import com.recody.recodybackend.catalog.data.category.CategoryRepository;
+import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
+import com.recody.recodybackend.catalog.data.content.CatalogContentRepository;
+import com.recody.recodybackend.catalog.data.rating.RatingEntity;
+import com.recody.recodybackend.catalog.data.rating.RatingRepository;
+import com.recody.recodybackend.catalog.data.record.RecordRepository;
 import com.recody.recodybackend.common.utils.FileUtils;
 import com.recody.recodybackend.record.RecodyRecordApplication;
-import com.recody.recodybackend.record.data.category.EmbeddableCategory;
-import com.recody.recodybackend.record.data.content.RecordContentEntity;
-import com.recody.recodybackend.record.data.content.RecordContentRepository;
-import com.recody.recodybackend.record.data.rating.RecordRatingEntity;
-import com.recody.recodybackend.record.data.rating.RecordRatingRepository;
-import com.recody.recodybackend.record.data.record.RecordRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -49,35 +50,37 @@ public class RecordControllerTest {
     Resource badDateFormat;
     
     @Autowired
-    RecordContentRepository contentRepository;
+    CatalogContentRepository contentRepository;
     
     @Autowired
     RecordRepository recordRepository;
     
     @Autowired
-    RecordRatingRepository recordRatingRepository;
+    RatingRepository recordRatingRepository;
     
-    RecordContentEntity savedContent;
-    EmbeddableCategory embeddableCategory = new EmbeddableCategory("con-2222", "sampleName");
+    CatalogContentEntity savedContent;
+    CategoryEntity categoryEntity = new CategoryEntity( "con-2222", "sampleName");
+    @Autowired
+    CategoryRepository categoryRepository;
     
     @BeforeEach
     void before() {
         recordRepository.deleteAllInBatch();
         contentRepository.deleteAllInBatch();
-
-        RecordContentEntity contentEntity = RecordContentEntity
+        CategoryEntity saved = categoryRepository.save( categoryEntity );
+    
+        CatalogContentEntity contentEntity = CatalogContentEntity
                                                     .builder()
                                                     .id("catalogId")
                                                     .contentId("con-1111")
-                                                    .title("contentTitle")
-                                                    .category(embeddableCategory)
+                                                    .category( categoryEntity )
                                                     .build();
         savedContent = contentRepository.save(contentEntity);
     }
     @Test
     void postRecord() throws Exception {
         String content = FileUtils.readResourceToString(request);
-        RecordRatingEntity ratingEntity = RecordRatingEntity.builder().score(1).userId(USER_ID).content(savedContent).build();
+        RatingEntity ratingEntity = RatingEntity.builder().score( 1 ).userId( USER_ID ).content( savedContent ).build();
         recordRatingRepository.save(ratingEntity);
         mockMvc.perform(addRecordRequest(content)
                        )

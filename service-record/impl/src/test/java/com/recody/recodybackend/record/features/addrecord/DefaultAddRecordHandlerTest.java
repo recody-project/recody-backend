@@ -1,15 +1,16 @@
 package com.recody.recodybackend.record.features.addrecord;
 
+import com.recody.recodybackend.catalog.data.category.CategoryEntity;
+import com.recody.recodybackend.catalog.data.category.CategoryRepository;
+import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
+import com.recody.recodybackend.catalog.data.content.CatalogContentRepository;
+import com.recody.recodybackend.catalog.data.rating.RatingEntity;
+import com.recody.recodybackend.catalog.data.rating.RatingRepository;
+import com.recody.recodybackend.catalog.data.record.RecordEntity;
+import com.recody.recodybackend.catalog.data.record.RecordRepository;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.exceptions.ContentNotFoundException;
 import com.recody.recodybackend.record.RecodyRecordApplication;
-import com.recody.recodybackend.record.data.category.EmbeddableCategory;
-import com.recody.recodybackend.record.data.content.RecordContentEntity;
-import com.recody.recodybackend.record.data.content.RecordContentRepository;
-import com.recody.recodybackend.record.data.rating.RecordRatingEntity;
-import com.recody.recodybackend.record.data.rating.RecordRatingRepository;
-import com.recody.recodybackend.record.data.record.RecordEntity;
-import com.recody.recodybackend.record.data.record.RecordRepository;
 import com.recody.recodybackend.record.exceptions.UserNotRatedOnContentException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -48,23 +49,27 @@ class DefaultAddRecordHandlerTest {
     RecordRepository recordRepository;
     
     @Autowired
-    RecordContentRepository contentRepository;
+    CatalogContentRepository contentRepository;
     
     @Autowired
-    RecordRatingRepository recordRatingRepository;
+    RatingRepository recordRatingRepository;
     
     String recordId;
     
-    RecordContentEntity content;
+    CatalogContentEntity content;
+    
+    @Autowired
+    CategoryRepository categoryRepository;
     
     @BeforeEach
     void before() {
-        content = RecordContentEntity
+        CategoryEntity categoryEntity = new CategoryEntity( BasicCategory.Movie.getId(), BasicCategory.Movie.getName() );
+        categoryRepository.save( categoryEntity );
+        content = CatalogContentEntity
                             .builder()
                             .id("catalogId")
                             .contentId(CONTENT_ID)
-                            .title("contentTitle")
-                            .category(new EmbeddableCategory(BasicCategory.Movie.getId(), BasicCategory.Movie.getName()))
+                            .category( categoryEntity )
                             .build();
         contentRepository.save(content);
     }
@@ -73,7 +78,7 @@ class DefaultAddRecordHandlerTest {
     @DisplayName("감상평을 추가할 수 있다. 감상일은 추가하지 않아도 예외가 일어나지 않는다.")
     void addRecordAppreciationDate() {
         // given
-        RecordRatingEntity ratingEntity = RecordRatingEntity.builder().score(1).userId(USER_ID).content(content).build();
+        RatingEntity ratingEntity = RatingEntity.builder().score( 1 ).userId( USER_ID ).content( content ).build();
         recordRatingRepository.save(ratingEntity);
         
         // when
@@ -96,7 +101,7 @@ class DefaultAddRecordHandlerTest {
     @DisplayName("감상일을 추가할 수 있다.")
     void addRecordAppreciationDate2() {
         // given
-        RecordRatingEntity ratingEntity = RecordRatingEntity.builder().score(1).userId(USER_ID).content(content).build();
+        RatingEntity ratingEntity = RatingEntity.builder().score(1).userId(USER_ID).content(content).build();
         recordRatingRepository.save(ratingEntity);
         
         LocalDate date = LocalDate.of(2022, 4, 2);
@@ -126,7 +131,7 @@ class DefaultAddRecordHandlerTest {
     @DisplayName("감상평을 저장할 때 없는 작품이면 예외를 일으킨다.")
     void addRecordContentCheck() {
         // given
-        RecordRatingEntity ratingEntity = RecordRatingEntity.builder().score(1).userId(USER_ID).content(content).build();
+        RatingEntity ratingEntity = RatingEntity.builder().score(1).userId(USER_ID).content(content).build();
         recordRatingRepository.save(ratingEntity);
         // when
         assertThatThrownBy(() -> addRecordHandler.handle(AddRecord.builder()

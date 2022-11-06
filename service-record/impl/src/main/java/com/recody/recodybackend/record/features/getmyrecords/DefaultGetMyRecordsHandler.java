@@ -1,12 +1,12 @@
 package com.recody.recodybackend.record.features.getmyrecords;
 
+import com.recody.recodybackend.catalog.data.category.CategoryEntity;
+import com.recody.recodybackend.catalog.data.record.RecordEntity;
+import com.recody.recodybackend.catalog.data.record.RecordMapper;
+import com.recody.recodybackend.catalog.data.record.RecordRepository;
 import com.recody.recodybackend.common.contents.Category;
 import com.recody.recodybackend.common.exceptions.InternalServerError;
 import com.recody.recodybackend.record.Record;
-import com.recody.recodybackend.record.data.category.EmbeddableCategory;
-import com.recody.recodybackend.record.data.record.RecordEntity;
-import com.recody.recodybackend.record.data.record.RecordMapper;
-import com.recody.recodybackend.record.data.record.RecordRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -44,7 +44,7 @@ class DefaultGetMyRecordsHandler implements GetMyRecordsHandler{
             optionalRecords = recordRepository.findAllByUserId(userId);
         }
         else {
-            EmbeddableCategory embeddableCategory = new EmbeddableCategory(category.getId(), category.getName());
+            CategoryEntity embeddableCategory = CategoryEntity.builder().id( category.getId() ).name( category.getName() ).build();
             optionalRecords = recordRepository.findAllFetchJoinContentWhereCategoryAndUserIdLimit(embeddableCategory,
                                                                                                   userId, pageable);
         }

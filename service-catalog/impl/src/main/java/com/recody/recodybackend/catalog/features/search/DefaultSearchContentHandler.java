@@ -11,6 +11,7 @@ import com.recody.recodybackend.catalog.web.SearchContentWithFiltersResponse;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.exceptions.UnsupportedCategoryException;
 import com.recody.recodybackend.movie.Movie;
+import com.recody.recodybackend.movie.web.TMDBSearchedMovie;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -62,10 +63,10 @@ class DefaultSearchContentHandler implements SearchContentHandler {
         String language = command.getLanguage();
         List<BasicCategory> categories = command.getCategories();
         
-        Mono<List<Movie>> moviesMono = Mono.empty();
+        Mono<List<TMDBSearchedMovie>> moviesMono = Mono.empty();
         for (BasicCategory category : categories) {
             if (category.equals( BasicCategory.Movie )){
-                moviesMono = reactiveSearchMoviesHandler.handle( SearchMovies.builder()
+                moviesMono = reactiveSearchMoviesHandler.handleTmdb( SearchMovies.builder()
                                                                              .keyword( keyword )
                                                                              .language( language )
                                                                              .build() );

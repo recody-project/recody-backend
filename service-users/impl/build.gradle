@@ -3,6 +3,7 @@ dependencies {
     implementation project(":common")
     implementation project(":common-boot-utils")
     implementation project(":service-users-api")
+    implementation project(":service-users-api-core")
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -33,6 +34,10 @@ dependencies {
 
     // aws log appender
     implementation "ca.pjer:logback-awslogs-appender:1.6.0"
+
+    // kafka
+    implementation 'org.springframework.kafka:spring-kafka'
+    testImplementation 'org.springframework.kafka:spring-kafka-test'
 }
 
 bootJar.enabled(false)

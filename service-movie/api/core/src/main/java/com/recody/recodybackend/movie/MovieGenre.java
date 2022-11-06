@@ -1,5 +1,6 @@
 package com.recody.recodybackend.movie;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.contents.Genre;
 import lombok.*;
@@ -28,6 +29,7 @@ public class MovieGenre implements Genre {
     }
     
     @Override
+    @JsonIgnore
     public BasicCategory getCategory() {
         return BasicCategory.Movie;
     }

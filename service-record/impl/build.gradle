@@ -11,17 +11,16 @@ plugins{
     id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 }
 
-bootJar.enabled(false)
-jar.enabled(true)
-
 apply plugin: "com.ewerk.gradle.plugins.querydsl"
 
 dependencies {
 
     implementation project(":common")
     implementation project(":common-boot-utils")
+    implementation project(":service-catalog-data")
     implementation project(":service-record-api")
     implementation project(":service-record-api-core")
+    implementation project(":service-users-api-core")
 
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -85,3 +84,6 @@ compileQuerydsl{
 configurations {
     querydsl.extendsFrom compileClasspath
 }
+
+bootJar.enabled(false)
+jar.enabled(true)

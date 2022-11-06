@@ -9,6 +9,7 @@ import com.recody.recodybackend.catalog.data.category.PersonalizedCategoryReposi
 import com.recody.recodybackend.catalog.data.category.CategoryRepository;
 import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
 import com.recody.recodybackend.catalog.data.content.CatalogContentRepository;
+import com.recody.recodybackend.catalog.data.content.CatalogContentTitleEntity;
 import com.recody.recodybackend.common.events.CategoryPersonalized;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -50,6 +51,9 @@ class DefaultChangeCategoryOnContentHandlerTest {
     
     @BeforeEach
     void before() {
+        personalizedCategoryRepository.deleteAllInBatch();
+        contentRepository.deleteAllInBatch();
+        categoryRepository.deleteAllInBatch();
         CategoryEntity categoryEntity = CategoryEntity.builder()
                                               .id( CATEGORY_ID )
                                               .userId( USER_ID )
@@ -58,9 +62,11 @@ class DefaultChangeCategoryOnContentHandlerTest {
         CategoryEntity savedCategory = categoryRepository.save( categoryEntity );
         CatalogContentEntity contentEntity = CatalogContentEntity.builder()
                                                          .contentId( CONTENT_ID )
-                                                                 .title( "sampleTitle" )
                                                          .category( savedCategory )
                                                          .build();
+        CatalogContentTitleEntity sampleTitle = CatalogContentTitleEntity.builder()
+                                                                         .englishTitle( "sampleTitle" ).build();
+        contentEntity.setTitle( sampleTitle );
         savedContent = contentRepository.save( contentEntity );
     }
     @Test

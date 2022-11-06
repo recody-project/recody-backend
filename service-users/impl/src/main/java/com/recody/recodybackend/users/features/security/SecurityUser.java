@@ -1,6 +1,6 @@
 package com.recody.recodybackend.users.features.security;
 
-import com.recody.recodybackend.users.data.RecodyUser;
+import com.recody.recodybackend.users.data.RecodyUserEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
@@ -13,9 +13,10 @@ class SecurityUser extends User {
         super(username, password, authorities);
     }
     
-    public SecurityUser(RecodyUser recodyUser) {
-        super(recodyUser.getEmail(),
-              "",
-              AuthorityUtils.createAuthorityList(recodyUser.getRole().toString()));
+    public SecurityUser(RecodyUserEntity recodyUserEntity) {
+        super(
+                recodyUserEntity.getEmail(),
+                "",
+                AuthorityUtils.createAuthorityList( recodyUserEntity.getRole().toString() ) );
     }
 }

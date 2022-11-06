@@ -7,8 +7,6 @@ import com.recody.recodybackend.movie.MovieDetail;
 import com.recody.recodybackend.movie.MovieSource;
 import com.recody.recodybackend.movie.data.genre.MovieGenreMapper;
 import com.recody.recodybackend.movie.data.people.MoviePersonMapper;
-import com.recody.recodybackend.movie.data.productioncountry.ProductionCountryMapper;
-import com.recody.recodybackend.movie.data.spokenlanguage.SpokenLanguageMapper;
 import com.recody.recodybackend.movie.data.title.MovieTitleMapper;
 import com.recody.recodybackend.movie.MovieInfo;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieDetail;
@@ -24,7 +22,8 @@ import java.util.Locale;
 @Mapper(componentModel = "spring",
         imports = {MovieSource.class, BasicCategory.class, TMDB.class},
         builder = @Builder(disableBuilder = true),
-        uses = {MovieGenreMapper.class, ProductionCountryMapper.class, SpokenLanguageMapper.class, MovieTitleMapper.class,
+        uses = {MovieGenreMapper.class,
+                MovieTitleMapper.class,
            MoviePersonMapper.class})
 @RequiredArgsConstructor
 @Slf4j
@@ -42,9 +41,7 @@ public abstract class MovieDetailMapper {
     @Mapping(target = "actors", source = "actors")
     @Mapping(target = "category", expression = "java(BasicCategory.Movie)")
     @Mapping(target = "contentId", source = "movieInfo.contentId")
-//    @Mapping(target = "rootId", ignore = true)
     @Mapping(target = "source", expression = "java(com.recody.recodybackend.movie.MovieSource.TMDB)")
-//    @Mapping(target = "tmdbId", source = "movieInfo.tmdbId")
     @Mapping(target = "genres", source = "movieInfo.genres")
     public abstract MovieDetail makeMovieDetail(MovieInfo movieInfo, List<Actor> actors, List<Director> directors);
     
@@ -67,7 +64,6 @@ public abstract class MovieDetailMapper {
     @Mapping(target = "category", expression = "java(com.recody.recodybackend.common.contents.BasicCategory.Movie)")
     @Mapping(target = "contentId", source = "entity.id")
     @Mapping(target = "source", expression = "java((s.equals(MovieSource.TMDB)) ? MovieSource.TMDB : null)")
-//    @Mapping(target = "tmdbId", source = "entity.tmdbId", conditionExpression = "java(MovieSource.TMDB.equals(s))")
     @Mapping(target = "title", source = ".")
     @Mapping(target = "genres", source = "entity.genres")
     @Mapping(target = "actors", source = "entity.actors")
@@ -84,8 +80,6 @@ public abstract class MovieDetailMapper {
     @Mapping(target = "tmdbId", source = "args.id")
     @Mapping(target = "directors", ignore = true)
     @Mapping(target = "actors", ignore = true)
-    @Mapping(target = "productionCountries", ignore = true)
-    @Mapping(target = "spokenLanguages", ignore = true)
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "posterPath", expression = "java(TMDB.fullPosterPath(args.getPosterPath()))")
     @Mapping(target = "title", source = "args.title")

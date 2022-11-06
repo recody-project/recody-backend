@@ -25,14 +25,10 @@ public class TMDBMovieDetail {
     private Float popularity;
     @JsonAlias(value = {"poster_path"})
     private String posterPath;
-    @JsonAlias(value = {"production_countries"})
-    private List<ProductionCountry> productionCountries;
     @JsonAlias(value = {"release_date"})
     private String releaseDate;
     private Integer runtime;
     private Long revenue;
-    @JsonAlias(value = {"spoken_languages"})
-    private List<SpokenLanguage> spokenLanguages;
     private String status;
     private String title;
     @JsonAlias(value = {"vote_average"})

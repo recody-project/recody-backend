@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
+import java.util.Locale;
 
 @Component
 @RequiredArgsConstructor
@@ -25,7 +26,7 @@ class DefaultContentLoader implements ContentLoader<CatalogContentEntity>{
     
     @Override
     @Transactional
-    public CatalogContent load(ContentId contentIdObject) {
+    public CatalogContent load(ContentId contentIdObject, Locale locale) {
         log.debug("loading content with contentId: {}", contentIdObject);
         String contentId = contentIdObject.getContentId();
         CatalogContentEntity contentEntity
@@ -33,7 +34,7 @@ class DefaultContentLoader implements ContentLoader<CatalogContentEntity>{
                                    .orElseThrow(ContentNotFoundException::new);
         BasicCategory basicCategory = BasicCategory.idOf(contentEntity.getCategory().getId());
         if (basicCategory.equals(BasicCategory.Movie)){
-            CatalogMovie catalogMovie = catalogContentMapper.toCatalogMovie(contentEntity);
+            CatalogMovie catalogMovie = catalogContentMapper.toCatalogMovie(contentEntity, locale);
             log.debug("returning catalogMovie: {}", catalogMovie);
             return catalogMovie;
         }
