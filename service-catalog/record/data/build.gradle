@@ -1,0 +1,78 @@
+buildscript {
+    ext {
+        queryDslVersion = "5.0.0"
+    }
+    dependencies {
+        classpath("gradle.plugin.com.ewerk.gradle.plugins:querydsl-plugin:1.0.10")
+    }
+}
+
+plugins{
+    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+}
+
+apply plugin: "com.ewerk.gradle.plugins.querydsl"
+
+dependencies {
+    implementation project(":common")
+    implementation project(":common-boot-utils")
+    implementation project(":service-catalog-content-data")
+    implementation project(":service-catalog-content-core")
+    implementation project(":service-catalog-record-core")
+
+    implementation project(":service-movie-core")
+
+
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // logback xml 파일에 정의된 로그 어펜더 때문에 임시로 추가함.
+    implementation "ca.pjer:logback-awslogs-appender:1.6.0"
+
+    // databases
+    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'mysql:mysql-connector-java'
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // https://mvnrepository.com/artifact/com.querydsl/querydsl-jpa
+    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+    implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
+
+    implementation 'org.mapstruct:mapstruct:1.5.2.Final'
+
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.2.Final'
+
+    // https://mvnrepository.com/artifact/io.projectreactor/reactor-core
+    implementation 'io.projectreactor:reactor-core:3.4.22'
+
+}
+
+def querydslDir = "$buildDir/generated/querydsl"
+
+querydsl {
+    jpa = true
+    querydslSourcesDir = querydslDir
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java', querydslDir]
+        }
+    }
+}
+
+compileQuerydsl{
+    options.annotationProcessorPath = configurations.querydsl
+}
+
+configurations {
+    querydsl.extendsFrom compileClasspath
+}
+
+bootJar.enabled(false)
+jar.enabled(true)
