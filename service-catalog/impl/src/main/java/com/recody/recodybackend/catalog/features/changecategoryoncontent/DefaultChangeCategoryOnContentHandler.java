@@ -6,7 +6,7 @@ import com.recody.recodybackend.catalog.data.category.PersonalizedCategoryReposi
 import com.recody.recodybackend.catalog.data.category.CategoryRepository;
 import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
 import com.recody.recodybackend.catalog.data.content.CatalogContentRepository;
-import com.recody.recodybackend.catalog.exceptions.CategoryNotFoundException;
+import com.recody.recodybackend.exceptions.CategoryNotFoundException;
 import com.recody.recodybackend.common.events.CategoryPersonalized;
 import com.recody.recodybackend.common.exceptions.ContentNotFoundException;
 import lombok.RequiredArgsConstructor;

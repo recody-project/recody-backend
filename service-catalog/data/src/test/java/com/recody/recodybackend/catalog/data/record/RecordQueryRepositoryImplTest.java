@@ -15,7 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @ActiveProfiles("test")

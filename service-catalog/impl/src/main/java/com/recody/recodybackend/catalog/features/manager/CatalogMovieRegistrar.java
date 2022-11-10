@@ -1,6 +1,6 @@
 package com.recody.recodybackend.catalog.features.manager;
 
-import com.recody.recodybackend.catalog.CatalogMovieDetail;
+import com.recody.recodybackend.content.CatalogMovieDetail;
 import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
 import com.recody.recodybackend.catalog.data.content.CatalogContentMapper;
 import com.recody.recodybackend.catalog.data.content.CatalogContentRepository;

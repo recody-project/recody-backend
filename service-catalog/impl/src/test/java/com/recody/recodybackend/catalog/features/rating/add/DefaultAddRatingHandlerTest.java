@@ -1,9 +1,11 @@
 package com.recody.recodybackend.catalog.features.rating.add;
 
 import com.recody.recodybackend.catalog.RecodyCatalogApplication;
-import com.recody.recodybackend.catalog.exceptions.InvalidRatingScoreException;
-import com.recody.recodybackend.catalog.RatingScore;
+import com.recody.recodybackend.catalog.data.rating.RatingRepository;
+import com.recody.recodybackend.exceptions.InvalidRatingScoreException;
+import com.recody.recodybackend.rating.RatingScore;
 import com.recody.recodybackend.common.exceptions.ContentNotFoundException;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -23,6 +25,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class DefaultAddRatingHandlerTest {
     @Autowired
     DefaultAddRatingHandler addRatingHandler ;
+    
+    @Autowired
+    RatingRepository ratingRepository;
     
     @ParameterizedTest
     @ValueSource(ints = {1,2,3,4,5,6,7,8,9,10})
@@ -50,6 +55,11 @@ class DefaultAddRatingHandlerTest {
                 .isInstanceOf(InvalidRatingScoreException.class);
         
         // then
+    }
+    
+    @AfterEach
+    void after() {
+        ratingRepository.deleteAllInBatch();
     }
     
 }

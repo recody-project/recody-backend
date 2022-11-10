@@ -1,7 +1,7 @@
 package com.recody.recodybackend.catalog.features.search;
 
-import com.recody.recodybackend.catalog.PersonalizedContent;
-import com.recody.recodybackend.catalog.PersonalizedMovie;
+import com.recody.recodybackend.content.PersonalizedContent;
+import com.recody.recodybackend.content.PersonalizedMovie;
 import com.recody.recodybackend.catalog.features.personalize.ContentPersonalizer;
 import com.recody.recodybackend.catalog.features.search.movies.ReactiveSearchMoviesHandler;
 import com.recody.recodybackend.catalog.features.search.movies.SearchMovies;

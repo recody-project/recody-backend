@@ -19,7 +19,7 @@ import com.recody.recodybackend.movie.features.getmoviecredit.dto.TMDBCrew;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieDetail;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieGenre;
 import com.recody.recodybackend.movie.features.projection.MovieEventPublisher;
-import com.recody.recodybackend.movie.features.resolvegenres.MovieGenreResolver;
+import com.recody.recodybackend.movie.features.resolvegenre.MovieGenreResolver;
 import com.recody.recodybackend.movie.features.searchmovies.dto.TMDBMovieSearchNode;
 import com.recody.recodybackend.movie.features.tmdb.TMDB;
 import com.recody.recodybackend.movie.features.tmdb.TMDBMovieID;
@@ -53,46 +53,46 @@ class DefaultMovieManager implements MovieManager {
     @Override
     @Transactional
     public MovieInfo register(TMDBMovieDetail source, Locale locale) {
-        log.debug("registering TMDBMovieDetail");
-    
-        Optional<MovieEntity> optionalMovieEntity = movieRepository.findByTmdbId(source.getId());
-        if (optionalMovieEntity.isPresent()){
+        log.debug( "registering TMDBMovieDetail" );
+        
+        Optional<MovieEntity> optionalMovieEntity = movieRepository.findByTmdbId( source.getId() );
+        if ( optionalMovieEntity.isPresent() ) {
             // 있으면 업데이트 후 반환한다.
             MovieEntity movieEntity = optionalMovieEntity.get();
-            MovieEntity updatedEntity = movieDetailMapper.update(movieEntity, source, locale);
-            MovieInfo movie = movieMapper.toMovieInfo(updatedEntity, locale);
-            log.info("영화를 업데이트 후 반환합니다. movie: {}", movie);
+            MovieEntity updatedEntity = movieDetailMapper.update( movieEntity, source, locale );
+            MovieInfo movie = movieMapper.toMovieInfo( updatedEntity, locale );
+            log.info( "영화를 업데이트 후 반환합니다. movie: {}", movie );
             return movie;
         }
-    
+        
         List<TMDBMovieGenre> genres = source.getGenres();
         
-        MovieEntity movieEntity = movieDetailMapper.newEntity(source, locale);
-        log.debug("new movieEntity: {}", movieEntity);
+        MovieEntity movieEntity = movieDetailMapper.newEntity( source, locale );
+        log.debug( "new movieEntity: {}", movieEntity );
         
-        MovieEntity savedEntity = movieRepository.save(movieEntity);
-        log.debug("savedEntity: {}", savedEntity);
-    
+        MovieEntity savedEntity = movieRepository.save( movieEntity );
+        log.debug( "savedEntity: {}", savedEntity );
+        
         publishNewMovieCreated( savedEntity );
-    
-        genreCodeManager.registerAsync(genres)
-                        .thenAccept(genreCodeEntity -> movieEntityManager.saveMovieGenre(savedEntity, genreCodeEntity));
         
-        MovieInfo movie = movieMapper.toMovieInfo(savedEntity, locale);
-        log.info("영화를 등록하였습니다. movie: {}", movie);
+        genreCodeManager.registerAsync( genres )
+                        .thenAccept( genreCodeEntity -> movieEntityManager.saveMovieGenre( savedEntity, genreCodeEntity ) );
+        
+        MovieInfo movie = movieMapper.toMovieInfo( savedEntity, locale );
+        log.info( "영화를 등록하였습니다. movie: {}", movie );
         return movie;
     }
     
     @Override
     @Transactional
     public Optional<Movie> load(TMDBMovieID sourceIdentifier, Locale locale) {
-        log.debug("Loading Movie with tmdbId: {}", sourceIdentifier);
+        log.debug( "Loading Movie with tmdbId: {}", sourceIdentifier );
         Integer id = sourceIdentifier.getId();
-        MovieEntity movieEntity = movieRepository.findByTmdbId(id)
-                                                 .orElse(null);
-        Movie movie = movieMapper.toMovie(movieEntity, locale);
-        log.info("Loaded Movie: {}", movie);
-        return Optional.ofNullable(movie);
+        MovieEntity movieEntity = movieRepository.findByTmdbId( id )
+                                                 .orElse( null );
+        Movie movie = movieMapper.toMovie( movieEntity, locale );
+        log.info( "Loaded Movie: {}", movie );
+        return Optional.ofNullable( movie );
     }
     
     @Override
@@ -135,44 +135,44 @@ class DefaultMovieManager implements MovieManager {
         private final MovieGenreCodeManager genreCodeManager;
         private final MovieEntityManager movieEntityManager;
         private final MovieGenreResolver genreResolver;
-    
+        
         private final MovieEventPublisher movieEventPublisher;
-    
-    
+        
+        
         @Override
         public Movie register(TMDBMovieSearchNode source, Locale locale) {
-            log.debug("registering TMDBMovieSearchNode, locale: {}", locale);
+            log.debug( "registering TMDBMovieSearchNode, locale: {}", locale );
             Optional<MovieEntity> optionalMovie;
             String title = source.getTitle();
-            optionalMovie = movieRepository.findByTmdbId(source.getId());
+            optionalMovie = movieRepository.findByTmdbId( source.getId() );
             
-            if (optionalMovie.isPresent()) {
+            if ( optionalMovie.isPresent() ) {
                 MovieEntity currentMovieEntity = optionalMovie.get();
-                MovieEntity updatedMovieEntity = movieEntityManager.upsertTitleByLocale(currentMovieEntity, title, locale);
-                log.debug("이미 존재하는 영화 정보를 업데이트 후 반환합니다.");
-                return movieMapper.toMovie(updatedMovieEntity, locale);
+                MovieEntity updatedMovieEntity = movieEntityManager.upsertTitleByLocale( currentMovieEntity, title, locale );
+                log.debug( "이미 존재하는 영화 정보를 업데이트 후 반환합니다." );
+                return movieMapper.toMovie( updatedMovieEntity, locale );
             }
             
             List<Integer> genreIds = source.getGenreIds();
             
-            List<TMDBMovieGenre> movieGenres = genreResolver.toTMDBGenres(genreIds);
+            List<TMDBMovieGenre> movieGenres = genreResolver.toTMDBGenres( genreIds );
             
-            MovieEntity movieEntity = movieMapper.newEntity(source, locale);
-            log.debug("new MovieEntity: {} ", movieEntity);
+            MovieEntity movieEntity = movieMapper.newEntity( source, locale );
+            log.debug( "new MovieEntity: {} ", movieEntity );
             
-            MovieEntity savedMovieEntity = movieRepository.saveAndFlush(movieEntity);
-            log.debug("savedMovieEntity id: {}", savedMovieEntity.getId());
+            MovieEntity savedMovieEntity = movieRepository.saveAndFlush( movieEntity );
+            log.debug( "savedMovieEntity id: {}", savedMovieEntity.getId() );
             
             publishNewMovieCreated( savedMovieEntity );
             
-            genreCodeManager.registerAsync(movieGenres)
-                            .thenAccept(genres -> {
-                                movieEntityManager.saveMovieGenre(savedMovieEntity, genres);
-                                log.info("영화의 장르들을 저장하였습니다.: {}", genres.size());
-                            });
-    
-            log.debug("검색한 영화를 저장하였습니다.: {}", savedMovieEntity.getId());
-            return movieMapper.toMovie(savedMovieEntity, locale);
+            genreCodeManager.registerAsync( movieGenres )
+                            .thenAccept( genres -> {
+                                movieEntityManager.saveMovieGenre( savedMovieEntity, genres );
+                                log.info( "영화의 장르들을 저장하였습니다.: {}", genres.size() );
+                            } );
+            
+            log.debug( "검색한 영화를 저장하였습니다.: {}", savedMovieEntity.getId() );
+            return movieMapper.toMovie( savedMovieEntity, locale );
         }
         
         private void publishNewMovieCreated(MovieEntity savedEntity) {
@@ -187,8 +187,8 @@ class DefaultMovieManager implements MovieManager {
         
         @Override
         public List<Movie> register(List<TMDBMovieSearchNode> sources, Locale locale) {
-            log.info(" {} 개의 영화를 저장합니다. ", sources.size());
-            return sources.stream().map(source -> this.register(source, locale)).collect(Collectors.toList());
+            log.info( " {} 개의 영화를 저장합니다. ", sources.size() );
+            return sources.stream().map( source -> this.register( source, locale ) ).collect( Collectors.toList() );
         }
     }
     
@@ -205,29 +205,29 @@ class DefaultMovieManager implements MovieManager {
         @Override
         @Transactional
         public MovieInfo register(Movie movie, TMDBMovieDetail source, Locale locale) {
-            log.debug("registering TMDBMovieDetail for movie: {}", movie);
-            Optional<MovieEntity> optionalMovie = movieRepository.findById(movie.getContentId());
+            log.debug( "registering TMDBMovieDetail for movie: {}", movie );
+            Optional<MovieEntity> optionalMovie = movieRepository.findById( movie.getContentId() );
             
-            if (optionalMovie.isEmpty()) {
+            if ( optionalMovie.isEmpty() ) {
                 throw new ContentNotFoundException();
             }
             
             // 저장된 영화이다. 상세 정보 중에 업데이트할 정보를 찾아 업데이트한다.
             MovieEntity entity = optionalMovie.get();
             // production country, spoken language
-            MovieEntity updatedEntity = movieDetailMapper.update(entity, source, locale);
+            MovieEntity updatedEntity = movieDetailMapper.update( entity, source, locale );
             List<MovieGenreEntity> genres = updatedEntity.getGenres();
-            log.debug("genres: {}", genres);
-            MovieInfo movieInfo = movieMapper.toMovieInfo(updatedEntity, locale);
-    
-            log.info("TMDBMovieDetail 로 영화정보를 저장하였습니다.: {}", movieInfo);
+            log.debug( "genres: {}", genres );
+            MovieInfo movieInfo = movieMapper.toMovieInfo( updatedEntity, locale );
+            
+            log.info( "TMDBMovieDetail 로 영화정보를 저장하였습니다.: {}", movieInfo );
             return movieInfo;
         }
-    
+        
         @Override
         public List<MovieInfo> register(Movie content, List<TMDBMovieDetail> tmdbMovieDetails, Locale locale) {
-            log.info("{} 개의 영화를 저장하거나 업데이트합니다.", tmdbMovieDetails.size());
-            return MovieInfoRegistrar.super.register(content, tmdbMovieDetails, locale);
+            log.info( "{} 개의 영화를 저장하거나 업데이트합니다.", tmdbMovieDetails.size() );
+            return MovieInfoRegistrar.super.register( content, tmdbMovieDetails, locale );
         }
     }
     
@@ -236,6 +236,7 @@ class DefaultMovieManager implements MovieManager {
     @RequiredArgsConstructor
     @Slf4j
     public static class ActorRegistrar implements MovieInfoRegistrar<Actor, TMDBCast> {
+        
         private final MoviePersonMapper moviePersonMapper;
         private final MoviePersonRepository personRepository;
         private final MovieEntityManager movieEntityManager;
@@ -243,36 +244,36 @@ class DefaultMovieManager implements MovieManager {
         
         @Override
         public Actor register(Movie movie, TMDBCast source, Locale locale) {
-            log.debug("registering actor for movie: {}", movie);
-            MovieEntity movieEntity = movieRepository.findById(movie.getContentId())
-                                                     .orElseThrow(ContentNotFoundException::new);
+            log.debug( "registering actor for movie: {}", movie );
+            MovieEntity movieEntity = movieRepository.findById( movie.getContentId() )
+                                                     .orElseThrow( ContentNotFoundException::new );
             
             Integer tmdbId = source.getId();
-            Optional<MoviePersonEntity> optionalPerson = personRepository.findByTmdbId(tmdbId);
-            if (optionalPerson.isPresent()) {
+            Optional<MoviePersonEntity> optionalPerson = personRepository.findByTmdbId( tmdbId );
+            if ( optionalPerson.isPresent() ) {
                 MoviePersonEntity entity = optionalPerson.get();
                 //TODO Actor 있을 시 업데이트
-                MovieActorEntity savedActorEntity = movieEntityManager.saveActor(movieEntity, entity, source);
-                Actor actor = moviePersonMapper.toActor(savedActorEntity);
-                log.debug("updated actor: {}", actor);
+                MovieActorEntity savedActorEntity = movieEntityManager.saveActor( movieEntity, entity, source );
+                Actor actor = moviePersonMapper.toActor( savedActorEntity );
+                log.debug( "updated actor: {}", actor );
                 return actor;
             }
             
-            MoviePersonEntity before = moviePersonMapper.newPersonEntity(source);
-            MoviePersonEntity savedPersonEntity = personRepository.save(before);
-            MovieActorEntity actorEntity = movieEntityManager.saveActor(movieEntity, savedPersonEntity, source);
-            Actor actor = moviePersonMapper.toActor(actorEntity);
-            log.debug("saved new actor: {}", actor);
+            MoviePersonEntity before = moviePersonMapper.newPersonEntity( source );
+            MoviePersonEntity savedPersonEntity = personRepository.save( before );
+            MovieActorEntity actorEntity = movieEntityManager.saveActor( movieEntity, savedPersonEntity, source );
+            Actor actor = moviePersonMapper.toActor( actorEntity );
+            log.debug( "saved new actor: {}", actor );
             return actor;
         }
         
         @Override
         public List<Actor> register(Movie movie, List<TMDBCast> source, Locale locale) {
             return source.stream()
-                         .filter(cast -> cast.getKnownForDepartment().equals(TMDB.ACTING))
-                         .limit(TMDB.ACTOR_MAX_SIZE)
-                         .map(cast -> this.register(movie, cast, locale))
-                         .collect(Collectors.toList());
+                         .filter( cast -> cast.getKnownForDepartment().equals( TMDB.ACTING ) )
+                         .limit( TMDB.ACTOR_MAX_SIZE )
+                         .map( cast -> this.register( movie, cast, locale ) )
+                         .collect( Collectors.toList() );
         }
     }
     
@@ -281,6 +282,7 @@ class DefaultMovieManager implements MovieManager {
     @RequiredArgsConstructor
     @Slf4j
     public static class DirectorRegistrar implements MovieInfoRegistrar<Director, TMDBCrew> {
+        
         private final MoviePersonMapper moviePersonMapper;
         private final MoviePersonRepository personRepository;
         private final MovieEntityManager movieEntityManager;
@@ -289,27 +291,27 @@ class DefaultMovieManager implements MovieManager {
         
         @Override
         public Director register(Movie movie, TMDBCrew crew, Locale locale) {
-            log.debug("registering director for movie: {}", movie);
-            MovieEntity movieEntity = movieRepository.findById(movie.getContentId())
-                                                     .orElseThrow(ContentNotFoundException::new);
+            log.debug( "registering director for movie: {}", movie );
+            MovieEntity movieEntity = movieRepository.findById( movie.getContentId() )
+                                                     .orElseThrow( ContentNotFoundException::new );
             
             Integer tmdbId = crew.getId();
-            Optional<MoviePersonEntity> optionalPerson = personRepository.findByTmdbId(tmdbId);
-            if (optionalPerson.isPresent()) {
+            Optional<MoviePersonEntity> optionalPerson = personRepository.findByTmdbId( tmdbId );
+            if ( optionalPerson.isPresent() ) {
                 //TODO Director 있을 시 업데이트
                 MoviePersonEntity entity = optionalPerson.get();
-                MovieDirectorEntity savedDirectorEntity = movieEntityManager.saveDirector(movieEntity, entity);
-                Director director = moviePersonMapper.toDirector(savedDirectorEntity);
-                log.debug("updated director: {}", director);
-    
+                MovieDirectorEntity savedDirectorEntity = movieEntityManager.saveDirector( movieEntity, entity );
+                Director director = moviePersonMapper.toDirector( savedDirectorEntity );
+                log.debug( "updated director: {}", director );
+                
                 return director;
             }
             
-            MoviePersonEntity before = moviePersonMapper.newPersonEntity(crew);
-            MoviePersonEntity savedPersonEntity = personRepository.save(before);
-            MovieDirectorEntity movieDirectorEntity = movieEntityManager.saveDirector(movieEntity, savedPersonEntity);
-            Director director = moviePersonMapper.toDirector(movieDirectorEntity);
-            log.debug("saved new director: {}", director);
+            MoviePersonEntity before = moviePersonMapper.newPersonEntity( crew );
+            MoviePersonEntity savedPersonEntity = personRepository.save( before );
+            MovieDirectorEntity movieDirectorEntity = movieEntityManager.saveDirector( movieEntity, savedPersonEntity );
+            Director director = moviePersonMapper.toDirector( movieDirectorEntity );
+            log.debug( "saved new director: {}", director );
             return director;
             
         }
@@ -317,13 +319,13 @@ class DefaultMovieManager implements MovieManager {
         @Override
         public List<Director> register(Movie movie, List<TMDBCrew> crew, Locale locale) {
             List<TMDBCrew> fewCrews = crew.stream()
-                                          .filter(tmdbCast -> tmdbCast.getJob().equals(TMDB.DIRECTOR))
-                                          .limit(TMDB.DIRECTOR_MAX_SIZE)
-                                          .collect(Collectors.toList());
+                                          .filter( tmdbCast -> tmdbCast.getJob().equals( TMDB.DIRECTOR ) )
+                                          .limit( TMDB.DIRECTOR_MAX_SIZE )
+                                          .collect( Collectors.toList() );
             ArrayList<Director> directors = new ArrayList<>();
             for (TMDBCrew tmdbCrew : fewCrews) {
-                Director registered = this.register(movie, tmdbCrew, locale);
-                directors.add(registered);
+                Director registered = this.register( movie, tmdbCrew, locale );
+                directors.add( registered );
             }
             return directors;
         }

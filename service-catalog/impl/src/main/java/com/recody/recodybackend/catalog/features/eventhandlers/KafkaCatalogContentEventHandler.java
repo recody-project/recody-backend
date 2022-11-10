@@ -5,7 +5,7 @@ import com.recody.recodybackend.catalog.data.category.CategoryRepository;
 import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
 import com.recody.recodybackend.catalog.data.content.CatalogContentRepository;
 import com.recody.recodybackend.catalog.data.content.CatalogContentTitleEntity;
-import com.recody.recodybackend.catalog.exceptions.CategoryNotFoundException;
+import com.recody.recodybackend.exceptions.CategoryNotFoundException;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.events.RecodyTopics;
 import com.recody.recodybackend.movie.events.MovieCreated;

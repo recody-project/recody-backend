@@ -1,9 +1,10 @@
 package com.recody.recodybackend.catalog.features.wish;
 
-import com.recody.recodybackend.catalog.ContentId;
+import com.recody.recodybackend.content.ContentId;
 import com.recody.recodybackend.catalog.RecodyCatalogApplication;
 import com.recody.recodybackend.catalog.features.wish.add.AddToWishlist;
 import com.recody.recodybackend.catalog.features.wish.add.AddToWishlistHandler;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,6 +28,11 @@ class DefaultAddToWishlistHandlerTest {
     @Mock
     AddToWishlistHandler addToWishlistHandler;
     
+    @BeforeEach
+    void before() {
+    
+    }
+    
     
     @Test
     @DisplayName("test01")
@@ -43,5 +49,4 @@ class DefaultAddToWishlistHandlerTest {
         // then
         assertThat(addToWishlistHandler.handle(command)).isEqualTo(catalogId);
     }
-    
 }

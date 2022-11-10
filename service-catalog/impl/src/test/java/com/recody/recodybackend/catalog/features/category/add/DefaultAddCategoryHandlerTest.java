@@ -1,10 +1,10 @@
 package com.recody.recodybackend.catalog.features.category.add;
 
-import com.recody.recodybackend.catalog.CategoryIconUrl;
-import com.recody.recodybackend.catalog.CategoryName;
-import com.recody.recodybackend.catalog.CustomCategory;
+import com.recody.recodybackend.category.CategoryIconUrl;
+import com.recody.recodybackend.category.CategoryName;
+import com.recody.recodybackend.category.CustomCategory;
 import com.recody.recodybackend.catalog.RecodyCatalogApplication;
-import com.recody.recodybackend.catalog.exceptions.CustomCategoryException;
+import com.recody.recodybackend.exceptions.CustomCategoryException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

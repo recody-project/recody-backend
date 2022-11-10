@@ -1,7 +1,7 @@
 package com.recody.recodybackend.catalog.data.rating;
 
 import com.recody.recodybackend.catalog.RecodyCatalogApplication;
-import com.recody.recodybackend.catalog.RatingScore;
+import com.recody.recodybackend.rating.RatingScore;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -8,7 +8,6 @@ import com.recody.recodybackend.movie.data.genre.MovieGenreCodeRepository;
 import com.recody.recodybackend.movie.data.genre.MovieGenreMapper;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieGenre;
 import com.recody.recodybackend.movie.data.genre.MovieGenreCodeManager;
-import com.recody.recodybackend.movie.features.resolvegenres.MovieGenreResolver;
 import com.recody.recodybackend.movie.features.resolvegenre.fromapi.GetTMDBMovieGenresHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

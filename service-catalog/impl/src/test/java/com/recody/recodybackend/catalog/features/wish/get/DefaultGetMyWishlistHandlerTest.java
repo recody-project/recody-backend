@@ -10,6 +10,7 @@ import com.recody.recodybackend.catalog.data.wish.WishRepository;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.contents.Content;
 import com.recody.recodybackend.catalog.data.category.CategoryEntity;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,6 +21,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Locale;
 
@@ -45,6 +48,7 @@ class DefaultGetMyWishlistHandlerTest {
     
     @BeforeEach
     void before() {
+        wishRepository.deleteAllInBatch();
         contentRepository.deleteAllInBatch();
         categoryRepository.deleteAllInBatch();
         String id = BasicCategory.Movie.getId();
@@ -81,5 +85,12 @@ class DefaultGetMyWishlistHandlerTest {
             Content<?> catalogContent = handle.get(i);
             assertThat(catalogContent.getContentId()).isEqualTo(contentIds[i]);
         }
+    }
+    
+    @AfterEach
+    void after() {
+        wishRepository.deleteAllInBatch();
+        contentRepository.deleteAllInBatch();
+        categoryRepository.deleteAllInBatch();
     }
 }

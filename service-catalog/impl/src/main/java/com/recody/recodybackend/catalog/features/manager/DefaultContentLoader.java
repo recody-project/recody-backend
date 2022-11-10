@@ -1,11 +1,11 @@
 package com.recody.recodybackend.catalog.features.manager;
 
-import com.recody.recodybackend.catalog.ContentId;
+import com.recody.recodybackend.content.ContentId;
 import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
 import com.recody.recodybackend.catalog.data.content.CatalogContentMapper;
 import com.recody.recodybackend.catalog.data.content.CatalogContentRepository;
-import com.recody.recodybackend.catalog.CatalogContent;
-import com.recody.recodybackend.catalog.CatalogMovie;
+import com.recody.recodybackend.content.CatalogContent;
+import com.recody.recodybackend.content.CatalogMovie;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.exceptions.ContentNotFoundException;
 import com.recody.recodybackend.common.exceptions.UnsupportedCategoryException;

@@ -1,7 +1,7 @@
 package com.recody.recodybackend.catalog.features.changecategoryoncontent;
 
-import com.recody.recodybackend.catalog.ContentId;
-import com.recody.recodybackend.catalog.CustomCategoryId;
+import com.recody.recodybackend.content.ContentId;
+import com.recody.recodybackend.category.CustomCategoryId;
 import com.recody.recodybackend.catalog.RecodyCatalogApplication;
 import com.recody.recodybackend.catalog.data.category.CategoryEntity;
 import com.recody.recodybackend.catalog.data.category.PersonalizedCategoryEntity;

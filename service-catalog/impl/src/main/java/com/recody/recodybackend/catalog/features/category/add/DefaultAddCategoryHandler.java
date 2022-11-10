@@ -1,10 +1,10 @@
 package com.recody.recodybackend.catalog.features.category.add;
 
-import com.recody.recodybackend.catalog.CustomCategory;
+import com.recody.recodybackend.category.CustomCategory;
 import com.recody.recodybackend.catalog.data.category.CategoryEntity;
 import com.recody.recodybackend.catalog.data.category.CategoryMapper;
 import com.recody.recodybackend.catalog.data.category.CategoryRepository;
-import com.recody.recodybackend.catalog.exceptions.CustomCategoryException;
+import com.recody.recodybackend.exceptions.CustomCategoryException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

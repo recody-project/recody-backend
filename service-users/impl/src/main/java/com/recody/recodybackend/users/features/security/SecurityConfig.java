@@ -24,7 +24,8 @@ class SecurityConfig {
     private final UsersAuthenticationEntryPoint authenticationEntryPoint;
     public static final String[] permittingEndpoints = {"/", "/index.html", "/test/**",
                                                          "/api/*/users/signup/**","/api/*/users/sign-in",
-                                                         "/api/*/users/refresh-token", "/errors"};
+                                                         "/api/*/users/refresh-token", "/errors", "/actuator/**"};
+    // TODO: actuator 엔드포인트 인증하게 하는 방법?
     
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {

@@ -16,10 +16,11 @@ apply plugin: "com.ewerk.gradle.plugins.querydsl"
 dependencies {
     implementation project(":common")
     implementation project(":common-boot-utils")
-    implementation project(":service-catalog-api")
-    implementation project(":service-catalog-api-core")
+    implementation project(":service-catalog-core")
+    implementation project(":service-catalog-api-shared")
     implementation project(":service-catalog-data")
-    implementation project(":service-movie-api-core")
+    implementation project(":service-movie-core")
+    implementation project(":service-movie-api-shared")
     implementation project(":service-users-api-core")
 
     implementation 'org.springframework.boot:spring-boot-starter-web'

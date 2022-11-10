@@ -1,0 +1,35 @@
+
+
+dependencies {
+    implementation project(":common")
+    implementation project(":service-catalog-core")
+
+    // TODO: movie 의존성 없애기
+    implementation project(":service-movie-core")
+    implementation project(":service-movie-api-shared")
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.3'
+
+    // https://mvnrepository.com/artifact/org.springframework/spring-web
+    implementation 'org.springframework:spring-web:5.3.22'
+
+    // https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
+    implementation 'ch.qos.logback:logback-classic:1.4.0'
+
+    // https://mvnrepository.com/artifact/org.slf4j/jcl-over-slf4j
+    implementation 'org.slf4j:jcl-over-slf4j:2.0.0'
+
+//    // https://mvnrepository.com/artifact/jakarta.validation/jakarta.validation-api
+//    implementation 'jakarta.validation:jakarta.validation-api'
+
+}
+
+bootJar.enabled(false)
+jar.enabled(true)

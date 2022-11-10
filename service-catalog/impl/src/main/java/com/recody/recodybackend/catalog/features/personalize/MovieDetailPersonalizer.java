@@ -1,8 +1,8 @@
 package com.recody.recodybackend.catalog.features.personalize;
 
-import com.recody.recodybackend.catalog.CustomCategory;
-import com.recody.recodybackend.catalog.PersonalizedMovieDetail;
-import com.recody.recodybackend.catalog.CatalogMovieDetail;
+import com.recody.recodybackend.category.CustomCategory;
+import com.recody.recodybackend.content.PersonalizedMovieDetail;
+import com.recody.recodybackend.content.CatalogMovieDetail;
 import com.recody.recodybackend.catalog.data.category.*;
 import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
 import com.recody.recodybackend.catalog.data.content.CatalogContentRepository;
