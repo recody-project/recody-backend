@@ -31,7 +31,6 @@ public class CatalogContentEntity extends CatalogBaseEntity {
                                      @Parameter( name = CustomSequenceIdGenerator.NUMBER_FORMAT_PARAMETER, value = "%d" )} )
     private String id;
     /**
-     * '.
      * 작품의 기본 카테고리이다.
      */
     @ManyToOne( fetch = FetchType.EAGER )
