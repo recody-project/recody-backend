@@ -1,10 +1,13 @@
 package com.recody.recodybackend.catalog.features.category.add;
 
+import com.recody.recodybackend.catalog.data.user.CatalogUserEntity;
+import com.recody.recodybackend.catalog.data.user.CatalogUserRepository;
 import com.recody.recodybackend.category.CustomCategory;
 import com.recody.recodybackend.catalog.data.category.CategoryEntity;
 import com.recody.recodybackend.catalog.data.category.CategoryMapper;
 import com.recody.recodybackend.catalog.data.category.CategoryRepository;
 import com.recody.recodybackend.exceptions.CustomCategoryException;
+import com.recody.recodybackend.users.exceptions.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -18,6 +21,7 @@ import java.util.Optional;
 class DefaultAddCategoryHandler implements AddCategoryHandler {
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
+    private final CatalogUserRepository userRepository;
     
     @Override
     @Transactional
@@ -26,6 +30,8 @@ class DefaultAddCategoryHandler implements AddCategoryHandler {
         Long userId = command.getUserId();
         String name = command.getName().getName();
         String iconUrl = command.getIconUrl().getIconUrl();
+    
+        CatalogUserEntity userEntity = userRepository.findById( userId ).orElseThrow( UserNotFoundException::new );
     
         Optional<CategoryEntity> optionalCategoryEntity = categoryRepository.findByNameAndUserId( name, userId );
     
@@ -39,7 +45,7 @@ class DefaultAddCategoryHandler implements AddCategoryHandler {
             throw new CustomCategoryException( CustomCategory.CustomCategoryErrorType.CannotOver5CustomCategories );
         }
     
-        CategoryEntity entity = newCategoryEntity( userId, name, iconUrl );
+        CategoryEntity entity = newCategoryEntity( userEntity, name, iconUrl );
         CategoryEntity savedEntity = categoryRepository.save( entity );
         CustomCategory customCategory = categoryMapper.toCustomCategory( savedEntity );
         log.debug( "new Custom Category.: {}", customCategory );
@@ -48,7 +54,7 @@ class DefaultAddCategoryHandler implements AddCategoryHandler {
         return customCategory;
     }
     
-    private static CategoryEntity newCategoryEntity(Long userId, String name, String iconUrl) {
-        return CategoryEntity.builder().iconUrl( iconUrl ).userId( userId ).name( name ).build();
+    private static CategoryEntity newCategoryEntity(CatalogUserEntity user, String name, String iconUrl) {
+        return CategoryEntity.builder().iconUrl( iconUrl ).user( user ).name( name ).build();
     }
 }

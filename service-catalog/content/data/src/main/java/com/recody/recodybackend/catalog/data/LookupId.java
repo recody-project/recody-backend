@@ -26,20 +26,19 @@ public class LookupId implements Serializable {
     
     private static final long serialVersionUID = 1L;
     
-    private Long userId;
+    private Long user;
     private String content;
     
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof LookupId)) return false;
+        if ( this == o ) return true;
+        if ( !(o instanceof LookupId) ) return false;
         LookupId lookupId = (LookupId) o;
-        return Objects.equals(getUserId(), lookupId.getUserId()) && Objects.equals(getContent(),
-                                                                                   lookupId.getContent());
+        return Objects.equals( getUser(), lookupId.getUser() ) && Objects.equals( getContent(), lookupId.getContent() );
     }
     
     @Override
     public int hashCode() {
-        return Objects.hash(getUserId(), getContent());
+        return Objects.hash( getUser(), getContent() );
     }
 }

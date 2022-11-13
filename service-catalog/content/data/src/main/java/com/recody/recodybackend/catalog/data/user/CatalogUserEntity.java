@@ -10,10 +10,11 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor( access = AccessLevel.PROTECTED )
+@Getter
 public class CatalogUserEntity {
     
     @Id
-    private Long userId;
+    private Long id;
     
     @NonNull
     @Column( name = "email", nullable = false)
@@ -27,7 +28,7 @@ public class CatalogUserEntity {
     @Override
     public String toString() {
         return "{\"CatalogUserEntity\":{"
-               + "\"userId\":" + userId
+               + "\"userId\":" + id
                + ", \"email\":" + ((email != null) ? ("\"" + email + "\"") : null)
                + ", \"role\":" + ((role != null) ? ("\"" + role + "\"") : null)
                + "}}";

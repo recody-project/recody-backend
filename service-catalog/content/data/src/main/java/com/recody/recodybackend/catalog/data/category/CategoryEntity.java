@@ -1,5 +1,6 @@
 package com.recody.recodybackend.catalog.data.category;
 
+import com.recody.recodybackend.catalog.data.user.CatalogUserEntity;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.commonbootutils.data.CustomSequenceIdGenerator;
 import lombok.*;
@@ -17,7 +18,7 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 @Builder
-@Table(name = "category")
+@Table(name = "catalog_category")
 @Where(clause = "deleted_at IS null")
 @SQLDelete(sql = "UPDATE category SET deleted_at = NOW() WHERE id=?")
 public class CategoryEntity {
@@ -39,7 +40,10 @@ public class CategoryEntity {
     @Column(name = "icon_url")
     private String iconUrl;
     
-    private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id",
+                foreignKey = @ForeignKey(name = "category_may_contain_user_id"))
+    private CatalogUserEntity user;
     
     private boolean basic;
     

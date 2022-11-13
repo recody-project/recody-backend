@@ -3,6 +3,7 @@ package com.recody.recodybackend.catalog.data.rating;
 import com.recody.recodybackend.catalog.data.CatalogBaseEntity;
 import com.recody.recodybackend.catalog.data.LookupId;
 import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
+import com.recody.recodybackend.catalog.data.user.CatalogUserEntity;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -21,7 +22,10 @@ import javax.persistence.*;
 public class RatingEntity extends CatalogBaseEntity {
     
     @Id
-    private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id",
+                foreignKey = @ForeignKey(name = "rating_contains_user_id"))
+    private CatalogUserEntity user;
     
     /**
      * 작품과 매핑된다. 하나의 작품에 한 유저는 1개의 평점만 남길 수 있다.
@@ -37,6 +41,9 @@ public class RatingEntity extends CatalogBaseEntity {
     
     @Override
     public String toString() {
-        return "[{\"RatingEntity\":{" + "\"userId\":" + userId + ", \"content\":" + content + ", \"score\":" + score + "}}, " + super.toString() + "]";
+        return "[{\"RatingEntity\":{"
+               + "\"user\":" + user
+               + ", \"score\":" + score
+               + "}}, " + super.toString() + "]";
     }
 }

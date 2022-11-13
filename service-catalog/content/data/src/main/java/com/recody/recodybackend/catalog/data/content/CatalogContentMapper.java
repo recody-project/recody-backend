@@ -13,7 +13,7 @@ import org.mapstruct.*;
 import java.util.Locale;
 
 @Mapper( componentModel = "spring",
-         builder = @Builder(disableBuilder = true),
+         builder = @Builder( disableBuilder = true ),
          imports = {BasicCategory.class, CategoryEntity.class},
          uses = {CategoryMapper.class, CatalogContentTitleMapper.class} )
 @Slf4j
@@ -24,7 +24,7 @@ public abstract class CatalogContentMapper {
     @Mapping( target = "imageUrl", source = "movieDetail.posterPath" )
     @Mapping( target = "id", ignore = true )
     @Mapping( target = "contentId", source = "contentId" )
-    @Mapping( target = "title", source = "movieDetail.title")
+    @Mapping( target = "title", source = "movieDetail.title" )
     public abstract CatalogContentEntity newEntity(MovieDetail movieDetail, @Context Locale locale);
     
     @Mapping( target = "posterPath", source = "entity.imageUrl" )
@@ -41,32 +41,34 @@ public abstract class CatalogContentMapper {
     public abstract CatalogMovieDetail toCatalogMovieDetail(CatalogContentEntity entity, MovieDetail movieDetail);
     
     @Mapping( target = "title", ignore = true )
-    @Mapping( target = "category", expression = "java(CategoryEntity.builder().id( event.getCategoryId() ).name( event.getCategoryName() ).build())")
-    @Mapping(target = "id", source = "event.catalogId")
+    @Mapping( target = "category",
+              expression = "java(CategoryEntity.builder().id( event.getCategoryId() ).name( event.getCategoryName() ).build())" )
+    @Mapping( target = "id", source = "event.catalogId" )
     public abstract CatalogContentEntity map(ContentCreated event);
     
     @Named( "titleMapper" )
-    String mapTitle(CatalogContentEntity entity, @Context Locale locale){
+    String mapTitle(CatalogContentEntity entity, @Context Locale locale) {
         String koreanTitle = entity.getTitle().getKoreanTitle();
         String englishTitle = entity.getTitle().getEnglishTitle();
-    
+        
         if ( locale.equals( Locale.KOREAN ) ) {
-            if (koreanTitle == null){
+            if ( koreanTitle == null ) {
                 log.debug( "한국어 타이틀이 없어서 영어 타이들을 매핑: {}", englishTitle );
                 return englishTitle;
             }
             return koreanTitle;
         }
         else {
-            if (englishTitle == null){
+            if ( englishTitle == null ) {
                 log.debug( "영어 타이틀이 없어서 한국어 타이들을 매핑: {}", koreanTitle );
                 return koreanTitle;
             }
             return englishTitle;
         }
     }
+    
     @AfterMapping
-    void setBidirectional(@MappingTarget CatalogContentEntity content, MovieDetail detail, @Context Locale locale){
+    void setBidirectional(@MappingTarget CatalogContentEntity content, MovieDetail detail, @Context Locale locale) {
         CatalogContentTitleEntity titleEntity = content.getTitle();
         titleEntity.setContent( content );
         log.debug( "title 에 content 를 세팅하였음." );
