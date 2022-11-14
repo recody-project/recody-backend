@@ -4,6 +4,7 @@ import com.recody.recodybackend.users.Role;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "catalog_user")
@@ -37,5 +38,18 @@ public class CatalogUserEntity {
                + ", \"email\":" + ((email != null) ? ("\"" + email + "\"") : null)
                + ", \"role\":" + ((role != null) ? ("\"" + role + "\"") : null)
                + "}}";
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+        if ( this == o ) return true;
+        if ( !(o instanceof CatalogUserEntity) ) return false;
+        CatalogUserEntity that = (CatalogUserEntity) o;
+        return Objects.equals( getId(), that.getId() );
+    }
+    
+    @Override
+    public int hashCode() {
+        return Objects.hash( getId() );
     }
 }

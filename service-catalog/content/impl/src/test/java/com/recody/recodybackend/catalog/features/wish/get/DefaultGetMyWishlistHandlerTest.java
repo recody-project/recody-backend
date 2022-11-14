@@ -1,15 +1,18 @@
 package com.recody.recodybackend.catalog.features.wish.get;
 
 import com.recody.recodybackend.catalog.RecodyCatalogApplication;
+import com.recody.recodybackend.catalog.data.category.CategoryEntity;
 import com.recody.recodybackend.catalog.data.category.CategoryRepository;
 import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
 import com.recody.recodybackend.catalog.data.content.CatalogContentRepository;
 import com.recody.recodybackend.catalog.data.content.CatalogContentTitleEntity;
+import com.recody.recodybackend.catalog.data.user.CatalogUserEntity;
+import com.recody.recodybackend.catalog.data.user.CatalogUserRepository;
 import com.recody.recodybackend.catalog.data.wish.WishEntity;
 import com.recody.recodybackend.catalog.data.wish.WishRepository;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.contents.Content;
-import com.recody.recodybackend.catalog.data.category.CategoryEntity;
+import com.recody.recodybackend.users.Role;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -21,12 +24,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Locale;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
@@ -44,6 +45,11 @@ class DefaultGetMyWishlistHandlerTest {
     
     @Autowired
     CategoryRepository categoryRepository;
+    
+    @Autowired
+    CatalogUserRepository userRepository;
+    
+    CatalogUserEntity savedUser;
     String[] contentIds = {"mov-1", "mov-2", "mov-3"};
     
     @BeforeEach
@@ -51,6 +57,11 @@ class DefaultGetMyWishlistHandlerTest {
         wishRepository.deleteAllInBatch();
         contentRepository.deleteAllInBatch();
         categoryRepository.deleteAllInBatch();
+        CatalogUserEntity userEntity = CatalogUserEntity.builder()
+                                                        .id( USER_ID )
+                                                        .email( "EMAIL" ).role( Role.ROLE_MEMBER )
+                                                        .build();
+        savedUser = userRepository.save( userEntity );
         String id = BasicCategory.Movie.getId();
         System.out.println(id);
         CategoryEntity categoryEntity = new CategoryEntity(id, BasicCategory.Movie.getName());
@@ -62,7 +73,7 @@ class DefaultGetMyWishlistHandlerTest {
             CatalogContentTitleEntity titleEntity = CatalogContentTitleEntity.builder().englishTitle( "TITLE OF" + contentIds[i] ).build();
             con1.setTitle( titleEntity );
             CatalogContentEntity savedEntity = contentRepository.save(con1);
-            WishEntity wishEntity = WishEntity.builder().catalogContent( savedEntity ).userId( USER_ID ).build();
+            WishEntity wishEntity = WishEntity.builder().catalogContent( savedEntity ).user( savedUser ).build();
             WishEntity saved = wishRepository.save(wishEntity);
             System.out.println("saved = " + saved);
         }
@@ -92,5 +103,6 @@ class DefaultGetMyWishlistHandlerTest {
         wishRepository.deleteAllInBatch();
         contentRepository.deleteAllInBatch();
         categoryRepository.deleteAllInBatch();
+        userRepository.deleteAllInBatch();
     }
 }

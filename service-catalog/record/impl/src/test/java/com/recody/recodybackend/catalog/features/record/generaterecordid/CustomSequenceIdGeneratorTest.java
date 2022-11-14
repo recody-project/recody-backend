@@ -7,7 +7,10 @@ import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
 import com.recody.recodybackend.catalog.data.content.CatalogContentRepository;
 import com.recody.recodybackend.catalog.data.record.RecordEntity;
 import com.recody.recodybackend.catalog.data.record.RecordRepository;
+import com.recody.recodybackend.catalog.data.user.CatalogUserEntity;
+import com.recody.recodybackend.catalog.data.user.CatalogUserRepository;
 import com.recody.recodybackend.common.contents.BasicCategory;
+import com.recody.recodybackend.users.Role;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -41,6 +44,9 @@ class CustomSequenceIdGeneratorTest {
     
     CategoryEntity savedCategory;
     
+    @Autowired
+    CatalogUserRepository userRepository;
+    
     @BeforeEach
     void before() {
         CategoryEntity categoryEntity = new CategoryEntity( BasicCategory.Movie.getId(), BasicCategory.Movie.getName() );
@@ -62,7 +68,13 @@ class CustomSequenceIdGeneratorTest {
         long userId = 1L;
         ArrayList<RecordEntity> recordEntities = new ArrayList<>();
         for (int i = 0; i < 101; i++) {
-            RecordEntity recordEntity = RecordEntity.builder().content(savedContent).note(UUID.randomUUID().toString()).userId(userId++).build();
+            CatalogUserEntity userEntity = CatalogUserEntity.builder()
+                                                            .id( userId++ )
+                                                            .email( UUID.randomUUID().toString() )
+                                                            .role( Role.ROLE_MEMBER )
+                                                            .build();
+            CatalogUserEntity savedUser = userRepository.save( userEntity );
+            RecordEntity recordEntity = RecordEntity.builder().content(savedContent).note(UUID.randomUUID().toString()).user(savedUser).build();
             recordEntities.add(recordEntity);
         }
         
@@ -85,5 +97,6 @@ class CustomSequenceIdGeneratorTest {
         recordRepository.deleteAllInBatch();
         contentRepository.deleteAllInBatch();
         categoryRepository.deleteAllInBatch();
+        userRepository.deleteAllInBatch();
     }
 }

@@ -2,6 +2,7 @@ package com.recody.recodybackend.catalog.data.record;
 
 import com.recody.recodybackend.catalog.data.RecordBaseEntity;
 import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
+import com.recody.recodybackend.catalog.data.user.CatalogUserEntity;
 import com.recody.recodybackend.commonbootutils.data.CustomSequenceIdGenerator;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -40,9 +41,9 @@ public class RecordEntity extends RecordBaseEntity {
     @NonNull
     private CatalogContentEntity content;
     
-    @Column(nullable = false, updatable = false)
-    @NonNull
-    private Long userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false, updatable = false)
+    private CatalogUserEntity user;
     
     @Setter
     private String title;
@@ -80,6 +81,6 @@ public class RecordEntity extends RecordBaseEntity {
     
     @Override
     public String toString() {
-        return "[{\"RecordEntity\":{" + "\"recordId\":" + ((recordId != null) ? ("\"" + recordId + "\"") : null) + ", \"content\":" + content + ", \"userId\":" + userId + ", \"title\":" + ((title != null) ? ("\"" + title + "\"") : null) + ", \"note\":" + ((note != null) ? ("\"" + note + "\"") : null) + ", \"completed\":" + completed + ", \"nth\":" + nth + ", \"appreciationDate\":" + appreciationDate + "}}, " + super.toString() + "]";
+        return "[{\"RecordEntity\":{" + "\"recordId\":" + ((recordId != null) ? ("\"" + recordId + "\"") : null) + ", \"content\":" + content + ", \"userId\":" + user + ", \"title\":" + ((title != null) ? ("\"" + title + "\"") : null) + ", \"note\":" + ((note != null) ? ("\"" + note + "\"") : null) + ", \"completed\":" + completed + ", \"nth\":" + nth + ", \"appreciationDate\":" + appreciationDate + "}}, " + super.toString() + "]";
     }
 }

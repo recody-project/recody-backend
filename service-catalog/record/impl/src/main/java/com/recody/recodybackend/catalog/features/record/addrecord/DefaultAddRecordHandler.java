@@ -5,11 +5,14 @@ import com.recody.recodybackend.catalog.data.content.CatalogContentRepository;
 import com.recody.recodybackend.catalog.data.rating.RatingEntity;
 import com.recody.recodybackend.catalog.data.rating.RatingRepository;
 import com.recody.recodybackend.catalog.data.record.RecordEntity;
+import com.recody.recodybackend.catalog.data.user.CatalogUserEntity;
+import com.recody.recodybackend.catalog.data.user.CatalogUserRepository;
 import com.recody.recodybackend.common.exceptions.ContentNotFoundException;
 import com.recody.recodybackend.catalog.data.record.RecordMapper;
 import com.recody.recodybackend.catalog.data.record.RecordRepository;
 import com.recody.recodybackend.exceptions.RecordAlreadyExists;
 import com.recody.recodybackend.exceptions.UserNotRatedOnContentException;
+import com.recody.recodybackend.users.exceptions.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -26,7 +29,7 @@ class DefaultAddRecordHandler implements AddRecordHandler{
     private final CatalogContentRepository contentRepository;
     
     private final RecordMapper recordMapper;
-    
+    private final CatalogUserRepository userRepository;
     private final RatingRepository recordRatingRepository;
     @Override
     @Transactional
@@ -34,7 +37,8 @@ class DefaultAddRecordHandler implements AddRecordHandler{
         log.debug("handling command: {}", command);
         String contentId = command.getContentId();
         Long userId = command.getUserId();
-        
+        CatalogUserEntity catalogUserEntity = userRepository.findById( userId ).orElseThrow( UserNotFoundException::new );
+    
         CatalogContentEntity contentEntity = contentRepository.findByContentId( contentId )
                                                               .orElseThrow(ContentNotFoundException::new);
         
@@ -52,7 +56,7 @@ class DefaultAddRecordHandler implements AddRecordHandler{
                                          .title( command.getTitle() )
                                          .note( command.getNote() )
                                          .appreciationDate( command.getAppreciationDate() )
-                                         .userId( userId )
+                                         .user( catalogUserEntity )
                                          .build();
         RecordEntity savedRecord = recordRepository.save(recordEntity);
         return savedRecord.getRecordId();

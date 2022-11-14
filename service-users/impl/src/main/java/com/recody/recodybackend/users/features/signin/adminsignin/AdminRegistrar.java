@@ -9,7 +9,6 @@ import com.recody.recodybackend.users.features.projection.UserEventPublisher;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -23,9 +22,7 @@ import java.util.Optional;
 @Slf4j
 @Component
 @Order( Ordered.LOWEST_PRECEDENCE )
-@Profile({"local", "test"})
-@Lazy /* 테스트 환경에서 어드민 유저를 등록하는 시점을 미루기 위해 이 빈을 나중에 등록합니다.
-         Kafka 토픽이 생성되지 않은 시점에 어드민 유저가 등록되면 정상적으로 user 토픽에 이벤트를 발행할 수 없습니다. */
+@Profile({"local", "dev"})
 public class AdminRegistrar {
     
     private final RecodyUserRepository recodyUserRepository;
