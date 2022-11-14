@@ -30,7 +30,7 @@ class KafkaCatalogUserEventHandler implements CatalogUserEventHandler {
                    @Payload UserCreated event) {
         log.debug( "consuming event: {}", event );
         CatalogUserEntity entity = CatalogUserEntity.builder()
-                                                    .userId( event.getUserId() )
+                                                    .id( event.getUserId() )
                                                     .role( event.getRole() )
                                                     .email( event.getEmail() )
                                                     .build();

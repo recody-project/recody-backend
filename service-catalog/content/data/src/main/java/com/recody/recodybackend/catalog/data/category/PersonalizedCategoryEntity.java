@@ -2,6 +2,7 @@ package com.recody.recodybackend.catalog.data.category;
 
 import com.recody.recodybackend.catalog.data.LookupId;
 import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
+import com.recody.recodybackend.catalog.data.user.CatalogUserEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -11,7 +12,7 @@ import javax.persistence.*;
  * @author motive
  */
 @Entity
-@Table(name = "category_personalization")
+@Table(name = "catalog_category_personalization")
 @IdClass( LookupId.class )
 @Getter
 @Builder
@@ -21,13 +22,20 @@ import javax.persistence.*;
 public class PersonalizedCategoryEntity {
     
     @Id
-    private Long userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id",
+                foreignKey = @ForeignKey(name = "personalized_category_contains_user_id"))
+    private CatalogUserEntity user;
     
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "content_id",
+                foreignKey = @ForeignKey(name = "personalized_category_contains_content_id"))
     private CatalogContentEntity content;
     
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id",
+                foreignKey = @ForeignKey(name = "personalized_category_contains_category_id"))
     private CategoryEntity category;
     
     

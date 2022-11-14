@@ -8,7 +8,10 @@ import com.recody.recodybackend.catalog.data.content.CatalogContentRepository;
 import com.recody.recodybackend.catalog.data.rating.RatingEntity;
 import com.recody.recodybackend.catalog.data.rating.RatingRepository;
 import com.recody.recodybackend.catalog.data.record.RecordRepository;
+import com.recody.recodybackend.catalog.data.user.CatalogUserEntity;
+import com.recody.recodybackend.catalog.data.user.CatalogUserRepository;
 import com.recody.recodybackend.common.utils.FileUtils;
+import com.recody.recodybackend.users.Role;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -62,6 +65,10 @@ public class RecordControllerTest {
     CategoryEntity categoryEntity = new CategoryEntity( "con-2222", "sampleName");
     @Autowired
     CategoryRepository categoryRepository;
+    @Autowired
+    CatalogUserRepository userRepository;
+    
+    CatalogUserEntity savedUser;
     
     @BeforeEach
     void before() {
@@ -69,6 +76,12 @@ public class RecordControllerTest {
         contentRepository.deleteAllInBatch();
         categoryRepository.deleteAllInBatch();
         recordRatingRepository.deleteAllInBatch();
+        
+        CatalogUserEntity userEntity = CatalogUserEntity.builder()
+                                                        .id( USER_ID )
+                                                        .email( "EMAIL" ).role( Role.ROLE_MEMBER )
+                                                        .build();
+        savedUser = userRepository.save( userEntity );
         CategoryEntity saved = categoryRepository.save( categoryEntity );
     
         CatalogContentEntity contentEntity = CatalogContentEntity
@@ -82,7 +95,7 @@ public class RecordControllerTest {
     @Test
     void postRecord() throws Exception {
         String content = FileUtils.readResourceToString(request);
-        RatingEntity ratingEntity = RatingEntity.builder().score( 1 ).userId( USER_ID ).content( savedContent ).build();
+        RatingEntity ratingEntity = RatingEntity.builder().score( 1 ).user( savedUser ).content( savedContent ).build();
         recordRatingRepository.save(ratingEntity);
         mockMvc.perform(addRecordRequest(content)
                        )

@@ -6,9 +6,12 @@ import com.recody.recodybackend.catalog.data.category.PersonalizedCategoryReposi
 import com.recody.recodybackend.catalog.data.category.CategoryRepository;
 import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
 import com.recody.recodybackend.catalog.data.content.CatalogContentRepository;
+import com.recody.recodybackend.catalog.data.user.CatalogUserEntity;
+import com.recody.recodybackend.catalog.data.user.CatalogUserRepository;
 import com.recody.recodybackend.exceptions.CategoryNotFoundException;
 import com.recody.recodybackend.common.events.CategoryPersonalized;
 import com.recody.recodybackend.common.exceptions.ContentNotFoundException;
+import com.recody.recodybackend.users.exceptions.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -27,6 +30,8 @@ class DefaultChangeCategoryOnContentHandler implements ChangeCategoryOnContentHa
     
     private final CategoryRepository categoryRepository;
     
+    private final CatalogUserRepository userRepository;
+    
     @Override
     @Transactional
     public CategoryPersonalized handle(ChangeCategoryOnContent command) {
@@ -34,7 +39,10 @@ class DefaultChangeCategoryOnContentHandler implements ChangeCategoryOnContentHa
         String categoryId = command.getCategoryId().getCategoryId();
         String contentId = command.getContentId().getContentId();
         Long userId = command.getUserId();
-        
+    
+        CatalogUserEntity userEntity = userRepository.findById( userId ).orElseThrow( UserNotFoundException::new );
+    
+    
         CatalogContentEntity contentEntity = contentRepository.findByContentId( contentId )
                                                               .orElseThrow( ContentNotFoundException::new );
         
@@ -52,14 +60,14 @@ class DefaultChangeCategoryOnContentHandler implements ChangeCategoryOnContentHa
             return event;
         }
         PersonalizedCategoryEntity personalizedCategoryEntity = PersonalizedCategoryEntity.builder()
-                                                                                          .userId( userId )
+                                                                                          .user( userEntity )
                                                                                           .category( categoryEntity )
                                                                                           .content( contentEntity )
                                                                                           .build();
         PersonalizedCategoryEntity savedPersonalizedCategoryEntity
                 = personalizedCategoryRepository.save( personalizedCategoryEntity );
         
-        Long userId1 = savedPersonalizedCategoryEntity.getUserId();
+        Long userId1 = savedPersonalizedCategoryEntity.getUser().getId();
         String categoryId1 = savedPersonalizedCategoryEntity.getCategory().getId();
         String contentId1 = savedPersonalizedCategoryEntity.getContent().getContentId();
         CategoryPersonalized event = createEvent( contentId1, userId1, categoryId1 );

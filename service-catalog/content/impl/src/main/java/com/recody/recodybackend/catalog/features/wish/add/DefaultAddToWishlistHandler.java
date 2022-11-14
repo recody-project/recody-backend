@@ -1,5 +1,7 @@
 package com.recody.recodybackend.catalog.features.wish.add;
 
+import com.recody.recodybackend.catalog.data.user.CatalogUserEntity;
+import com.recody.recodybackend.catalog.data.user.CatalogUserRepository;
 import com.recody.recodybackend.catalog.data.wish.WishEntity;
 import com.recody.recodybackend.catalog.data.wish.WishRepository;
 import com.recody.recodybackend.catalog.data.category.CategoryEntity;
@@ -8,6 +10,7 @@ import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
 import com.recody.recodybackend.catalog.data.content.CatalogContentRepository;
 import com.recody.recodybackend.exceptions.ContentNotFoundException;
 import com.recody.recodybackend.common.contents.BasicCategory;
+import com.recody.recodybackend.users.exceptions.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -25,6 +28,8 @@ class DefaultAddToWishlistHandler implements AddToWishlistHandler {
     private final WishRepository wishRepository;
     private final CategoryMapper categoryMapper;
     
+    private final CatalogUserRepository userRepository;
+    
     @Override
     @Transactional
     public UUID handle(AddToWishlist command) {
@@ -40,9 +45,12 @@ class DefaultAddToWishlistHandler implements AddToWishlistHandler {
             log.warn("작품을 찾을 수 없습니다.");
             throw new ContentNotFoundException();
         }
-        
+    
+        CatalogUserEntity catalogUserEntity = userRepository.findById( userId ).orElseThrow( UserNotFoundException::new );
+    
+    
         CatalogContentEntity catalogContent = optionalContent.get();
-        WishEntity wishEntity = WishEntity.builder().userId(userId).catalogContent(catalogContent).build();
+        WishEntity wishEntity = WishEntity.builder().user(catalogUserEntity).catalogContent(catalogContent).build();
         
         Optional<WishEntity> optionalWish = wishRepository.findByCatalogContentAndUserId(catalogContent, userId);
         

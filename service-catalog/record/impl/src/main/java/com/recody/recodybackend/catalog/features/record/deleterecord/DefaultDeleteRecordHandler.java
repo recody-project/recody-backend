@@ -2,8 +2,11 @@ package com.recody.recodybackend.catalog.features.record.deleterecord;
 
 import com.recody.recodybackend.catalog.data.record.RecordEntity;
 import com.recody.recodybackend.catalog.data.record.RecordRepository;
+import com.recody.recodybackend.catalog.data.user.CatalogUserEntity;
+import com.recody.recodybackend.catalog.data.user.CatalogUserRepository;
 import com.recody.recodybackend.exceptions.FailedToRemoveRecordException;
 import com.recody.recodybackend.exceptions.RecordNotFound;
+import com.recody.recodybackend.users.exceptions.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
@@ -20,6 +23,8 @@ class DefaultDeleteRecordHandler implements DeleteRecordHandler {
     
     private final RecordRepository recordRepository;
     
+    private final CatalogUserRepository userRepository;
+    
     @Override
     @Transactional
     public LocalDateTime handle(DeleteRecord command) {
@@ -27,11 +32,12 @@ class DefaultDeleteRecordHandler implements DeleteRecordHandler {
         Long userId = command.getUserId();
         log.debug( "handling deleting recordId: {}", recordId );
         Optional<RecordEntity> optionalRecord = recordRepository.findByRecordId( recordId );
+        CatalogUserEntity catalogUserEntity = userRepository.findById( userId ).orElseThrow( UserNotFoundException::new );
         if ( optionalRecord.isEmpty() ) {
             throw new RecordNotFound();
         }
         RecordEntity recordEntity = optionalRecord.get();
-        if ( !recordEntity.getUserId().equals( userId ) ) {
+        if ( !recordEntity.getUser().equals( catalogUserEntity ) ) {
             throw new UserDoesNotOwnTheRecordException();
         }
         try {

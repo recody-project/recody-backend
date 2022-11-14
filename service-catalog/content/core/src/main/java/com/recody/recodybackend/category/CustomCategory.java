@@ -61,15 +61,15 @@ public class CustomCategory implements Category {
     
     public enum CustomCategoryErrorType implements ErrorType {
         
-        InvalidName("category.custom.name.invalid"),
-        CannotHaveNullName("category.custom.name.not-null"),
-        CannotHaveEmptyStringName("category.custom.name.not-empty"),
-        CannotHaveNullId("category.custom.id.not-null"),
-        CannotHaveEmptyStringId("category.custom.id.not-empty"),
-        CannotHaveBasicCategoryId("category.custom.id.not-basic-id"),
-        CustomCategoryAlreadyExists("category.custom.already-exist"),
-        CannotOver5CustomCategories("category.custom.count.over5"),
-        CannotOverLengthOf10("category.custom.length.over10"),
+        InvalidName("catalog.category.custom.name.invalid"),
+        CannotHaveNullName("catalog.category.custom.name.not-null"),
+        CannotHaveEmptyStringName("catalog.category.custom.name.not-empty"),
+        CannotHaveNullId("catalog.category.custom.id.not-null"),
+        CannotHaveEmptyStringId("catalog.category.custom.id.not-empty"),
+        CannotHaveBasicCategoryId("catalog.category.custom.id.not-basic-id"),
+        CustomCategoryAlreadyExists("catalog.category.custom.already-exist"),
+        CannotOver5CustomCategories("catalog.category.custom.count.over5"),
+        CannotOverLengthOf10("catalog.category.custom.length.over10"),
         
         ;
         

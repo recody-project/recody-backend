@@ -9,9 +9,12 @@ import com.recody.recodybackend.catalog.data.rating.RatingEntity;
 import com.recody.recodybackend.catalog.data.rating.RatingRepository;
 import com.recody.recodybackend.catalog.data.record.RecordEntity;
 import com.recody.recodybackend.catalog.data.record.RecordRepository;
+import com.recody.recodybackend.catalog.data.user.CatalogUserEntity;
+import com.recody.recodybackend.catalog.data.user.CatalogUserRepository;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.exceptions.ContentNotFoundException;
 import com.recody.recodybackend.exceptions.UserNotRatedOnContentException;
+import com.recody.recodybackend.users.Role;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -61,8 +64,18 @@ class DefaultAddRecordHandlerTest {
     @Autowired
     CategoryRepository categoryRepository;
     
+    @Autowired
+    CatalogUserRepository userRepository;
+    
+    CatalogUserEntity savedUser;
+    
     @BeforeEach
     void before() {
+        CatalogUserEntity userEntity = CatalogUserEntity.builder()
+                                                        .id( USER_ID )
+                                                        .email( "EMAIL" ).role( Role.ROLE_MEMBER )
+                                                        .build();
+        savedUser = userRepository.save( userEntity );
         CategoryEntity categoryEntity = new CategoryEntity( BasicCategory.Movie.getId(), BasicCategory.Movie.getName() );
         categoryRepository.save( categoryEntity );
         content = CatalogContentEntity
@@ -78,7 +91,7 @@ class DefaultAddRecordHandlerTest {
     @DisplayName("감상평을 추가할 수 있다. 감상일은 추가하지 않아도 예외가 일어나지 않는다.")
     void addRecordAppreciationDate() {
         // given
-        RatingEntity ratingEntity = RatingEntity.builder().score( 1 ).userId( USER_ID ).content( content ).build();
+        RatingEntity ratingEntity = RatingEntity.builder().score( 1 ).user( savedUser ).content( content ).build();
         recordRatingRepository.save(ratingEntity);
         
         // when
@@ -101,7 +114,7 @@ class DefaultAddRecordHandlerTest {
     @DisplayName("감상일을 추가할 수 있다.")
     void addRecordAppreciationDate2() {
         // given
-        RatingEntity ratingEntity = RatingEntity.builder().score(1).userId(USER_ID).content(content).build();
+        RatingEntity ratingEntity = RatingEntity.builder().score(1).user(savedUser).content(content).build();
         recordRatingRepository.save(ratingEntity);
         
         LocalDate date = LocalDate.of(2022, 4, 2);
@@ -131,7 +144,7 @@ class DefaultAddRecordHandlerTest {
     @DisplayName("감상평을 저장할 때 없는 작품이면 예외를 일으킨다.")
     void addRecordContentCheck() {
         // given
-        RatingEntity ratingEntity = RatingEntity.builder().score(1).userId(USER_ID).content(content).build();
+        RatingEntity ratingEntity = RatingEntity.builder().score(1).user(savedUser).content(content).build();
         recordRatingRepository.save(ratingEntity);
         // when
         assertThatThrownBy(() -> addRecordHandler.handle(AddRecord.builder()

@@ -4,9 +4,12 @@ import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
 import com.recody.recodybackend.catalog.data.content.CatalogContentRepository;
 import com.recody.recodybackend.catalog.data.rating.RatingEntity;
 import com.recody.recodybackend.catalog.data.rating.RatingRepository;
+import com.recody.recodybackend.catalog.data.user.CatalogUserEntity;
+import com.recody.recodybackend.catalog.data.user.CatalogUserRepository;
 import com.recody.recodybackend.catalog.features.projection.ContentEventPublisher;
 import com.recody.recodybackend.common.events.ContentRated;
 import com.recody.recodybackend.common.exceptions.ContentNotFoundException;
+import com.recody.recodybackend.users.exceptions.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -23,6 +26,8 @@ class DefaultAddRatingHandler implements AddRatingHandler {
     private final RatingRepository ratingRepository;
     private final ContentEventPublisher contentEventPublisher;
     
+    private final CatalogUserRepository userRepository;
+    
     @Override
     @Transactional
     public UUID handle(AddRating command) {
@@ -30,13 +35,18 @@ class DefaultAddRatingHandler implements AddRatingHandler {
         Long userId = command.getUserId();
         String contentId = command.getContentId().getContentId();
         Integer scoreValue = command.getScore().getValue();
-        
+    
+        CatalogUserEntity userEntity = userRepository.findById( userId )
+                                                            .orElseThrow( UserNotFoundException::new );
+    
         CatalogContentEntity contentEntity
                 = contentRepository.findByContentId(contentId)
                                    .orElseThrow(ContentNotFoundException::new);
         
         Optional<RatingEntity> optionalRating
                 = ratingRepository.findByUserIdAndContent(userId, contentEntity);
+        
+        
         
         if ( optionalRating.isPresent() ) {
             RatingEntity ratingEntity1 = optionalRating.get();
@@ -48,7 +58,7 @@ class DefaultAddRatingHandler implements AddRatingHandler {
         }
         
         RatingEntity newRatingEntity = RatingEntity.builder()
-                                   .userId(userId)
+                                   .user(userEntity)
                                    .content(contentEntity)
                                    .score(scoreValue)
                                    .build();
@@ -62,7 +72,7 @@ class DefaultAddRatingHandler implements AddRatingHandler {
     }
     private ContentRated createEvent(RatingEntity saved) {
         return ContentRated.builder()
-                           .userId(saved.getUserId())
+                           .userId(saved.getUser().getId() )
                            .contentId(saved.getContent().getContentId())
                            .score(saved.getScore())
                            .eventId(UUID.randomUUID())

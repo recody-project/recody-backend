@@ -1,10 +1,16 @@
 package com.recody.recodybackend.catalog.features.category.add;
 
 import com.recody.recodybackend.catalog.RecodyCatalogApplication;
+import com.recody.recodybackend.catalog.data.category.CategoryRepository;
+import com.recody.recodybackend.catalog.data.user.CatalogUserEntity;
+import com.recody.recodybackend.catalog.data.user.CatalogUserRepository;
 import com.recody.recodybackend.category.CategoryIconUrl;
 import com.recody.recodybackend.category.CategoryName;
 import com.recody.recodybackend.category.CustomCategory;
 import com.recody.recodybackend.exceptions.CustomCategoryException;
+import com.recody.recodybackend.users.Role;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,6 +34,22 @@ class DefaultAddCategoryHandlerTest {
     public static final long USER_ID = 123L;
     @Autowired
     AddCategoryHandler addCategoryHandler;
+    
+    @Autowired
+    CatalogUserRepository userRepository;
+    
+    @Autowired
+    CategoryRepository categoryRepository;
+    CatalogUserEntity savedUser;
+    
+    @BeforeEach
+    void before() {
+        CatalogUserEntity userEntity = CatalogUserEntity.builder()
+                                                        .id( USER_ID )
+                                                        .email( "EMAIL" ).role( Role.ROLE_MEMBER )
+                                                        .build();
+        savedUser = userRepository.save( userEntity );
+    }
     
     @Test
     @DisplayName( "한 유저당 카테고리는 10개까지 가능하다, 기본 카테고리 5개, 커스텀 카테고리 5개" )
@@ -76,6 +98,12 @@ class DefaultAddCategoryHandlerTest {
                     AddCategory blankCommand = newCommandWithSameUser("");
                 }
                           );
+    }
+    
+    @AfterEach
+    void after() {
+        categoryRepository.deleteAllInBatch();
+        userRepository.deleteAllInBatch();
     }
     
 }

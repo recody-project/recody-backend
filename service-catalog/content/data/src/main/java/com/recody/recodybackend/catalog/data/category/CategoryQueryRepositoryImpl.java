@@ -23,7 +23,7 @@ class CategoryQueryRepositoryImpl implements CategoryQueryRepository{
         return Optional.ofNullable(
                 jpaQueryFactory.select( personalizedCategoryEntity.category )
                                .from( personalizedCategoryEntity )
-                               .where( personalizedCategoryEntity.userId.eq( userId ),
+                               .where( personalizedCategoryEntity.user.id.eq( userId ),
                                        personalizedCategoryEntity.content.eq( content ),
                                        personalizedCategoryEntity.category.deletedAt.isNull() )
                                .fetchOne()

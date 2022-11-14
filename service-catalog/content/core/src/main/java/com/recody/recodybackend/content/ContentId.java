@@ -26,7 +26,7 @@ public class ContentId {
     
     public BasicCategory parseCategory() {
         log.debug("parsing category with contentId: {}", this);
-        String prefix = contentId.substring(0, 3);
+        String prefix = contentId.substring(0, 4);
         
         if ( Recody.MOVIE_PREFIX.equals( prefix ) ) {
             log.debug("prefix: {}", prefix);

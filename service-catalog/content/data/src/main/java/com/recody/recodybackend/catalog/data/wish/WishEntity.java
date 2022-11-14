@@ -2,6 +2,7 @@ package com.recody.recodybackend.catalog.data.wish;
 
 import com.recody.recodybackend.catalog.data.CatalogBaseEntity;
 import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
+import com.recody.recodybackend.catalog.data.user.CatalogUserEntity;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -31,14 +32,15 @@ public class WishEntity extends CatalogBaseEntity {
     
     /**
      * 특정 유저에 대해서 위시가 이루어진다. */
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private CatalogUserEntity user;
     
     @Version
     private Integer version;
     
     @Override
     public String toString() {
-        return "[{\"WishEntity\":{" + "\"id\":" + ((id != null) ? ("\"" + id + "\"") : null) + ", \"catalogContent\":" + catalogContent + ", \"userId\":" + userId + "}}, " + super.toString() + "]";
+        return "[{\"WishEntity\":{" + "\"id\":" + ((id != null) ? ("\"" + id + "\"") : null) + ", \"catalogContent\":" + catalogContent + ", \"userId\":" + user + "}}, " + super.toString() + "]";
     }
 }

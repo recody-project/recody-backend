@@ -1,11 +1,15 @@
 package com.recody.recodybackend.catalog.data.record;
 
-import com.recody.recodybackend.catalog.data.CatalogDataConfiguration;
+import com.recody.recodybackend.catalog.data.RecordBaseEntity;
+import com.recody.recodybackend.catalog.data.RecordDataConfig;
 import com.recody.recodybackend.catalog.data.category.CategoryEntity;
 import com.recody.recodybackend.catalog.data.category.CategoryRepository;
 import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
 import com.recody.recodybackend.catalog.data.content.CatalogContentRepository;
-import com.recody.recodybackend.catalog.data.RecordBaseEntity;
+import com.recody.recodybackend.catalog.data.user.CatalogUserEntity;
+import com.recody.recodybackend.catalog.data.user.CatalogUserRepository;
+import com.recody.recodybackend.users.Role;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,7 +29,7 @@ import static org.assertj.core.api.Assertions.*;
 
 @DataJpaTest
 @ActiveProfiles( "test" )
-@ContextConfiguration( classes = CatalogDataConfiguration.class )
+@ContextConfiguration( classes = RecordDataConfig.class )
 class RecordRepositoryTest {
     
     
@@ -51,6 +55,12 @@ class RecordRepositoryTest {
     @Autowired
     CategoryRepository categoryRepository;
     
+    @Autowired
+    CatalogUserRepository userRepository;
+    
+    CatalogUserEntity user1;
+    CatalogUserEntity user2;
+    
     
     @BeforeEach
     void before() {
@@ -60,42 +70,52 @@ class RecordRepositoryTest {
         recordRepository.deleteAllInBatch();
         contentRepository.deleteAllInBatch();
         CatalogContentEntity contentEntity = CatalogContentEntity.builder()
-                                                               .id("rootId1")
-                                                               .contentId(CONTENT_ID)
-                                                               .category(commonCategory)
-                                                               .build();
+                                                                 .id( "rootId1" )
+                                                                 .contentId( CONTENT_ID )
+                                                                 .category( commonCategory )
+                                                                 .build();
         CatalogContentEntity contentEntity2 = CatalogContentEntity.builder()
-                                                                .id("rootId2")
-                                                                .contentId(CONTENT_ID2)
-                                                                .category(commonCategory2)
-                                                                .build();
+                                                                  .id( "rootId2" )
+                                                                  .contentId( CONTENT_ID2 )
+                                                                  .category( commonCategory2 )
+                                                                  .build();
         savedContent = contentRepository.save( contentEntity );
         savedContent2 = contentRepository.save( contentEntity2 );
         
+        CatalogUserEntity userEntity = CatalogUserEntity.builder()
+                                                        .id( USER_ID )
+                                                        .email( "EMAIL" ).role( Role.ROLE_MEMBER )
+                                                        .build();
+        CatalogUserEntity userEntity2 = CatalogUserEntity.builder()
+                                                         .id( USER_ID_2 )
+                                                         .email( "EMAIL" ).role( Role.ROLE_MEMBER )
+                                                         .build();
+        user1 = userRepository.save( userEntity );
+        user2 = userRepository.save( userEntity2 );
         for (int i = 0; i < RECORD_LENGTH; i++) {
-            RecordEntity saved = recordRepository.save(newRecord(savedContent, USER_ID));
-            savedRecords.add(saved);
-            savedRecordsMap.put(saved.getRecordId(), saved);
+            RecordEntity saved = recordRepository.save( newRecord( savedContent, user1 ) );
+            savedRecords.add( saved );
+            savedRecordsMap.put( saved.getRecordId(), saved );
         }
         
         for (int i = 0; i < RECORD_LENGTH_2; i++) {
-            RecordEntity saved = recordRepository.save(newRecord(savedContent2, USER_ID_2));
-            savedRecords.add(saved);
-            savedRecordsMap.put(saved.getRecordId(), saved);
+            RecordEntity saved = recordRepository.save( newRecord( savedContent2, user2 ) );
+            savedRecords.add( saved );
+            savedRecordsMap.put( saved.getRecordId(), saved );
         }
     }
     
-    private RecordEntity newRecord(CatalogContentEntity content, Long userId) {
-        return RecordEntity.builder().content(content).note("testing").userId(userId).completed(true).build();
+    private RecordEntity newRecord(CatalogContentEntity content, CatalogUserEntity user) {
+        return RecordEntity.builder().content( content ).note( "testing" ).user( user ).completed( true ).build();
     }
     
-    private RecordEntity newRecordWithId(String recordId, Long userId) {
+    private RecordEntity newRecordWithId(String recordId, CatalogUserEntity user) {
         return RecordEntity.builder()
-                           .recordId(recordId)
-                           .content(savedContent)
-                           .note("testing")
-                           .userId(userId)
-                           .completed(true)
+                           .recordId( recordId )
+                           .content( savedContent )
+                           .note( "testing" )
+                           .user( user )
+                           .completed( true )
                            .build();
     }
     
@@ -103,31 +123,31 @@ class RecordRepositoryTest {
     @DisplayName( "결과 최근부터 10개 가져오기" )
     void top10() {
         // given
-        PageRequest pageable = PageRequest.of(0, 10);
-        Optional<List<RecordEntity>> records = recordRepository.findByUserIdOrderByCreatedAtDesc(USER_ID, pageable);
-        Optional<List<RecordEntity>> allRecords = recordRepository.findAllByUserId(USER_ID);
+        PageRequest pageable = PageRequest.of( 0, 10 );
+        Optional<List<RecordEntity>> records = recordRepository.findByUserIdOrderByCreatedAtDesc( USER_ID, pageable );
+        Optional<List<RecordEntity>> allRecords = recordRepository.findAllByUserId( USER_ID );
         List<RecordEntity> recordEntities = records.orElseThrow();
         List<RecordEntity> allRecordEntities = allRecords.orElseThrow();
         
         // when
         for (RecordEntity recordEntity : recordEntities) {
-            System.out.println(recordEntity);
+            System.out.println( recordEntity );
         }
         
         List<RecordEntity> top10 = allRecordEntities.stream()
-                                                    .sorted(Comparator.comparing( RecordBaseEntity::getCreatedAt )
-                                                                      .reversed())
-                                                    .limit(10)
-                                                    .collect(Collectors.toList());
+                                                    .sorted( Comparator.comparing( RecordBaseEntity::getCreatedAt )
+                                                                       .reversed() )
+                                                    .limit( 10 )
+                                                    .collect( Collectors.toList() );
         
-        System.out.println("----------------------");
+        System.out.println( "----------------------" );
         for (RecordEntity recordEntity : top10) {
-            System.out.println(recordEntity);
+            System.out.println( recordEntity );
         }
         
         
         // then
-        assertThat(recordEntities).isEqualTo(top10);
+        assertThat( recordEntities ).isEqualTo( top10 );
         
     }
     
@@ -135,33 +155,33 @@ class RecordRepositoryTest {
     @DisplayName( "결과 최근부터 10개 씩 두번째 페이지" )
     void top10SecondPage() {
         // given
-        PageRequest pageable = PageRequest.of(1, 10);
-        Optional<List<RecordEntity>> records = recordRepository.findByUserIdOrderByCreatedAtDesc(USER_ID, pageable);
-        Optional<List<RecordEntity>> allRecords = recordRepository.findAllByUserId(USER_ID);
+        PageRequest pageable = PageRequest.of( 1, 10 );
+        Optional<List<RecordEntity>> records = recordRepository.findByUserIdOrderByCreatedAtDesc( USER_ID, pageable );
+        Optional<List<RecordEntity>> allRecords = recordRepository.findAllByUserId( USER_ID );
         List<RecordEntity> recordEntities = records.orElseThrow();
         List<RecordEntity> allRecordEntities = allRecords.orElseThrow();
         
         // when
         for (RecordEntity recordEntity : recordEntities) {
-            System.out.println(recordEntity);
+            System.out.println( recordEntity );
         }
         
         List<RecordEntity> top10SecondPage = allRecordEntities.stream()
-                                                              .sorted(Comparator.comparing(RecordBaseEntity::getCreatedAt)
-                                                                                .reversed())
-                                                              .limit(20)
-                                                              .sorted(Comparator.comparing(RecordBaseEntity::getCreatedAt))
-                                                              .limit(10)
-                                                              .collect(Collectors.toList());
+                                                              .sorted( Comparator.comparing( RecordBaseEntity::getCreatedAt )
+                                                                                 .reversed() )
+                                                              .limit( 20 )
+                                                              .sorted( Comparator.comparing( RecordBaseEntity::getCreatedAt ) )
+                                                              .limit( 10 )
+                                                              .collect( Collectors.toList() );
         
-        System.out.println("----------------------");
+        System.out.println( "----------------------" );
         for (RecordEntity recordEntity : top10SecondPage) {
-            System.out.println(recordEntity);
+            System.out.println( recordEntity );
         }
         
         
         // then
-        assertThat(recordEntities).containsAll(top10SecondPage);
+        assertThat( recordEntities ).containsAll( top10SecondPage );
         
     }
     
@@ -170,19 +190,19 @@ class RecordRepositoryTest {
     void top10SecondPageLacksAmount() {
         // given
         // 총 100개만 before 에서 넣었는데, 두번째 페이지를 가져오면 0개이다.
-        PageRequest pageable = PageRequest.of(2, 100);
-        Optional<List<RecordEntity>> records = recordRepository.findByUserIdOrderByCreatedAtDesc(USER_ID, pageable);
+        PageRequest pageable = PageRequest.of( 2, 100 );
+        Optional<List<RecordEntity>> records = recordRepository.findByUserIdOrderByCreatedAtDesc( USER_ID, pageable );
         List<RecordEntity> recordEntities = records.orElseThrow();
         
         // when
         for (RecordEntity recordEntity : recordEntities) {
-            System.out.println(recordEntity);
+            System.out.println( recordEntity );
         }
         
         
         // then
-        assertThat(recordEntities.size()).isEqualTo(0);
-        assertThat(recordEntities).isEmpty();
+        assertThat( recordEntities.size() ).isEqualTo( 0 );
+        assertThat( recordEntities ).isEmpty();
         
     }
     
@@ -190,30 +210,30 @@ class RecordRepositoryTest {
     @DisplayName( "가장 최근에 수정된 감상평을 가져온다." )
     void findFirstBy() {
         // given
-        String recordId2 = changeCompletedStatusAt(49);
-        String recordId = changeCompletedStatusAt(50);
+        String recordId2 = changeCompletedStatusAt( 49 );
+        String recordId = changeCompletedStatusAt( 50 );
         TestTransaction.flagForCommit();
         TestTransaction.end();
         TestTransaction.start();
         
         // when
         Optional<RecordEntity> optionalRecord
-                = recordRepository.findFirstByUserIdAndCompletedIsFalseOrderByLastModifiedAtDesc(USER_ID);
+                = recordRepository.findFirstByUserIdAndCompletedIsFalseOrderByLastModifiedAtDesc( USER_ID );
         
         // then
-        assertThat(optionalRecord).isNotEmpty();
-        assertThat(optionalRecord.get().getRecordId()).isEqualTo(recordId);
+        assertThat( optionalRecord ).isNotEmpty();
+        assertThat( optionalRecord.get().getRecordId() ).isEqualTo( recordId );
         
     }
     
     
     private String changeCompletedStatusAt(int index) {
-        RecordEntity recordEntity = savedRecords.get(index);
+        RecordEntity recordEntity = savedRecords.get( index );
         String recordId = recordEntity.getRecordId();
-        Optional<RecordEntity> foundRecord = recordRepository.findByRecordId(recordId);
-        assertThat(foundRecord).isNotEmpty();
+        Optional<RecordEntity> foundRecord = recordRepository.findByRecordId( recordId );
+        assertThat( foundRecord ).isNotEmpty();
         RecordEntity recordEntity1 = foundRecord.get();
-        recordEntity1.setCompleted(false);
+        recordEntity1.setCompleted( false );
         return recordId;
     }
     
@@ -222,26 +242,26 @@ class RecordRepositoryTest {
     void categoryFilterTest() {
         // given
         
-        List<RecordEntity> records = recordRepository.findAllFetchJoinContentOnCategory(commonCategory);
-        List<RecordEntity> records2 = recordRepository.findAllFetchJoinContentOnCategory(commonCategory2);
+        List<RecordEntity> records = recordRepository.findAllFetchJoinContentOnCategory( commonCategory );
+        List<RecordEntity> records2 = recordRepository.findAllFetchJoinContentOnCategory( commonCategory2 );
         List<RecordEntity> all = recordRepository.findAll();
-        System.out.println("all.size() = " + all.size());
+        System.out.println( "all.size() = " + all.size() );
         // when
         
         // then
-        assertThat(records.size()).isEqualTo(RECORD_LENGTH);
-        assertThat(records2.size()).isEqualTo(RECORD_LENGTH_2);
+        assertThat( records.size() ).isEqualTo( RECORD_LENGTH );
+        assertThat( records2.size() ).isEqualTo( RECORD_LENGTH_2 );
         
         for (RecordEntity record : records) {
-            assertThat(record.getContent().getCategory()).isEqualTo(savedRecordsMap.get(record.getRecordId())
-                                                                                   .getContent()
-                                                                                   .getCategory());
+            assertThat( record.getContent().getCategory() ).isEqualTo( savedRecordsMap.get( record.getRecordId() )
+                                                                                      .getContent()
+                                                                                      .getCategory() );
         }
         
         for (RecordEntity record2 : records2) {
-            assertThat(record2.getContent().getCategory()).isEqualTo(savedRecordsMap.get(record2.getRecordId())
-                                                                                    .getContent()
-                                                                                    .getCategory());
+            assertThat( record2.getContent().getCategory() ).isEqualTo( savedRecordsMap.get( record2.getRecordId() )
+                                                                                       .getContent()
+                                                                                       .getCategory() );
         }
         
     }
@@ -251,20 +271,20 @@ class RecordRepositoryTest {
     void CategoryAndUserIdFetch() {
         // given
         List<RecordEntity> records2
-                = recordRepository.findAllFetchJoinContentWhereCategoryAndUserId(commonCategory2, USER_ID_2);
+                = recordRepository.findAllFetchJoinContentWhereCategoryAndUserId( commonCategory2, USER_ID_2 );
         List<RecordEntity> all = recordRepository.findAll();
-        System.out.println("CategoryAndUserIdFetch: all.size() = " + all.size());
-        assertThat(records2.size()).isEqualTo(RECORD_LENGTH_2);
+        System.out.println( "CategoryAndUserIdFetch: all.size() = " + all.size() );
+        assertThat( records2.size() ).isEqualTo( RECORD_LENGTH_2 );
         
         
         // when
         
         // then
         for (RecordEntity record2 : records2) {
-            assertThat(record2.getContent().getCategory()).isEqualTo(savedRecordsMap.get(record2.getRecordId())
-                                                                                    .getContent()
-                                                                                    .getCategory());
-            assertThat(record2.getUserId()).isEqualTo(USER_ID_2);
+            assertThat( record2.getContent().getCategory() ).isEqualTo( savedRecordsMap.get( record2.getRecordId() )
+                                                                                       .getContent()
+                                                                                       .getCategory() );
+            assertThat( record2.getUser().getId() ).isEqualTo( USER_ID_2 );
         }
     }
     
@@ -272,19 +292,19 @@ class RecordRepositoryTest {
     @DisplayName( "작품에 해당하는 모든 감상평을 가져올 수 있다. " )
     void findAllByContentIdAndUserId() {
         // given
-        PageRequest pageable = PageRequest.of(1, 100, Sort.by("recordId").descending());
+        PageRequest pageable = PageRequest.of( 1, 100, Sort.by( "recordId" ).descending() );
         
         // when
         Optional<List<RecordEntity>> allByContentIdAndUserId
-                = recordRepository.findAllByContentIdAndUserId(USER_ID, CONTENT_ID, pageable);
+                = recordRepository.findAllByContentIdAndUserId( USER_ID, CONTENT_ID, pageable );
         
-        assertThat(allByContentIdAndUserId.isPresent()).isTrue();
+        assertThat( allByContentIdAndUserId.isPresent() ).isTrue();
         
         List<RecordEntity> recordEntities = allByContentIdAndUserId.get();
         // then
         for (RecordEntity recordEntity : recordEntities) {
-            assertThat(recordEntity.getContent().getContentId()).isEqualTo(CONTENT_ID);
-            assertThat(recordEntity.getContent().getContentId()).isNotEqualTo(CONTENT_ID2);
+            assertThat( recordEntity.getContent().getContentId() ).isEqualTo( CONTENT_ID );
+            assertThat( recordEntity.getContent().getContentId() ).isNotEqualTo( CONTENT_ID2 );
         }
     }
     
@@ -292,22 +312,23 @@ class RecordRepositoryTest {
     @DisplayName( "없는 column 정보로 정렬하면 예외를 던진다." )
     void orderTest() {
         // given
-        PageRequest pageable = PageRequest.of(1, 100, Sort.by("sample"));
+        PageRequest pageable = PageRequest.of( 1, 100, Sort.by( "sample" ) );
         
         // when
-        assertThatThrownBy(() -> recordRepository.findAllByContentIdAndUserId(USER_ID, CONTENT_ID, pageable)).isInstanceOf(InvalidDataAccessApiUsageException.class);
+        assertThatThrownBy( () -> recordRepository.findAllByContentIdAndUserId( USER_ID, CONTENT_ID, pageable ) ).isInstanceOf(
+                InvalidDataAccessApiUsageException.class );
     }
     
     @Test
     @DisplayName( "sort 가 null 일때에 예외가 터지지 않는가?" )
     void sortTest() {
         // given
-        PageRequest pageable = PageRequest.of(1, 100);
+        PageRequest pageable = PageRequest.of( 1, 100 );
         
         // when
         
         // then
-        assertThatNoException().isThrownBy(() -> recordRepository.findAllByContentIdAndUserId(USER_ID, CONTENT_ID, pageable));
+        assertThatNoException().isThrownBy( () -> recordRepository.findAllByContentIdAndUserId( USER_ID, CONTENT_ID, pageable ) );
     }
     
     @Test
@@ -315,12 +336,11 @@ class RecordRepositoryTest {
     void deleteTest() {
         // given
         String localRecordId = "rec-999";
-//        Long userId = 111111L;
-        RecordEntity saved = recordRepository.save(newRecordWithId(localRecordId, USER_ID));
+        RecordEntity saved = recordRepository.save( newRecordWithId( localRecordId, user1 ) );
         
         // when
-        Optional<RecordEntity> optionalRecord = recordRepository.findByRecordId(localRecordId);
-        assertThat(optionalRecord.isPresent()).isTrue();
+        Optional<RecordEntity> optionalRecord = recordRepository.findByRecordId( localRecordId );
+        assertThat( optionalRecord.isPresent() ).isTrue();
         
         RecordEntity recordEntity = optionalRecord.get();
         recordEntity.delete();
@@ -330,11 +350,11 @@ class RecordRepositoryTest {
         TestTransaction.start();
         
         // then
-        Optional<RecordEntity> deletedRecord = recordRepository.findByRecordId(localRecordId);
-        assertThat(deletedRecord.isPresent()).isFalse();
+        Optional<RecordEntity> deletedRecord = recordRepository.findByRecordId( localRecordId );
+        assertThat( deletedRecord.isPresent() ).isFalse();
         
-        RecordEntity recordReference = recordRepository.getReferenceById(localRecordId);
-        assertThatThrownBy(() -> recordReference.getNote());
+        RecordEntity recordReference = recordRepository.getReferenceById( localRecordId );
+        assertThatThrownBy( () -> recordReference.getNote() );
     }
     
     @Test
@@ -342,24 +362,33 @@ class RecordRepositoryTest {
     void deleteTest2() {
         // given
         String localRecordId = "rec-999";
-        RecordEntity saved = recordRepository.save(newRecordWithId(localRecordId, USER_ID));
+        RecordEntity saved = recordRepository.save( newRecordWithId( localRecordId, user1 ) );
         
         // when
-        Optional<RecordEntity> optionalRecord = recordRepository.findByRecordId(localRecordId);
-        assertThat(optionalRecord.isPresent()).isTrue();
+        Optional<RecordEntity> optionalRecord = recordRepository.findByRecordId( localRecordId );
+        assertThat( optionalRecord.isPresent() ).isTrue();
         
         RecordEntity recordEntity = optionalRecord.get();
-        recordRepository.deleteById(localRecordId);
+        recordRepository.deleteById( localRecordId );
         
         TestTransaction.flagForCommit();
         TestTransaction.end();
         TestTransaction.start();
         
         // then
-        Optional<RecordEntity> deletedRecord = recordRepository.findByRecordId(localRecordId);
-        assertThat(deletedRecord.isPresent()).isFalse();
+        Optional<RecordEntity> deletedRecord = recordRepository.findByRecordId( localRecordId );
+        assertThat( deletedRecord.isPresent() ).isFalse();
         
-        RecordEntity recordReference = recordRepository.getReferenceById(localRecordId);
-        assertThatThrownBy(() -> recordReference.getNote());
+        RecordEntity recordReference = recordRepository.getReferenceById( localRecordId );
+        assertThatThrownBy( () -> recordReference.getNote() );
+    }
+    @AfterEach
+    void after() {
+        recordRepository.deleteAllInBatch();
+        contentRepository.deleteAllInBatch();
+        userRepository.deleteAllInBatch();
+        categoryRepository.deleteAllInBatch();
+        savedRecords.clear();
+        savedRecordsMap.clear();
     }
 }

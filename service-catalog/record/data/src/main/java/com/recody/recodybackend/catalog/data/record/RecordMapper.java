@@ -5,6 +5,7 @@ import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
 import com.recody.recodybackend.catalog.data.content.CatalogContentMapper;
 import com.recody.recodybackend.catalog.data.content.CatalogContentRepository;
 import com.recody.recodybackend.catalog.data.content.CatalogContentTitleMapper;
+import com.recody.recodybackend.catalog.data.user.CatalogUserMapper;
 import com.recody.recodybackend.common.exceptions.ContentNotFoundException;
 import com.recody.recodybackend.record.Record;
 import com.recody.recodybackend.record.RecordContent;
@@ -17,7 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Locale;
 
-@Mapper(componentModel = "spring", uses = {CatalogContentMapper.class, CategoryMapper.class, CatalogContentTitleMapper.class})
+@Mapper(componentModel = "spring", uses = {CatalogContentMapper.class, CategoryMapper.class, CatalogContentTitleMapper.class,
+                                           CatalogUserMapper.class})
 @Slf4j
 public abstract class RecordMapper {
     

@@ -35,7 +35,7 @@ class RecordQueryRepositoryImpl implements RecordQueryRepository {
                               .leftJoin( recordEntity.content )
                               .where(
                                       recordEntity.content.category.eq( category ),
-                                      recordEntity.userId.eq( userid ) ).fetchJoin()
+                                      recordEntity.user.id.eq( userid ) ).fetchJoin()
                               .fetch();
     }
     
@@ -44,7 +44,7 @@ class RecordQueryRepositoryImpl implements RecordQueryRepository {
         return Math.toIntExact(
                 jpaQueryFactory.select( recordEntity.count() )
                                .from( recordEntity )
-                               .where( recordEntity.userId.eq( userId ) )
+                               .where( recordEntity.user.id.eq( userId ) )
                                .where( recordEntity.appreciationDate.after( date ) )
                                .fetchFirst() )
                 ;
@@ -63,7 +63,7 @@ class RecordQueryRepositoryImpl implements RecordQueryRepository {
     public Optional<List<RecordEntity>> findAllByContentIdAndUserId(Long userId, String contentId, Pageable pageable) {
         return Optional.of( jpaQueryFactory.selectFrom( recordEntity )
                                            .leftJoin( recordEntity.content )
-                                           .where( recordEntity.userId.eq( userId ), recordEntity.content.contentId.eq( contentId ) )
+                                           .where( recordEntity.user.id.eq( userId ), recordEntity.content.contentId.eq( contentId ) )
                                            .limit( pageable.getPageSize() )
                                            .offset( pageable.getOffset() )
                                            .orderBy( QueryDslUtils.getOrderSpecifiers( pageable.getSort(), recordEntity ) )
@@ -75,7 +75,7 @@ class RecordQueryRepositoryImpl implements RecordQueryRepository {
         return jpaQueryFactory
                        .selectFrom( recordEntity )
                        .leftJoin( recordEntity.content )
-                       .where( recordEntity.content.category.eq( category ), recordEntity.userId.eq( userId ) )
+                       .where( recordEntity.content.category.eq( category ), recordEntity.user.id.eq( userId ) )
                        .limit( pageable.getPageSize() )
                        .offset( pageable.getOffset() )
                        .orderBy( recordEntity.createdAt.desc() )
@@ -86,7 +86,7 @@ class RecordQueryRepositoryImpl implements RecordQueryRepository {
         return jpaQueryFactory
                        .selectFrom( recordEntity )
                        .leftJoin( recordEntity.content )
-                       .where( recordEntity.content.category.eq( category ), recordEntity.userId.eq( userId ) )
+                       .where( recordEntity.content.category.eq( category ), recordEntity.user.id.eq( userId ) )
                        .orderBy( recordEntity.createdAt.desc() )
                        .fetch();
     }
