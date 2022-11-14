@@ -25,6 +25,11 @@ public class CatalogUserEntity {
     @Column(nullable = false)
     private Role role;
     
+    private String nickname;
+    
+    @Column(name = "picture_url")
+    private String pictureUrl;
+    
     @Override
     public String toString() {
         return "{\"CatalogUserEntity\":{"

@@ -13,9 +13,9 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.Optional;
 
 
@@ -41,8 +41,13 @@ public class AdminRegistrar {
     @Value("${users.admin.email}")
     private String email;
     
-    @PostConstruct
+    @Async
     public void register(){
+        try {
+            Thread.sleep( 5000L );
+        } catch ( InterruptedException e ) {
+            throw new RuntimeException( e );
+        }
         Optional<RecodyUserEntity> optionalUser = recodyUserRepository.findByEmail( email );
         if (optionalUser.isPresent()){
             log.info("이미 어드민 유저가 있음. optionalUser: {}", optionalUser);

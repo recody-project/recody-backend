@@ -1,7 +1,6 @@
 package com.recody.recodybackend.catalog.data.personalcontent;
 
 import com.recody.recodybackend.catalog.data.LookupId;
-import com.recody.recodybackend.catalog.data.category.CategoryEntity;
 import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
 import com.recody.recodybackend.catalog.data.genre.PersonalizedGenreEntity;
 import com.recody.recodybackend.catalog.data.user.CatalogUserEntity;
@@ -32,7 +31,5 @@ public class PersonalizedContentEntity {
     @OneToMany( mappedBy = "content" )
     private List<PersonalizedGenreEntity> genres;
     
-    @ManyToOne
-    private CategoryEntity category;
     
 }
