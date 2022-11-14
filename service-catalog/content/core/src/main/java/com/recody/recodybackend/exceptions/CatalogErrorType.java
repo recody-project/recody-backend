@@ -16,8 +16,8 @@ public enum CatalogErrorType implements ErrorType {
     MalformedContentId("MalformedContentId"),
     InvalidRatingScore("InvalidRatingScore"),
     
-    IconUrlCannotBeNull("category.icon-url.not-null"),
-    RatingScoreCannotBeNull("category.rating.not-null"),
+    IconUrlCannotBeNull("catalog.category.icon-url.not-null"),
+    RatingScoreCannotBeNull("catalog.rating.not-null"),
     ;
     
     private final String errorCode;
