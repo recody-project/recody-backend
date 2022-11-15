@@ -35,12 +35,12 @@ public class CatalogGenreEntity {
     @Column( name = "icon_url" )
     private String iconUrl;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn( name = "category_id" )
     private CategoryEntity category;
     
-    @ManyToOne
-    @JoinColumn( name = "user_id" )
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn( name = "user_id")
     private CatalogUserEntity user;
     
 }

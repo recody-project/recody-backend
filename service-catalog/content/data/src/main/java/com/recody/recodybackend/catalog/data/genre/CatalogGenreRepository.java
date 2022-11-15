@@ -8,5 +8,6 @@ import java.util.Optional;
 public interface CatalogGenreRepository extends JpaRepository<CatalogGenreEntity, String> {
     
     Optional<CatalogGenreEntity> findByUserAndName(CatalogUserEntity user, String genreName);
+    Optional<CatalogGenreEntity> findByIdAndUser(String id, CatalogUserEntity user);
 
 }
