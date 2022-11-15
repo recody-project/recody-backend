@@ -8,12 +8,13 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 @Getter
-public class CustomGenreId {
+public class CustomGenreId{
     
     private final String value;
     
     private CustomGenreId(String value) {
-        validateId( value );
+        requireNonNull( value );
+        requireCustomGenrePrefix( value );
         this.value = value;
     }
     
@@ -21,10 +22,13 @@ public class CustomGenreId {
         return new CustomGenreId( value );
     }
     
-    private static void validateId(String value) {
+    private static void requireNonNull(String value) {
         if ( ObjectUtils.isEmpty( value ) || !StringUtils.hasText( value ) ) {
             throw ApplicationExceptions.badRequestOf( CatalogErrorType.GenreIdCannotBeNull );
         }
+    }
+    
+    private static void requireCustomGenrePrefix(String value) {
         if ( !value.startsWith( Recody.CUSTOM_GENRE_PREFIX ) ) {
             throw ApplicationExceptions.badRequestOf( CatalogErrorType.InvalidGenreId );
         }

@@ -11,6 +11,7 @@ public enum CatalogErrorType implements ErrorType {
     GenreNameCannotBeNull("catalog.genre.name.not-null"),
     GenreNameAlreadyExists("catalog.genre.name.already-exists"),
     InvalidGenreId("catalog.genre.id.invalid"),
+    GenreCustomizationCannotOver5("catalog.genre.personalize.over"),
     InvalidGenreName("catalog.genre.name.invalid"),
     ContentIdCannotBeEmpty("ContentIdCannotBeEmpty"),
     MalformedContentId("MalformedContentId"),

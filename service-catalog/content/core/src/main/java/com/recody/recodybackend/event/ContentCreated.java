@@ -1,4 +1,4 @@
-package com.recody.recodybackend.common.events;
+package com.recody.recodybackend.event;
 
 import lombok.*;
 
