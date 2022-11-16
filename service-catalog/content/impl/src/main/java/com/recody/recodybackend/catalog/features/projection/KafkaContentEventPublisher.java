@@ -1,6 +1,6 @@
 package com.recody.recodybackend.catalog.features.projection;
 
-import com.recody.recodybackend.common.events.ContentCreated;
+import com.recody.recodybackend.event.ContentCreated;
 import com.recody.recodybackend.common.events.ContentRated;
 import com.recody.recodybackend.common.events.LoggingCallback;
 import com.recody.recodybackend.common.events.RecodyTopics;

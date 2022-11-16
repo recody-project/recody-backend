@@ -1,7 +1,9 @@
 package com.recody.recodybackend.catalog.web;
 
-import com.recody.recodybackend.content.ContentId;
-import com.recody.recodybackend.category.CustomCategoryId;
+import com.recody.recodybackend.catalog.features.changecategoryoncontent.ChangeCategoryOnContent;
+import com.recody.recodybackend.catalog.features.changecategoryoncontent.ChangeCategoryOnContentHandler;
+import com.recody.recodybackend.catalog.features.changegenreoncontent.ChangeGenresOnContent;
+import com.recody.recodybackend.catalog.features.changegenreoncontent.ChangeGenresOnContentHandler;
 import com.recody.recodybackend.catalog.features.content.getcontents.GetContent;
 import com.recody.recodybackend.catalog.features.content.getcontents.GetContentHandler;
 import com.recody.recodybackend.catalog.features.content.getdetail.GetContentDetail;
@@ -10,14 +12,15 @@ import com.recody.recodybackend.catalog.features.content.getdetail.movie.GetMovi
 import com.recody.recodybackend.catalog.features.content.getdetail.movie.GetMovieDetailHandler;
 import com.recody.recodybackend.catalog.features.search.SearchContent;
 import com.recody.recodybackend.catalog.features.search.SearchContentHandler;
-import com.recody.recodybackend.catalog.features.changecategoryoncontent.ChangeCategoryOnContent;
-import com.recody.recodybackend.catalog.features.changecategoryoncontent.ChangeCategoryOnContentHandler;
 import com.recody.recodybackend.catalog.features.search.SearchContentWithFilters;
+import com.recody.recodybackend.category.CustomCategoryId;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.events.MMM;
 import com.recody.recodybackend.common.web.SuccessResponseBody;
 import com.recody.recodybackend.commonbootutils.jwt.JwtManager;
 import com.recody.recodybackend.commonbootutils.web.AccessToken;
+import com.recody.recodybackend.content.ContentId;
+import com.recody.recodybackend.genre.GenreIds;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
@@ -42,6 +45,8 @@ class CatalogController {
     private final GetContentHandler getContentHandler;
     
     private final ChangeCategoryOnContentHandler changeCategoryOnContentHandler;
+    
+    private final ChangeGenresOnContentHandler changeGenresOnContentHandler;
     private final JwtManager jwtManager;
     private final MessageSource ms;
     
@@ -64,6 +69,29 @@ class CatalogController {
                                                           ChangeCategoryOnContent
                                                                   .builder()
                                                                   .categoryId( CustomCategoryId.of( request.getCategoryId() ) )
+                                                                  .userId( jwtManager.resolveUserId( accessToken ) )
+                                                                  .contentId( ContentId.of( contentId ) )
+                                                                  .build() ) ).build()
+                                        )
+                                   .build() );
+    }
+    
+    @PatchMapping( "/api/v1/catalog/content/{contentId}/genres" )
+    public ResponseEntity<SuccessResponseBody> changeGenreInfo(@AccessToken String accessToken,
+                                                               HttpServletRequest httpServletRequest,
+                                                               @PathVariable String contentId,
+                                                               @RequestBody ChangeGenresOnContentRequest request
+                                                              ) {
+        return ResponseEntity.ok(
+                SuccessResponseBody.builder()
+                                   .message( ms.getMessage( "catalog.content.detail.change-genres.succeeded", null,
+                                                            httpServletRequest.getLocale() ) )
+                                   .data( ChangeGenresOnContentResponse
+                                                  .builder()
+                                                  .event( changeGenresOnContentHandler.handle(
+                                                          ChangeGenresOnContent
+                                                                  .builder()
+                                                                  .genreIds( new GenreIds( request.getGenreIds() ) )
                                                                   .userId( jwtManager.resolveUserId( accessToken ) )
                                                                   .contentId( ContentId.of( contentId ) )
                                                                   .build() ) ).build()
@@ -169,8 +197,8 @@ class CatalogController {
                                                                    .keyword( keyword )
                                                                    .language( language )
                                                                    .categories( BasicCategory.isBasic( categoryId )
-                                                                               ? List.of( BasicCategory.idOf( categoryId ) )
-                                                                               : BasicCategory.all() )
+                                                                                        ? List.of( BasicCategory.idOf( categoryId ) )
+                                                                                        : BasicCategory.all() )
                                                                    .build() ) )
                                    .build() );
     }

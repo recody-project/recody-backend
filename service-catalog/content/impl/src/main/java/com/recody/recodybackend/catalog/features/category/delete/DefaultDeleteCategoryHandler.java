@@ -3,7 +3,7 @@ package com.recody.recodybackend.catalog.features.category.delete;
 import com.recody.recodybackend.catalog.data.category.CategoryEntity;
 import com.recody.recodybackend.catalog.data.category.CategoryRepository;
 import com.recody.recodybackend.exceptions.CategoryNotFoundException;
-import com.recody.recodybackend.common.events.CategoryDeleted;
+import com.recody.recodybackend.event.CategoryDeleted;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

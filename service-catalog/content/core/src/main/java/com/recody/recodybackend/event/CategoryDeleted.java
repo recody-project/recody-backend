@@ -1,4 +1,4 @@
-package com.recody.recodybackend.common.events;
+package com.recody.recodybackend.event;
 
 import lombok.*;
 
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class CategoryDeleted {
     
     @Builder.Default
-    private CategoryEventType type = CategoryEventType.CustomCategoryDeleted;
+    private CatalogEventType type = CatalogEventType.CustomCategoryDeleted;
     private String categoryId;
     private LocalDateTime deleteAt;
     

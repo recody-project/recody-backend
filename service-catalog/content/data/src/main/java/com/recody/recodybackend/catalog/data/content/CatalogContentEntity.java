@@ -8,6 +8,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table( name = "catalog_content" )
@@ -59,5 +60,18 @@ public class CatalogContentEntity extends CatalogBaseEntity {
     @Override
     public String toString() {
         return "{\"CatalogContentEntity\":{" + "\"id\":" + ((id != null) ? ("\"" + id + "\"") : null) + ", \"category\":" + category + ", \"contentId\":" + ((contentId != null) ? ("\"" + contentId + "\"") : null) + ", \"imageUrl\":" + ((imageUrl != null) ? ("\"" + imageUrl + "\"") : null) + ", \"title\":" + ((title != null) ? ("\"" + title + "\"") : null) + "}}";
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+        if ( this == o ) return true;
+        if ( !(o instanceof CatalogContentEntity) ) return false;
+        CatalogContentEntity that = (CatalogContentEntity) o;
+        return Objects.equals( getId(), that.getId() );
+    }
+    
+    @Override
+    public int hashCode() {
+        return Objects.hash( getId() );
     }
 }

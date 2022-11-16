@@ -32,15 +32,6 @@ public class CatalogUserEntity {
     private String pictureUrl;
     
     @Override
-    public String toString() {
-        return "{\"CatalogUserEntity\":{"
-               + "\"userId\":" + id
-               + ", \"email\":" + ((email != null) ? ("\"" + email + "\"") : null)
-               + ", \"role\":" + ((role != null) ? ("\"" + role + "\"") : null)
-               + "}}";
-    }
-    
-    @Override
     public boolean equals(Object o) {
         if ( this == o ) return true;
         if ( !(o instanceof CatalogUserEntity) ) return false;
@@ -51,5 +42,12 @@ public class CatalogUserEntity {
     @Override
     public int hashCode() {
         return Objects.hash( getId() );
+    }
+    
+    @Override
+    public String toString() {
+        return "{\"CatalogUserEntity\":{"
+               + "\"id\":" + id
+               + "}}";
     }
 }

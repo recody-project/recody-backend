@@ -53,7 +53,7 @@ class DefaultAddCustomGenreHandler implements AddCustomGenreHandler {
                                                               .build();
         
         CatalogGenreEntity savedGenreEntity = genreRepository.save( newGenreEntity );
-        CustomGenre customGenre = genreMapper.map( savedGenreEntity );
+        CustomGenre customGenre = genreMapper.toCustomGenre( savedGenreEntity );
         log.info( "새로운 커스텀 장르를 생성하였습니다.: {}", customGenre );
         return customGenre;
     }

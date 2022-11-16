@@ -1,6 +1,6 @@
 package com.recody.recodybackend.catalog.web;
 
-import com.recody.recodybackend.common.events.CategoryPersonalized;
+import com.recody.recodybackend.event.CategoryPersonalized;
 import lombok.*;
 
 @Getter

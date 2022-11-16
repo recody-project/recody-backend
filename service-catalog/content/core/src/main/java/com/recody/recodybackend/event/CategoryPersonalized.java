@@ -1,4 +1,4 @@
-package com.recody.recodybackend.common.events;
+package com.recody.recodybackend.event;
 
 import lombok.*;
 
@@ -10,7 +10,7 @@ import lombok.*;
 public class CategoryPersonalized {
     
     @Builder.Default
-    private CategoryEventType type = CategoryEventType.CategoryPersonalized;
+    private CatalogEventType type = CatalogEventType.CategoryPersonalized;
     
     private Long userId;
     private String contentId;

@@ -1,6 +1,6 @@
 package com.recody.recodybackend.catalog.web;
 
-import com.recody.recodybackend.event.CategoryDeleted;
+import com.recody.recodybackend.event.GenrePersonalized;
 import lombok.*;
 
 @Getter
@@ -8,8 +8,8 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class DeleteCategoryResponse {
+public class ChangeGenresOnContentResponse {
     
-    private CategoryDeleted event;
-
+    private GenrePersonalized event;
+    
 }

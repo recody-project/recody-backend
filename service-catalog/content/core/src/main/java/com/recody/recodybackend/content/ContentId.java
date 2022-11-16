@@ -1,5 +1,6 @@
 package com.recody.recodybackend.content;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.contents.Recody;
 import com.recody.recodybackend.common.exceptions.ApplicationException;
@@ -17,6 +18,7 @@ import static com.recody.recodybackend.exceptions.CatalogErrorType.MalformedCont
 @Slf4j
 public class ContentId {
     
+    @JsonProperty("contentId")
     String contentId;
     
     private ContentId(String contentId) {

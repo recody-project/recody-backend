@@ -20,6 +20,7 @@ public class MovieGenre implements Genre {
      */
     private String genreId;
     private String genreName;
+    @JsonIgnore
     private MovieSource source;
     
     

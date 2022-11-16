@@ -11,7 +11,7 @@ import com.recody.recodybackend.catalog.data.content.CatalogContentTitleEntity;
 import com.recody.recodybackend.catalog.data.user.CatalogUserEntity;
 import com.recody.recodybackend.catalog.data.user.CatalogUserRepository;
 import com.recody.recodybackend.category.CustomCategoryId;
-import com.recody.recodybackend.common.events.CategoryPersonalized;
+import com.recody.recodybackend.event.CategoryPersonalized;
 import com.recody.recodybackend.content.ContentId;
 import com.recody.recodybackend.users.Role;
 import org.junit.jupiter.api.AfterEach;

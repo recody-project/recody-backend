@@ -9,7 +9,7 @@ import com.recody.recodybackend.catalog.data.content.CatalogContentRepository;
 import com.recody.recodybackend.catalog.data.user.CatalogUserEntity;
 import com.recody.recodybackend.catalog.data.user.CatalogUserRepository;
 import com.recody.recodybackend.exceptions.CategoryNotFoundException;
-import com.recody.recodybackend.common.events.CategoryPersonalized;
+import com.recody.recodybackend.event.CategoryPersonalized;
 import com.recody.recodybackend.common.exceptions.ContentNotFoundException;
 import com.recody.recodybackend.users.exceptions.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
