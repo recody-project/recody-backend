@@ -1,5 +1,6 @@
 package com.recody.recodybackend.genre;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.recody.recodybackend.common.contents.Category;
 import com.recody.recodybackend.common.contents.Genre;
@@ -19,6 +20,7 @@ public class CustomGenre implements Genre {
     
     @JsonUnwrapped
     private CustomGenreIconUrl genreIconUrl;
+    @JsonIgnore
     private Category category;
     
     private CustomGenre(String genreId, String genreName, String genreIconUrl, Category category) {
