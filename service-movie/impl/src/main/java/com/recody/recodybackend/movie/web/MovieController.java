@@ -8,7 +8,6 @@ import com.recody.recodybackend.movie.features.MovieSearchService;
 import com.recody.recodybackend.movie.features.getmoviedetail.fromapi.TMDBFetchedMovieDetail;
 import com.recody.recodybackend.movie.features.getmoviedetail.fromdb.GetMovieDetail;
 import com.recody.recodybackend.movie.features.searchmovies.SearchMovies;
-import com.recody.recodybackend.movie.features.searchmovies.SearchMoviesByQueryResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
