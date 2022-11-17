@@ -13,7 +13,6 @@ public interface MovieSearchService {
     
     SearchMoviesByQueryResult searchMoviesByQuery(SearchMovies command);
     
-    
     Movies searchMoviesByQueryData(SearchMovies command);
     
 }

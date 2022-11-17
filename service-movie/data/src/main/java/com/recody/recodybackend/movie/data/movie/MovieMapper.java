@@ -66,7 +66,6 @@ public abstract class MovieMapper {
     @Mapping(target = "posterPath", source = "node.posterPath", qualifiedByName = "posterPathMapper")
     public abstract TMDBSearchedMovie toTMDBMovie(TMDBMovieSearchNode node);
     
-    
     @Mapping(target = "category", expression = "java(BasicCategory.Movie)")
     @Mapping(target = "source", expression = "java(MovieSource.TMDB)")
     @Mapping(target = "title", source = "entity.title")
