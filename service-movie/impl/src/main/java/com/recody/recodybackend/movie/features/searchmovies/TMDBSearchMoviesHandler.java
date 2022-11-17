@@ -11,6 +11,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.Objects;
@@ -24,18 +25,20 @@ class TMDBSearchMoviesHandler implements SearchMoviesHandler<TMDBMovieSearchNode
     private static final String TMDB_MOVIE_SEARCH_PATH = "/search/movie";
     private static final String TMDB_QUERY_PARAM_NAME = "query";
     private static final String TMDB_LANGUAGE_PARAM_NAME = "language";
+    public static final String PAGE_PARAM_NAME = "page";
     public static final String API_KEY_PARAM_NAME = "api_key";
     private final RestTemplate restTemplate = new RestTemplate();
     @Value("${movie.tmdb.api-key}")
     private String apiKey;
     
     @Override
-    public List<TMDBMovieSearchNode> handle(SearchMovies command) {
+    public List<TMDBMovieSearchNode> handle(@Valid SearchMovies command) {
         log.debug("handling command: {}", command);
         String movieName = command.getMovieName();
         String language = command.getLanguage();
+        Integer page = command.getPage();
     
-        URI url = makeUrl(movieName, language);
+        URI url = makeUrl(movieName, language, page);
         RequestEntity<Void> RE = RequestEntity.get(url).build();
         TMDBMovieSearchResponse response;
         try {
@@ -51,12 +54,13 @@ class TMDBSearchMoviesHandler implements SearchMoviesHandler<TMDBMovieSearchNode
         return tmdbMovies;
     }
     
-    private URI makeUrl(String movieName, String language) {
+    private URI makeUrl(String movieName, String language, Integer page) {
         return UriComponentsBuilder.fromUriString(baseUrl)
                                    .path(TMDB_MOVIE_SEARCH_PATH)
                                    .queryParam(TMDB_QUERY_PARAM_NAME, movieName)
                                    .queryParam(TMDB_LANGUAGE_PARAM_NAME, language)
                                    .queryParam(API_KEY_PARAM_NAME, apiKey)
+                                   .queryParam( PAGE_PARAM_NAME, page )
                                    .encode()
                                    .build()
                                    .toUri();

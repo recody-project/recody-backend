@@ -2,6 +2,8 @@ package com.recody.recodybackend.movie.features.searchmovies;
 
 import lombok.*;
 
+import javax.validation.constraints.Min;
+
 @Getter
 @Setter
 @Builder
@@ -11,8 +13,10 @@ public class SearchMovies {
     private String movieName;
     private String language;
     
-    private Integer size;
+    @Builder.Default
+    private Integer size = 10;
     
+    @Min( value = 1 )
     private Integer page;
     
     @Override

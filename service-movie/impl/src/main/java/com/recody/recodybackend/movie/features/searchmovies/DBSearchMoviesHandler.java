@@ -4,6 +4,7 @@ import com.recody.recodybackend.movie.data.movie.MovieEntity;
 import com.recody.recodybackend.movie.data.movie.MovieRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -19,8 +20,9 @@ class DBSearchMoviesHandler implements SearchMoviesHandler<MovieEntity> {
     public List<MovieEntity> handle(SearchMovies command) {
         log.debug( "handling command: {}", command );
         String movieName = command.getMovieName();
+        PageRequest pageable = PageRequest.of( command.getPage() - 1, command.getSize() );
         Locale locale = Locale.forLanguageTag( command.getLanguage() );
-        List<MovieEntity> movieEntities = movieRepository.findByTitleLike( movieName, locale );
+        List<MovieEntity> movieEntities = movieRepository.findByTitleLike( movieName, locale, pageable );
         log.info( "DB 에서 {}개의 영화를 찾았습니다.", movieEntities.size() );
         return movieEntities;
     }
