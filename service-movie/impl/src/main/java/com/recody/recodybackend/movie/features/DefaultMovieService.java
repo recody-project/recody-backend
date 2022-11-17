@@ -19,6 +19,7 @@ import com.recody.recodybackend.movie.features.getmoviedetail.fromdb.GetMovieDet
 import com.recody.recodybackend.movie.features.getmoviedetail.fromdb.GetMovieDetailResult;
 import com.recody.recodybackend.movie.features.manager.MovieManager;
 import com.recody.recodybackend.movie.features.searchmovies.SearchMovies;
+import com.recody.recodybackend.common.data.QueryMetadata;
 import com.recody.recodybackend.movie.web.SearchMoviesByQueryResult;
 import com.recody.recodybackend.movie.features.searchmovies.SearchMoviesHandler;
 import com.recody.recodybackend.movie.features.searchmovies.dto.TMDBMovieSearchNode;
@@ -129,24 +130,30 @@ class DefaultMovieService implements MovieSearchService, MovieDetailService<TMDB
     public SearchMoviesResult searchMovies(SearchMovies command) {
         String movieName = command.getMovieName();
         Locale locale = Locale.forLanguageTag( command.getLanguage() );
-        List<MovieEntity> moviesFromDB = dbSearchMoviesHandler.handle( command );
+        Page<MovieEntity> moviesFromDB = dbSearchMoviesHandler.handlePage( command );
         // db 에 결과가 있는 경우에는 그 결과를 반환한다.
-        if ( moviesFromDB.size() > MINIMUM_SEARCH_RESULT_SIZE ) {
-            List<TMDBSearchedMovie> tmdbSearchedMovies = movieMapper.toTMDBMovie( moviesFromDB, locale );
-            return SearchMoviesResult.builder().requestedLanguage( locale ).movies( tmdbSearchedMovies ).total( moviesFromDB.size() ).build();
+        if ( moviesFromDB.getSize() > MINIMUM_SEARCH_RESULT_SIZE ) {
+            List<TMDBSearchedMovie> tmdbSearchedMovies = movieMapper.toTMDBMovie( moviesFromDB.getContent(), locale );
+            return SearchMoviesResult.builder()
+                                     .metadata( new QueryMetadata( moviesFromDB, true ) )
+                                     .movies( tmdbSearchedMovies )
+                                     .build();
         }
         
         // API 에서 가져옴.
-        List<TMDBMovieSearchNode> tmdbMovies = tMDBSearchMoviesHandler.handle( command );
+        Page<TMDBMovieSearchNode> tmdbMoviesPage = tMDBSearchMoviesHandler.handlePage( command );
         
         applicationEventPublisher.publishEvent( MoviesSearched.builder()
-                                                              .tmdbMovies( tmdbMovies )
+                                                              .tmdbMovies( tmdbMoviesPage.getContent() )
                                                               .locale( locale )
                                                               .build() );
         
-        List<TMDBSearchedMovie> movies = movieMapper.toTMDBMovie( tmdbMovies );
+        List<TMDBSearchedMovie> movies = movieMapper.toTMDBMovie( tmdbMoviesPage.getContent() );
         
-        return SearchMoviesResult.builder().requestedLanguage( locale ).movies( movies ).total( movies.size() ).build();
+        return SearchMoviesResult.builder()
+                                 .metadata( new QueryMetadata( tmdbMoviesPage, false ) )
+                                 .movies( movies )
+                                 .build();
     }
     
     @Override
@@ -182,11 +189,8 @@ class DefaultMovieService implements MovieSearchService, MovieDetailService<TMDB
         List<Movie> movies = movieMapper.toMovie( movieEntitiesPage.getContent(), locale );
         log.debug( "Searched movies: {}", movieEntitiesPage.getTotalElements() );
         return SearchMoviesByQueryResult.builder()
-                                        .requestedLanguage( locale )
+                                        .metadata( new QueryMetadata( movieEntitiesPage, true ) )
                                         .movies( movies )
-                                        .size( movies.size() )
-                                        .currentPage( movieEntitiesPage.getNumber() + 1 )
-                                        .totalPages( movieEntitiesPage.getTotalPages() )
                                         .build();
     }
     
