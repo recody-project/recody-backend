@@ -17,11 +17,13 @@ import java.util.Locale;
 public class SearchMoviesByQueryResult {
     private Locale requestedLanguage;
     private List<Movie> movies;
-    private Integer page;
-    private Integer total;
+    private Integer currentPage;
+    private Integer size;
+    
+    private Integer totalPages;
     
     @Override
     public String toString() {
-        return "{\"SearchMoviesByQueryResult\":{" + "\"requestedLanguage\":" + requestedLanguage + ", \"movies\":" + movies + ", \"page\":" + page + ", \"total\":" + total + "}}";
+        return "{\"SearchMoviesByQueryResult\":{" + "\"requestedLanguage\":" + requestedLanguage + ", \"movies\":" + movies + ", \"page\":" + currentPage + ", \"total\":" + size + "}}";
     }
 }

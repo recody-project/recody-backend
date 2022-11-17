@@ -28,6 +28,7 @@ import com.recody.recodybackend.movie.web.TMDBSearchedMovie;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
@@ -177,13 +178,15 @@ class DefaultMovieService implements MovieSearchService, MovieDetailService<TMDB
         log.debug( "Searching from DB, command: {}", command );
         String language = command.getLanguage();
         Locale locale = Locale.forLanguageTag( language );
-        List<MovieEntity> movieEntities = dbSearchMoviesHandler.handle( command );
-        List<Movie> movies = movieMapper.toMovie( movieEntities, locale );
-        log.debug( "Searched movies: {}", movieEntities.size() );
+        Page<MovieEntity> movieEntitiesPage = dbSearchMoviesHandler.handlePage( command );
+        List<Movie> movies = movieMapper.toMovie( movieEntitiesPage.getContent(), locale );
+        log.debug( "Searched movies: {}", movieEntitiesPage.getTotalElements() );
         return SearchMoviesByQueryResult.builder()
                                         .requestedLanguage( locale )
                                         .movies( movies )
-                                        .total( movies.size() )
+                                        .size( movies.size() )
+                                        .currentPage( movieEntitiesPage.getNumber() + 1 )
+                                        .totalPages( movieEntitiesPage.getTotalPages() )
                                         .build();
     }
     

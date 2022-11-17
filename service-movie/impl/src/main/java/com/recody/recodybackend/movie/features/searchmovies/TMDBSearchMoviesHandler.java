@@ -5,6 +5,9 @@ import com.recody.recodybackend.movie.features.searchmovies.dto.TMDBMovieSearchR
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.RequestEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
@@ -52,6 +55,28 @@ class TMDBSearchMoviesHandler implements SearchMoviesHandler<TMDBMovieSearchNode
         List<TMDBMovieSearchNode> tmdbMovies = response.getResults();
         log.debug("TMDB 에서 영화 검색 결과를 가져왔습니다. size: {}", tmdbMovies.size());
         return tmdbMovies;
+    }
+    
+    @Override
+    public Page<TMDBMovieSearchNode> handlePage(SearchMovies command) {
+        log.debug("handling command: {}", command);
+        String movieName = command.getMovieName();
+        String language = command.getLanguage();
+        Integer page = command.getPage();
+    
+        URI url = makeUrl(movieName, language, page);
+        RequestEntity<Void> RE = RequestEntity.get(url).build();
+        TMDBMovieSearchResponse response;
+        try {
+            response = restTemplate.exchange(RE, TMDBMovieSearchResponse.class).getBody();
+            // null check
+            Objects.requireNonNull(response);
+            log.debug("TMDB 에서 영화 검색 결과를 가져왔습니다. size: {}", response.getResults().size());
+            return new PageImpl<>( response.getResults(), PageRequest.of( page, 20 ), response.getTotalResults() );
+        } catch (RestClientException exception4xx) {
+            log.warn("exception4xx: {}", exception4xx.getMessage());
+            throw new RuntimeException();
+        }
     }
     
     private URI makeUrl(String movieName, String language, Integer page) {
