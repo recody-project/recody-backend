@@ -27,6 +27,9 @@ public class SearchMovies {
         return "{\"SearchMovies\":{"
                + "\"movieName\":" + ((movieName != null) ? ("\"" + movieName + "\"") : null)
                + ", \"language\":" + ((language != null) ? ("\"" + language + "\"") : null)
+               + ", \"size\":" + size
+               + ", \"page\":" + page
+               + ", \"genreIds\":" + genreIds
                + "}}";
     }
 }

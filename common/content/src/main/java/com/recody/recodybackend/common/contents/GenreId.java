@@ -27,4 +27,11 @@ public class GenreId {
             throw ApplicationExceptions.badRequestOf( ContentErrorType.GenreIdCannotBeNull );
         }
     }
+    
+    @Override
+    public String toString() {
+        return "{\"GenreId\":{"
+               + "\"value\":" + ((value != null) ? ("\"" + value + "\"") : null)
+               + "}}";
+    }
 }

@@ -42,9 +42,8 @@ class MovieQueryRepositoryImpl implements MovieQueryRepository {
         JPAQuery<MovieEntity> queryFindByTitleLike
                 = createQueryFindByTitleLikeAndLocale( title, locale );
         
-        List<MovieEntity> result = queryFindByTitleLike.limit( pageable.getPageSize() )
-                                                       .offset( pageable.getOffset() )
-                                                       .fetch();
+        List<MovieEntity> result = applyPageable( pageable, queryFindByTitleLike )
+                                           .fetch();
         log.debug( "movie search result: {}", result.size() );
         return result;
     }
@@ -55,24 +54,26 @@ class MovieQueryRepositoryImpl implements MovieQueryRepository {
         List<MovieEntity> all
                 = query.fetch();
         List<MovieEntity> currentPageItems
-                = query.limit( pageable.getPageSize() )
-                       .offset( pageable.getOffset() )
-                       .fetch();
+                = applyPageable( pageable, query )
+                          .fetch();
         return new PageImpl<>( currentPageItems, pageable, all.size() );
     }
     
     @Override
     public Page<MovieEntity> findPagedByTitleLikeFilterByGenreIds(String title, Locale locale, Pageable pageable, GenreIds genreIds) {
+        // 장르가 없는 경우 필터링하지 않는다.
+        if ( genreIds.isEmpty() ) {
+            return findPagedByTitleLike( title, locale, pageable );
+        }
         JPAQuery<MovieEntity> byTitle = this.createQueryFindByTitleLikeAndLocale( title, locale );
         JPAQuery<MovieEntity> queryFilteredByGenreIds
                 = byTitle.innerJoin( movieEntity.genres )
                          .where( movieEntity.genres.any().genre.genreId
                                          .in( genreIds.getValues() ) );
         List<MovieEntity> all = queryFilteredByGenreIds.fetch();
-        List<MovieEntity> currentPageItems = queryFilteredByGenreIds.limit( pageable.getPageSize() )
-                                                                    .offset( pageable.getOffset() )
-                                                                    .fetch();
-        
+        List<MovieEntity> currentPageItems
+                = applyPageable( pageable, queryFilteredByGenreIds )
+                          .fetch();
         return new PageImpl<>( currentPageItems, pageable, all.size() );
     }
     
@@ -83,6 +84,11 @@ class MovieQueryRepositoryImpl implements MovieQueryRepository {
                                      .fetchOne();
         log.debug( "movie detail result" );
         return Optional.ofNullable( result );
+    }
+    
+    private static JPAQuery<MovieEntity> applyPageable(Pageable pageable, JPAQuery<MovieEntity> query) {
+        return query.limit( pageable.getPageSize() )
+                    .offset( pageable.getOffset() );
     }
     
     private static BooleanExpression containsFromEnglishTitle(String title) {

@@ -102,7 +102,7 @@ public class MovieController {
     public ResponseEntity<SearchMoviesByQueryResult> searchDB(@RequestParam String movieName,
                                                               @RequestParam( defaultValue = "ko" ) String language,
                                                               @RequestParam( defaultValue = "1" ) @Min( value = 1 ) Integer page,
-                                                              @RequestParam List<String> genreIds) {
+                                                              @RequestParam(required = false) List<String> genreIds) {
         log.debug( "controller called. {}", "/api/v1/movie/search-query" );
         return ResponseEntity.ok(
                 movieSearchService.searchMoviesByQuery(

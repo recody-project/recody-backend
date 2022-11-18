@@ -1,5 +1,6 @@
 package com.recody.recodybackend.movie.features.searchmovies;
 
+import com.recody.recodybackend.common.contents.GenreIds;
 import com.recody.recodybackend.movie.data.movie.MovieEntity;
 import com.recody.recodybackend.movie.data.movie.MovieRepository;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +37,8 @@ class DBSearchMoviesHandler implements SearchMoviesHandler<MovieEntity> {
         String movieName = command.getMovieName();
         PageRequest pageable = PageRequest.of( command.getPage() - 1, command.getSize() );
         Locale locale = Locale.forLanguageTag( command.getLanguage() );
-        Page<MovieEntity> movieEntitiesPage = movieRepository.findPagedByTitleLikeFilterByGenreIds( movieName, locale, pageable, command.getGenreIds() );
+        GenreIds genreIds = command.getGenreIds();
+        Page<MovieEntity> movieEntitiesPage = movieRepository.findPagedByTitleLikeFilterByGenreIds( movieName, locale, pageable, genreIds );
         log.info( "DB 에서 {}개의 영화를 찾았습니다.", movieEntitiesPage.getContent().size() );
         return movieEntitiesPage;
     }
