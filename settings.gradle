@@ -1,6 +1,6 @@
 rootProject.name = 'recody-backend'
 
-include(":common", ":common-content", ":common-exceptions", ":common-web")
+include(":common", ":common-content")
 include(":common-boot-utils")
 include(":service-movie-core", ":service-movie-impl", ":service-movie-api-shared", ":service-movie-data", ":service-movie-api-tmdb")
 include(":service-music-api", ":service-music-core", ":service-music-impl")
@@ -14,11 +14,6 @@ include(":service-catalog-content-core",
         ":service-catalog-record",
         ":service-catalog-record-shared")
 include(":service-users-api", ":service-users-api-core", ":service-users-impl")
-
-String commonProjectDir = "common"
-project(":common-content").projectDir = new File(settingsDir, "${commonProjectDir}/content")
-project(":common-exceptions").projectDir = new File(settingsDir, "${commonProjectDir}/exceptions")
-project(":common-web").projectDir = new File(settingsDir, "${commonProjectDir}/web")
 
 
 String movieProjectDir = "service-movie"
