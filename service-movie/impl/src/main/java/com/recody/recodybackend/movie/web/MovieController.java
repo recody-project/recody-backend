@@ -1,5 +1,6 @@
 package com.recody.recodybackend.movie.web;
 
+import com.recody.recodybackend.common.contents.GenreIds;
 import com.recody.recodybackend.common.web.SuccessResponseBody;
 import com.recody.recodybackend.movie.MovieDetail;
 import com.recody.recodybackend.movie.Movies;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Min;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -55,7 +57,7 @@ public class MovieController {
     @GetMapping( "/api/v1/movie/search" )
     public ResponseEntity<SearchMoviesResult> search(@RequestParam String movieName,
                                                      @RequestParam( defaultValue = "ko" ) String language,
-                                                     @RequestParam( defaultValue = "1" ) @Min( value = 1) Integer page) {
+                                                     @RequestParam( defaultValue = "1" ) @Min( value = 1 ) Integer page) {
         log.debug( "controller called" );
         return ResponseEntity.ok(
                 movieSearchService.searchMovies(
@@ -69,7 +71,7 @@ public class MovieController {
     @GetMapping( "/api/v2/movie/search" )
     public ResponseEntity<SuccessResponseBody> search2(@RequestParam String movieName, HttpServletRequest request,
                                                        @RequestParam( defaultValue = "ko" ) String language,
-                                                       @RequestParam( defaultValue = "1" ) @Min( value = 1) Integer page) {
+                                                       @RequestParam( defaultValue = "1" ) @Min( value = 1 ) Integer page) {
         return ResponseEntity.ok(
                 SuccessResponseBody.builder()
                                    .message( ms.getMessage( "movie.search.succeeded", null, request.getLocale() ) )
@@ -99,13 +101,15 @@ public class MovieController {
     @GetMapping( "/api/v1/movie/search-query" )
     public ResponseEntity<SearchMoviesByQueryResult> searchDB(@RequestParam String movieName,
                                                               @RequestParam( defaultValue = "ko" ) String language,
-                                                              @RequestParam( defaultValue = "1" ) @Min( value = 1) Integer page) {
+                                                              @RequestParam( defaultValue = "1" ) @Min( value = 1 ) Integer page,
+                                                              @RequestParam List<String> genreIds) {
         log.debug( "controller called. {}", "/api/v1/movie/search-query" );
         return ResponseEntity.ok(
                 movieSearchService.searchMoviesByQuery(
                         SearchMovies.builder()
                                     .movieName( movieName )
                                     .language( language )
+                                    .genreIds( GenreIds.of( genreIds ) )
                                     .page( page )
                                     .build() ) );
     }
@@ -113,7 +117,7 @@ public class MovieController {
     @GetMapping( "/api/v2/movie/search-query" )
     public ResponseEntity<Movies> searchDB2(@RequestParam String movieName,
                                             @RequestParam( defaultValue = "ko" ) String language,
-                                            @RequestParam( defaultValue = "1" ) @Min( value = 1) Integer page) {
+                                            @RequestParam( defaultValue = "1" ) @Min( value = 1 ) Integer page) {
         log.debug( "controller called. {}", "/api/v2/movie/search-query" );
         return ResponseEntity.ok(
                 movieSearchService.searchMoviesByQueryData(

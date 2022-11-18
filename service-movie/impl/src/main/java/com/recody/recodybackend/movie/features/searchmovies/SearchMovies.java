@@ -1,5 +1,6 @@
 package com.recody.recodybackend.movie.features.searchmovies;
 
+import com.recody.recodybackend.common.contents.GenreIds;
 import lombok.*;
 
 import javax.validation.constraints.Min;
@@ -18,6 +19,8 @@ public class SearchMovies {
     
     @Min( value = 1 )
     private Integer page;
+    
+    private GenreIds genreIds;
     
     @Override
     public String toString() {

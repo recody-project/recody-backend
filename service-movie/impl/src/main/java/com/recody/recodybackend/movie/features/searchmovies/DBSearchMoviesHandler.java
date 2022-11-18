@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 import java.util.Locale;
@@ -14,6 +15,7 @@ import java.util.Locale;
 @Component
 @RequiredArgsConstructor
 @Slf4j
+@Validated
 class DBSearchMoviesHandler implements SearchMoviesHandler<MovieEntity> {
     private final MovieRepository movieRepository;
     
@@ -34,7 +36,7 @@ class DBSearchMoviesHandler implements SearchMoviesHandler<MovieEntity> {
         String movieName = command.getMovieName();
         PageRequest pageable = PageRequest.of( command.getPage() - 1, command.getSize() );
         Locale locale = Locale.forLanguageTag( command.getLanguage() );
-        Page<MovieEntity> movieEntitiesPage = movieRepository.findPagedByTitleLike( movieName, locale, pageable );
+        Page<MovieEntity> movieEntitiesPage = movieRepository.findPagedByTitleLikeFilterByGenreIds( movieName, locale, pageable, command.getGenreIds() );
         log.info( "DB 에서 {}개의 영화를 찾았습니다.", movieEntitiesPage.getContent().size() );
         return movieEntitiesPage;
     }

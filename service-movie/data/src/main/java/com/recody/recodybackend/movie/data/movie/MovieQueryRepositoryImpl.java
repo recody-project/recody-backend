@@ -3,6 +3,7 @@ package com.recody.recodybackend.movie.data.movie;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.recody.recodybackend.common.contents.GenreIds;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -57,6 +58,21 @@ class MovieQueryRepositoryImpl implements MovieQueryRepository {
                 = query.limit( pageable.getPageSize() )
                        .offset( pageable.getOffset() )
                        .fetch();
+        return new PageImpl<>( currentPageItems, pageable, all.size() );
+    }
+    
+    @Override
+    public Page<MovieEntity> findPagedByTitleLikeFilterByGenreIds(String title, Locale locale, Pageable pageable, GenreIds genreIds) {
+        JPAQuery<MovieEntity> byTitle = this.createQueryFindByTitleLikeAndLocale( title, locale );
+        JPAQuery<MovieEntity> queryFilteredByGenreIds
+                = byTitle.innerJoin( movieEntity.genres )
+                         .where( movieEntity.genres.any().genre.genreId
+                                         .in( genreIds.getValues() ) );
+        List<MovieEntity> all = queryFilteredByGenreIds.fetch();
+        List<MovieEntity> currentPageItems = queryFilteredByGenreIds.limit( pageable.getPageSize() )
+                                                                    .offset( pageable.getOffset() )
+                                                                    .fetch();
+        
         return new PageImpl<>( currentPageItems, pageable, all.size() );
     }
     
