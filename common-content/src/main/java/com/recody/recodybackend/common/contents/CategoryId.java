@@ -1,7 +1,8 @@
-package com.recody.recodybackend.category;
+package com.recody.recodybackend.common.contents;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.recody.recodybackend.exceptions.CustomCategoryException;
+import com.recody.recodybackend.common.contents.exceptions.ContentErrorType;
+import com.recody.recodybackend.common.exceptions.ApplicationExceptions;
 import lombok.Getter;
 import lombok.Value;
 import org.springframework.util.ObjectUtils;
@@ -21,9 +22,9 @@ public class CategoryId {
     
     public static void validateId(String id) {
         if ( ObjectUtils.isEmpty( id ) )
-            throw new CustomCategoryException( CustomCategory.CustomCategoryErrorType.CannotHaveNullId );
+            throw ApplicationExceptions.badRequestOf( ContentErrorType.CannotHaveNullId );
         if ( !StringUtils.hasText( id ) )
-            throw new CustomCategoryException( CustomCategory.CustomCategoryErrorType.CannotHaveEmptyStringId );
+            throw ApplicationExceptions.badRequestOf( ContentErrorType.CannotHaveEmptyStringId );
     }
     
     @Override

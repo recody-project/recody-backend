@@ -1,6 +1,6 @@
 package com.recody.recodybackend.catalog.features.wish;
 
-import com.recody.recodybackend.content.ContentId;
+import com.recody.recodybackend.common.contents.ContentId;
 import com.recody.recodybackend.catalog.RecodyCatalogApplication;
 import com.recody.recodybackend.catalog.features.wish.add.AddToWishlist;
 import com.recody.recodybackend.catalog.features.wish.add.AddToWishlistHandler;

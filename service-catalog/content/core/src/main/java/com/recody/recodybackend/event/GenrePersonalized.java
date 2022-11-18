@@ -1,7 +1,7 @@
 package com.recody.recodybackend.event;
 
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
-import com.recody.recodybackend.content.ContentId;
+import com.recody.recodybackend.common.contents.ContentId;
 import com.recody.recodybackend.common.contents.GenreIds;
 import lombok.*;
 

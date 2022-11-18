@@ -1,5 +1,6 @@
 package com.recody.recodybackend.common.contents;
 
+import com.recody.recodybackend.common.contents.exceptions.ContentErrorType;
 import com.recody.recodybackend.common.exceptions.ApplicationExceptions;
 import lombok.Getter;
 

@@ -19,7 +19,7 @@ import com.recody.recodybackend.common.events.MMM;
 import com.recody.recodybackend.common.web.SuccessResponseBody;
 import com.recody.recodybackend.commonbootutils.jwt.JwtManager;
 import com.recody.recodybackend.commonbootutils.web.AccessToken;
-import com.recody.recodybackend.content.ContentId;
+import com.recody.recodybackend.common.contents.ContentId;
 import com.recody.recodybackend.common.contents.GenreIds;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

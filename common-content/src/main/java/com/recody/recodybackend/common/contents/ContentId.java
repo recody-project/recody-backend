@@ -1,18 +1,12 @@
-package com.recody.recodybackend.content;
+package com.recody.recodybackend.common.contents;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.recody.recodybackend.common.contents.BasicCategory;
-import com.recody.recodybackend.common.contents.Recody;
-import com.recody.recodybackend.common.exceptions.ApplicationException;
+import com.recody.recodybackend.common.contents.exceptions.ContentErrorType;
 import com.recody.recodybackend.common.exceptions.ApplicationExceptions;
 import com.recody.recodybackend.common.exceptions.UnsupportedCategoryException;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
-
-import static com.recody.recodybackend.exceptions.CatalogErrorType.ContentIdCannotBeEmpty;
-import static com.recody.recodybackend.exceptions.CatalogErrorType.MalformedContentId;
 
 @Value( staticConstructor = "of" )
 @Slf4j
@@ -40,11 +34,10 @@ public class ContentId {
     
     private void validate(String contentId) {
         if ( !StringUtils.hasText( contentId ) ) {
-            throw ApplicationExceptions.badRequestOf( ContentIdCannotBeEmpty );
+            throw ApplicationExceptions.badRequestOf( ContentErrorType.ContentIdCannotBeEmpty );
         }
         if ( contentId.length() < 3 ) {
-            throw new ApplicationException(
-                    MalformedContentId, HttpStatus.BAD_REQUEST, "부적절한 content Id 입니다. contentId: " + contentId );
+            throw ApplicationExceptions.badRequestOf( ContentErrorType.MalformedContentId, "부적절한 content Id 입니다. contentId: " + contentId );
         }
     }
     

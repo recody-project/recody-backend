@@ -15,6 +15,7 @@ apply plugin: "com.ewerk.gradle.plugins.querydsl"
 
 dependencies {
     implementation project(":common")
+    implementation project(":common-content")
     implementation project(":common-boot-utils")
     implementation project(":service-catalog-content-data")
     implementation project(":service-catalog-content-core")
