@@ -3,11 +3,13 @@ package com.recody.recodybackend.movie.web;
 import com.recody.recodybackend.common.contents.GenreIds;
 import com.recody.recodybackend.common.web.SuccessResponseBody;
 import com.recody.recodybackend.movie.MovieDetail;
+import com.recody.recodybackend.movie.MovieGenres;
 import com.recody.recodybackend.movie.Movies;
 import com.recody.recodybackend.movie.features.MovieDetailService;
 import com.recody.recodybackend.movie.features.MovieSearchService;
 import com.recody.recodybackend.movie.features.getmoviedetail.fromapi.TMDBFetchedMovieDetail;
 import com.recody.recodybackend.movie.features.getmoviedetail.fromdb.GetMovieDetail;
+import com.recody.recodybackend.movie.features.getmoviegenres.GetMovieGenresHandler;
 import com.recody.recodybackend.movie.features.searchmovies.SearchMovies;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +33,8 @@ public class MovieController {
     private final MovieSearchService movieSearchService;
     private final MovieDetailService<TMDBFetchedMovieDetail, GetMovieDetail> movieDetailService;
     private final MessageSource ms;
+    
+    private final GetMovieGenresHandler getMovieGenresHandler;
     
     @GetMapping( "/api/v1/movie/detail" )
     public ResponseEntity<MovieDetail> getMovieInfo(@RequestParam Integer movieId, HttpServletRequest request,
@@ -102,7 +106,7 @@ public class MovieController {
     public ResponseEntity<SearchMoviesByQueryResult> searchDB(@RequestParam String movieName,
                                                               @RequestParam( defaultValue = "ko" ) String language,
                                                               @RequestParam( defaultValue = "1" ) @Min( value = 1 ) Integer page,
-                                                              @RequestParam(required = false) List<String> genreIds) {
+                                                              @RequestParam( required = false ) List<String> genreIds) {
         log.debug( "controller called. {}", "/api/v1/movie/search-query" );
         return ResponseEntity.ok(
                 movieSearchService.searchMoviesByQuery(
@@ -127,5 +131,10 @@ public class MovieController {
                                     .page( page )
                                     .build() ) );
     }
+    
+    @GetMapping( MovieHTTPAPI.getGenres )
+    public ResponseEntity<MovieGenres> getGenres() {
+        return ResponseEntity.ok( getMovieGenresHandler.handle() );
+    }
+    
 }
-

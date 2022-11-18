@@ -28,6 +28,9 @@ public abstract class MovieGenreMapper {
     @Mapping(target = "source", expression = "java(MovieSource.TMDB)")
     public abstract MovieGenre map(MovieGenreCodeEntity entity);
     
+
+    public abstract List<MovieGenre> mapList(List<MovieGenreCodeEntity> entities);
+    
     @Mapping(target = "source", expression = "java(MovieSource.TMDB)")
     @Mapping(target = "genreName", source = "entity.genre.tmdbGenreName")
     @Mapping(target = "genreId", source = "entity.genre.genreId")
