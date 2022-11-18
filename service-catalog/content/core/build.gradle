@@ -2,6 +2,7 @@
 
 dependencies {
     implementation project(":common")
+    implementation project(":common-content")
     implementation project(":service-movie-core")
     implementation project(":service-music-core")
 

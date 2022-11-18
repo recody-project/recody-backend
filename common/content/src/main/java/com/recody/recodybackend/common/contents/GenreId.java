@@ -1,8 +1,7 @@
-package com.recody.recodybackend.genre;
+package com.recody.recodybackend.common.contents;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.recody.recodybackend.common.exceptions.ApplicationExceptions;
-import com.recody.recodybackend.exceptions.CatalogErrorType;
 import lombok.Getter;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
@@ -25,7 +24,7 @@ public class GenreId {
     
     private static void requireNonNull(String value) {
         if ( ObjectUtils.isEmpty( value ) || !StringUtils.hasText( value ) ) {
-            throw ApplicationExceptions.badRequestOf( CatalogErrorType.GenreIdCannotBeNull );
+            throw ApplicationExceptions.badRequestOf( ContentErrorType.GenreIdCannotBeNull );
         }
     }
 }

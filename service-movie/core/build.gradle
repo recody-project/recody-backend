@@ -1,5 +1,6 @@
 dependencies {
     implementation project(":common")
+    implementation project(":common-content")
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'

@@ -1,7 +1,6 @@
-package com.recody.recodybackend.genre;
+package com.recody.recodybackend.common.contents;
 
 import com.recody.recodybackend.common.exceptions.ApplicationExceptions;
-import com.recody.recodybackend.exceptions.CatalogErrorType;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -14,6 +13,10 @@ public class GenreIds implements Iterable<GenreId> {
     
     @Getter
     private final List<GenreId> genreIds;
+    
+    public static GenreIds of(List<String> genreIds) {
+        return new GenreIds( genreIds );
+    }
     
     public GenreIds(String... ids) {
         if (ids.length == 0){
@@ -41,8 +44,12 @@ public class GenreIds implements Iterable<GenreId> {
     
     private static void requireNotOverMax(List<GenreId> genreIds){
         if (genreIds.size() > MAX_GENRE_PERSONALIZATION){
-            throw ApplicationExceptions.badRequestOf( CatalogErrorType.GenreCustomizationCannotOver5 );
+            throw ApplicationExceptions.badRequestOf( ContentErrorType.GenreCustomizationCannotOver5 );
         }
+    }
+    
+    public List<String> getValues(){
+        return this.genreIds.stream().map( GenreId::getValue ).collect( Collectors.toList() );
     }
     
     @Override
