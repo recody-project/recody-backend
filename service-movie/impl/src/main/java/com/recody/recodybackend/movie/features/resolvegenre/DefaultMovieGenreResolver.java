@@ -9,7 +9,6 @@ import com.recody.recodybackend.movie.exceptions.GenreNotFoundException;
 import com.recody.recodybackend.movie.exceptions.MovieErrorType;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieGenre;
 import com.recody.recodybackend.movie.data.genre.MovieGenreCodeManager;
-import com.recody.recodybackend.movie.features.resolvegenres.MovieGenreResolver;
 import com.recody.recodybackend.movie.features.resolvegenre.fromapi.GetTMDBMovieGenresHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -14,6 +14,10 @@ public class UserCreated {
     private Role role;
     private String email;
     
+    private String nickname;
+    
+    private String pictureUrl;
+    
     @Override
     public String toString() {
         return "{\"UserCreated\":{"

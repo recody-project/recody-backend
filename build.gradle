@@ -25,9 +25,9 @@ dependencies {
     implementation project(":service-book-impl")
     implementation project(":service-movie-impl")
     implementation project(":service-music-impl")
-    implementation project(":service-catalog-impl")
+    implementation project(":service-catalog-content")
+    implementation project(":service-catalog-record")
     implementation project(":service-users-impl")
-    implementation project(":service-record-impl")
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
@@ -36,6 +36,13 @@ dependencies {
 
     // aws log appender
     implementation "ca.pjer:logback-awslogs-appender:1.6.0"
+
+    // actuator, prometheus for metrics
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'io.micrometer:micrometer-core'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
+
+    implementation 'com.google.code.findbugs:jsr305:3.0.2'
 }
 
 checkDependencies {

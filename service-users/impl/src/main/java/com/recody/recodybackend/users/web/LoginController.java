@@ -4,6 +4,8 @@ import com.recody.recodybackend.common.web.SuccessResponseBody;
 import com.recody.recodybackend.commonbootutils.jwt.JwtManager;
 import com.recody.recodybackend.commonbootutils.web.AccessToken;
 import com.recody.recodybackend.users.RecodyUserEmail;
+import com.recody.recodybackend.users.features.allusers.FetchAllUsers;
+import com.recody.recodybackend.users.features.allusers.FetchAllUsersHandler;
 import com.recody.recodybackend.users.features.getuserinfo.GetUserInfo;
 import com.recody.recodybackend.users.features.getuserinfo.GetUserInfoHandler;
 import com.recody.recodybackend.users.features.jwt.reissuetokens.ReissueTokens;
@@ -37,6 +39,8 @@ class LoginController {
     private final SignInUserHandler signInUserHandler;
     
     private final GetUserInfoHandler getUserInfoHandler;
+    
+    private final FetchAllUsersHandler fetchAllUsersHandler;
     
     private final JwtManager jwtManager;
     
@@ -182,6 +186,19 @@ class LoginController {
                                                                      .userId( jwtManager.resolveUserId( accessToken ) )
                                                                      .build() ) )
                                                   .build() )
+                        .build() );
+    }
+    
+    @GetMapping( "/api/v1/users/users" )
+    public ResponseEntity<FetchAllUsersResponse> getAllUsers(HttpServletRequest httpRequest,
+                                                             @AccessToken String accessToken) {
+        return ResponseEntity.ok(
+                FetchAllUsersResponse
+                        .builder()
+                        .users( fetchAllUsersHandler.handle(
+                                FetchAllUsers.builder()
+                                             .userId( jwtManager.resolveUserId( accessToken ) )
+                                             .build() ) )
                         .build() );
     }
     
