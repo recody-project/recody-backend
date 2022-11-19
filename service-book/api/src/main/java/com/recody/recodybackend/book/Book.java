@@ -1,10 +1,10 @@
-package com.recody.recodybackend;
+package com.recody.recodybackend.book;
 
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.contents.ContentDetail;
-import com.recody.recodybackend.features.getbookcredit.Author;
-import com.recody.recodybackend.general.BookGenre;
-import com.recody.recodybackend.general.BookSource;
+import com.recody.recodybackend.book.features.getbookcredit.Author;
+import com.recody.recodybackend.book.general.BookGenre;
+import com.recody.recodybackend.book.general.BookSource;
 import lombok.*;
 
 import java.util.List;

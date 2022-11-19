@@ -1,14 +1,13 @@
-package com.recody.recodybackend.web;
+package com.recody.recodybackend.book.web;
 
-import com.recody.recodybackend.Book;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Slf4j
 public class BookController {
 
+//    @GetMapping("/api/v1/book/search")
 //    public ResponseEntity<Book> getBookInfo() {
 //        return ResponseEntity.ok().body()
 //    }

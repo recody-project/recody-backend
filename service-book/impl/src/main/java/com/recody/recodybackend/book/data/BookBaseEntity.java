@@ -1,4 +1,4 @@
-package com.recody.recodybackend.data;
+package com.recody.recodybackend.book.data;
 
 import lombok.AccessLevel;
 import lombok.Getter;

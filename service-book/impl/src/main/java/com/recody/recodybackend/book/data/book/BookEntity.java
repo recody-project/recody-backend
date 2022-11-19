@@ -1,9 +1,8 @@
-package com.recody.recodybackend.data.book;
+package com.recody.recodybackend.book.data.book;
 
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.commonbootutils.data.CustomSequenceIdGenerator;
-import com.recody.recodybackend.data.BookBaseEntity;
-import com.recody.recodybackend.general.BookGenre;
+import com.recody.recodybackend.book.data.BookBaseEntity;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -31,8 +30,6 @@ public class BookEntity extends BookBaseEntity {
                     @org.hibernate.annotations.Parameter(name = CustomSequenceIdGenerator.NUMBER_FORMAT_PARAMETER, value = "%d") }
     )
     private String id;
-
-    private BasicCategory category = BasicCategory.Book;
 
     private String title;
     private String publisher;

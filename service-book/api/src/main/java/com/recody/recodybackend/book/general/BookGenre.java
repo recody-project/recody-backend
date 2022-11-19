@@ -1,25 +1,25 @@
-package com.recody.recodybackend.general;
+package com.recody.recodybackend.book.general;
 
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.contents.Genre;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BookGenre implements Genre {
 
-    private Integer genreId;
+    private String genreId;
     private String genreName;
     private BookSource source;
 
-    public BookGenre() {}
-
-    public BookGenre(Integer genreId) {
+    public BookGenre(String genreId) {
         this.genreId = genreId;
     }
 
-    public BookGenre(Integer genreId, String genreName) {
+    public BookGenre(String genreId, String genreName) {
         this.genreId = genreId;
         this.genreName = genreName;
     }
