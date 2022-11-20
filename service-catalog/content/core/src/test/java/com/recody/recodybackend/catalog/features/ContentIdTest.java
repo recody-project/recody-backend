@@ -1,7 +1,7 @@
 package com.recody.recodybackend.catalog.features;
 
 import com.recody.recodybackend.common.contents.BasicCategory;
-import com.recody.recodybackend.content.ContentId;
+import com.recody.recodybackend.common.contents.ContentId;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

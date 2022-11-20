@@ -63,4 +63,12 @@ public abstract class CatalogGenreMapper {
     @Mapping( target = "genreName", source = "entity.name" )
     @Mapping( target = "genreId", source = "entity.id" )
     public abstract MovieGenre toMovieGenre(CatalogGenreEntity entity);
+    
+    @Mapping( target = "user", ignore = true )
+    @Mapping( target = "iconUrl", ignore = true )
+    @Mapping( target = "name", source = "movieGenre.genreName" )
+    @Mapping( target = "id", source = "movieGenre.genreId" )
+    public abstract CatalogGenreEntity newEntity(MovieGenre movieGenre);
+    
+    public abstract List<CatalogGenreEntity> newEntity(List<MovieGenre> movieGenre);
 }

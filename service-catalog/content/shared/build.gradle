@@ -2,6 +2,7 @@
 
 dependencies {
     implementation project(":common")
+    implementation project(":common-content")
     implementation project(":service-catalog-content-core")
 
     // TODO: movie 의존성 없애기

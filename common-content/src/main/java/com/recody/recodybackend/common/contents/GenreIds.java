@@ -1,22 +1,32 @@
-package com.recody.recodybackend.genre;
+package com.recody.recodybackend.common.contents;
 
+import com.recody.recodybackend.common.contents.exceptions.ContentErrorType;
 import com.recody.recodybackend.common.exceptions.ApplicationExceptions;
-import com.recody.recodybackend.exceptions.CatalogErrorType;
 import lombok.Getter;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class GenreIds implements Iterable<GenreId> {
+    
     public static final int MAX_GENRE_PERSONALIZATION = 5;
     
     @Getter
     private final List<GenreId> genreIds;
     
+    public static GenreIds of(List<String> genreIds) {
+        if ( Objects.isNull( genreIds ) || genreIds.isEmpty() ) {
+            return new GenreIds( Collections.emptyList() );
+        }
+        return new GenreIds( genreIds );
+    }
+    
+    public boolean isEmpty(){
+        return genreIds.isEmpty();
+    }
+    
     public GenreIds(String... ids) {
-        if (ids.length == 0){
+        if ( ids.length == 0 ) {
             this.genreIds = new ArrayList<>();
         }
         else {
@@ -39,10 +49,14 @@ public class GenreIds implements Iterable<GenreId> {
         requireNotOverMax( this.genreIds );
     }
     
-    private static void requireNotOverMax(List<GenreId> genreIds){
-        if (genreIds.size() > MAX_GENRE_PERSONALIZATION){
-            throw ApplicationExceptions.badRequestOf( CatalogErrorType.GenreCustomizationCannotOver5 );
+    private static void requireNotOverMax(List<GenreId> genreIds) {
+        if ( genreIds.size() > MAX_GENRE_PERSONALIZATION ) {
+            throw ApplicationExceptions.badRequestOf( ContentErrorType.GenreCustomizationCannotOver5 );
         }
+    }
+    
+    public List<String> getValues() {
+        return this.genreIds.stream().map( GenreId::getValue ).collect( Collectors.toList() );
     }
     
     @Override
@@ -50,7 +64,14 @@ public class GenreIds implements Iterable<GenreId> {
         return this.genreIds.iterator();
     }
     
-    public int size(){
+    public int size() {
         return this.genreIds.size();
+    }
+    
+    @Override
+    public String toString() {
+        return "{\"GenreIds\":{"
+               + "\"genreIds\":" + genreIds
+               + "}}";
     }
 }

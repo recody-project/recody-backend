@@ -23,6 +23,8 @@ public interface MovieGenreResolver {
     
     List<MovieGenre> toMovieGenreList(List<Integer> tmdbGenreIds);
     
+    List<MovieGenre> allMovieGenres();
+    
     
     /**
      * @param genreId Recody Movie 서비스에서 부여한 영화 장르 코드

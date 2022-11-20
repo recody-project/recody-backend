@@ -1,6 +1,6 @@
 package com.recody.recodybackend.catalog.features.genre.addcustomgenre;
 
-import com.recody.recodybackend.category.CategoryId;
+import com.recody.recodybackend.common.contents.CategoryId;
 import com.recody.recodybackend.genre.CustomGenreIconUrl;
 import com.recody.recodybackend.genre.CustomGenreName;
 import lombok.*;

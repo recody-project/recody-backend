@@ -2,7 +2,7 @@ package com.recody.recodybackend.catalog.web;
 
 import com.recody.recodybackend.catalog.features.genre.addcustomgenre.AddCustomGenre;
 import com.recody.recodybackend.catalog.features.genre.addcustomgenre.AddCustomGenreHandler;
-import com.recody.recodybackend.category.CategoryId;
+import com.recody.recodybackend.common.contents.CategoryId;
 import com.recody.recodybackend.common.web.SuccessResponseBody;
 import com.recody.recodybackend.commonbootutils.jwt.JwtManager;
 import com.recody.recodybackend.commonbootutils.web.AccessToken;
