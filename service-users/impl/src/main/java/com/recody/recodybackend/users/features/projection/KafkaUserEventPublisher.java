@@ -1,6 +1,6 @@
 package com.recody.recodybackend.users.features.projection;
 
-import com.recody.recodybackend.common.KafkaEventProcessingStrategy;
+import com.recody.recodybackend.common.OnKafkaEventProcessingStrategy;
 import com.recody.recodybackend.common.events.LoggingCallback;
 import com.recody.recodybackend.common.events.RecodyTopics;
 import com.recody.recodybackend.users.events.UserCreated;
@@ -11,7 +11,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-@Conditional(value = KafkaEventProcessingStrategy.class)
+@Conditional(value = OnKafkaEventProcessingStrategy.class)
 @RequiredArgsConstructor
 @Slf4j
 class KafkaUserEventPublisher implements UserEventPublisher{

@@ -2,7 +2,7 @@ package com.recody.recodybackend.catalog.features.eventhandlers;
 
 import com.recody.recodybackend.catalog.data.user.CatalogUserEntity;
 import com.recody.recodybackend.catalog.data.user.CatalogUserRepository;
-import com.recody.recodybackend.common.SpringEventProcessingStrategy;
+import com.recody.recodybackend.common.OnSpringEventProcessingStrategy;
 import com.recody.recodybackend.users.events.UserCreated;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +11,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 @Component
-@Conditional(value = SpringEventProcessingStrategy.class)
+@Conditional(value = OnSpringEventProcessingStrategy.class)
 @RequiredArgsConstructor
 @Slf4j
 class SpringCatalogUserEventHandler implements CatalogUserEventHandler{

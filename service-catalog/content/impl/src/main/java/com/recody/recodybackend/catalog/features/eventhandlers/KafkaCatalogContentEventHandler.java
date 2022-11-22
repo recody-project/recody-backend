@@ -5,7 +5,7 @@ import com.recody.recodybackend.catalog.data.category.CategoryRepository;
 import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
 import com.recody.recodybackend.catalog.data.content.CatalogContentRepository;
 import com.recody.recodybackend.catalog.data.content.CatalogContentTitleEntity;
-import com.recody.recodybackend.common.KafkaEventProcessingStrategy;
+import com.recody.recodybackend.common.OnKafkaEventProcessingStrategy;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.events.RecodyTopics;
 import com.recody.recodybackend.exceptions.CategoryNotFoundException;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-@Conditional(value = KafkaEventProcessingStrategy.class )
+@Conditional(value = OnKafkaEventProcessingStrategy.class )
 @Slf4j
 @KafkaListener(topics = RecodyTopics.CONTENT_MANAGEMENT, groupId = "catalog")
 class KafkaCatalogContentEventHandler implements CatalogContentEventHandler{

@@ -1,7 +1,7 @@
 package com.recody.recodybackend.users.features.projection;
 
 import com.recody.recodybackend.common.Recody;
-import com.recody.recodybackend.common.SpringEventProcessingStrategy;
+import com.recody.recodybackend.common.OnSpringEventProcessingStrategy;
 import com.recody.recodybackend.users.events.UserCreated;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +11,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 @Component
-@Conditional(value = SpringEventProcessingStrategy.class )
+@Conditional(value = OnSpringEventProcessingStrategy.class )
 @RequiredArgsConstructor
 @Slf4j
 class SpringUserEventPublisher implements UserEventPublisher{

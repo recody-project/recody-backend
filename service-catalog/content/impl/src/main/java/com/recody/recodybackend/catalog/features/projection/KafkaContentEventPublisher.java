@@ -1,6 +1,6 @@
 package com.recody.recodybackend.catalog.features.projection;
 
-import com.recody.recodybackend.common.KafkaEventProcessingStrategy;
+import com.recody.recodybackend.common.OnKafkaEventProcessingStrategy;
 import com.recody.recodybackend.event.ContentCreated;
 import com.recody.recodybackend.common.events.ContentRated;
 import com.recody.recodybackend.common.events.LoggingCallback;
@@ -12,7 +12,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-@Conditional(value = KafkaEventProcessingStrategy.class )
+@Conditional(value = OnKafkaEventProcessingStrategy.class )
 @RequiredArgsConstructor
 @Slf4j
 class KafkaContentEventPublisher implements ContentEventPublisher {

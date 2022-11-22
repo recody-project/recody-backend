@@ -6,7 +6,7 @@ import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
 import com.recody.recodybackend.catalog.data.content.CatalogContentRepository;
 import com.recody.recodybackend.catalog.data.content.CatalogContentTitleEntity;
 import com.recody.recodybackend.common.Recody;
-import com.recody.recodybackend.common.SpringEventProcessingStrategy;
+import com.recody.recodybackend.common.OnSpringEventProcessingStrategy;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.exceptions.CategoryNotFoundException;
 import com.recody.recodybackend.movie.events.MovieCreated;
@@ -21,7 +21,7 @@ import javax.transaction.Transactional;
 
 
 @Component
-@Conditional(value = SpringEventProcessingStrategy.class)
+@Conditional(value = OnSpringEventProcessingStrategy.class)
 @RequiredArgsConstructor
 @Slf4j
 class SpringCatalogContentEventHandler implements CatalogContentEventHandler{
