@@ -1,5 +1,6 @@
 package com.recody.recodybackend.catalog.config;
 
+import com.recody.recodybackend.common.Recody;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +22,7 @@ class CatalogApplicationConfig {
     @Value("${catalog.movie.access-token}")
     private String bearerToken;
     
-    @Bean
+    @Bean(value = Recody.CATALOG_TASK_EXECUTOR)
     Executor taskExecutor(){
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(10);

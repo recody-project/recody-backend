@@ -1,5 +1,6 @@
 package com.recody.recodybackend.movie.data;
 
+import com.recody.recodybackend.common.Recody;
 import com.recody.recodybackend.movie.data.genre.MovieGenreEntity;
 import com.recody.recodybackend.movie.data.movie.MovieEntity;
 import com.recody.recodybackend.movie.data.people.MovieActorEntity;
@@ -18,7 +19,7 @@ import java.util.stream.Collectors;
 @Transactional
 public interface MovieEntityManager {
     
-    @Async
+    @Async( Recody.MOVIE_TASK_EXECUTOR )
     @Transactional
     default CompletableFuture<List<MovieGenreEntity>> saveAsync(MovieEntity movieEntity, List<MovieGenreCodeEntity> genreCodeEntities){
         return CompletableFuture.completedFuture(this.saveMovieGenre(movieEntity, genreCodeEntities));

@@ -15,10 +15,11 @@ public class GenreIds implements Iterable<GenreId> {
     private final List<GenreId> genreIds;
     
     public static GenreIds of(List<String> genreIds) {
-        if ( Objects.isNull( genreIds ) || genreIds.isEmpty() ) {
-            return new GenreIds( Collections.emptyList() );
-        }
         return new GenreIds( genreIds );
+    }
+    
+    public static GenreIds empty(){
+        return new GenreIds();
     }
     
     public boolean isEmpty(){
@@ -41,6 +42,10 @@ public class GenreIds implements Iterable<GenreId> {
     }
     
     public GenreIds(List<String> genreIds) {
+        if ( Objects.isNull( genreIds ) || genreIds.isEmpty() ) {
+            this.genreIds = Collections.emptyList();
+            return;
+        }
         this.genreIds = genreIds.stream()
                                 .distinct()
                                 .map( GenreId::of )

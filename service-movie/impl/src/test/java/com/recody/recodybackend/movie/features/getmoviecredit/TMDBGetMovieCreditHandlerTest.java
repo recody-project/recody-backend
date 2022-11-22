@@ -6,6 +6,7 @@ import com.recody.recodybackend.movie.RecodyMovieApplication;
 import com.recody.recodybackend.movie.data.movie.MovieEntity;
 import com.recody.recodybackend.movie.data.movie.MovieRepository;
 import com.recody.recodybackend.movie.data.title.MovieTitleEntity;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,4 +59,8 @@ class TMDBGetMovieCreditHandlerTest {
         
     }
     
+    @AfterEach
+    void after() {
+        movieRepository.deleteAllInBatch();
+    }
 }

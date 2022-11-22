@@ -1,6 +1,6 @@
 package com.recody.recodybackend.genre;
 
-import com.recody.recodybackend.common.contents.Recody;
+import com.recody.recodybackend.common.Recody;
 import com.recody.recodybackend.common.exceptions.ApplicationExceptions;
 import com.recody.recodybackend.exceptions.CatalogErrorType;
 import lombok.Getter;

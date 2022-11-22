@@ -1,6 +1,7 @@
 package com.recody.recodybackend.common.contents;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.recody.recodybackend.common.Recody;
 import com.recody.recodybackend.common.contents.exceptions.ContentErrorType;
 import com.recody.recodybackend.common.exceptions.ApplicationExceptions;
 import com.recody.recodybackend.common.exceptions.UnsupportedCategoryException;

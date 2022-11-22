@@ -26,3 +26,9 @@ logging:
   level:
     com:
       recody: debug
+
+recody:
+  event:
+    processor:
+      type: spring
+

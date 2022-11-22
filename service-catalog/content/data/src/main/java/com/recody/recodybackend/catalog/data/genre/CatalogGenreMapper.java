@@ -3,7 +3,7 @@ package com.recody.recodybackend.catalog.data.genre;
 import com.recody.recodybackend.catalog.data.category.CategoryMapper;
 import com.recody.recodybackend.catalog.data.category.GeneralCategoryMapper;
 import com.recody.recodybackend.common.contents.Genre;
-import com.recody.recodybackend.common.contents.Recody;
+import com.recody.recodybackend.common.Recody;
 import com.recody.recodybackend.genre.CustomGenre;
 import com.recody.recodybackend.genre.CustomGenreIconUrl;
 import com.recody.recodybackend.genre.CustomGenreId;

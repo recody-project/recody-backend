@@ -3,6 +3,7 @@ package com.recody.recodybackend.catalog.features.content.user;
 import com.recody.recodybackend.catalog.data.user.CatalogUserEntity;
 import com.recody.recodybackend.catalog.data.user.CatalogUserMapper;
 import com.recody.recodybackend.catalog.data.user.CatalogUserRepository;
+import com.recody.recodybackend.common.Recody;
 import com.recody.recodybackend.common.exceptions.InternalServerError;
 import com.recody.recodybackend.users.Role;
 import com.recody.recodybackend.users.events.UserCreated;
@@ -30,7 +31,7 @@ class UserSynchronizer {
     
     public static final String path = "/api/v1/users/users";
     
-    @Async
+    @Async( Recody.CATALOG_TASK_EXECUTOR )
     void synchronizeAsync() {
         try {
             // 앱이 완전히 뜰때까지 기다린다.

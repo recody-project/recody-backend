@@ -1,5 +1,6 @@
 package com.recody.recodybackend.users.features.signin.adminsignin;
 
+import com.recody.recodybackend.common.Recody;
 import com.recody.recodybackend.users.Role;
 import com.recody.recodybackend.users.SocialProvider;
 import com.recody.recodybackend.users.data.RecodyUserEntity;
@@ -38,7 +39,7 @@ public class AdminRegistrar {
     @Value("${users.admin.email}")
     private String email;
     
-    @Async
+    @Async( Recody.USERS_TASK_EXECUTOR )
     public void register(){
         try {
             Thread.sleep( 5000L );

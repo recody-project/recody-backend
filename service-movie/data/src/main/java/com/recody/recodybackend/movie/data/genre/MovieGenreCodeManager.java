@@ -1,7 +1,13 @@
 package com.recody.recodybackend.movie.data.genre;
 
+import com.recody.recodybackend.common.Recody;
 import com.recody.recodybackend.common.data.AsyncEntityRegistrar;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieGenre;
+import org.springframework.scheduling.annotation.Async;
+
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public interface MovieGenreCodeManager extends AsyncEntityRegistrar<MovieGenreCodeEntity, TMDBMovieGenre> {
     
@@ -12,4 +18,17 @@ public interface MovieGenreCodeManager extends AsyncEntityRegistrar<MovieGenreCo
      * @return 저장한 장르의 entity
      */
     MovieGenreCodeEntity register(TMDBMovieGenre tmdbMovieGenre);
+    
+    @Override
+    @Async( Recody.MOVIE_TASK_EXECUTOR )
+    @Transactional
+    default CompletableFuture<MovieGenreCodeEntity> registerAsync(TMDBMovieGenre tmdbMovieGenre) {
+        return AsyncEntityRegistrar.super.registerAsync( tmdbMovieGenre );
+    }
+    @Override
+    @Async( Recody.MOVIE_TASK_EXECUTOR )
+    @Transactional
+    default CompletableFuture<List<MovieGenreCodeEntity>> registerAsync(List<TMDBMovieGenre> tmdbMovieGenres) {
+        return AsyncEntityRegistrar.super.registerAsync( tmdbMovieGenres );
+    }
 }
