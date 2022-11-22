@@ -19,11 +19,13 @@ public interface MovieRegistrar<T> extends AsyncContentRegistrar<Movie, T> {
     
     @Override
     @Async( Recody.MOVIE_TASK_EXECUTOR )
+    @Transactional
     default CompletableFuture<Movie> registerAsync(T t, Locale locale) {
         return AsyncContentRegistrar.super.registerAsync( t, locale );
     }
     @Override
     @Async( Recody.MOVIE_TASK_EXECUTOR )
+    @Transactional
     default CompletableFuture<List<Movie>> registerAsync(List<T> source, Locale locale) {
         return AsyncContentRegistrar.super.registerAsync( source, locale );
     }

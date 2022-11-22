@@ -5,6 +5,7 @@ import com.recody.recodybackend.common.contents.register.AsyncContentInfoRegistr
 import com.recody.recodybackend.movie.Movie;
 import org.springframework.scheduling.annotation.Async;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
@@ -20,6 +21,7 @@ public interface MovieInfoRegistrar<TARGET, SOURCE> extends AsyncContentInfoRegi
     
     @Override
     @Async( Recody.MOVIE_TASK_EXECUTOR )
+    @Transactional
     default CompletableFuture<List<TARGET>> registerAsync(Movie content, List<SOURCE> sources, Locale locale) {
         return AsyncContentInfoRegistrar.super.registerAsync( content, sources, locale );
     }
