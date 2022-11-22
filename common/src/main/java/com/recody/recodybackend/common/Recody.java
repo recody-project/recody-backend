@@ -1,4 +1,4 @@
-package com.recody.recodybackend.common.contents;
+package com.recody.recodybackend.common;
 
 public class Recody {
     
@@ -13,5 +13,7 @@ public class Recody {
     public static final String DRAMA_GENRE_PREFIX = "dg-";
     public static final String BOOK_GENRE_PREFIX = "bg-";
     public static final String CUSTOM_GENRE_PREFIX = "g-";
+    
+    public static final String RECODY_EVENT_PROCESSOR_TYPE = "recody.event.processor.type";
     
 }

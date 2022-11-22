@@ -4,6 +4,6 @@ import com.recody.recodybackend.movie.events.MovieCreated;
 
 public interface CatalogContentEventHandler {
     
-    void on(String key, MovieCreated event);
+    void on(MovieCreated event);
     
 }

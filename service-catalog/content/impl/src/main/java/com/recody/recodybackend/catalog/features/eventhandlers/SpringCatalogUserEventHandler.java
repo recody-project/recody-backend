@@ -2,32 +2,25 @@ package com.recody.recodybackend.catalog.features.eventhandlers;
 
 import com.recody.recodybackend.catalog.data.user.CatalogUserEntity;
 import com.recody.recodybackend.catalog.data.user.CatalogUserRepository;
-import com.recody.recodybackend.common.KafkaEventProcessingStrategy;
-import com.recody.recodybackend.common.events.RecodyTopics;
+import com.recody.recodybackend.common.SpringEventProcessingStrategy;
 import com.recody.recodybackend.users.events.UserCreated;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Conditional;
-import org.springframework.kafka.annotation.KafkaHandler;
-import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-import javax.transaction.Transactional;
-
 @Component
-@Conditional(value = KafkaEventProcessingStrategy.class )
+@Conditional(value = SpringEventProcessingStrategy.class)
 @RequiredArgsConstructor
 @Slf4j
-@KafkaListener( topics = RecodyTopics.USER, groupId = "catalog" )
-class KafkaCatalogUserEventHandler implements CatalogUserEventHandler {
-    
+class SpringCatalogUserEventHandler implements CatalogUserEventHandler{
+
     private final CatalogUserRepository catalogUserRepository;
-    
+
     @Override
-    @Transactional
-    @KafkaHandler
-    public void on(@Payload UserCreated event) {
+    @EventListener
+    public void on(UserCreated event) {
         log.debug( "consuming event: {}", event );
         CatalogUserEntity entity = CatalogUserEntity.builder()
                                                     .id( event.getUserId() )

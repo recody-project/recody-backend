@@ -5,21 +5,22 @@ import com.recody.recodybackend.catalog.data.category.CategoryRepository;
 import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
 import com.recody.recodybackend.catalog.data.content.CatalogContentRepository;
 import com.recody.recodybackend.catalog.data.content.CatalogContentTitleEntity;
-import com.recody.recodybackend.exceptions.CategoryNotFoundException;
+import com.recody.recodybackend.common.KafkaEventProcessingStrategy;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.events.RecodyTopics;
+import com.recody.recodybackend.exceptions.CategoryNotFoundException;
 import com.recody.recodybackend.movie.events.MovieCreated;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.kafka.annotation.KafkaHandler;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.support.KafkaHeaders;
-import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
+@Conditional(value = KafkaEventProcessingStrategy.class )
 @Slf4j
 @KafkaListener(topics = RecodyTopics.CONTENT_MANAGEMENT, groupId = "catalog")
 class KafkaCatalogContentEventHandler implements CatalogContentEventHandler{
@@ -29,8 +30,7 @@ class KafkaCatalogContentEventHandler implements CatalogContentEventHandler{
     
     @Override
     @KafkaHandler
-    public void on(@Header( name = KafkaHeaders.RECEIVED_MESSAGE_KEY, required = false ) String key,
-                   @Payload MovieCreated event) {
+    public void on(@Payload MovieCreated event) {
         log.debug( "consuming event: {}", event );
         String contentId = event.getContentId();
         boolean exists = contentRepository.existsByContentId( contentId );
