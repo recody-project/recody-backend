@@ -26,7 +26,8 @@ public abstract class RecordMapper {
     @Autowired
     CatalogContentRepository contentRepository;
     
-    @Mapping(target = "contentId", source = "entity.content.contentId")
+    @Mapping( target = "userId", source = "entity.user.id" )
+    @Mapping( target = "contentId", source = "entity.content.contentId")
     public abstract Record map(RecordEntity entity);
     
     @Mapping( target = "title", source = "contentEntity", qualifiedByName = "titleMapper")
