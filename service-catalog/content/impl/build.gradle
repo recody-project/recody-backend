@@ -1,20 +1,6 @@
-//buildscript {
-//    ext {
-//        queryDslVersion = "5.0.0"
-//    }
-//    dependencies {
-//        classpath("gradle.plugin.com.ewerk.gradle.plugins:querydsl-plugin:1.0.10")
-//    }
-//}
-
-//plugins{
-//    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
-//}
-//
-//apply plugin: "com.ewerk.gradle.plugins.querydsl"
-
 dependencies {
     implementation project(":common")
+    implementation project(":common-content")
     implementation project(":common-boot-utils")
     implementation project(":service-catalog-content-core")
     implementation project(":service-catalog-content-data")

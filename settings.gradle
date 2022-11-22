@@ -1,11 +1,26 @@
 rootProject.name = 'recody-backend'
 
-include(":common")
+include(":common",
+        ":common-content")
+
 include(":common-boot-utils")
-include(":service-movie-core", ":service-movie-impl", ":service-movie-api-shared", ":service-movie-data", ":service-movie-api-tmdb")
-include(":service-music-api", ":service-music-core", ":service-music-impl")
+
+include(":service-movie-core",
+        ":service-movie",
+        ":service-movie-api-shared",
+        ":service-movie-data",
+        ":service-movie-api-tmdb")
+
 include(":service-book-api", ":service-book-impl")
-include(":service-performance-api", ":service-performance-api-core", ":service-performance-impl")
+
+include(":service-music-api",
+        ":service-music-core",
+        ":service-music-impl")
+
+include(":service-performance-api",
+        ":service-performance-api-core",
+        ":service-performance-impl")
+
 include(":service-catalog-content-core",
         ":service-catalog-content-data",
         ":service-catalog-content",
@@ -14,13 +29,16 @@ include(":service-catalog-content-core",
         ":service-catalog-record-data",
         ":service-catalog-record",
         ":service-catalog-record-shared")
-include(":service-users-api", ":service-users-api-core", ":service-users-impl")
+
+include(":service-users-api",
+        ":service-users-api-core",
+        ":service-users-impl")
 
 
 String movieProjectDir = "service-movie"
 project(":service-movie-core").projectDir = new File(settingsDir, "${movieProjectDir}/core")
 project(":service-movie-data").projectDir = new File(settingsDir, "${movieProjectDir}/data")
-project(":service-movie-impl").projectDir = new File(settingsDir, "${movieProjectDir}/impl")
+project(":service-movie").projectDir = new File(settingsDir, "${movieProjectDir}/impl")
 project(":service-movie-api-shared").projectDir = new File(settingsDir, "${movieProjectDir}/shared")
 project(":service-movie-api-tmdb").projectDir = new File(settingsDir, "${movieProjectDir}/tmdb")
 

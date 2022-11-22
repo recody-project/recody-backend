@@ -1,5 +1,8 @@
 package com.recody.recodybackend.movie.features.searchmovies;
 
+import org.springframework.data.domain.Page;
+
+import javax.validation.Valid;
 import java.util.List;
 
 /*
@@ -13,4 +16,6 @@ import java.util.List;
 * */
 public interface SearchMoviesHandler<T> {
     List<T> handle(SearchMovies command);
+    
+    Page<T> handlePage(@Valid SearchMovies command);
 }

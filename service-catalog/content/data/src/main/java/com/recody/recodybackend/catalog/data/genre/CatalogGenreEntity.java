@@ -43,4 +43,11 @@ public class CatalogGenreEntity {
     @JoinColumn( name = "user_id")
     private CatalogUserEntity user;
     
+    @Override
+    public String toString() {
+        return "{\"CatalogGenreEntity\":{"
+               + "\"id\":" + ((id != null) ? ("\"" + id + "\"") : null)
+               + ", \"name\":" + ((name != null) ? ("\"" + name + "\"") : null)
+               + "}}";
+    }
 }

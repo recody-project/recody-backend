@@ -1,11 +1,36 @@
 package com.recody.recodybackend.movie.features.searchmovies;
 
-import lombok.Builder;
-import lombok.Data;
+import com.recody.recodybackend.common.contents.GenreIds;
+import lombok.*;
 
-@Data
+import javax.validation.constraints.Min;
+
+@Getter
+@Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SearchMovies {
     private String movieName;
     private String language;
+    
+    @Builder.Default
+    private Integer size = 10;
+    
+    @Min( value = 1 )
+    private Integer page;
+    
+    @Builder.Default
+    private GenreIds genreIds = GenreIds.empty();
+    
+    @Override
+    public String toString() {
+        return "{\"SearchMovies\":{"
+               + "\"movieName\":" + ((movieName != null) ? ("\"" + movieName + "\"") : null)
+               + ", \"language\":" + ((language != null) ? ("\"" + language + "\"") : null)
+               + ", \"size\":" + size
+               + ", \"page\":" + page
+               + ", \"genreIds\":" + genreIds
+               + "}}";
+    }
 }

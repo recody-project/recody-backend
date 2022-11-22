@@ -1,5 +1,6 @@
 package com.recody.recodybackend.movie.config;
 
+import com.recody.recodybackend.common.Recody;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +28,7 @@ public class ApplicationConfig {
     * ThreadPoolTaskExecutor -> 생으로 쓰면 스프링이 관리하지 않는 쓰레드를 사용함.
     * 근데, 여기에 빈으로 등록해두고, @EnableAsync 요걸 해두면 스프링이 관리하는 쓰레드풀에서 쓰레드를 꺼내쓴다.
     * */
-    @Bean
+    @Bean( Recody.MOVIE_TASK_EXECUTOR )
     public Executor getAsyncExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(10);

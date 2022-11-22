@@ -1,6 +1,6 @@
 package com.recody.recodybackend.catalog.features.changecategoryoncontent;
 
-import com.recody.recodybackend.content.ContentId;
+import com.recody.recodybackend.common.contents.ContentId;
 import com.recody.recodybackend.category.CustomCategoryId;
 import lombok.*;
 

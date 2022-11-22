@@ -1,9 +1,13 @@
 package com.recody.recodybackend.users.config;
 
+import com.recody.recodybackend.common.Recody;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.concurrent.Executor;
 
 @Configuration
 class RecodyUsersConfig {
@@ -13,17 +17,14 @@ class RecodyUsersConfig {
         return new BCryptPasswordEncoder();
     }
     
-//    @Bean(value = "userTopic")
-//    @Profile( "test" )
-//    NewTopic userTopic(){
-//        return new NewTopic( RecodyTopics.USER, 3, (short) 3);
-//    }
-    
-//    @Bean
-//    @DependsOn(value = "userTopic")
-//    @Profile({"local", "test"})
-//    @Order( Ordered.LOWEST_PRECEDENCE )
-//    AdminRegistrar adminRegistrar(@Autowired RecodyUserRepository recodyUserRepository){
-//        return new AdminRegistrar( recodyUserRepository );
-//    }
+    @Bean( Recody.USERS_TASK_EXECUTOR )
+    public Executor getAsyncExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(10);
+        executor.setMaxPoolSize(30);
+        executor.setQueueCapacity(200);
+        executor.setThreadNamePrefix("movie-task-");
+        executor.initialize();
+        return executor;
+    }
 }
