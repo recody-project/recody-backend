@@ -1,5 +1,6 @@
 package com.recody.recodybackend.users.features.projection;
 
+import com.recody.recodybackend.common.Recody;
 import com.recody.recodybackend.common.SpringEventProcessingStrategy;
 import com.recody.recodybackend.users.events.UserCreated;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ class SpringUserEventPublisher implements UserEventPublisher{
     private final ApplicationEventPublisher publisher;
 
     @Override
-    @Async
+    @Async( Recody.USERS_TASK_EXECUTOR )
     public void publish(UserCreated event) {
         publisher.publishEvent( event );
         log.info( "event published [spring]: {}", event );
