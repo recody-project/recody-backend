@@ -20,7 +20,8 @@ public class SearchMovies {
     @Min( value = 1 )
     private Integer page;
     
-    private GenreIds genreIds;
+    @Builder.Default
+    private GenreIds genreIds = GenreIds.empty();
     
     @Override
     public String toString() {

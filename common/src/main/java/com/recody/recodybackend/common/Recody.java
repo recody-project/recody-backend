@@ -2,6 +2,8 @@ package com.recody.recodybackend.common;
 
 public class Recody {
     
+    public static final String CATALOG_TASK_EXECUTOR = "catalog-task-executor";
+    public static final String MOVIE_TASK_EXECUTOR = "movie-task-executor";
     public static final String MOVIE_PREFIX = "mov-";
     public static final String DRAMA_PREFIX = "dra-";
     public static final String MUSIC_PREFIX = "mus-";
