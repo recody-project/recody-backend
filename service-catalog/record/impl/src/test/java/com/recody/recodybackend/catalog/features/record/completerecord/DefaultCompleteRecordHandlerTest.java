@@ -32,7 +32,6 @@ class DefaultCompleteRecordHandlerTest {
     
     private static final String CONTENT_ID = "con-1";
     public static final long USER_ID = 1L;
-    public static final String NEW_NOTE = "b";
     public static final String OLD_NOTE = "a";
     @Autowired CompleteRecordHandler completeRecordHandler;
     @Autowired
@@ -79,16 +78,13 @@ class DefaultCompleteRecordHandlerTest {
     
         // when
         boolean isCompleted = completeRecordHandler.handle(
-                CompleteRecord.builder().recordId(recordId).note(NEW_NOTE).build());
+                CompleteRecord.builder().recordId(recordId).userId( USER_ID ).build());
         
     
         // then
         assertThat(isCompleted).isTrue();
         Optional<RecordEntity> optionalRecord = recordRepository.findByRecordId( recordId );
         assertThat(optionalRecord).isNotEmpty();
-    
-        RecordEntity recordEntity = optionalRecord.get();
-        assertThat(recordEntity.getNote()).isEqualTo(NEW_NOTE);
     }
     @AfterEach
     void after() {
