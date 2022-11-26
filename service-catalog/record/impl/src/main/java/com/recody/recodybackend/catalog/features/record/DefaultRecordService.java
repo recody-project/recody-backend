@@ -1,8 +1,5 @@
 package com.recody.recodybackend.catalog.features.record;
 
-import com.recody.recodybackend.record.Record;
-import com.recody.recodybackend.record.RecordContent;
-import com.recody.recodybackend.record.RecordEvent;
 import com.recody.recodybackend.catalog.features.record.addrecord.AddRecord;
 import com.recody.recodybackend.catalog.features.record.addrecord.AddRecordHandler;
 import com.recody.recodybackend.catalog.features.record.completerecord.CompleteRecord;
@@ -23,6 +20,9 @@ import com.recody.recodybackend.catalog.features.record.getrecordcontents.GetRec
 import com.recody.recodybackend.catalog.features.record.getrecordcontents.GetRecordContentsHandler;
 import com.recody.recodybackend.catalog.features.record.totalrecords.CountTotalRecords;
 import com.recody.recodybackend.catalog.features.record.totalrecords.CountTotalRecordsHandler;
+import com.recody.recodybackend.record.Record;
+import com.recody.recodybackend.record.RecordContent;
+import com.recody.recodybackend.record.RecordEvent;
 import com.recody.recodybackend.record.web.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,8 +1,5 @@
 package com.recody.recodybackend.catalog.web;
 
-import com.recody.recodybackend.common.web.SuccessResponseBody;
-import com.recody.recodybackend.commonbootutils.jwt.JwtManager;
-import com.recody.recodybackend.commonbootutils.web.AccessToken;
 import com.recody.recodybackend.catalog.features.record.RecordService;
 import com.recody.recodybackend.catalog.features.record.addrecord.AddRecord;
 import com.recody.recodybackend.catalog.features.record.completerecord.CompleteRecord;
@@ -15,6 +12,9 @@ import com.recody.recodybackend.catalog.features.record.getrecordcontent.GetCont
 import com.recody.recodybackend.catalog.features.record.getrecordcontents.GetRecordContents;
 import com.recody.recodybackend.catalog.features.record.resolvecategory.CategoryResolver;
 import com.recody.recodybackend.catalog.features.record.totalrecords.CountTotalRecords;
+import com.recody.recodybackend.common.web.SuccessResponseBody;
+import com.recody.recodybackend.commonbootutils.jwt.JwtManager;
+import com.recody.recodybackend.commonbootutils.web.AccessToken;
 import com.recody.recodybackend.record.web.AddRecordRequest;
 import com.recody.recodybackend.record.web.CompleteRecordRequest;
 import com.recody.recodybackend.record.web.ContinueRecordRequest;
@@ -36,21 +36,39 @@ public class RecordController {
     private final JwtManager jwtManager;
     private final CategoryResolver categoryResolver;
     
+    @Deprecated
     @PostMapping( "/api/v1/record/complete" )
     public ResponseEntity<SuccessResponseBody> complete(HttpServletRequest httpServletRequest,
                                                         @Valid @RequestBody CompleteRecordRequest request,
                                                         @AccessToken String accessToken) {
-        return ResponseEntity.ok( SuccessResponseBody
-                                          .builder()
-                                          .message( ms.getMessage( "record.complete.succeeded", null,
-                                                                   httpServletRequest.getLocale() ) )
-                                          .data( recordService.completeRecord( CompleteRecord
-                                                                                       .builder()
-                                                                                       .recordId( request.getRecordId() )
-                                                                                       .title( request.getTitle() )
-                                                                                       .note( request.getNote() )
-                                                                                       .build() ) )
-                                          .build() );
+        return ResponseEntity.ok(
+                SuccessResponseBody
+                        .builder()
+                        .message( ms.getMessage( "record.complete.succeeded", null, httpServletRequest.getLocale() ) )
+                        .data( recordService.completeRecord(
+                                CompleteRecord
+                                        .builder()
+                                        .recordId( request.getRecordId() )
+                                        .userId( jwtManager.resolveUserId( accessToken ) )
+                                        .build() ) )
+                        .build() );
+    }
+    
+    @PatchMapping( "/api/v1/record/{recordId}/complete" )
+    public ResponseEntity<SuccessResponseBody> completeV2(HttpServletRequest httpServletRequest,
+                                                          @PathVariable String recordId,
+                                                          @AccessToken String accessToken) {
+        return ResponseEntity.ok(
+                SuccessResponseBody
+                        .builder()
+                        .message( ms.getMessage( "record.complete.succeeded", null, httpServletRequest.getLocale() ) )
+                        .data( recordService.completeRecord(
+                                CompleteRecord
+                                        .builder()
+                                        .recordId( recordId )
+                                        .userId( jwtManager.resolveUserId( accessToken ) )
+                                        .build() ) )
+                        .build() );
     }
     
     @GetMapping( "/api/v1/record/continuing" )
