@@ -196,9 +196,11 @@ public class RecordController {
                                     .build() );
     }
     
+    @Deprecated
     @PutMapping( "/api/v1/record" )
     public ResponseEntity<SuccessResponseBody> updateRecord(HttpServletRequest httpServletRequest,
-                                                            @Valid @RequestBody ContinueRecordRequest request) {
+                                                            @Valid @RequestBody ContinueRecordRequest request,
+                                                            @AccessToken String accessToken) {
         return ResponseEntity.ok( SuccessResponseBody
                                           .builder()
                                           .message( ms.getMessage( "record.continue.succeeded", null,
@@ -206,8 +208,23 @@ public class RecordController {
                                           .data( recordService.continueRecord( ContinueRecord
                                                                                        .builder()
                                                                                        .recordId( request.getRecordId() )
-                                                                                       .note( request.getNote() )
-                                                                                       .title( request.getTitle() )
+                                                                                       .userId( jwtManager.resolveUserId( accessToken ) )
+                                                                                       .build() ) )
+                                          .build() );
+    }
+    
+    @PatchMapping( "/api/v1/record/{recordId}/continue" )
+    public ResponseEntity<SuccessResponseBody> updateRecordV2(HttpServletRequest httpServletRequest,
+                                                              @PathVariable String recordId,
+                                                              @AccessToken String accessToken) {
+        return ResponseEntity.ok( SuccessResponseBody
+                                          .builder()
+                                          .message( ms.getMessage( "record.continue.succeeded", null,
+                                                                   httpServletRequest.getLocale() ) )
+                                          .data( recordService.continueRecord( ContinueRecord
+                                                                                       .builder()
+                                                                                       .recordId( recordId )
+                                                                                       .userId( jwtManager.resolveUserId( accessToken ) )
                                                                                        .build() ) )
                                           .build() );
     }
