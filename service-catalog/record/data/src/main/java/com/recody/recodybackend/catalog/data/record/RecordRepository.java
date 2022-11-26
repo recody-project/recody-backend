@@ -1,6 +1,7 @@
 package com.recody.recodybackend.catalog.data.record;
 
 import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
+import com.recody.recodybackend.catalog.data.user.CatalogUserEntity;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -11,6 +12,8 @@ import java.util.Optional;
 public interface RecordRepository extends JpaRepository<RecordEntity, String>, RecordQueryRepository {
     
     Optional<RecordEntity> findByRecordId(String recordId);
+    
+    Optional<RecordEntity> findByRecordIdAndUser(String recordId, CatalogUserEntity user);
     
     Optional<List<RecordEntity>> findAllByUserId(Long userId);
     

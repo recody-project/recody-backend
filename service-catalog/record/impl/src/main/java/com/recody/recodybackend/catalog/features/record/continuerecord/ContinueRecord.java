@@ -11,8 +11,13 @@ public class ContinueRecord {
     @NonNull
     private String recordId;
     
-    private String title;
-
-    private String note;
+    private Long userId;
     
+    @Override
+    public String toString() {
+        return "{\"ContinueRecord\":{"
+               + "\"recordId\":" + ((recordId != null) ? ("\"" + recordId + "\"") : null)
+               + ", \"userId\":" + userId
+               + "}}";
+    }
 }

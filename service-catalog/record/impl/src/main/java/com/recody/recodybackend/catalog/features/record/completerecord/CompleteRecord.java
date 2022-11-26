@@ -10,7 +10,14 @@ public class CompleteRecord {
     
     @NonNull
     private String recordId;
-    private String title;
     
-    private String note;
+    private Long userId;
+    
+    @Override
+    public String toString() {
+        return "{\"CompleteRecord\":{"
+               + "\"recordId\":" + ((recordId != null) ? ("\"" + recordId + "\"") : null)
+               + ", \"userid\":" + userId
+               + "}}";
+    }
 }
