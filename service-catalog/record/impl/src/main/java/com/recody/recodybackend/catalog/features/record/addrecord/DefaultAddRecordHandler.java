@@ -44,9 +44,9 @@ class DefaultAddRecordHandler implements AddRecordHandler {
         
         // 별점이 있는지 체크
         throwIfNotRated( userId, contentEntity );
-        Integer nth = command.getAppreciationNumber().getValue();
+        Integer appreciationNumber = command.getAppreciationNumber().getValue();
         
-        boolean exists = recordRepository.existsByUserAndContentAndNth( catalogUserEntity, contentEntity, nth );
+        boolean exists = recordRepository.existsByUserAndContentAndAppreciationNumber( catalogUserEntity, contentEntity, appreciationNumber );
         if ( exists ) {
             throw new RecordAlreadyExists();
         }
@@ -56,7 +56,7 @@ class DefaultAddRecordHandler implements AddRecordHandler {
                                                 .note( command.getNote() )
                                                 .appreciationDate( command.getAppreciationDate() )
                                                 .user( catalogUserEntity )
-                                                .nth( nth )
+                                                .appreciationNumber( appreciationNumber )
                                                 .build();
         RecordEntity savedRecord = recordRepository.save( recordEntity );
         return savedRecord.getRecordId();

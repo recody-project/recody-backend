@@ -61,6 +61,8 @@ class RecordRepositoryTest {
     CatalogUserEntity user1;
     CatalogUserEntity user2;
     
+    Integer nth = 1;
+    
     
     @BeforeEach
     void before() {
@@ -106,7 +108,7 @@ class RecordRepositoryTest {
     }
     
     private RecordEntity newRecord(CatalogContentEntity content, CatalogUserEntity user) {
-        return RecordEntity.builder().content( content ).note( "testing" ).user( user ).completed( true ).build();
+        return RecordEntity.builder().content( content ).note( "testing" ).user( user ).completed( true ).appreciationNumber( nth++ ).build();
     }
     
     private RecordEntity newRecordWithId(String recordId, CatalogUserEntity user) {
@@ -116,6 +118,7 @@ class RecordRepositoryTest {
                            .note( "testing" )
                            .user( user )
                            .completed( true )
+                           .appreciationNumber( nth++ )
                            .build();
     }
     
