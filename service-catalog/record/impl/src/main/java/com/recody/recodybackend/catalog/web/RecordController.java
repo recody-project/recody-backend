@@ -15,6 +15,7 @@ import com.recody.recodybackend.catalog.features.record.totalrecords.CountTotalR
 import com.recody.recodybackend.common.web.SuccessResponseBody;
 import com.recody.recodybackend.commonbootutils.jwt.JwtManager;
 import com.recody.recodybackend.commonbootutils.web.AccessToken;
+import com.recody.recodybackend.record.AppreciationNumber;
 import com.recody.recodybackend.record.web.AddRecordRequest;
 import com.recody.recodybackend.record.web.CompleteRecordRequest;
 import com.recody.recodybackend.record.web.ContinueRecordRequest;
@@ -186,14 +187,20 @@ public class RecordController {
     public ResponseEntity<SuccessResponseBody> postRecord(HttpServletRequest httpServletRequest,
                                                           @Valid @RequestBody AddRecordRequest request,
                                                           @AccessToken String accessToken) {
-        
-        return ResponseEntity
-                       .ok( SuccessResponseBody
-                                    .builder()
-                                    .message( ms.getMessage( "record.add.succeeded", null,
-                                                             httpServletRequest.getLocale() ) )
-                                    .data( recordService.addRecord( createAddRecordCommand( request, accessToken ) ) )
-                                    .build() );
+        return ResponseEntity.ok(
+                SuccessResponseBody
+                        .builder()
+                        .message( ms.getMessage( "record.add.succeeded", null, httpServletRequest.getLocale() ) )
+                        .data( recordService.addRecord(
+                                AddRecord.builder()
+                                         .contentId( request.getContentId() )
+                                         .title( request.getTitle() )
+                                         .note( request.getNote() )
+                                         .userId( jwtManager.resolveUserId( accessToken ) )
+                                         .appreciationDate( request.getAppreciationDate() )
+                                         .appreciationNumber( AppreciationNumber.of( request.getAppreciationNumber() ) )
+                                         .build() ) )
+                        .build() );
     }
     
     @Deprecated
@@ -258,16 +265,4 @@ public class RecordController {
                                                             .build() ) )
                                    .build() );
     }
-    
-    private AddRecord createAddRecordCommand(AddRecordRequest request, String accessToken) {
-        return AddRecord
-                       .builder()
-                       .contentId( request.getContentId() )
-                       .title( request.getTitle() )
-                       .note( request.getNote() )
-                       .userId( jwtManager.resolveUserId( accessToken ) )
-                       .appreciationDate( request.getAppreciationDate() )
-                       .build();
-    }
-    
 }

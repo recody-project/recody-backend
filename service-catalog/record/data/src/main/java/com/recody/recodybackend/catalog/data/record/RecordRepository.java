@@ -22,6 +22,8 @@ public interface RecordRepository extends JpaRepository<RecordEntity, String>, R
     Optional<List<RecordEntity>> findAllByUserIdAndContent(Long userId, CatalogContentEntity content);
     boolean existsByUserIdAndContent(Long userId, CatalogContentEntity content);
     
+    boolean existsByUserAndContentAndNth(CatalogUserEntity user, CatalogContentEntity content, Integer nth);
+    
     Integer countByUserId(Long userId);
     
 
