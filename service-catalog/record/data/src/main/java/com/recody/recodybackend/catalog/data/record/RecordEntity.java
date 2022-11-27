@@ -21,7 +21,9 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Table(name = "record")
+@Table(name = "record", uniqueConstraints = {
+        @UniqueConstraint( name = "user_and_content_id_and_nth_should_be_unique", columnNames = {"content_id", "user_id", "nth"})
+})
 @Where(clause = "deleted_at IS null")
 @SQLDelete(sql = "UPDATE record SET deleted_at = NOW() WHERE record_id=?") // repository 사용하는 경우, 등
 public class RecordEntity extends RecordBaseEntity {
@@ -55,6 +57,7 @@ public class RecordEntity extends RecordBaseEntity {
     private boolean completed;
     
     @Builder.Default
+    @Column(name = "nth", nullable = false)
     private Integer nth = 1;
     
     @Column(name = "appreciation_date")
