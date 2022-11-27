@@ -14,6 +14,8 @@ public class AddRecordRequest {
     private String title;
     private String note;
     
+    private Integer appreciationNumber;
+    
     @DateTimeFormat(style = "yyyy-MM-dd")
     private LocalDate appreciationDate;
 }

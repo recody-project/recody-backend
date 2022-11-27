@@ -1,5 +1,6 @@
 package com.recody.recodybackend.catalog.features.record.addrecord;
 
+import com.recody.recodybackend.record.AppreciationNumber;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
@@ -23,6 +24,9 @@ public class AddRecord {
      * 감상일
      * */
     private LocalDate appreciationDate;
+    
+    @Builder.Default
+    private AppreciationNumber appreciationNumber = AppreciationNumber.first();
     
     @Override
     public String toString() {
