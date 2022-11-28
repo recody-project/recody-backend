@@ -10,6 +10,8 @@ import com.recody.recodybackend.users.features.getuserinfo.GetUserInfo;
 import com.recody.recodybackend.users.features.getuserinfo.GetUserInfoHandler;
 import com.recody.recodybackend.users.features.jwt.reissuetokens.ReissueTokens;
 import com.recody.recodybackend.users.features.jwt.reissuetokens.ReissueTokensHandler;
+import com.recody.recodybackend.users.features.sendresetemail.SendResetEmail;
+import com.recody.recodybackend.users.features.sendresetemail.SendResetEmailHandler;
 import com.recody.recodybackend.users.features.signin.ProcessSocialLogin;
 import com.recody.recodybackend.users.features.signin.SocialLoginService;
 import com.recody.recodybackend.users.features.signin.adminsignin.SignInAdminUser;
@@ -41,6 +43,8 @@ class LoginController {
     private final GetUserInfoHandler getUserInfoHandler;
     
     private final FetchAllUsersHandler fetchAllUsersHandler;
+    
+    private final SendResetEmailHandler sendResetEmailHandler;
     
     private final JwtManager jwtManager;
     
@@ -200,6 +204,20 @@ class LoginController {
                                              .userId( jwtManager.resolveUserId( accessToken ) )
                                              .build() ) )
                         .build() );
+    }
+    
+    @PostMapping( "/api/v1/users/send-reset-email" )
+    private ResponseEntity<SuccessResponseBody> sendResetEmail(HttpServletRequest httpRequest,
+                                                               @RequestBody SendResetEmailRequest request) {
+        return ResponseEntity.ok(
+                SuccessResponseBody.builder()
+                                   .message( ms.getMessage( "", null, "이메일을 보냈습니다.", httpRequest.getLocale() ) )
+                                   .data( sendResetEmailHandler.handle(
+                                           SendResetEmail.builder()
+                                                         .email( request.getEmail() )
+                                                         .build() ) )
+                                   .build()
+                                );
     }
     
     private static SignUpUser signUpUserCommand(SignUpUserRequest request) {

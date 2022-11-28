@@ -24,7 +24,8 @@ class SecurityConfig {
     private final UsersAuthenticationEntryPoint authenticationEntryPoint;
     public static final String[] permittingEndpoints = {"/", "/index.html", "/test/**",
                                                          "/api/*/users/signup/**","/api/*/users/sign-in",
-                                                         "/api/*/users/refresh-token", "/errors", "/actuator/**"};
+                                                         "/api/*/users/refresh-token", "/errors", "/actuator/**",
+                                                        "/api/*/users/send-reset-email"};
     // TODO: actuator 엔드포인트 인증하게 하는 방법?
     
     @Bean

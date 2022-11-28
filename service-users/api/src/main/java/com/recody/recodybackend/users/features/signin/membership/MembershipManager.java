@@ -30,4 +30,5 @@ public interface MembershipManager {
     
     RecodySignInSession createSessionInfo(RecodyUserInfo recodyUserInfo, String userAgent);
     
+    
 }
