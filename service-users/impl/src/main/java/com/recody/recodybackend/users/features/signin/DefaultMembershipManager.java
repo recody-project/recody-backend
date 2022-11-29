@@ -15,8 +15,6 @@ import com.recody.recodybackend.users.events.UserCreated;
 import com.recody.recodybackend.users.features.generatenickname.NicknameGenerator;
 import com.recody.recodybackend.users.features.jwt.refreshtoken.RefreshTokenManager;
 import com.recody.recodybackend.users.features.projection.UserEventPublisher;
-import com.recody.recodybackend.users.features.signin.membership.AdminUserInfo;
-import com.recody.recodybackend.users.features.signin.membership.MembershipManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -57,13 +55,6 @@ class DefaultMembershipManager implements MembershipManager {
             recodyUserEntity = optionalUser.get();
         }
         return recodyUserMapper.map( recodyUserEntity );
-    }
-    
-    
-    @Override
-    public RecodyUserInfo signUpAdmin(AdminUserInfo userInfo) {
-        // 필요할 때 구현합니다.
-        return null;
     }
     
     public RecodySignInSession createSessionInfo(RecodyUserInfo recodyUserInfo, String userAgent) {

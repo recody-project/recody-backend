@@ -1,4 +1,4 @@
-package com.recody.recodybackend.users.features.signin.membership;
+package com.recody.recodybackend.users.features.signin;
 
 import com.recody.recodybackend.users.OAuthUserInfo;
 import com.recody.recodybackend.users.RecodySignInSession;
@@ -19,13 +19,6 @@ public interface MembershipManager {
      * @return : 레코디 유저 정보(userId, email)
      * */
     RecodyUserInfo signUp(OAuthUserInfo userInfo);
-    
-    
-    /**
-     * 어드민 유저를 회원가입 시킵니다.
-     * 현재 기본 어드민 유저 외에는 가입시키지 않습니다.
-     */
-    RecodyUserInfo signUpAdmin(AdminUserInfo userInfo);
     
     
     RecodySignInSession createSessionInfo(RecodyUserInfo recodyUserInfo, String userAgent);
