@@ -1,4 +1,4 @@
-package com.recody.recodybackend.users.config;
+package com.recody.recodybackend.users;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;

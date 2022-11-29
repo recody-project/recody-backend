@@ -1,0 +1,32 @@
+dependencies {
+
+    implementation project(":common")
+    implementation project(":common-boot-utils")
+    implementation project(":service-users-api")
+    implementation project(":service-users-core")
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+
+    // lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // databases
+    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'mysql:mysql-connector-java'
+
+    // jwt
+    implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+
+    implementation 'org.mapstruct:mapstruct:1.5.2.Final'
+
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.2.Final'
+
+    // aws log appender
+    implementation "ca.pjer:logback-awslogs-appender:1.6.0"
+}
+
+bootJar.enabled(false)
+jar.enabled(true)
