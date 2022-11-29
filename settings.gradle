@@ -28,8 +28,7 @@ include(":service-catalog-content-core",
         ":service-catalog-record",
         ":service-catalog-record-shared")
 
-include(":service-users-api",
-        ":service-users-core",
+include(":service-users-core",
         ":service-users-data",
         ":service-users-impl",
         ":service-users-shared")
@@ -68,7 +67,6 @@ project(":service-catalog-record-shared").projectDir = new File(settingsDir, "${
 
 
 String userProjectDir = "service-users"
-project(":service-users-api").projectDir = new File(settingsDir, "${userProjectDir}/api")
 project(":service-users-core").projectDir = new File(settingsDir, "${userProjectDir}/core")
 project(":service-users-data").projectDir = new File(settingsDir, "${userProjectDir}/data")
 project(":service-users-impl").projectDir = new File(settingsDir, "${userProjectDir}/impl")

@@ -1,6 +1,5 @@
-
-
 dependencies {
+
     implementation project(":common")
     implementation project(":service-users-core")
 
@@ -11,9 +10,6 @@ dependencies {
     // lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-
-    // jwt
-    implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
 }
 
 bootJar.enabled(false)

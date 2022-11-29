@@ -3,7 +3,7 @@ package com.recody.recodybackend.users.web;
 import com.recody.recodybackend.common.web.SuccessResponseBody;
 import com.recody.recodybackend.commonbootutils.jwt.JwtManager;
 import com.recody.recodybackend.commonbootutils.web.AccessToken;
-import com.recody.recodybackend.users.RecodyUserEmail;
+import com.recody.recodybackend.users.*;
 import com.recody.recodybackend.users.features.allusers.FetchAllUsers;
 import com.recody.recodybackend.users.features.allusers.FetchAllUsersHandler;
 import com.recody.recodybackend.users.features.getuserinfo.GetUserInfo;

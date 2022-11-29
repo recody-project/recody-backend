@@ -1,4 +1,4 @@
-package com.recody.recodybackend.users.web;
+package com.recody.recodybackend.users;
 
 import lombok.*;
 
@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-class CheckDuplicateEmailRequest {
+public class CheckDuplicateEmailRequest {
     
     private String email;
     

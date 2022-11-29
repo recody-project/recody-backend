@@ -2,7 +2,6 @@ dependencies {
 
     implementation project(":common")
     implementation project(":common-boot-utils")
-    implementation project(":service-users-api")
     implementation project(":service-users-core")
 
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'

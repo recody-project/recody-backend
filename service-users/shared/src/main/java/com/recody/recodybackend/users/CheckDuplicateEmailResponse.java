@@ -1,4 +1,4 @@
-package com.recody.recodybackend.users.web;
+package com.recody.recodybackend.users;
 
 import lombok.*;
 
