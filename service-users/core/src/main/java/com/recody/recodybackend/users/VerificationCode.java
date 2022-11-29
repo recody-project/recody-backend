@@ -1,6 +1,6 @@
 package com.recody.recodybackend.users;
 
-import lombok.NonNull;
+import lombok.*;
 
 import java.util.Random;
 
@@ -10,9 +10,11 @@ import java.util.Random;
  * <li> 6자리의 자연수로 이루어진 문자열입니다. </li>
  * @author motive
  */
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class VerificationCode {
     
-    private final String value;
+    private String value;
     
     private VerificationCode(String value) {
         this.value = value;
@@ -22,6 +24,10 @@ public class VerificationCode {
         String value = generateValue();
         return new VerificationCode( value );
         
+    }
+    
+    public static VerificationCode of(String value) {
+        return new VerificationCode( value );
     }
     
     @NonNull

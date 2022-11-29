@@ -5,6 +5,7 @@ import com.recody.recodybackend.users.SocialProvider;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 /**
  * UniqueConstraint: email 과 social_type 컬럼의 조합이 유일해야 한다.
@@ -25,6 +26,7 @@ public class RecodyUserEntity {
     
     private String username;
     @Column(name = "password", nullable = false)
+    @Setter
     private String password;
     
     private String pictureUrl;
@@ -45,4 +47,17 @@ public class RecodyUserEntity {
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
     private Role role;
+    
+    @Override
+    public boolean equals(Object o) {
+        if ( this == o ) return true;
+        if ( !(o instanceof RecodyUserEntity) ) return false;
+        RecodyUserEntity that = (RecodyUserEntity) o;
+        return Objects.equals( getUserId(), that.getUserId() );
+    }
+    
+    @Override
+    public int hashCode() {
+        return Objects.hash( getUserId() );
+    }
 }

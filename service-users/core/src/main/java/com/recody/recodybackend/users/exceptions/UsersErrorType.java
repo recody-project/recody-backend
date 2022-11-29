@@ -16,7 +16,9 @@ public enum UsersErrorType implements ErrorType {
     ResourceRefreshTokenExpired("ResourceRefreshTokenExpired"),
     CannotRefreshResourceAccessToken("CannotRefreshResourceAccessToken"),
     SocialLoginFailed("SocialLoginFailed"),
-    UnsupportedSocialLoginService("UnsupportedSocialLoginService")
+    UnsupportedSocialLoginService("UnsupportedSocialLoginService"),
+    VerificationCodeNotFound("users.verification-code.not-found"),
+    VerificationCodeNotMatch("users.verification-code.not-match")
     
     
     

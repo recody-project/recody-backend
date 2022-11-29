@@ -10,6 +10,8 @@ import com.recody.recodybackend.users.features.getuserinfo.GetUserInfo;
 import com.recody.recodybackend.users.features.getuserinfo.GetUserInfoHandler;
 import com.recody.recodybackend.users.features.jwt.reissuetokens.ReissueTokens;
 import com.recody.recodybackend.users.features.jwt.reissuetokens.ReissueTokensHandler;
+import com.recody.recodybackend.users.features.resetpassword.ResetPassword;
+import com.recody.recodybackend.users.features.resetpassword.ResetPasswordHandler;
 import com.recody.recodybackend.users.features.sendresetemail.SendResetEmail;
 import com.recody.recodybackend.users.features.sendresetemail.SendResetEmailHandler;
 import com.recody.recodybackend.users.features.signin.ProcessSocialLogin;
@@ -18,7 +20,6 @@ import com.recody.recodybackend.users.features.signin.adminsignin.SignInAdminUse
 import com.recody.recodybackend.users.features.signin.adminsignin.SignInAdminUserHandler;
 import com.recody.recodybackend.users.features.signin.membersignin.SignInUser;
 import com.recody.recodybackend.users.features.signin.membersignin.SignInUserHandler;
-import com.recody.recodybackend.users.GetUserInfoResponse;
 import com.recody.recodybackend.users.features.signup.SignUpUser;
 import com.recody.recodybackend.users.features.signup.SignUpUserHandler;
 import lombok.RequiredArgsConstructor;
@@ -47,6 +48,8 @@ class LoginController {
     private final SendResetEmailHandler sendResetEmailHandler;
     
     private final JwtManager jwtManager;
+    
+    private final ResetPasswordHandler resetPasswordHandler;
     
     @PostMapping( "/api/v1/users/signup/check-duplicate" )
     public ResponseEntity<SuccessResponseBody> existsEmail(@RequestBody CheckDuplicateEmailRequest request,
@@ -211,11 +214,30 @@ class LoginController {
                                                                @RequestBody SendResetEmailRequest request) {
         return ResponseEntity.ok(
                 SuccessResponseBody.builder()
-                                   .message( ms.getMessage( "", null, "이메일을 보냈습니다.", httpRequest.getLocale() ) )
+                                   .message( ms.getMessage( "users.info.send-reset-email", null, "비밀번호 재설정 이메일을 보냈습니다.",
+                                                            httpRequest.getLocale() ) )
                                    .data( sendResetEmailHandler.handle(
                                            SendResetEmail.builder()
                                                          .email( request.getEmail() )
                                                          .build() ) )
+                                   .build()
+                                );
+    }
+    
+    @PostMapping( "/api/v1/users/reset-password" )
+    private ResponseEntity<SuccessResponseBody> resetPassword(HttpServletRequest httpRequest,
+                                                              @RequestBody ResetPasswordRequest request) {
+        return ResponseEntity.ok(
+                SuccessResponseBody.builder()
+                                   .message(
+                                           ms.getMessage( "users.info.reset-password", null, "비밀번호를 재설정하였습니다.", httpRequest.getLocale() ) )
+                                   .data( resetPasswordHandler.handle(
+                                           ResetPassword.builder()
+                                                        .email( request.getEmail() )
+                                                        .password( request.getPassword() )
+                                                        .passwordConfirm( request.getPasswordConfirm() )
+                                                        .verificationCode( VerificationCode.of( request.getVerificationCode() ) )
+                                                        .build() ) )
                                    .build()
                                 );
     }
