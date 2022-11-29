@@ -1,4 +1,4 @@
-package com.recody.recodybackend.users.features.signin.adminsignin;
+package com.recody.recodybackend.users.features.admin;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,12 +11,12 @@ import javax.annotation.PostConstruct;
 @RequiredArgsConstructor
 @Slf4j
 @Profile({"local", "dev"})
-class DelegatingAdminRegistrar {
+class AdminRegistrarInvoker {
     
     private final AdminRegistrar adminRegistrar;
     
     @PostConstruct
-    void register(){
+    void invoke(){
         adminRegistrar.register();
     }
     

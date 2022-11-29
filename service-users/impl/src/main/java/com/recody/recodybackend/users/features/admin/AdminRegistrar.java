@@ -1,4 +1,4 @@
-package com.recody.recodybackend.users.features.signin.adminsignin;
+package com.recody.recodybackend.users.features.admin;
 
 import com.recody.recodybackend.common.Recody;
 import com.recody.recodybackend.users.Role;

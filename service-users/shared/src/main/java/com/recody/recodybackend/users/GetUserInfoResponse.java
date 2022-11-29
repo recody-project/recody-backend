@@ -1,6 +1,5 @@
-package com.recody.recodybackend.users.features.signup;
+package com.recody.recodybackend.users;
 
-import com.recody.recodybackend.users.RecodyUserInfo;
 import lombok.*;
 
 @Getter

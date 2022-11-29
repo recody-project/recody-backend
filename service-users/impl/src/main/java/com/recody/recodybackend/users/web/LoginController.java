@@ -18,7 +18,7 @@ import com.recody.recodybackend.users.features.signin.adminsignin.SignInAdminUse
 import com.recody.recodybackend.users.features.signin.adminsignin.SignInAdminUserHandler;
 import com.recody.recodybackend.users.features.signin.membersignin.SignInUser;
 import com.recody.recodybackend.users.features.signin.membersignin.SignInUserHandler;
-import com.recody.recodybackend.users.features.signup.GetUserInfoResponse;
+import com.recody.recodybackend.users.GetUserInfoResponse;
 import com.recody.recodybackend.users.features.signup.SignUpUser;
 import com.recody.recodybackend.users.features.signup.SignUpUserHandler;
 import lombok.RequiredArgsConstructor;
