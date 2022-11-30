@@ -26,24 +26,28 @@ class DefaultResetPasswordHandler implements ResetPasswordHandler {
     @Transactional
     public RecodyUserInfo handle(ResetPassword command) {
         String email = command.getEmail();
-        String verificationCode = command.getVerificationCode().getValue();
         
         RecodyUserEntity user = userRepository.findByEmail( email ).orElseThrow( UserNotFoundException::new );
         
+        /* 인증 코드 확인 로직 시작 */
         // 없으면 잘못된 요청
-        VerificationCodeEntity verificationCodeEntity
-                = verificationCodeRepository.findFirstByUserOrderByCreatedAtDesc( user )
-                                            .orElseThrow( () -> ApplicationExceptions.badRequestOf(
-                                                    UsersErrorType.VerificationCodeNotFound ) );
-        
-        // 인증코드를 발급한 유저 일치 확인
-        if ( !user.equals( verificationCodeEntity.getUser() ) ) {
-            throw ApplicationExceptions.badRequestOf( UsersErrorType.VerificationCodeNotMatch );
-        }
-        // 인증 코드 일치 여부 확인
-        if ( !verificationCode.equals( verificationCodeEntity.getVerificationCode() ) ) {
-            throw ApplicationExceptions.badRequestOf( UsersErrorType.VerificationCodeNotMatch );
-        }
+//        String verificationCode = command.getVerificationCode().getValue();
+//        VerificationCodeEntity verificationCodeEntity
+//                = verificationCodeRepository.findFirstByUserOrderByCreatedAtDesc( user )
+//                                            .orElseThrow( () -> ApplicationExceptions.badRequestOf(
+//                                                    UsersErrorType.VerificationCodeNotFound ) );
+//
+//        // 인증코드를 발급한 유저 일치 확인
+//        if ( !user.equals( verificationCodeEntity.getUser() ) ) {
+//            throw ApplicationExceptions.badRequestOf( UsersErrorType.VerificationCodeNotMatch );
+//        }
+//        // 인증 코드 일치 여부 확인
+//        if ( !verificationCode.equals( verificationCodeEntity.getVerificationCode() ) ) {
+//            throw ApplicationExceptions.badRequestOf( UsersErrorType.VerificationCodeNotMatch );
+//        }
+        /* 인증 코드 확인 로직 끝 */
+    
+    
         String rawPassword = command.getPassword();
         String encodedPassword = passwordEncoder.encode( rawPassword );
         boolean matches = passwordEncoder.matches( command.getPasswordConfirm(), encodedPassword );
