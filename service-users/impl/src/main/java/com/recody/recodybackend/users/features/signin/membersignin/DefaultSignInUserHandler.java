@@ -8,7 +8,7 @@ import com.recody.recodybackend.users.data.RecodyUserMapper;
 import com.recody.recodybackend.users.data.RecodyUserRepository;
 import com.recody.recodybackend.users.exceptions.UserNotFoundException;
 import com.recody.recodybackend.users.exceptions.UsersErrorType;
-import com.recody.recodybackend.users.features.signin.membership.MembershipManager;
+import com.recody.recodybackend.users.features.signin.MembershipManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;

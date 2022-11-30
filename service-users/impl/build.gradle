@@ -2,14 +2,17 @@ dependencies {
 
     implementation project(":common")
     implementation project(":common-boot-utils")
-    implementation project(":service-users-api")
-    implementation project(":service-users-api-core")
+    implementation project(":service-users-core")
+    implementation project(":service-users-data")
+    implementation project(":service-users-shared")
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
 
     // lombok

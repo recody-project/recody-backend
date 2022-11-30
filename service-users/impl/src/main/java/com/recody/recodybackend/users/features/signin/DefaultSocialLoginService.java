@@ -6,7 +6,6 @@ import com.recody.recodybackend.users.RecodyUserInfo;
 import com.recody.recodybackend.users.SocialProvider;
 import com.recody.recodybackend.users.features.signin.fetchuserinfo.FetchUserInfo;
 import com.recody.recodybackend.users.features.signin.fetchuserinfo.FetchUserInfoHandler;
-import com.recody.recodybackend.users.features.signin.membership.MembershipManager;
 import com.recody.recodybackend.users.sociallogin.ResourceAccessToken;
 import com.recody.recodybackend.users.sociallogin.ResourceRefreshToken;
 import lombok.RequiredArgsConstructor;

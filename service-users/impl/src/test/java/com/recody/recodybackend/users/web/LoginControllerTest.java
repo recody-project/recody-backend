@@ -3,12 +3,14 @@ package com.recody.recodybackend.users.web;
 import com.recody.recodybackend.users.RecodyUserApplication;
 import com.recody.recodybackend.users.data.RecodyUserRepository;
 import com.recody.recodybackend.users.data.RefreshTokenRepository;
+import com.recody.recodybackend.users.data.VerificationCodeRepository;
 import com.recody.recodybackend.users.features.projection.UserEventPublisher;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -21,6 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest
 @ActiveProfiles("test")
 @ContextConfiguration(classes = RecodyUserApplication.class)
+@MockBean( JpaMetamodelMappingContext.class) // web mvc test 에서 로드하지 않는 JPA Auditing 기능을 사용하기 위함.
 class LoginControllerTest {
     
     @Autowired
@@ -37,6 +40,9 @@ class LoginControllerTest {
     
     @MockBean
     RecodyUserRepository recodyUserRepository;
+    
+    @MockBean
+    VerificationCodeRepository verificationCodeRepository;
     
     @Test
     @DisplayName( "요청 바디에서 필요한 값들을 모두 충족하면 정상 처리된다." )

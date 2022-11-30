@@ -3,20 +3,22 @@ package com.recody.recodybackend.users.web;
 import com.recody.recodybackend.common.web.SuccessResponseBody;
 import com.recody.recodybackend.commonbootutils.jwt.JwtManager;
 import com.recody.recodybackend.commonbootutils.web.AccessToken;
-import com.recody.recodybackend.users.RecodyUserEmail;
+import com.recody.recodybackend.users.*;
 import com.recody.recodybackend.users.features.allusers.FetchAllUsers;
 import com.recody.recodybackend.users.features.allusers.FetchAllUsersHandler;
 import com.recody.recodybackend.users.features.getuserinfo.GetUserInfo;
 import com.recody.recodybackend.users.features.getuserinfo.GetUserInfoHandler;
 import com.recody.recodybackend.users.features.jwt.reissuetokens.ReissueTokens;
 import com.recody.recodybackend.users.features.jwt.reissuetokens.ReissueTokensHandler;
+import com.recody.recodybackend.users.features.resetpassword.ResetPassword;
+import com.recody.recodybackend.users.features.resetpassword.ResetPasswordHandler;
+import com.recody.recodybackend.users.features.sendresetemail.SendResetEmailHandler;
 import com.recody.recodybackend.users.features.signin.ProcessSocialLogin;
 import com.recody.recodybackend.users.features.signin.SocialLoginService;
 import com.recody.recodybackend.users.features.signin.adminsignin.SignInAdminUser;
 import com.recody.recodybackend.users.features.signin.adminsignin.SignInAdminUserHandler;
 import com.recody.recodybackend.users.features.signin.membersignin.SignInUser;
 import com.recody.recodybackend.users.features.signin.membersignin.SignInUserHandler;
-import com.recody.recodybackend.users.features.signup.GetUserInfoResponse;
 import com.recody.recodybackend.users.features.signup.SignUpUser;
 import com.recody.recodybackend.users.features.signup.SignUpUserHandler;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +44,11 @@ class LoginController {
     
     private final FetchAllUsersHandler fetchAllUsersHandler;
     
+    private final SendResetEmailHandler sendResetEmailHandler;
+    
     private final JwtManager jwtManager;
+    
+    private final ResetPasswordHandler resetPasswordHandler;
     
     @PostMapping( "/api/v1/users/signup/check-duplicate" )
     public ResponseEntity<SuccessResponseBody> existsEmail(@RequestBody CheckDuplicateEmailRequest request,
@@ -200,6 +206,40 @@ class LoginController {
                                              .userId( jwtManager.resolveUserId( accessToken ) )
                                              .build() ) )
                         .build() );
+    }
+    
+    @PostMapping( "/api/v1/users/send-reset-email" )
+    private ResponseEntity<SuccessResponseBody> sendResetEmail(HttpServletRequest httpRequest,
+                                                               @RequestBody SendResetEmailRequest request) {
+        throw new RuntimeException("이메일 보내는 기능을 사용하지 않습니다.");
+//        return ResponseEntity.ok(
+//                SuccessResponseBody.builder()
+//                                   .message( ms.getMessage( "users.info.send-reset-email", null, "비밀번호 재설정 이메일을 보냈습니다.",
+//                                                            httpRequest.getLocale() ) )
+//                                   .data( sendResetEmailHandler.handle(
+//                                           SendResetEmail.builder()
+//                                                         .email( request.getEmail() )
+//                                                         .build() ) )
+//                                   .build()
+//                                );
+    }
+    
+    @PostMapping( "/api/v1/users/reset-password" )
+    private ResponseEntity<SuccessResponseBody> resetPassword(HttpServletRequest httpRequest,
+                                                              @RequestBody ResetPasswordRequest request) {
+        return ResponseEntity.ok(
+                SuccessResponseBody.builder()
+                                   .message(
+                                           ms.getMessage( "users.info.reset-password", null, "비밀번호를 재설정하였습니다.", httpRequest.getLocale() ) )
+                                   .data( resetPasswordHandler.handle(
+                                           ResetPassword.builder()
+                                                        .email( request.getEmail() )
+                                                        .password( request.getPassword() )
+                                                        .passwordConfirm( request.getPasswordConfirm() )
+                                                        .verificationCode( VerificationCode.of( request.getVerificationCode() ) )
+                                                        .build() ) )
+                                   .build()
+                                );
     }
     
     private static SignUpUser signUpUserCommand(SignUpUserRequest request) {

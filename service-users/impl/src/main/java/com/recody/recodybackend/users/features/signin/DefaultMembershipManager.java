@@ -15,8 +15,6 @@ import com.recody.recodybackend.users.events.UserCreated;
 import com.recody.recodybackend.users.features.generatenickname.NicknameGenerator;
 import com.recody.recodybackend.users.features.jwt.refreshtoken.RefreshTokenManager;
 import com.recody.recodybackend.users.features.projection.UserEventPublisher;
-import com.recody.recodybackend.users.features.signin.membership.AdminUserInfo;
-import com.recody.recodybackend.users.features.signin.membership.MembershipManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -34,7 +32,6 @@ class DefaultMembershipManager implements MembershipManager {
     private final NicknameGenerator nicknameGenerator;
     private final RecodyUserMapper recodyUserMapper;
     private final RefreshTokenManager refreshTokenManager;
-    
     private final UserEventPublisher userEventPublisher;
     
     
@@ -60,13 +57,6 @@ class DefaultMembershipManager implements MembershipManager {
         return recodyUserMapper.map( recodyUserEntity );
     }
     
-    
-    @Override
-    public RecodyUserInfo signUpAdmin(AdminUserInfo userInfo) {
-        // 필요할 때 구현합니다.
-        return null;
-    }
-    
     public RecodySignInSession createSessionInfo(RecodyUserInfo recodyUserInfo, String userAgent) {
         String accessToken = jwtManager.createAccessToken( CreateAccessToken
                                                                    .builder()
@@ -79,14 +69,14 @@ class DefaultMembershipManager implements MembershipManager {
                                                                      .email( recodyUserInfo.getEmail() )
                                                                      .build() );
         RecodySignInSession session = RecodySignInSession
-                                            .builder()
-                                            .socialType( recodyUserInfo.getSocialType() )
-                                            .role( recodyUserInfo.getRole() )
-                                            .accessToken( accessToken )
-                                            .refreshToken( refreshToken )
-                                            .accessExpireTime( jwtManager.getExpireTimeFromToken( accessToken ) )
-                                            .refreshExpireTime( jwtManager.getExpireTimeFromToken( refreshToken ) )
-                                            .build();
+                                              .builder()
+                                              .socialType( recodyUserInfo.getSocialType() )
+                                              .role( recodyUserInfo.getRole() )
+                                              .accessToken( accessToken )
+                                              .refreshToken( refreshToken )
+                                              .accessExpireTime( jwtManager.getExpireTimeFromToken( accessToken ) )
+                                              .refreshExpireTime( jwtManager.getExpireTimeFromToken( refreshToken ) )
+                                              .build();
         refreshTokenManager.integrate( session, userAgent );
         return session;
     }
@@ -112,6 +102,7 @@ class DefaultMembershipManager implements MembershipManager {
         }
         return savedUser;
     }
+    
     private void publishUserCreatedEvent(RecodyUserEntity savedUser) {
         UserCreated event = UserCreated.builder()
                                        .userId( savedUser.getUserId() )

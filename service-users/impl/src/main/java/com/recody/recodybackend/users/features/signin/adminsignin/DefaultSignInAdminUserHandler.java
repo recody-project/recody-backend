@@ -5,7 +5,7 @@ import com.recody.recodybackend.users.RecodyUserInfo;
 import com.recody.recodybackend.users.data.RecodyUserEntity;
 import com.recody.recodybackend.users.data.RecodyUserMapper;
 import com.recody.recodybackend.users.data.RecodyUserRepository;
-import com.recody.recodybackend.users.features.signin.membership.MembershipManager;
+import com.recody.recodybackend.users.features.signin.MembershipManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
