@@ -1,8 +1,11 @@
 package com.recody.recodybackend.users.config;
 
 import com.recody.recodybackend.common.Recody;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,5 +29,14 @@ class RecodyUsersConfig {
         executor.setThreadNamePrefix( "users-task-" );
         executor.initialize();
         return executor;
+    }
+    
+    /**
+     * 사용하지 않는 메일 보내기 기능에 필요한 의존성 때문에 정의함.
+     */
+    @Bean
+    @ConditionalOnMissingBean( JavaMailSender.class )
+    JavaMailSender javaMailSender() {
+        return new JavaMailSenderImpl();
     }
 }

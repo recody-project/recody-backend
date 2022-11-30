@@ -12,7 +12,6 @@ import com.recody.recodybackend.users.features.jwt.reissuetokens.ReissueTokens;
 import com.recody.recodybackend.users.features.jwt.reissuetokens.ReissueTokensHandler;
 import com.recody.recodybackend.users.features.resetpassword.ResetPassword;
 import com.recody.recodybackend.users.features.resetpassword.ResetPasswordHandler;
-import com.recody.recodybackend.users.features.sendresetemail.SendResetEmail;
 import com.recody.recodybackend.users.features.sendresetemail.SendResetEmailHandler;
 import com.recody.recodybackend.users.features.signin.ProcessSocialLogin;
 import com.recody.recodybackend.users.features.signin.SocialLoginService;
@@ -212,16 +211,17 @@ class LoginController {
     @PostMapping( "/api/v1/users/send-reset-email" )
     private ResponseEntity<SuccessResponseBody> sendResetEmail(HttpServletRequest httpRequest,
                                                                @RequestBody SendResetEmailRequest request) {
-        return ResponseEntity.ok(
-                SuccessResponseBody.builder()
-                                   .message( ms.getMessage( "users.info.send-reset-email", null, "비밀번호 재설정 이메일을 보냈습니다.",
-                                                            httpRequest.getLocale() ) )
-                                   .data( sendResetEmailHandler.handle(
-                                           SendResetEmail.builder()
-                                                         .email( request.getEmail() )
-                                                         .build() ) )
-                                   .build()
-                                );
+        throw new RuntimeException("이메일 보내는 기능을 사용하지 않습니다.");
+//        return ResponseEntity.ok(
+//                SuccessResponseBody.builder()
+//                                   .message( ms.getMessage( "users.info.send-reset-email", null, "비밀번호 재설정 이메일을 보냈습니다.",
+//                                                            httpRequest.getLocale() ) )
+//                                   .data( sendResetEmailHandler.handle(
+//                                           SendResetEmail.builder()
+//                                                         .email( request.getEmail() )
+//                                                         .build() ) )
+//                                   .build()
+//                                );
     }
     
     @PostMapping( "/api/v1/users/reset-password" )

@@ -2,15 +2,17 @@ package com.recody.recodybackend.users.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import java.util.Properties;
 
-@Configuration
-@Profile( {"test", "local"} )
+/**
+ * 테스트를 위해 메일을 보내는 빈을 설정합니다.
+ * 현재 사용하지 않습니다.
+ * @author motive
+ */
+//@Configuration
 class UsersTestConfig {
     @Value( "${users.mail.host}" )
     private String host;

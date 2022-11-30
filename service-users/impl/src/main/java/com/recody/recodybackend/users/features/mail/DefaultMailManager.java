@@ -14,6 +14,11 @@ import org.thymeleaf.context.Context;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+/**
+ * JavaMailSender 를 사용해 메일을 보내는 클래스입니다.
+ * 현재 사용하지 않습니다.
+ * @author motive
+ */
 @Component
 @RequiredArgsConstructor
 @Slf4j

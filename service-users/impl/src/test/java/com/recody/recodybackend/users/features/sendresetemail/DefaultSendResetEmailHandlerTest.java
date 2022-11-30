@@ -35,12 +35,11 @@ class DefaultSendResetEmailHandlerTest {
     }
     
     @Test
-    @DisplayName( "sendEmail" )
+    @DisplayName( "현재 해당 기능을 사용하지 않음." )
     void sendEmail() {
         // given
-        SendResetEmail sendResetEmail = new SendResetEmail( USER_EMAIL );
+        
         // when
-        String handle = sendResetEmailHandler.handle( sendResetEmail );
     
         // then
     }
