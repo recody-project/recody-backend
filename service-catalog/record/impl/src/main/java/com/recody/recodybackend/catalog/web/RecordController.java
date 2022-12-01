@@ -15,7 +15,6 @@ import com.recody.recodybackend.catalog.features.record.totalrecords.CountTotalR
 import com.recody.recodybackend.common.web.SuccessResponseBody;
 import com.recody.recodybackend.commonbootutils.jwt.JwtManager;
 import com.recody.recodybackend.commonbootutils.web.AccessToken;
-import com.recody.recodybackend.record.AppreciationNumber;
 import com.recody.recodybackend.record.web.AddRecordRequest;
 import com.recody.recodybackend.record.web.CompleteRecordRequest;
 import com.recody.recodybackend.record.web.ContinueRecordRequest;
@@ -178,7 +177,6 @@ public class RecordController {
                                                  .userId( jwtManager.resolveUserId( accessToken ) )
                                                  .locale( httpServletRequest.getLocale() )
                                                  .build() )
-                        
                              )
                         .build() );
     }
@@ -198,7 +196,6 @@ public class RecordController {
                                          .note( request.getNote() )
                                          .userId( jwtManager.resolveUserId( accessToken ) )
                                          .appreciationDate( request.getAppreciationDate() )
-                                         .appreciationNumber( AppreciationNumber.of( request.getAppreciationNumber() ) )
                                          .build() ) )
                         .build() );
     }

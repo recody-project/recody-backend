@@ -22,7 +22,9 @@ public interface RecordRepository extends JpaRepository<RecordEntity, String>, R
     Optional<List<RecordEntity>> findAllByUserIdAndContent(Long userId, CatalogContentEntity content);
     boolean existsByUserIdAndContent(Long userId, CatalogContentEntity content);
     
-    boolean existsByUserAndContentAndAppreciationNumber(CatalogUserEntity user, CatalogContentEntity content, Integer appreciationNumber);
+//    boolean existsByUserAndContentAndAppreciationNumber(CatalogUserEntity user, CatalogContentEntity content, Integer appreciationNumber);
+    
+    boolean existsByUserAndContent(CatalogUserEntity user, CatalogContentEntity content);
     
     Integer countByUserId(Long userId);
     
