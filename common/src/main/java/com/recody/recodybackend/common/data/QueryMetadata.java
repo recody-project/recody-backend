@@ -24,7 +24,7 @@ public class QueryMetadata {
     }
     
     public QueryMetadata(Page<?> page, boolean zeroIndexed) {
-        this.size = page.getSize();
+        this.size = page.getContent().size();
         if (zeroIndexed){
             this.currentPage = page.getNumber() + 1;
         }
@@ -32,5 +32,9 @@ public class QueryMetadata {
             this.currentPage = page.getNumber();
         }
         this.totalPages = page.getTotalPages();
+    }
+    
+    public static QueryMetadata empty(){
+        return new QueryMetadata( 1, 1, 1);
     }
 }
