@@ -7,6 +7,7 @@ import com.recody.recodybackend.catalog.features.record.continuerecord.ContinueR
 import com.recody.recodybackend.catalog.features.record.deleterecord.DeleteRecord;
 import com.recody.recodybackend.catalog.features.record.getcontinuingrecord.GetContinuingRecord;
 import com.recody.recodybackend.catalog.features.record.getmyrecords.GetMyRecords;
+import com.recody.recodybackend.catalog.features.record.getmyrecords.GetMyRecordsHandler;
 import com.recody.recodybackend.catalog.features.record.getrecord.GetRecord;
 import com.recody.recodybackend.catalog.features.record.getrecordcontent.GetContinuingRecordContent;
 import com.recody.recodybackend.catalog.features.record.getrecordcontents.GetRecordContents;
@@ -15,7 +16,6 @@ import com.recody.recodybackend.catalog.features.record.totalrecords.CountTotalR
 import com.recody.recodybackend.common.web.SuccessResponseBody;
 import com.recody.recodybackend.commonbootutils.jwt.JwtManager;
 import com.recody.recodybackend.commonbootutils.web.AccessToken;
-import com.recody.recodybackend.record.AppreciationNumber;
 import com.recody.recodybackend.record.web.AddRecordRequest;
 import com.recody.recodybackend.record.web.CompleteRecordRequest;
 import com.recody.recodybackend.record.web.ContinueRecordRequest;
@@ -36,6 +36,8 @@ public class RecordController {
     private final RecordService recordService;
     private final JwtManager jwtManager;
     private final CategoryResolver categoryResolver;
+    
+    private final GetMyRecordsHandler getMyRecordsHandler;
     
     @Deprecated
     @PostMapping( "/api/v1/record/complete" )
@@ -125,15 +127,15 @@ public class RecordController {
                                           .builder()
                                           .message( ms.getMessage( "record.records.get.succeeded", null,
                                                                    httpServletRequest.getLocale() ) )
-                                          .data( recordService.getRecords( GetMyRecords
-                                                                                   .builder()
-                                                                                   .userId( jwtManager.resolveUserId(
-                                                                                           accessToken ) )
-                                                                                   .page( page )
-                                                                                   .size( size )
-                                                                                   .category( categoryResolver.resolve( categoryId ) )
-                                                                                   .contentId( contentId )
-                                                                                   .build() ) )
+                                          .data( recordService.getRecords(
+                                                  GetMyRecords
+                                                          .builder()
+                                                          .userId( jwtManager.resolveUserId( accessToken ) )
+                                                          .page( page )
+                                                          .size( size )
+                                                          .category( categoryResolver.resolve( categoryId ) )
+                                                          .contentId( contentId )
+                                                          .build() ) )
                                           .build() );
     }
     
@@ -178,7 +180,6 @@ public class RecordController {
                                                  .userId( jwtManager.resolveUserId( accessToken ) )
                                                  .locale( httpServletRequest.getLocale() )
                                                  .build() )
-                        
                              )
                         .build() );
     }
@@ -198,7 +199,6 @@ public class RecordController {
                                          .note( request.getNote() )
                                          .userId( jwtManager.resolveUserId( accessToken ) )
                                          .appreciationDate( request.getAppreciationDate() )
-                                         .appreciationNumber( AppreciationNumber.of( request.getAppreciationNumber() ) )
                                          .build() ) )
                         .build() );
     }

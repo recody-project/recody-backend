@@ -5,12 +5,10 @@ import com.recody.recodybackend.catalog.data.content.CatalogContentRepository;
 import com.recody.recodybackend.catalog.data.rating.RatingEntity;
 import com.recody.recodybackend.catalog.data.rating.RatingRepository;
 import com.recody.recodybackend.catalog.data.record.RecordEntity;
-import com.recody.recodybackend.catalog.data.record.RecordMapper;
 import com.recody.recodybackend.catalog.data.record.RecordRepository;
 import com.recody.recodybackend.catalog.data.user.CatalogUserEntity;
 import com.recody.recodybackend.catalog.data.user.CatalogUserRepository;
 import com.recody.recodybackend.common.exceptions.ContentNotFoundException;
-import com.recody.recodybackend.exceptions.RecordAlreadyExists;
 import com.recody.recodybackend.exceptions.UserNotRatedOnContentException;
 import com.recody.recodybackend.users.exceptions.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +24,6 @@ class DefaultAddRecordHandler implements AddRecordHandler {
     
     private final RecordRepository recordRepository;
     private final CatalogContentRepository contentRepository;
-    
-    private final RecordMapper recordMapper;
     private final CatalogUserRepository userRepository;
     private final RatingRepository ratingRepository;
     
@@ -44,19 +40,13 @@ class DefaultAddRecordHandler implements AddRecordHandler {
         
         // 별점이 있는지 체크
         throwIfNotRated( userId, contentEntity );
-        Integer appreciationNumber = command.getAppreciationNumber().getValue();
         
-        boolean exists = recordRepository.existsByUserAndContentAndAppreciationNumber( catalogUserEntity, contentEntity, appreciationNumber );
-        if ( exists ) {
-            throw new RecordAlreadyExists();
-        }
         RecordEntity recordEntity = RecordEntity.builder()
                                                 .content( contentEntity )
                                                 .title( command.getTitle() )
                                                 .note( command.getNote() )
                                                 .appreciationDate( command.getAppreciationDate() )
                                                 .user( catalogUserEntity )
-                                                .appreciationNumber( appreciationNumber )
                                                 .build();
         RecordEntity savedRecord = recordRepository.save( recordEntity );
         return savedRecord.getRecordId();

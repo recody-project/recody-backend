@@ -108,7 +108,7 @@ class RecordRepositoryTest {
     }
     
     private RecordEntity newRecord(CatalogContentEntity content, CatalogUserEntity user) {
-        return RecordEntity.builder().content( content ).note( "testing" ).user( user ).completed( true ).appreciationNumber( nth++ ).build();
+        return RecordEntity.builder().content( content ).note( "testing" ).user( user ).completed( true ).build();
     }
     
     private RecordEntity newRecordWithId(String recordId, CatalogUserEntity user) {
@@ -118,7 +118,6 @@ class RecordRepositoryTest {
                            .note( "testing" )
                            .user( user )
                            .completed( true )
-                           .appreciationNumber( nth++ )
                            .build();
     }
     

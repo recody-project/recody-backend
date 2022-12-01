@@ -21,9 +21,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Table(name = "record", uniqueConstraints = {
-        @UniqueConstraint( name = "user_and_content_id_and_nth_should_be_unique", columnNames = {"content_id", "user_id", "appreciation_number"})
-})
+@Table(name = "record")
 @Where(clause = "deleted_at IS null")
 @SQLDelete(sql = "UPDATE record SET deleted_at = NOW() WHERE record_id=?") // repository 사용하는 경우, 등
 public class RecordEntity extends RecordBaseEntity {
@@ -56,10 +54,6 @@ public class RecordEntity extends RecordBaseEntity {
     @Setter
     private boolean completed;
     
-    @Builder.Default
-    @Column(name = "appreciation_number", nullable = false)
-    private Integer appreciationNumber = 1;
-    
     @Column(name = "appreciation_date")
     private LocalDate appreciationDate;
     
@@ -82,8 +76,4 @@ public class RecordEntity extends RecordBaseEntity {
         return Objects.hash(getRecordId());
     }
     
-    @Override
-    public String toString() {
-        return "[{\"RecordEntity\":{" + "\"recordId\":" + ((recordId != null) ? ("\"" + recordId + "\"") : null) + ", \"content\":" + content + ", \"userId\":" + user + ", \"title\":" + ((title != null) ? ("\"" + title + "\"") : null) + ", \"note\":" + ((note != null) ? ("\"" + note + "\"") : null) + ", \"completed\":" + completed + ", \"nth\":" + appreciationNumber + ", \"appreciationDate\":" + appreciationDate + "}}, " + super.toString() + "]";
-    }
 }

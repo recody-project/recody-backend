@@ -13,7 +13,7 @@ public class QueryMetadata {
     private Integer currentPage;
     private Integer totalPages;
     
-    public QueryMetadata(Integer size, Integer currentPage, Integer totalPages) {
+    private QueryMetadata(Integer size, Integer currentPage, Integer totalPages) {
         this.size = size;
         this.currentPage = currentPage;
         this.totalPages = totalPages;
@@ -24,13 +24,18 @@ public class QueryMetadata {
     }
     
     public QueryMetadata(Page<?> page, boolean zeroIndexed) {
-        this.size = page.getSize();
+        this.size = page.getContent().size();
         if (zeroIndexed){
             this.currentPage = page.getNumber() + 1;
+            this.totalPages = page.getTotalPages();
         }
         else {
             this.currentPage = page.getNumber();
+            this.totalPages = page.getTotalPages();
         }
-        this.totalPages = page.getTotalPages();
+    }
+    
+    public static QueryMetadata empty(){
+        return new QueryMetadata( 0, 0, 0);
     }
 }
