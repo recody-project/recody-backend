@@ -34,12 +34,8 @@ class RecordQueryRepositoryImpl implements RecordQueryRepository {
     @Override
     public List<RecordEntity> findAllFetchJoinContentWhereCategoryAndUserId(CategoryEntity category,
                                                                             Long userid) {
-        return jpaQueryFactory.selectFrom( recordEntity )
-                              .leftJoin( recordEntity.content )
-                              .where(
-                                      recordEntity.content.category.eq( category ),
-                                      recordEntity.user.id.eq( userid ) ).fetchJoin()
-                              .fetch();
+        return createQueryFindRecordsWhereCategoryAndUserId( category, userid ).fetchJoin()
+                                                                               .fetch();
     }
     
     @Override
@@ -59,7 +55,22 @@ class RecordQueryRepositoryImpl implements RecordQueryRepository {
         if ( pageable.isUnpaged() ) {
             return Optional.of( doFetch( category, userId ) );
         }
-        return Optional.of( deFetch( category, userId, pageable ) );
+        return Optional.of( doFetch( category, userId, pageable ) );
+    }
+    
+    @Override
+    public Page<RecordEntity> findAllFetchJoinContentWhereCategoryAndUserIdLimitPage(CategoryEntity category, Long userId,
+                                                                                     Pageable pageable) {
+        if ( pageable.isUnpaged() ) {
+            return new PageImpl<>( doFetch( category, userId ) );
+        }
+        JPAQuery<RecordEntity> queryAll = createQueryFindRecordsWhereCategoryAndUserId( category, userId );
+        JPAQuery<RecordEntity> pagedQuery = QueryDslUtils.applyPageable( pageable, queryAll );
+        List<RecordEntity> content = pagedQuery
+                                           .orderBy( recordEntity.createdAt.desc() )
+                                           .fetch();
+        
+        return new PageImpl<>( content, pageable, queryAll.fetch().size() );
     }
     
     @Override
@@ -86,22 +97,24 @@ class RecordQueryRepositoryImpl implements RecordQueryRepository {
         return new PageImpl<>( recordEntityJPAQuery.fetch(), pageable, totalSize );
     }
     
-    private List<RecordEntity> deFetch(CategoryEntity category, Long userId, Pageable pageable) {
-        return jpaQueryFactory
-                       .selectFrom( recordEntity )
-                       .leftJoin( recordEntity.content )
-                       .where( recordEntity.content.category.eq( category ), recordEntity.user.id.eq( userId ) )
-                       .limit( pageable.getPageSize() )
-                       .offset( pageable.getOffset() )
+    private List<RecordEntity> doFetch(CategoryEntity category, Long userId, Pageable pageable) {
+        JPAQuery<RecordEntity> queryFindRecordsWhereCategoryAndUserId = createQueryFindRecordsWhereCategoryAndUserId( category, userId );
+        JPAQuery<RecordEntity> recordEntityJPAQuery = QueryDslUtils.applyPageable(
+                pageable, queryFindRecordsWhereCategoryAndUserId );
+        return recordEntityJPAQuery
                        .orderBy( recordEntity.createdAt.desc() )
                        .fetch();
     }
     
-    private List<RecordEntity> doFetch(CategoryEntity category, Long userId) {
+    private JPAQuery<RecordEntity> createQueryFindRecordsWhereCategoryAndUserId(CategoryEntity category, Long userId) {
         return jpaQueryFactory
                        .selectFrom( recordEntity )
                        .leftJoin( recordEntity.content )
-                       .where( recordEntity.content.category.eq( category ), recordEntity.user.id.eq( userId ) )
+                       .where( recordEntity.content.category.eq( category ), recordEntity.user.id.eq( userId ) );
+    }
+    
+    private List<RecordEntity> doFetch(CategoryEntity category, Long userId) {
+        return createQueryFindRecordsWhereCategoryAndUserId( category, userId )
                        .orderBy( recordEntity.createdAt.desc() )
                        .fetch();
     }

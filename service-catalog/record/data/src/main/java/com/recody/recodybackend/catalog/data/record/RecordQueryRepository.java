@@ -42,6 +42,7 @@ public interface RecordQueryRepository {
     
     
     Optional<List<RecordEntity>> findAllFetchJoinContentWhereCategoryAndUserIdLimit(CategoryEntity category, Long userid, Pageable pageable);
+    Page<RecordEntity> findAllFetchJoinContentWhereCategoryAndUserIdLimitPage(CategoryEntity category, Long userid, Pageable pageable);
     Optional<List<RecordEntity>> findAllByContentIdAndUserId(Long userId, String contentId, Pageable pageable);
     
     Page<RecordEntity> findAllByContentIdAndUserIdPage(Long userId, String contentId, Pageable pageable);

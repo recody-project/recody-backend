@@ -27,14 +27,15 @@ public class QueryMetadata {
         this.size = page.getContent().size();
         if (zeroIndexed){
             this.currentPage = page.getNumber() + 1;
+            this.totalPages = page.getTotalPages();
         }
         else {
             this.currentPage = page.getNumber();
+            this.totalPages = page.getTotalPages();
         }
-        this.totalPages = page.getTotalPages();
     }
     
     public static QueryMetadata empty(){
-        return new QueryMetadata( 1, 1, 1);
+        return new QueryMetadata( 0, 0, 0);
     }
 }
