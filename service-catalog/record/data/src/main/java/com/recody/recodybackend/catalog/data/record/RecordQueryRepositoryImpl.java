@@ -1,8 +1,11 @@
 package com.recody.recodybackend.catalog.data.record;
 
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.recody.recodybackend.catalog.data.category.CategoryEntity;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
@@ -61,14 +64,26 @@ class RecordQueryRepositoryImpl implements RecordQueryRepository {
     
     @Override
     public Optional<List<RecordEntity>> findAllByContentIdAndUserId(Long userId, String contentId, Pageable pageable) {
-        return Optional.of( jpaQueryFactory.selectFrom( recordEntity )
-                                           .leftJoin( recordEntity.content )
-                                           .where( recordEntity.user.id.eq( userId ), recordEntity.content.contentId.eq( contentId ) )
+        return Optional.of( createQueryFindRecordsWhereUserIdAndContentId( userId, contentId )
                                            .limit( pageable.getPageSize() )
                                            .offset( pageable.getOffset() )
                                            .orderBy( QueryDslUtils.getOrderSpecifiers( pageable.getSort(), recordEntity ) )
                                            .fetch()
                           );
+    }
+    
+    private JPAQuery<RecordEntity> createQueryFindRecordsWhereUserIdAndContentId(Long userId, String contentId) {
+        return jpaQueryFactory.selectFrom( recordEntity )
+                              .leftJoin( recordEntity.content )
+                              .where( recordEntity.user.id.eq( userId ), recordEntity.content.contentId.eq( contentId ) );
+    }
+    
+    @Override
+    public Page<RecordEntity> findAllByContentIdAndUserIdPage(Long userId, String contentId, Pageable pageable) {
+        JPAQuery<RecordEntity> totalQuery = createQueryFindRecordsWhereUserIdAndContentId( userId, contentId );
+        int totalSize = totalQuery.fetch().size();
+        JPAQuery<RecordEntity> recordEntityJPAQuery = QueryDslUtils.applyPageable( pageable, totalQuery );
+        return new PageImpl<>( recordEntityJPAQuery.fetch(), pageable, totalSize );
     }
     
     private List<RecordEntity> deFetch(CategoryEntity category, Long userId, Pageable pageable) {

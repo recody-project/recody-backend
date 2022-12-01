@@ -7,6 +7,7 @@ import com.recody.recodybackend.catalog.features.record.continuerecord.ContinueR
 import com.recody.recodybackend.catalog.features.record.deleterecord.DeleteRecord;
 import com.recody.recodybackend.catalog.features.record.getcontinuingrecord.GetContinuingRecord;
 import com.recody.recodybackend.catalog.features.record.getmyrecords.GetMyRecords;
+import com.recody.recodybackend.catalog.features.record.getmyrecords.GetMyRecordsHandler;
 import com.recody.recodybackend.catalog.features.record.getrecord.GetRecord;
 import com.recody.recodybackend.catalog.features.record.getrecordcontent.GetContinuingRecordContent;
 import com.recody.recodybackend.catalog.features.record.getrecordcontents.GetRecordContents;
@@ -35,6 +36,8 @@ public class RecordController {
     private final RecordService recordService;
     private final JwtManager jwtManager;
     private final CategoryResolver categoryResolver;
+    
+    private final GetMyRecordsHandler getMyRecordsHandler;
     
     @Deprecated
     @PostMapping( "/api/v1/record/complete" )
@@ -124,15 +127,15 @@ public class RecordController {
                                           .builder()
                                           .message( ms.getMessage( "record.records.get.succeeded", null,
                                                                    httpServletRequest.getLocale() ) )
-                                          .data( recordService.getRecords( GetMyRecords
-                                                                                   .builder()
-                                                                                   .userId( jwtManager.resolveUserId(
-                                                                                           accessToken ) )
-                                                                                   .page( page )
-                                                                                   .size( size )
-                                                                                   .category( categoryResolver.resolve( categoryId ) )
-                                                                                   .contentId( contentId )
-                                                                                   .build() ) )
+                                          .data( recordService.getRecords(
+                                                  GetMyRecords
+                                                          .builder()
+                                                          .userId( jwtManager.resolveUserId( accessToken ) )
+                                                          .page( page )
+                                                          .size( size )
+                                                          .category( categoryResolver.resolve( categoryId ) )
+                                                          .contentId( contentId )
+                                                          .build() ) )
                                           .build() );
     }
     

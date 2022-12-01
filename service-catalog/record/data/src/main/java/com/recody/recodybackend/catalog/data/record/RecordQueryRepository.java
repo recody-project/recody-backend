@@ -1,8 +1,8 @@
 package com.recody.recodybackend.catalog.data.record;
 
 import com.recody.recodybackend.catalog.data.category.CategoryEntity;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
 
 import java.time.LocalDate;
 import java.util.List;
@@ -43,4 +43,6 @@ public interface RecordQueryRepository {
     
     Optional<List<RecordEntity>> findAllFetchJoinContentWhereCategoryAndUserIdLimit(CategoryEntity category, Long userid, Pageable pageable);
     Optional<List<RecordEntity>> findAllByContentIdAndUserId(Long userId, String contentId, Pageable pageable);
+    
+    Page<RecordEntity> findAllByContentIdAndUserIdPage(Long userId, String contentId, Pageable pageable);
 }
