@@ -22,6 +22,9 @@ public class FetchedMovieDetailViewModel {
     @Builder.Default
     private Category category = BasicCategory.Movie;
     
+    private String title;
+    private String posterPath;
+    
     private String overview;
     private String releaseDate;
     private Integer runtime;

@@ -67,11 +67,15 @@ public abstract class MovieDetailMapper {
     public abstract MovieDetail map(MovieEntity entity, @Context MovieSource s, @Context Locale locale);
     
     @Mapping(target = "directors", ignore = true)
-    @Mapping(target = "contentId", source = "args.id")
+    @Mapping(target = "contentId", source = "detail.id")
     @Mapping(target = "category", expression = "java(BasicCategory.Movie)")
     @Mapping(target = "actors", ignore = true)
-    @Mapping(target = "genres", source = "args.genres")
-    public abstract TMDBFetchedMovieDetail toFetchedMovieDetail(TMDBMovieDetail args);
+    @Mapping(target = "genres", source = "detail.genres")
+    @Mapping(target = "posterPath",
+             source = "detail.posterPath",
+             qualifiedByName = "fullPosterPath",
+             conditionExpression = "java((detail.getPosterPath() != null))")
+    public abstract TMDBFetchedMovieDetail toFetchedMovieDetail(TMDBMovieDetail detail);
     
     
 

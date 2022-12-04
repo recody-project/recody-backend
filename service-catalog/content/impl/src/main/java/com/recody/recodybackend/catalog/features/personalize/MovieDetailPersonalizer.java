@@ -17,7 +17,7 @@ import com.recody.recodybackend.common.contents.Genre;
 import com.recody.recodybackend.common.exceptions.ContentNotFoundException;
 import com.recody.recodybackend.content.CatalogMovieDetail;
 import com.recody.recodybackend.content.PersonalizedMovieDetail;
-import com.recody.recodybackend.movie.MovieGenre;
+import com.recody.recodybackend.genre.BasicGenre;
 import com.recody.recodybackend.users.exceptions.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -58,7 +58,7 @@ class MovieDetailPersonalizer
         List<Genre> genres;
         
         BasicCategory defaultCategory = content.getCategory();
-        List<MovieGenre> defaultGenres = content.getGenres();
+        List<BasicGenre> defaultGenres = content.getGenres();
         
         category = resolvePersonalizedCategoryOrGetDefault( defaultCategory, userId, contentEntity );
         genres = resolvePersonalizedGenresOrGetDefault( defaultGenres, userId, contentEntity );
@@ -89,7 +89,7 @@ class MovieDetailPersonalizer
         }
     }
     
-    private List<Genre> resolvePersonalizedGenresOrGetDefault(List<MovieGenre> movieGenres, Long userId,
+    private List<Genre> resolvePersonalizedGenresOrGetDefault(List<BasicGenre> movieGenres, Long userId,
                                                               CatalogContentEntity contentEntity) {
         CatalogUserEntity userEntity = userRepository.findById( userId ).orElseThrow( UserNotFoundException::new );
         List<PersonalizedGenreEntity> personalizedGenres = personalizedGenreRepository.findAllByContentAndUser(

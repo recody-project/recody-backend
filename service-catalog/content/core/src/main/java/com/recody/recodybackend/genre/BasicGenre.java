@@ -1,39 +1,31 @@
-package com.recody.recodybackend.movie;
+package com.recody.recodybackend.genre;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.recody.recodybackend.common.contents.BasicCategory;
-import com.recody.recodybackend.common.contents.Category;
 import com.recody.recodybackend.common.contents.Genre;
 import lombok.*;
 
-/*
-* 영화의 장르는 여러개일 수 있다. */
+/**
+ * Catalog 서비스에서 기본 카테고리를 일반적으로 가리키는 클래스.
+ * MovieGenre 등의 클래스에 의존하지 않기 위해 대신 사용한다.
+ * @author motive
+ */
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MovieGenre implements Genre {
+public class BasicGenre implements Genre {
     
-    /**
-     * 이 id 는 레코디에서 부여한 고유 장르 id 이어야 한다.
-     */
     private String genreId;
     private String genreName;
+    
     @JsonIgnore
-    private MovieSource source;
+    private BasicCategory category;
     
-    
-    
-    public MovieGenre(String genreId, String genreName) {
+    public BasicGenre(String genreId, String genreName) {
         this.genreId = genreId;
         this.genreName = genreName;
-    }
-    
-    @Override
-    @JsonIgnore
-    public Category getCategory() {
-        return BasicCategory.Movie;
     }
     
     @Override

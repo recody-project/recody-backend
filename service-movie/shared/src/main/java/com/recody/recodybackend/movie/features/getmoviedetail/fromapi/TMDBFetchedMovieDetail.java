@@ -3,7 +3,6 @@ package com.recody.recodybackend.movie.features.getmoviedetail.fromapi;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.recody.recodybackend.common.contents.BasicCategory;
-import com.recody.recodybackend.common.contents.Category;
 import com.recody.recodybackend.movie.Actor;
 import com.recody.recodybackend.movie.Director;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieGenre;
@@ -21,7 +20,10 @@ public class TMDBFetchedMovieDetail {
     @JsonProperty("tmdbId")
     private Integer contentId;
     @Builder.Default
-    private Category category = BasicCategory.Movie;
+    private BasicCategory category = BasicCategory.Movie;
+    
+    private String title;
+    private String posterPath;
     
     private String overview;
     private String releaseDate;

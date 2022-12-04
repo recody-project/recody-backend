@@ -5,7 +5,7 @@ import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
 import com.recody.recodybackend.catalog.data.content.CatalogContentMapper;
 import com.recody.recodybackend.catalog.data.content.CatalogContentRepository;
 import com.recody.recodybackend.common.contents.register.AsyncContentRegistrar;
-import com.recody.recodybackend.movie.MovieDetail;
+import com.recody.recodybackend.movie.MovieDetailViewModel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -16,14 +16,14 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-class CatalogMovieRegistrar implements AsyncContentRegistrar<CatalogMovieDetail, MovieDetail> {
+class CatalogMovieRegistrar implements AsyncContentRegistrar<CatalogMovieDetail, MovieDetailViewModel> {
     
     private final CatalogContentRepository contentRepository;
     private final CatalogContentMapper mapper;
     
     // TODO: 카탈로그 서비스에서 엔티티는 데이터를 구분하는 용도로만?
     @Override
-    public CatalogMovieDetail register(MovieDetail movieDetail, Locale locale) {
+    public CatalogMovieDetail register(MovieDetailViewModel movieDetail, Locale locale) {
         log.debug("registering content: {}", movieDetail);
 
         Optional<CatalogContentEntity> optionalContent =

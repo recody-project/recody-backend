@@ -7,7 +7,7 @@ import com.recody.recodybackend.content.PersonalizedMovieDetail;
 import com.recody.recodybackend.common.contents.Category;
 import com.recody.recodybackend.common.contents.Genre;
 import com.recody.recodybackend.movie.Movie;
-import com.recody.recodybackend.movie.MovieDetail;
+import com.recody.recodybackend.movie.MovieDetailViewModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -23,15 +23,7 @@ public abstract class PersonalizedMovieMapper {
     @Mapping( target = "personalizedUserId", ignore = true )
     @Mapping( target = "genres", ignore = true )
     @Mapping( target = "category", ignore = true )
-//    @Mapping( target = "revenue", ignore = true )
-//    @Mapping( target = "popularity", ignore = true )
-//    @Mapping( target = "originalLanguage", ignore = true )
-//    @Mapping( target = "originalTitle", ignore = true )
-//    @Mapping( target = "status", ignore = true )
-//    @Mapping( target = "voteAverage", ignore = true )
-//    @Mapping( target = "voteCount", ignore = true )
-//    @Mapping( target = "spokenLanguages", ignore = true )
-    public abstract PersonalizedMovieDetail map(MovieDetail movieDetail);
+    public abstract PersonalizedMovieDetail map(MovieDetailViewModel movieDetail);
     
     @Mapping( target = "personalizedUserId", ignore = true )
     public abstract PersonalizedMovieDetail map(CatalogMovieDetail movieDetail);

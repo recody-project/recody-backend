@@ -6,7 +6,7 @@ import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.event.ContentCreated;
 import com.recody.recodybackend.content.CatalogMovie;
 import com.recody.recodybackend.content.CatalogMovieDetail;
-import com.recody.recodybackend.movie.MovieDetail;
+import com.recody.recodybackend.movie.MovieDetailViewModel;
 import lombok.extern.slf4j.Slf4j;
 import org.mapstruct.*;
 
@@ -25,7 +25,7 @@ public abstract class CatalogContentMapper {
     @Mapping( target = "id", ignore = true )
     @Mapping( target = "contentId", source = "contentId" )
     @Mapping( target = "title", source = "movieDetail.title" )
-    public abstract CatalogContentEntity newEntity(MovieDetail movieDetail, @Context Locale locale);
+    public abstract CatalogContentEntity newEntity(MovieDetailViewModel movieDetail, @Context Locale locale);
     
     @Mapping( target = "posterPath", source = "entity.imageUrl" )
     @Mapping( target = "globalContentId", source = "entity.id" )
@@ -38,7 +38,7 @@ public abstract class CatalogContentMapper {
     @Mapping( target = "contentId", source = "movieDetail.contentId" )
     @Mapping( target = "globalContentId", source = "entity.id" )
     @Mapping( target = "contentGroupId", ignore = true ) // 구현되지 않음.
-    public abstract CatalogMovieDetail toCatalogMovieDetail(CatalogContentEntity entity, MovieDetail movieDetail);
+    public abstract CatalogMovieDetail toCatalogMovieDetail(CatalogContentEntity entity, MovieDetailViewModel movieDetail);
     
     @Mapping( target = "title", ignore = true )
     @Mapping( target = "category",
@@ -68,7 +68,7 @@ public abstract class CatalogContentMapper {
     }
     
     @AfterMapping
-    void setBidirectional(@MappingTarget CatalogContentEntity content, MovieDetail detail, @Context Locale locale) {
+    void setBidirectional(@MappingTarget CatalogContentEntity content, MovieDetailViewModel detail, @Context Locale locale) {
         CatalogContentTitleEntity titleEntity = content.getTitle();
         titleEntity.setContent( content );
         log.debug( "title 에 content 를 세팅하였음." );

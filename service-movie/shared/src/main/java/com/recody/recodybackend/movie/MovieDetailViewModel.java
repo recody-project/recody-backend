@@ -1,6 +1,6 @@
 package com.recody.recodybackend.movie;
 
-import com.recody.recodybackend.common.contents.Genre;
+import com.recody.recodybackend.common.contents.BasicCategory;
 import lombok.*;
 
 import java.util.List;
@@ -18,10 +18,14 @@ import java.util.List;
 public class MovieDetailViewModel {
     
     private String contentId;
+    @Builder.Default
+    private BasicCategory category = BasicCategory.Movie;
+    private String title;
+    private String posterPath;
     private String overview;
     private String releaseDate;
     private Integer runtime;
-    private List<Genre> genres;
+    private List<MovieGenreViewModel> genres;
     private String actors;
     private String directors;
 }
