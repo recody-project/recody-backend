@@ -145,5 +145,4 @@ public class MovieController {
     public ResponseEntity<MovieGenres> getGenres() {
         return ResponseEntity.ok( getMovieGenresHandler.handle() );
     }
-    
 }
