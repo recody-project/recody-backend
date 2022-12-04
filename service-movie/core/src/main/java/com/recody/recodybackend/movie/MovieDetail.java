@@ -21,7 +21,6 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MovieDetail extends Movie implements BasicContentDetail {
     
-//    private Integer tmdbId;
     private MovieSource source;
     private String originalTitle;
     private String overview;

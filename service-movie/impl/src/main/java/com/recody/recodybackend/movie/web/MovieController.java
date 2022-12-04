@@ -7,7 +7,7 @@ import com.recody.recodybackend.movie.MovieGenres;
 import com.recody.recodybackend.movie.Movies;
 import com.recody.recodybackend.movie.features.MovieDetailService;
 import com.recody.recodybackend.movie.features.MovieSearchService;
-import com.recody.recodybackend.movie.features.getmoviedetail.fromapi.TMDBFetchedMovieDetail;
+import com.recody.recodybackend.movie.features.getmoviedetail.fromapi.FetchedMovieDetailViewModel;
 import com.recody.recodybackend.movie.features.getmoviedetail.fromdb.GetMovieDetail;
 import com.recody.recodybackend.movie.features.getmoviegenres.GetMovieGenresHandler;
 import com.recody.recodybackend.movie.features.searchmovies.SearchMovies;
@@ -33,7 +33,7 @@ import java.util.List;
 public class MovieController {
     
     private final MovieSearchService movieSearchService;
-    private final MovieDetailService<TMDBFetchedMovieDetail, GetMovieDetail> movieDetailService;
+    private final MovieDetailService<FetchedMovieDetailViewModel, GetMovieDetail> movieDetailService;
     private final MessageSource ms;
     
     private final GetMovieGenresHandler getMovieGenresHandler;

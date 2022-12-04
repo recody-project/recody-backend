@@ -38,15 +38,5 @@ public class CatalogMovieDetail implements CatalogContentDetail {
     private List<MovieGenre> genres;
     private List<Actor> actors;
     private List<Director> directors;
-    
-    
-    
-//    private Float popularity;
-//    private List<ProductionCountry> productionCountries;
-//    private List<SpokenLanguage> spokenLanguages;
-//    private Long revenue;
-//    private String status;
-//    private Float voteAverage;
-//    private Integer voteCount;
 
 }

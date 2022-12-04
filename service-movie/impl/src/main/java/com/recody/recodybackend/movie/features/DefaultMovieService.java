@@ -9,6 +9,7 @@ import com.recody.recodybackend.movie.data.movie.MovieDetailMapper;
 import com.recody.recodybackend.movie.data.movie.MovieEntity;
 import com.recody.recodybackend.movie.data.movie.MovieMapper;
 import com.recody.recodybackend.movie.features.applicationevent.MoviesSearched;
+import com.recody.recodybackend.movie.features.getmoviedetail.fromapi.FetchedMovieDetailViewModel;
 import com.recody.recodybackend.movie.features.getmoviedetail.fromapi.GetMovieDetailFromTMDBHandler;
 import com.recody.recodybackend.movie.features.getmoviedetail.fromapi.TMDBFetchedMovieDetail;
 import com.recody.recodybackend.movie.features.getmoviedetail.fromdb.GetMovieDetail;
@@ -38,7 +39,7 @@ import java.util.concurrent.CompletableFuture;
 @RequiredArgsConstructor
 @Slf4j
 class DefaultMovieService implements MovieSearchService,
-                                     MovieDetailService<TMDBFetchedMovieDetail, GetMovieDetail> {
+                                     MovieDetailService<FetchedMovieDetailViewModel, GetMovieDetail> {
     
     public static final int MINIMUM_SEARCH_RESULT_SIZE = 10;
     private final GetMovieDetailHandler getMovieDetailHandler;
@@ -55,10 +56,9 @@ class DefaultMovieService implements MovieSearchService,
      * 받아온 결과를 매핑하여 그대로 반환하며, 저장은 비동기로 이루어진다.
      */
     @Override
-    public TMDBFetchedMovieDetail fetchMovieDetail(GetMovieDetail args) {
+    public FetchedMovieDetailViewModel fetchMovieDetail(GetMovieDetail args) {
         TMDBFetchedMovieDetail tmdbFetchedMovieDetail = getMovieDetailFromTMDBHandler.handle( args );
-        
-        return tmdbFetchedMovieDetail;
+        return movieDetailMapper.toViewModel( tmdbFetchedMovieDetail );
         
     }
     
@@ -71,8 +71,7 @@ class DefaultMovieService implements MovieSearchService,
     @Override
     public MovieDetailViewModel getMovieDetail(GetMovieDetail command) {
         MovieDetail movieDetail = getMovieDetailHandler.handleFromDB( command );
-        MovieDetailViewModel movieDetailViewModel = movieDetailMapper.toViewModel( movieDetail );
-        return movieDetailViewModel;
+        return movieDetailMapper.toViewModel( movieDetail );
     }
     
     @Override

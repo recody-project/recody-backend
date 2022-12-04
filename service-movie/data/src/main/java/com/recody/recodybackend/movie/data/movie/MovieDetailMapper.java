@@ -6,6 +6,7 @@ import com.recody.recodybackend.movie.data.genre.MovieGenreMapper;
 import com.recody.recodybackend.movie.data.people.MoviePersonMapper;
 import com.recody.recodybackend.movie.data.title.MovieTitleMapper;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieDetail;
+import com.recody.recodybackend.movie.features.getmoviedetail.fromapi.FetchedMovieDetailViewModel;
 import com.recody.recodybackend.movie.features.getmoviedetail.fromapi.TMDBFetchedMovieDetail;
 import com.recody.recodybackend.movie.features.tmdb.TMDB;
 import lombok.RequiredArgsConstructor;
@@ -78,6 +79,9 @@ public abstract class MovieDetailMapper {
     @Mapping( target = "directors", source = "directors", qualifiedByName = "concatDirectors")
     public abstract MovieDetailViewModel toViewModel(MovieDetail movieDetail);
     
+    @Mapping( target = "actors", source = "actors", qualifiedByName = "concatActors")
+    @Mapping( target = "directors", source = "directors", qualifiedByName = "concatDirectors")
+    public abstract FetchedMovieDetailViewModel toViewModel(TMDBFetchedMovieDetail movieDetail);
     
     @Mapping(target = "tmdbId", source = "args.id")
     @Mapping(target = "directors", ignore = true)
