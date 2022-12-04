@@ -3,8 +3,8 @@ package com.recody.recodybackend.movie.data.people;
 
 import com.recody.recodybackend.movie.Actor;
 import com.recody.recodybackend.movie.Director;
-import com.recody.recodybackend.movie.features.getmoviecredit.dto.TMDBCast;
-import com.recody.recodybackend.movie.features.getmoviecredit.dto.TMDBCrew;
+import com.recody.recodybackend.movie.features.fetchmoviecredit.dto.TMDBCast;
+import com.recody.recodybackend.movie.features.fetchmoviecredit.dto.TMDBCrew;
 import com.recody.recodybackend.movie.features.tmdb.TMDB;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

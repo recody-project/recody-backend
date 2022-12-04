@@ -1,4 +1,4 @@
-package com.recody.recodybackend.movie.features.getmoviecredit;
+package com.recody.recodybackend.movie.features.fetchmoviecredit;
 
 import com.recody.recodybackend.movie.Actor;
 import com.recody.recodybackend.movie.Director;

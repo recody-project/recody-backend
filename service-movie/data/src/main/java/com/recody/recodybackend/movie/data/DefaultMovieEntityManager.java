@@ -9,7 +9,7 @@ import com.recody.recodybackend.movie.data.title.MovieTitleRepository;
 import com.recody.recodybackend.movie.data.people.ActorMapper;
 import com.recody.recodybackend.movie.data.people.DirectorMapper;
 import com.recody.recodybackend.movie.data.people.*;
-import com.recody.recodybackend.movie.features.getmoviecredit.dto.TMDBCast;
+import com.recody.recodybackend.movie.features.fetchmoviecredit.dto.TMDBCast;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;

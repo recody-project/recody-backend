@@ -1,14 +1,10 @@
 package com.recody.recodybackend.movie.data.movie;
 
 import com.recody.recodybackend.common.contents.BasicCategory;
-import com.recody.recodybackend.movie.Actor;
-import com.recody.recodybackend.movie.Director;
-import com.recody.recodybackend.movie.MovieDetail;
-import com.recody.recodybackend.movie.MovieSource;
+import com.recody.recodybackend.movie.*;
 import com.recody.recodybackend.movie.data.genre.MovieGenreMapper;
 import com.recody.recodybackend.movie.data.people.MoviePersonMapper;
 import com.recody.recodybackend.movie.data.title.MovieTitleMapper;
-import com.recody.recodybackend.movie.MovieInfo;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieDetail;
 import com.recody.recodybackend.movie.features.getmoviedetail.fromapi.TMDBFetchedMovieDetail;
 import com.recody.recodybackend.movie.features.tmdb.TMDB;
@@ -77,6 +73,12 @@ public abstract class MovieDetailMapper {
     public abstract TMDBFetchedMovieDetail toFetchedMovieDetail(TMDBMovieDetail args);
     
     
+
+    @Mapping( target = "actors", source = "actors", qualifiedByName = "concatActors")
+    @Mapping( target = "directors", source = "directors", qualifiedByName = "concatDirectors")
+    public abstract MovieDetailViewModel toViewModel(MovieDetail movieDetail);
+    
+    
     @Mapping(target = "tmdbId", source = "args.id")
     @Mapping(target = "directors", ignore = true)
     @Mapping(target = "actors", ignore = true)
@@ -84,4 +86,32 @@ public abstract class MovieDetailMapper {
     @Mapping(target = "posterPath", expression = "java(TMDB.fullPosterPath(args.getPosterPath()))")
     @Mapping(target = "title", source = "args.title")
     public abstract MovieEntity newEntity(TMDBMovieDetail args, @Context Locale locale);
+    
+    @Named( "concatActors" )
+    public String concatActor(List<Actor> actors) {
+        StringBuilder stringBuilder = new StringBuilder();
+        if (!actors.isEmpty()){
+            for (Actor actor : actors) {
+                if ( stringBuilder.length() != 0 ) {
+                    stringBuilder.append( ", " );
+                }
+                stringBuilder.append( actor.getName() );
+            }
+        }
+        return stringBuilder.toString();
+    }
+    
+    @Named( "concatDirectors" )
+    public String concatDirectors(List<Director> directors) {
+        StringBuilder stringBuilder = new StringBuilder();
+        if (!directors.isEmpty()){
+            for (Director director : directors) {
+                if ( stringBuilder.length() != 0 ) {
+                    stringBuilder.append( ", " );
+                }
+                stringBuilder.append( director.getName() );
+            }
+        }
+        return stringBuilder.toString();
+    }
 }

@@ -1,6 +1,6 @@
-package com.recody.recodybackend.movie.features.getmoviecredit;
+package com.recody.recodybackend.movie.features.fetchmoviecredit;
 
-import com.recody.recodybackend.movie.features.getmoviecredit.dto.TMDBGetMovieCreditResponse;
+import com.recody.recodybackend.movie.features.fetchmoviecredit.dto.TMDBGetMovieCreditResponse;
 import com.recody.recodybackend.movie.features.tmdb.TMDBMovieID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

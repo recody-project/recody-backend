@@ -1,4 +1,4 @@
-package com.recody.recodybackend.movie.features.getmoviecredit.dto;
+package com.recody.recodybackend.movie.features.fetchmoviecredit.dto;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import lombok.*;

@@ -1,29 +1,23 @@
 package com.recody.recodybackend.movie.features;
 
-import com.recody.recodybackend.movie.*;
+import com.recody.recodybackend.common.data.QueryMetadata;
+import com.recody.recodybackend.movie.Movie;
+import com.recody.recodybackend.movie.MovieDetail;
+import com.recody.recodybackend.movie.MovieDetailViewModel;
+import com.recody.recodybackend.movie.Movies;
 import com.recody.recodybackend.movie.data.movie.MovieDetailMapper;
 import com.recody.recodybackend.movie.data.movie.MovieEntity;
 import com.recody.recodybackend.movie.data.movie.MovieMapper;
-import com.recody.recodybackend.movie.data.people.MoviePersonMapper;
-import com.recody.recodybackend.movie.features.applicationevent.MovieDetailFetched;
 import com.recody.recodybackend.movie.features.applicationevent.MoviesSearched;
-import com.recody.recodybackend.movie.features.getmoviecredit.FetchMovieCreditsHandler;
-import com.recody.recodybackend.movie.features.getmoviecredit.dto.TMDBCast;
-import com.recody.recodybackend.movie.features.getmoviecredit.dto.TMDBCrew;
-import com.recody.recodybackend.movie.features.getmoviecredit.dto.TMDBGetMovieCreditResponse;
-import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieDetail;
-import com.recody.recodybackend.movie.features.getmoviedetail.fromapi.FetchMovieDetailHandler;
+import com.recody.recodybackend.movie.features.getmoviedetail.fromapi.GetMovieDetailFromTMDBHandler;
 import com.recody.recodybackend.movie.features.getmoviedetail.fromapi.TMDBFetchedMovieDetail;
 import com.recody.recodybackend.movie.features.getmoviedetail.fromdb.GetMovieDetail;
 import com.recody.recodybackend.movie.features.getmoviedetail.fromdb.GetMovieDetailHandler;
-import com.recody.recodybackend.movie.features.getmoviedetail.fromdb.GetMovieDetailResult;
 import com.recody.recodybackend.movie.features.manager.MovieManager;
 import com.recody.recodybackend.movie.features.searchmovies.SearchMovies;
-import com.recody.recodybackend.common.data.QueryMetadata;
-import com.recody.recodybackend.movie.web.SearchMoviesByQueryResult;
 import com.recody.recodybackend.movie.features.searchmovies.SearchMoviesHandler;
 import com.recody.recodybackend.movie.features.searchmovies.dto.TMDBMovieSearchNode;
-import com.recody.recodybackend.movie.features.tmdb.TMDBMovieID;
+import com.recody.recodybackend.movie.web.SearchMoviesByQueryResult;
 import com.recody.recodybackend.movie.web.SearchMoviesResult;
 import com.recody.recodybackend.movie.web.TMDBSearchedMovie;
 import lombok.RequiredArgsConstructor;
@@ -43,21 +37,18 @@ import java.util.concurrent.CompletableFuture;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-class DefaultMovieService implements MovieSearchService, MovieDetailService<TMDBFetchedMovieDetail, GetMovieDetail> {
+class DefaultMovieService implements MovieSearchService,
+                                     MovieDetailService<TMDBFetchedMovieDetail, GetMovieDetail> {
     
     public static final int MINIMUM_SEARCH_RESULT_SIZE = 10;
     private final GetMovieDetailHandler getMovieDetailHandler;
     private final SearchMoviesHandler<TMDBMovieSearchNode> tMDBSearchMoviesHandler;
     private final SearchMoviesHandler<MovieEntity> dbSearchMoviesHandler;
     private final MovieMapper movieMapper;
-    private final MovieManager movieManager;
     private final MovieDetailMapper movieDetailMapper;
-    private final MoviePersonMapper personMapper;
-    private final FetchMovieDetailHandler<TMDBMovieDetail, GetMovieDetail> fetchMovieDetailHandler;
-    private final FetchMovieCreditsHandler<TMDBGetMovieCreditResponse, TMDBMovieID> fetchMovieCreditsHandler;
+    private final MovieManager movieManager;
     private final ApplicationEventPublisher applicationEventPublisher;
-    
-    // TODO 정말 필요한지 체크
+    private final GetMovieDetailFromTMDBHandler getMovieDetailFromTMDBHandler;
     
     /**
      * TMDB 에서 영화의 상세정보를 가져와 반환한다.
@@ -65,37 +56,9 @@ class DefaultMovieService implements MovieSearchService, MovieDetailService<TMDB
      */
     @Override
     public TMDBFetchedMovieDetail fetchMovieDetail(GetMovieDetail args) {
+        TMDBFetchedMovieDetail tmdbFetchedMovieDetail = getMovieDetailFromTMDBHandler.handle( args );
         
-        Integer tmdbId = args.getTmdbId();
-        Locale locale = Locale.forLanguageTag( args.getLanguage() );
-        TMDBMovieID tmdbMovieID = TMDBMovieID.of( tmdbId );
-        
-        TMDBMovieDetail detail =
-                fetchMovieDetailHandler.handleAsync( args ).join();
-        
-        TMDBGetMovieCreditResponse creditResponse =
-                fetchMovieCreditsHandler.handleAsync( tmdbMovieID ).join();
-        
-        List<TMDBCast> cast = creditResponse.getCast();
-        List<TMDBCrew> crew = creditResponse.getCrew();
-        
-        applicationEventPublisher
-                .publishEvent( MovieDetailFetched.builder()
-                                                 .tmdbMovieDetail( detail )
-                                                 .locale( locale )
-                                                 .casts( cast )
-                                                 .crews( crew )
-                                                 .build() );
-        
-        TMDBFetchedMovieDetail fetchedMovieDetail = movieDetailMapper.toFetchedMovieDetail( detail );
-        
-        List<Director> directors = personMapper.toDirector( crew );
-        List<Actor> actors = personMapper.toActor( cast );
-        
-        fetchedMovieDetail.setDirectors( directors );
-        fetchedMovieDetail.setActors( actors );
-        
-        return fetchedMovieDetail;
+        return tmdbFetchedMovieDetail;
         
     }
     
@@ -106,23 +69,10 @@ class DefaultMovieService implements MovieSearchService, MovieDetailService<TMDB
      * 주의: @Transactional 을 붙이지 말것.
      */
     @Override
-    public GetMovieDetailResult getMovieDetail(GetMovieDetail command) {
-        MovieDetail movieDetail;
-        movieDetail = getMovieDetailHandler.handleFromDB( command );
-        if ( movieDetail != null ) {
-            List<Actor> actors = movieDetail.getActors();
-            List<Director> directors = movieDetail.getDirectors();
-            if ( !(actors.isEmpty() || directors.isEmpty()) ) {
-                return GetMovieDetailResult.builder().detail( movieDetail ).requestInfo( command ).build();
-            }
-        }
-        else {
-            log.warn( "DB 에서 영화를 찾지 못했음. API 요청 시도 command: {}", command );
-        }
-        
-        movieDetail = getMovieDetailHandler.handle( command );
-        log.info( "MovieDetail 을 가져왔습니다. {}", movieDetail.getTitle() );
-        return GetMovieDetailResult.builder().detail( movieDetail ).requestInfo( command ).build();
+    public MovieDetailViewModel getMovieDetail(GetMovieDetail command) {
+        MovieDetail movieDetail = getMovieDetailHandler.handleFromDB( command );
+        MovieDetailViewModel movieDetailViewModel = movieDetailMapper.toViewModel( movieDetail );
+        return movieDetailViewModel;
     }
     
     @Override
@@ -133,7 +83,8 @@ class DefaultMovieService implements MovieSearchService, MovieDetailService<TMDB
         Page<MovieEntity> moviesFromDB = dbSearchMoviesHandler.handlePage( command );
         // db 에 결과가 있는 경우에는 그 결과를 반환한다.
         if ( moviesFromDB.getSize() > MINIMUM_SEARCH_RESULT_SIZE ) {
-            List<TMDBSearchedMovie> tmdbSearchedMovies = movieMapper.toTMDBMovie( moviesFromDB.getContent(), locale );
+            List<TMDBSearchedMovie> tmdbSearchedMovies = movieMapper.toTMDBMovie( moviesFromDB.getContent(),
+                                                                                  locale );
             return SearchMoviesResult.builder()
                                      .metadata( new QueryMetadata( moviesFromDB, true ) )
                                      .movies( tmdbSearchedMovies )
@@ -143,10 +94,8 @@ class DefaultMovieService implements MovieSearchService, MovieDetailService<TMDB
         // API 에서 가져옴.
         Page<TMDBMovieSearchNode> tmdbMoviesPage = tMDBSearchMoviesHandler.handlePage( command );
         
-        applicationEventPublisher.publishEvent( MoviesSearched.builder()
-                                                              .tmdbMovies( tmdbMoviesPage.getContent() )
-                                                              .locale( locale )
-                                                              .build() );
+        applicationEventPublisher.publishEvent(
+                MoviesSearched.builder().tmdbMovies( tmdbMoviesPage.getContent() ).locale( locale ).build() );
         
         List<TMDBSearchedMovie> movies = movieMapper.toTMDBMovie( tmdbMoviesPage.getContent() );
         
