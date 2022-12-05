@@ -12,9 +12,9 @@ import java.util.List;
 public class MovieGenres {
     
     @JsonProperty("movieGenres")
-    private List<MovieGenre> values;
+    private List<MovieGenreViewModel> values;
     
-    public MovieGenres(List<MovieGenre> values) {
+    public MovieGenres(List<MovieGenreViewModel> values) {
         this.values = values;
     }
     

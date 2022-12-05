@@ -54,6 +54,12 @@ public class CustomGenre implements Genre {
     }
     
     @Override
+    public String getGenreName() {
+        return genreName.getValue();
+    }
+    
+    
+    @Override
     public String toString() {
         return "{\"CustomGenre\":{"
                + "\"genreId\":" + ((genreId != null) ? ("\"" + genreId + "\"") : null)

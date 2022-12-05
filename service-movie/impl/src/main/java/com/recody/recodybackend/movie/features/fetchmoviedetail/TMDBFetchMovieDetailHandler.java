@@ -1,4 +1,4 @@
-package com.recody.recodybackend.movie.features.getmoviedetail.fromapi;
+package com.recody.recodybackend.movie.features.fetchmoviedetail;
 
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieDetail;
 import com.recody.recodybackend.movie.features.getmoviedetail.fromdb.GetMovieDetail;

@@ -4,4 +4,5 @@ public interface Genre {
     
     String getGenreId();
     Category getCategory();
+    String getGenreName();
 }

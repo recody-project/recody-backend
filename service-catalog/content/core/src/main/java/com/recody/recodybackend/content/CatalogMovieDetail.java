@@ -2,9 +2,7 @@ package com.recody.recodybackend.content;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.recody.recodybackend.common.contents.BasicCategory;
-import com.recody.recodybackend.movie.Actor;
-import com.recody.recodybackend.movie.Director;
-import com.recody.recodybackend.movie.MovieGenre;
+import com.recody.recodybackend.genre.BasicGenre;
 import lombok.*;
 
 import java.util.List;
@@ -32,21 +30,10 @@ public class CatalogMovieDetail implements CatalogContentDetail {
     
     private String overview;
     private String title;
-    private String originalTitle;
     private String releaseDate;
     private Integer runtime;
-    private List<MovieGenre> genres;
-    private List<Actor> actors;
-    private List<Director> directors;
-    
-    
-    
-//    private Float popularity;
-//    private List<ProductionCountry> productionCountries;
-//    private List<SpokenLanguage> spokenLanguages;
-//    private Long revenue;
-//    private String status;
-//    private Float voteAverage;
-//    private Integer voteCount;
+    private List<BasicGenre> genres;
+    private String actors;
+    private String directors;
 
 }

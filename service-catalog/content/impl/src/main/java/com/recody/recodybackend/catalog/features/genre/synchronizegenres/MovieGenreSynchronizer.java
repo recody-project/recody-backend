@@ -3,7 +3,7 @@ package com.recody.recodybackend.catalog.features.genre.synchronizegenres;
 import com.recody.recodybackend.catalog.data.genre.CatalogGenreEntity;
 import com.recody.recodybackend.catalog.data.genre.CatalogGenreMapper;
 import com.recody.recodybackend.catalog.data.genre.CatalogGenreRepository;
-import com.recody.recodybackend.movie.MovieGenre;
+import com.recody.recodybackend.movie.MovieGenreViewModel;
 import com.recody.recodybackend.movie.MovieGenres;
 import com.recody.recodybackend.movie.web.MovieHTTPAPI;
 import lombok.extern.slf4j.Slf4j;
@@ -47,8 +47,8 @@ class MovieGenreSynchronizer {
                  .retrieve()
                  .bodyToMono( MovieGenres.class )
                  .subscribe( genres -> {
-                    List<MovieGenre> values = genres.getValues();
-                    for (MovieGenre genre : values) {
+                    List<MovieGenreViewModel> values = genres.getValues();
+                    for (MovieGenreViewModel genre : values) {
                         String genreId = genre.getGenreId();
                         Optional<CatalogGenreEntity> optionalGenreEntity = genreRepository.findById( genreId );
                         if ( optionalGenreEntity.isEmpty() ) {

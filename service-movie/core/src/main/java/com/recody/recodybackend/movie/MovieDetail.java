@@ -21,26 +21,12 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MovieDetail extends Movie implements BasicContentDetail {
     
-//    private Integer tmdbId;
     private MovieSource source;
     private String originalTitle;
     private String overview;
     private String releaseDate;
     private Integer runtime;
-    
-    
-    /* Details */
-    
-//    private String originalLanguage;
-//    private Float popularity;
-//    private List<ProductionCountry> productionCountries;
-//    private Long revenue;
-//    private List<SpokenLanguage> spokenLanguages;
-//    private String status;
-//    private Float voteAverage;
-//    private Integer voteCount;
     private List<MovieGenre> genres;
-    
     private List<Actor> actors;
     private List<Director> directors;
     

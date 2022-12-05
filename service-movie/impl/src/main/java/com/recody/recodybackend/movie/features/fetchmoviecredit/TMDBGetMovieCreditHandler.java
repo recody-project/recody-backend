@@ -1,12 +1,12 @@
-package com.recody.recodybackend.movie.features.getmoviecredit;
+package com.recody.recodybackend.movie.features.fetchmoviecredit;
 
 import com.recody.recodybackend.movie.Actor;
 import com.recody.recodybackend.movie.Director;
 import com.recody.recodybackend.common.exceptions.ContentNotFoundException;
 import com.recody.recodybackend.movie.Movie;
-import com.recody.recodybackend.movie.features.getmoviecredit.dto.TMDBCast;
-import com.recody.recodybackend.movie.features.getmoviecredit.dto.TMDBCrew;
-import com.recody.recodybackend.movie.features.getmoviecredit.dto.TMDBGetMovieCreditResponse;
+import com.recody.recodybackend.movie.features.fetchmoviecredit.dto.TMDBCast;
+import com.recody.recodybackend.movie.features.fetchmoviecredit.dto.TMDBCrew;
+import com.recody.recodybackend.movie.features.fetchmoviecredit.dto.TMDBGetMovieCreditResponse;
 import com.recody.recodybackend.movie.features.manager.MovieManager;
 import com.recody.recodybackend.movie.features.tmdb.TMDBMovieID;
 import lombok.RequiredArgsConstructor;

@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.recody.recodybackend.common.contents.Category;
 import com.recody.recodybackend.common.contents.Genre;
-import com.recody.recodybackend.movie.Actor;
-import com.recody.recodybackend.movie.Director;
 import lombok.*;
 
 import java.util.List;
@@ -18,6 +16,7 @@ import java.util.List;
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class PersonalizedMovieDetail implements PersonalizedContentDetail {
     
+    private String title;
     private Long personalizedUserId;
     private String contentId;
     private Category category;
@@ -31,11 +30,10 @@ public class PersonalizedMovieDetail implements PersonalizedContentDetail {
     /* movie detail */
     private String posterPath;
     private String overview;
-    private String title;
     private String releaseDate;
     private Integer runtime;
     
     private List<? extends Genre> genres;
-    private List<Actor> actors;
-    private List<Director> directors;
+    private String actors;
+    private String directors;
 }

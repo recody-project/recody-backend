@@ -2,13 +2,9 @@ package com.recody.recodybackend.catalog.data.genre;
 
 import com.recody.recodybackend.catalog.data.category.CategoryMapper;
 import com.recody.recodybackend.catalog.data.category.GeneralCategoryMapper;
-import com.recody.recodybackend.common.contents.Genre;
 import com.recody.recodybackend.common.Recody;
-import com.recody.recodybackend.genre.CustomGenre;
-import com.recody.recodybackend.genre.CustomGenreIconUrl;
-import com.recody.recodybackend.genre.CustomGenreId;
-import com.recody.recodybackend.genre.CustomGenreName;
-import com.recody.recodybackend.movie.MovieGenre;
+import com.recody.recodybackend.common.contents.Genre;
+import com.recody.recodybackend.genre.*;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -52,23 +48,22 @@ public abstract class CatalogGenreMapper {
     public Genre mapGenre(CatalogGenreEntity genreEntity) {
         String genreId = genreEntity.getId();
         if (genreId.startsWith( Recody.MOVIE_GENRE_PREFIX )){
-            return toMovieGenre( genreEntity );
+            return toBasicGenre( genreEntity );
         }
         else {
             return this.toCustomGenre( genreEntity );
         }
     }
     
-    @Mapping( target = "source", ignore = true )
     @Mapping( target = "genreName", source = "entity.name" )
     @Mapping( target = "genreId", source = "entity.id" )
-    public abstract MovieGenre toMovieGenre(CatalogGenreEntity entity);
+    public abstract BasicGenre toBasicGenre(CatalogGenreEntity entity);
     
     @Mapping( target = "user", ignore = true )
     @Mapping( target = "iconUrl", ignore = true )
-    @Mapping( target = "name", source = "movieGenre.genreName" )
-    @Mapping( target = "id", source = "movieGenre.genreId" )
-    public abstract CatalogGenreEntity newEntity(MovieGenre movieGenre);
+    @Mapping( target = "name", source = "genre.genreName" )
+    @Mapping( target = "id", source = "genre.genreId" )
+    public abstract CatalogGenreEntity newEntity(Genre genre);
     
-    public abstract List<CatalogGenreEntity> newEntity(List<MovieGenre> movieGenre);
+    public abstract List<CatalogGenreEntity> newEntity(List<Genre> genres);
 }
