@@ -39,6 +39,8 @@ public interface RecordRepository extends JpaRepository<RecordEntity, String>, R
      * pageable: n개씩 가져올지, n개씩 몇번째 페이지 부터 가져올지 정한다.
      */
     Optional<List<RecordEntity>> findByUserIdOrderByCreatedAtDesc(Long userId, Pageable pageable);
+    
+    Optional<List<RecordEntity>> findByUserId(Long userId, Pageable pageable);
     Optional<List<RecordEntity>> findByUserIdAndCompletedOrderByCreatedAtDesc(Long userId, boolean isCompleted, Pageable pageable);
     
     /**
