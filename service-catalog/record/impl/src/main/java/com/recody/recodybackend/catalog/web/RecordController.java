@@ -16,6 +16,7 @@ import com.recody.recodybackend.catalog.features.record.totalrecords.CountTotalR
 import com.recody.recodybackend.common.web.SuccessResponseBody;
 import com.recody.recodybackend.commonbootutils.jwt.JwtManager;
 import com.recody.recodybackend.commonbootutils.web.AccessToken;
+import com.recody.recodybackend.record.RecordOrder;
 import com.recody.recodybackend.record.web.AddRecordRequest;
 import com.recody.recodybackend.record.web.CompleteRecordRequest;
 import com.recody.recodybackend.record.web.ContinueRecordRequest;
@@ -144,6 +145,7 @@ public class RecordController {
                                                                  @Nullable @RequestParam( defaultValue = "0" ) Integer page,
                                                                  @Nullable @RequestParam( defaultValue = "10" ) Integer size,
                                                                  @Nullable @RequestParam String categoryId,
+                                                                 @Nullable @RequestParam String order,
                                                                  @AccessToken String accessToken) {
         return ResponseEntity.ok(
                 SuccessResponseBody
@@ -156,6 +158,7 @@ public class RecordController {
                                                  .size( size )
                                                  .userId( jwtManager.resolveUserId( accessToken ) )
                                                  .locale( httpServletRequest.getLocale() )
+                                                 .order( RecordOrder.of( order ) )
                                                  .build() )
                         
                              )

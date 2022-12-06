@@ -1,6 +1,7 @@
 package com.recody.recodybackend.catalog.features.record.getrecordcontents;
 
 
+import com.recody.recodybackend.record.RecordOrder;
 import lombok.*;
 
 import java.util.Locale;
@@ -25,14 +26,20 @@ public class GetRecordContents {
     
     private Locale locale;
     
+    @Builder.Default
+    private RecordOrder order = RecordOrder.UnOrdered;
+    
+    
     @Override
     public String toString() {
         return "{\"GetRecordContents\":{"
                + "\"userId\":" + userId
                + ", \"categoryId\":" + ((categoryId != null) ? ("\"" + categoryId + "\"") : null)
-               + ", \"continuing\":" + completed
+               + ", \"completed\":" + completed
                + ", \"size\":" + size
                + ", \"page\":" + page
+               + ", \"locale\":" + locale
+               + ", \"order\":" + order
                + "}}";
     }
 }
