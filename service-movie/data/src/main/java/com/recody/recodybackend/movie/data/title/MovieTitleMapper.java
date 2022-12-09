@@ -63,7 +63,7 @@ public abstract class MovieTitleMapper {
     }
     
     @AfterMapping
-    public void invokeBidirectionalTitleSetter(@MappingTarget MovieEntity movieEntity){
+    public void setTitleBidirectionally(@MappingTarget MovieEntity movieEntity){
         log.debug("mapping movieEntity: ");
         // title entity 에 movie 를 세팅해준다.
         MovieTitleEntity title = movieEntity.getTitle();

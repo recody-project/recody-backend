@@ -3,6 +3,7 @@ package com.recody.recodybackend.movie.data.movie;
 import com.recody.recodybackend.commonbootutils.data.CustomSequenceIdGenerator;
 import com.recody.recodybackend.movie.data.MovieBaseEntity;
 import com.recody.recodybackend.movie.data.genre.MovieGenreEntity;
+import com.recody.recodybackend.movie.data.overview.MovieOverviewEntity;
 import com.recody.recodybackend.movie.data.people.MovieActorEntity;
 import com.recody.recodybackend.movie.data.people.MovieDirectorEntity;
 import com.recody.recodybackend.movie.data.title.MovieTitleEntity;
@@ -38,9 +39,9 @@ public class MovieEntity extends MovieBaseEntity {
     
     private String originalLanguage;
     private String originalTitle;
-    @Lob
-    @Column
-    private String overview;
+
+    @OneToOne(mappedBy = "movie", cascade = CascadeType.ALL)
+    private MovieOverviewEntity overview;
     private Float popularity;
     private String posterPath;
     private String releaseDate;
@@ -72,5 +73,10 @@ public class MovieEntity extends MovieBaseEntity {
     public void setTitle(MovieTitleEntity title) {
         this.title = title;
         title.setMovie(this);
+    }
+    
+    public void setOverview(MovieOverviewEntity overview) {
+        this.overview = overview;
+        overview.setMovie(this);
     }
 }

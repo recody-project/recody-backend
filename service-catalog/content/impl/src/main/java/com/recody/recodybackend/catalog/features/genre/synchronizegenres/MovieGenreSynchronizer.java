@@ -3,6 +3,7 @@ package com.recody.recodybackend.catalog.features.genre.synchronizegenres;
 import com.recody.recodybackend.catalog.data.genre.CatalogGenreEntity;
 import com.recody.recodybackend.catalog.data.genre.CatalogGenreMapper;
 import com.recody.recodybackend.catalog.data.genre.CatalogGenreRepository;
+import com.recody.recodybackend.common.Recody;
 import com.recody.recodybackend.movie.MovieGenreViewModel;
 import com.recody.recodybackend.movie.MovieGenres;
 import com.recody.recodybackend.movie.web.MovieHTTPAPI;
@@ -32,10 +33,11 @@ class MovieGenreSynchronizer {
         this.webClient = webClient;
     }
     
-    @Async
+    @Async(value = Recody.CATALOG_TASK_EXECUTOR )
     @Transactional( Transactional.TxType.REQUIRES_NEW )
     public void synchronize() {
         log.debug( "영화 장르 동기화를 시도합니다.: {}", WAITING_TIME_MILLIS );
+        
         try {
             Thread.sleep( WAITING_TIME_MILLIS );
         } catch ( InterruptedException e ) {

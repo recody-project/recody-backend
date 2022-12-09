@@ -1,5 +1,6 @@
 package com.recody.recodybackend.movie.features.applicationevent;
 
+import com.recody.recodybackend.common.Recody;
 import com.recody.recodybackend.movie.MovieInfo;
 import com.recody.recodybackend.movie.features.fetchmoviecredit.dto.TMDBCast;
 import com.recody.recodybackend.movie.features.fetchmoviecredit.dto.TMDBCrew;
@@ -23,7 +24,7 @@ class DefaultMovieEventListener {
     
     private final MovieManager movieManager;
     
-    @Async
+    @Async( Recody.MOVIE_TASK_EXECUTOR )
     @TransactionalEventListener
     public void on(MovieDetailFetched event) {
         TMDBMovieDetail detail = event.getTmdbMovieDetail();
