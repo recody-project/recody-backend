@@ -9,10 +9,12 @@ import com.recody.recodybackend.movie.features.manager.MovieManager;
 import com.recody.recodybackend.movie.features.searchmovies.dto.TMDBMovieSearchNode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionalEventListener;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
@@ -25,15 +27,18 @@ class DefaultMovieEventListener {
     private final MovieManager movieManager;
     
     @Async( Recody.MOVIE_TASK_EXECUTOR )
-    @TransactionalEventListener
+//    @TransactionalEventListener
+    @EventListener
+    @Transactional
     public void on(MovieDetailFetched event) {
+        log.debug( "consuming event: {}", event );
         TMDBMovieDetail detail = event.getTmdbMovieDetail();
         Locale locale = event.getLocale();
         List<TMDBCast> cast = event.getCasts();
         List<TMDBCrew> crew = event.getCrews();
         
         CompletableFuture<MovieInfo> registeredMovieFuture = movieManager.registerAsync( detail, locale );
-    
+        
         registeredMovieFuture
                 .whenComplete((movieInfo1, throwable) ->
                                       movieManager.actor()
@@ -49,7 +54,7 @@ class DefaultMovieEventListener {
     @Async
     @TransactionalEventListener
     public void on(MoviesSearched event) {
-        log.debug( "handling event: {}", event );
+        log.debug( "consuming event: {}", event );
         List<TMDBMovieSearchNode> tmdbMovies = event.getTmdbMovies();
         Locale locale = event.getLocale();
         

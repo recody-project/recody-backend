@@ -13,12 +13,13 @@ import com.recody.recodybackend.movie.features.tmdb.TMDB;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.mapstruct.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Locale;
 
 @Mapper( componentModel = "spring",
-         imports = {MovieSource.class, BasicCategory.class, TMDB.class},
+         imports = {MovieSource.class, BasicCategory.class, TMDB.class, MovieTitleMapper.class},
          builder = @Builder( disableBuilder = true ),
          uses = {MovieGenreMapper.class,
                  MovieTitleMapper.class,
@@ -27,6 +28,12 @@ import java.util.Locale;
 @RequiredArgsConstructor
 @Slf4j
 public abstract class MovieDetailMapper {
+    
+    @Autowired
+    private MovieTitleMapper movieTitleMapper;
+    
+    @Autowired
+    private MovieOverviewMapper movieOverviewMapper;
     
     @Named( "fullPosterPath" )
     public String makeFullPosterPath(String newPosterPath) {
@@ -49,7 +56,7 @@ public abstract class MovieDetailMapper {
     @Mapping( target = "tmdbId", ignore = true )
     @Mapping( target = "directors", ignore = true )
     @Mapping( target = "actors", ignore = true )
-    @Mapping( target = "title", source = "." )
+    @Mapping( target = "title", expression = "java(movieTitleMapper.update( entity, detail, locale ))" )
     @Mapping( target = "id", ignore = true )
     @Mapping( target = "lastModifiedAt", ignore = true )
     @Mapping( target = "createdAt", ignore = true )
@@ -58,6 +65,7 @@ public abstract class MovieDetailMapper {
               qualifiedByName = "fullPosterPath",
               conditionExpression = "java((detail.getPosterPath() != null))" )
     @Mapping( target = "genres", ignore = true ) // 업데이트할 때에는 dto 에서 MovieGenreEntity 를 만들 수 없다.
+    @Mapping( target = "overview",expression = "java(movieOverviewMapper.update( entity, detail, locale ))")
     public abstract MovieEntity update(@MappingTarget MovieEntity entity, TMDBMovieDetail detail,
                                        @Context Locale locale);
     

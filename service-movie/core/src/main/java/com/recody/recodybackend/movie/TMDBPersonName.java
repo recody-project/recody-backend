@@ -1,6 +1,7 @@
 package com.recody.recodybackend.movie;
 
 import com.recody.recodybackend.common.exceptions.ApplicationExceptions;
+import lombok.Getter;
 
 import java.util.List;
 import java.util.Objects;
@@ -8,6 +9,7 @@ import java.util.regex.Pattern;
 
 public class TMDBPersonName {
     
+    @Getter
     private final String value;
     
     private TMDBPersonName(String value) {

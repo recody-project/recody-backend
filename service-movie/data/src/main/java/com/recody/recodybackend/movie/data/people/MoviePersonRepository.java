@@ -12,4 +12,6 @@ public interface MoviePersonRepository extends JpaRepository<MoviePersonEntity, 
     Optional<MoviePersonEntity> findByTmdbId(Integer tmdbId);
     @Query("select p.id from MoviePerson p where p.tmdbId = :tmdbId")
     Optional<Long> findIdByTmdbId(@Param("tmdbId") Integer tmdbId);
+    
+    Optional<MoviePersonEntity> findByName_Id(Long personNameId);
 }

@@ -22,6 +22,7 @@ public class MovieOverviewEntity {
     
     @JoinColumn( name = "movie_id",
                  nullable = false,
+                 unique = true,
                  foreignKey = @ForeignKey(name = "overview_contains_movie_id"))
     @OneToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)

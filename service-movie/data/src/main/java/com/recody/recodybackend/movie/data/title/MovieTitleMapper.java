@@ -2,6 +2,7 @@ package com.recody.recodybackend.movie.data.title;
 
 import com.recody.recodybackend.common.exceptions.ApplicationException;
 import com.recody.recodybackend.movie.data.movie.MovieEntity;
+import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieDetail;
 import lombok.extern.slf4j.Slf4j;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Context;
@@ -28,6 +29,7 @@ public abstract class MovieTitleMapper {
     }
     
     // TODO original title TitleEntity 로 이동하기
+
     public String map(MovieEntity entity, @Context Locale locale) {
         if (locale.equals(Locale.KOREAN)) {
             String koreanTitle = entity.getTitle().getKoreanTitle();
@@ -44,6 +46,28 @@ public abstract class MovieTitleMapper {
             return englishTitle;
         }
         return entity.getOriginalTitle();
+    }
+    
+    public MovieTitleEntity update(MovieEntity entity, TMDBMovieDetail detail, @Context Locale locale) {
+        MovieTitleEntity titleEntity = entity.getTitle();
+        String newTitle = detail.getTitle();
+        if (locale.equals( Locale.KOREAN )) {
+            String koreanTitle = titleEntity.getKoreanTitle();
+            if (koreanTitle == null) {
+                titleEntity.setKoreanTitle( newTitle );
+                return titleEntity;
+            }
+            return titleEntity;
+        }
+        else if (locale.equals(Locale.ENGLISH)) {
+            String englishTitle = titleEntity.getEnglishTitle();
+            if (englishTitle == null) {
+                titleEntity.setEnglishTitle( newTitle );
+                return titleEntity;
+            }
+            return titleEntity;
+        }
+        else return titleEntity;
     }
     
     public String map(MovieTitleEntity entity, @Context Locale locale) {
