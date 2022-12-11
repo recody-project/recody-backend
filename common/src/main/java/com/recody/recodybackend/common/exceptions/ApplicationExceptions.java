@@ -18,6 +18,12 @@ public class ApplicationExceptions {
         }
     }
     
+    public static void requireNonNull(String value) {
+        if ( Objects.isNull(value) ) {
+            throw new ApplicationException(GlobalErrorType.NotNull, HttpStatus.BAD_REQUEST);
+        }
+    }
+    
     public static ApplicationException badRequestOf(ErrorType errorType) {
         return new ApplicationException(errorType, HttpStatus.BAD_REQUEST, errorType.name());
     }
