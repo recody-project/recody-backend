@@ -5,6 +5,7 @@ import com.recody.recodybackend.movie.Director;
 import com.recody.recodybackend.movie.RecodyMovieApplication;
 import com.recody.recodybackend.movie.data.movie.MovieEntity;
 import com.recody.recodybackend.movie.data.movie.MovieRepository;
+import com.recody.recodybackend.movie.data.overview.MovieOverviewEntity;
 import com.recody.recodybackend.movie.data.title.MovieTitleEntity;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,8 +38,11 @@ class TMDBGetMovieCreditHandlerTest {
     void before() {
         MovieEntity movieEntity = MovieEntity.builder().tmdbId(MOVIE_ID).build();
         MovieTitleEntity titleEntity = MovieTitleEntity.builder().build();
+        MovieOverviewEntity overviewEntity = MovieOverviewEntity.builder().build();
         movieEntity.setTitle(titleEntity);
+        movieEntity.setOverview( overviewEntity );
         MovieEntity saved = movieRepository.save(movieEntity);
+        System.out.println( "saved = " + saved );
     }
     @Test
     void apiTest() {
@@ -60,7 +64,7 @@ class TMDBGetMovieCreditHandlerTest {
     }
     
     @AfterEach
-    void after() {
+    void after(){
         movieRepository.deleteAllInBatch();
     }
 }
