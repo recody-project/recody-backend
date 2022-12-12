@@ -33,6 +33,7 @@ class DefaultGetMovieDetailFromTMDBHandler implements GetMovieDetailFromTMDBHand
     
     @Override
     public TMDBFetchedMovieDetail handle(GetMovieDetail command) {
+        log.debug( "handling command: {}", command );
         Integer tmdbId = command.getTmdbId();
         Locale locale = Locale.forLanguageTag( command.getLanguage() );
         TMDBMovieID tmdbMovieID = TMDBMovieID.of( tmdbId );
