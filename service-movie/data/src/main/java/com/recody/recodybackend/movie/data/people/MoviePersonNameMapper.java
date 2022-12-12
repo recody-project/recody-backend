@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 
 import java.util.Locale;
 
@@ -40,7 +41,7 @@ abstract class MoviePersonNameMapper {
         String koreanName = entity.getKoreanName();
         String englishName = entity.getEnglishName();
         if ( locale.getLanguage().equals( Locale.KOREAN.getLanguage() ) ) {
-            if ( koreanName != null ) {
+            if ( StringUtils.hasText( koreanName ) ) {
                 return koreanName;
             }
             else {
@@ -50,7 +51,7 @@ abstract class MoviePersonNameMapper {
             }
         }
         else {
-            if ( englishName != null ) {
+            if ( StringUtils.hasText( englishName ) ) {
                 return englishName;
             }
             else {

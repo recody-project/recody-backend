@@ -75,7 +75,6 @@ public abstract class MovieDetailMapper {
     @Mapping( target = "source", expression = "java((s.equals(MovieSource.TMDB)) ? MovieSource.TMDB : null)" )
     @Mapping( target = "title", source = "." )
     @Mapping( target = "genres", source = "entity.genres" )
-    @Mapping( target = "actors", source = "entity.actors" )
     public abstract MovieDetail map(MovieEntity entity, @Context MovieSource s, @Context Locale locale);
     
     @Mapping( target = "directors", ignore = true )
