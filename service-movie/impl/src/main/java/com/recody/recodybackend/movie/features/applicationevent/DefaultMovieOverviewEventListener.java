@@ -4,7 +4,9 @@ import com.recody.recodybackend.common.Recody;
 import com.recody.recodybackend.movie.data.overview.MovieOverviewEntity;
 import com.recody.recodybackend.movie.data.overview.MovieOverviewRepository;
 import com.recody.recodybackend.movie.events.NoEnglishOverviewFound;
+import com.recody.recodybackend.movie.events.NoKoreanOverviewFound;
 import com.recody.recodybackend.movie.features.updateoverview.UpdateEnglishOverview;
+import com.recody.recodybackend.movie.features.updateoverview.UpdateKoreanOverview;
 import com.recody.recodybackend.movie.features.updateoverview.UpdateOverviewHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,5 +40,21 @@ class DefaultMovieOverviewEventListener {
         MovieOverviewEntity movieOverviewEntity = optionalMovieOverviewEntity.get();
         Integer tmdbMovieId = movieOverviewEntity.getMovie().getTmdbId();
         updateOverviewHandler.handle( new UpdateEnglishOverview( tmdbMovieId ) );
+    }
+    
+    @EventListener
+    @Async( Recody.MOVIE_TASK_EXECUTOR )
+    @Transactional
+    public void on(NoKoreanOverviewFound event) {
+        log.debug( "consuming event: {}", event );
+        Long overviewId = event.getOverviewId();
+        Optional<MovieOverviewEntity> optionalMovieOverviewEntity = overviewRepository.findById( overviewId );
+        if ( optionalMovieOverviewEntity.isEmpty() ) {
+            log.error( "영어 Overview 를 업데이트하는 과정에서 Overview 데이터를 찾지 못했습니다. overviewId: {}", overviewId );
+            return;
+        }
+        MovieOverviewEntity movieOverviewEntity = optionalMovieOverviewEntity.get();
+        Integer tmdbMovieId = movieOverviewEntity.getMovie().getTmdbId();
+        updateOverviewHandler.handle( new UpdateKoreanOverview( tmdbMovieId ) );
     }
 }

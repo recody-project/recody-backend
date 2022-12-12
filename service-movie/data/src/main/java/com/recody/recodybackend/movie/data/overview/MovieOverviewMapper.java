@@ -2,8 +2,10 @@ package com.recody.recodybackend.movie.data.overview;
 
 import com.recody.recodybackend.common.exceptions.InternalServerError;
 import com.recody.recodybackend.movie.data.event.NoEnglishOverviewFoundEventPublisher;
+import com.recody.recodybackend.movie.data.event.NoKoreanOverviewFoundEventPublisher;
 import com.recody.recodybackend.movie.data.movie.MovieEntity;
 import com.recody.recodybackend.movie.events.NoEnglishOverviewFound;
+import com.recody.recodybackend.movie.events.NoKoreanOverviewFound;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieDetail;
 import lombok.extern.slf4j.Slf4j;
 import org.mapstruct.AfterMapping;
@@ -23,6 +25,9 @@ public abstract class MovieOverviewMapper {
     @Autowired
     private NoEnglishOverviewFoundEventPublisher noEnglishOverviewFoundEventPublisher;
     
+    @Autowired
+    private NoKoreanOverviewFoundEventPublisher noKoreanOverviewFoundEventPublisher;
+    
     public MovieOverviewEntity map(String overview, @Context Locale locale) {
         if ( locale.getLanguage().equals( Locale.KOREAN.getLanguage() ) ) {
             return MovieOverviewEntity.builder().koreanOverview( overview ).build();
@@ -39,6 +44,8 @@ public abstract class MovieOverviewMapper {
                 return entity.getKoreanOverview();
             }
             else {
+                log.warn( "한국어 Overview 를 쿼리했으나 없었습니다. overviewId: {}", entity.getId());
+                noKoreanOverviewFoundEventPublisher.publish( new NoKoreanOverviewFound( entity.getId() ) );
                 return entity.getEnglishOverview();
             }
         }

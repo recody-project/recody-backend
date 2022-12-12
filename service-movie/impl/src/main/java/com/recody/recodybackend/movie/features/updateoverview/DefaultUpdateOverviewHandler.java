@@ -39,4 +39,23 @@ class DefaultUpdateOverviewHandler implements UpdateOverviewHandler<Void>{
         log.info( "영화 {} 에 대한 영어 Overview 를 업데이트하였습니다.", movieEntity.getId() );
         return null;
     }
+    
+    @Override
+    @Transactional
+    public Void handle(UpdateKoreanOverview command) {
+        log.debug( "handling command: {}", command );
+        Integer tmdbMovieId = command.getTmdbMovieId();
+        GetMovieDetail query = GetMovieDetail.builder().tmdbId( tmdbMovieId ).language( "ko" ).build();
+        TMDBMovieDetail fetchedMovieDetail = fetchMovieDetailHandler.handle( query );
+        String fetchedOverview = fetchedMovieDetail.getOverview();
+        Optional<MovieEntity> optionalMovie = movieRepository.findByTmdbId( tmdbMovieId );
+        if ( optionalMovie.isEmpty() ) {
+            log.error( "Overview 업데이트할 때 영화 데이터를 DB 에서 찾을 수 없었습니다.: {}", optionalMovie );
+            return null;
+        }
+        MovieEntity movieEntity = optionalMovie.get();
+        movieEntity.getOverview().setEnglishOverview( fetchedOverview );
+        log.info( "영화 {} 에 대한 한국어 Overview 를 업데이트하였습니다.", movieEntity.getId() );
+        return null;
+    }
 }
