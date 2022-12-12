@@ -1,39 +1,41 @@
 package com.recody.recodybackend.movie.data.overview;
 
 import com.recody.recodybackend.common.exceptions.InternalServerError;
+import com.recody.recodybackend.movie.data.event.NoEnglishOverviewFoundEventPublisher;
 import com.recody.recodybackend.movie.data.movie.MovieEntity;
+import com.recody.recodybackend.movie.events.NoEnglishOverviewFound;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieDetail;
 import lombok.extern.slf4j.Slf4j;
-import org.mapstruct.*;
+import org.mapstruct.AfterMapping;
+import org.mapstruct.Context;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 
 import java.util.Locale;
 
 @Mapper( componentModel = "spring",
-         imports = Locale.class)
+         imports = Locale.class )
 @Slf4j
 public abstract class MovieOverviewMapper {
     
-//    @Mapping( target = "movie", ignore = true )
-//    @Mapping( target = "id", ignore = true )
-//    @Mapping( target = "koreanOverview",
-//              source = "overview",
-//              conditionExpression = "java(locale.equals(Locale.KOREAN))" )
-//    @Mapping( target = "englishOverview",
-//              source = "overview",
-//              conditionExpression = "java(locale.equals(Locale.ENGLISH))" )
-    public MovieOverviewEntity map(String overview, @Context Locale locale){
-        if (locale.getLanguage().equals( Locale.KOREAN.getLanguage() )){
+    @Autowired
+    private NoEnglishOverviewFoundEventPublisher noEnglishOverviewFoundEventPublisher;
+    
+    public MovieOverviewEntity map(String overview, @Context Locale locale) {
+        if ( locale.getLanguage().equals( Locale.KOREAN.getLanguage() ) ) {
             return MovieOverviewEntity.builder().koreanOverview( overview ).build();
         }
-        else if (locale.getLanguage().equals( Locale.ENGLISH.getLanguage() )){
+        else if ( locale.getLanguage().equals( Locale.ENGLISH.getLanguage() ) ) {
             return MovieOverviewEntity.builder().englishOverview( overview ).build();
         }
-        else throw new InternalServerError("Overview 매핑에 실패하였습니다. ");
+        else throw new InternalServerError( "Overview 매핑에 실패하였습니다. " );
     }
     
     public String map(MovieOverviewEntity entity, @Context Locale locale) {
         if ( locale.getLanguage().equals( Locale.KOREAN.getLanguage() ) ) {
-            if ( entity.getKoreanOverview() != null ) {
+            if ( StringUtils.hasText( entity.getKoreanOverview() ) ) {
                 return entity.getKoreanOverview();
             }
             else {
@@ -41,10 +43,12 @@ public abstract class MovieOverviewMapper {
             }
         }
         else if ( locale.getLanguage().equals( Locale.ENGLISH.getLanguage() ) ) {
-            if ( entity.getEnglishOverview() != null ) {
+            if ( StringUtils.hasText( entity.getEnglishOverview() ) ) {
                 return entity.getEnglishOverview();
             }
             else {
+                log.warn( "영어 Overview 를 쿼리했으나 없었습니다. overviewId: {}", entity.getId());
+                noEnglishOverviewFoundEventPublisher.publish( new NoEnglishOverviewFound( entity.getId() ) );
                 return entity.getKoreanOverview();
             }
         }
@@ -54,8 +58,8 @@ public abstract class MovieOverviewMapper {
     }
     
     public MovieOverviewEntity update(MovieEntity entity,
-                                              TMDBMovieDetail detail,
-                                              Locale locale) {
+                                      TMDBMovieDetail detail,
+                                      Locale locale) {
         MovieOverviewEntity overviewEntity = entity.getOverview();
         String newOverview = detail.getOverview();
         
@@ -83,11 +87,11 @@ public abstract class MovieOverviewMapper {
     }
     
     @AfterMapping
-    public void setOverviewBidirectionally(@MappingTarget MovieEntity movieEntity){
-        log.debug("mapping movieEntity: ");
+    public void setOverviewBidirectionally(@MappingTarget MovieEntity movieEntity) {
+        log.debug( "mapping movieEntity: " );
         // title entity 에 movie 를 세팅해준다.
         MovieOverviewEntity title = movieEntity.getOverview();
-        movieEntity.setOverview(title);
-        log.debug("title for this overview: {}", movieEntity.getOriginalTitle());
+        movieEntity.setOverview( title );
+        log.debug( "title for this overview: {}", movieEntity.getOriginalTitle() );
     }
 }

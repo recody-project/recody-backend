@@ -40,7 +40,7 @@ public class MovieEntity extends MovieBaseEntity {
     private String originalLanguage;
     private String originalTitle;
 
-    @OneToOne(mappedBy = "movie", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "movie", cascade = CascadeType.ALL, optional = false)
     private MovieOverviewEntity overview;
     private Float popularity;
     private String posterPath;
@@ -50,7 +50,7 @@ public class MovieEntity extends MovieBaseEntity {
     private String status;
     private Float voteAverage;
     private Integer voteCount;
-    @OneToOne(mappedBy = "movie", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "movie", cascade = CascadeType.ALL, optional = false)
     private MovieTitleEntity title;
     
     @OneToMany(mappedBy = "movie")
