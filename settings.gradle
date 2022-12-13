@@ -11,7 +11,11 @@ include(":service-movie-core",
         ":service-movie-data",
         ":service-movie-api-tmdb")
 
-include(":service-book-api", ":service-book-impl")
+include(":service-book-api",
+        ":service-book-impl",
+        ":service-book-core",
+        ":service-book-api-naver",
+        ":service-book-data")
 
 include(":service-music-api",
         ":service-music-core",
@@ -58,6 +62,10 @@ project(":service-performance-impl").projectDir = new File(settingsDir, "${perfo
 String bookProjectDir = "service-book"
 project(":service-book-api").projectDir = new File(settingsDir, "${bookProjectDir}/api")
 project(":service-book-impl").projectDir = new File(settingsDir, "${bookProjectDir}/impl")
+project(":service-book-core").projectDir = new File(settingsDir, "${bookProjectDir}/core")
+project(":service-book-api-naver").projectDir = new File(settingsDir, "${bookProjectDir}/naver")
+project(":service-book-data").projectDir = new File(settingsDir, "${bookProjectDir}/data")
+
 
 String catalogProjectDir = "service-catalog"
 project(":service-catalog-content-core").projectDir = new File(settingsDir, "${catalogProjectDir}/content/core")
@@ -75,4 +83,8 @@ String userProjectDir = "service-users"
 project(":service-users-api").projectDir = new File(settingsDir, "${userProjectDir}/api")
 project(":service-users-api-core").projectDir = new File(settingsDir, "${userProjectDir}/api/core")
 project(":service-users-impl").projectDir = new File(settingsDir, "${userProjectDir}/impl")
+include 'service-book:naver'
+findProject(':service-book:naver')?.name = 'naver'
+include 'service-book:data'
+findProject(':service-book:data')?.name = 'data'
 

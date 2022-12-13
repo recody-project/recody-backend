@@ -5,10 +5,10 @@ import lombok.Data;
 @Data
 public class NaverSearchedBook {
     private String title;
-    private String imagePath;
+    private String image;
 
     @Override
     public String toString() {
-        return "{\"NaverSearchedBook\":{" + "\"title\":" + title + ", \"imagePath\":" + ((imagePath != null) ? ("\"" + imagePath + "\"") : null) + "}}";
+        return "{\"NaverSearchedBook\":{" + "\"title\":" + title + ", \"image\":" + ((image != null) ? ("\"" + image + "\"") : null) + "}}";
     }
 }

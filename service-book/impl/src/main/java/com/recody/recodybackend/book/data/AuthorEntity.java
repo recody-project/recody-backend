@@ -1,5 +1,6 @@
-package com.recody.recodybackend.data.book;
+package com.recody.recodybackend.book.data;
 
+import com.recody.recodybackend.book.data.book.BookEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
