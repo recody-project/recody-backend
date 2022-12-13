@@ -1,5 +1,6 @@
 package com.recody.recodybackend.record.web;
 
+import com.recody.recodybackend.common.data.QueryMetadata;
 import com.recody.recodybackend.record.Record;
 import lombok.*;
 
@@ -12,11 +13,14 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class GetRecordsResponse {
     
+    private QueryMetadata metadata;
     private List<Record> records;
-    private int size;
     
     @Override
     public String toString() {
-        return "{\"GetRecordsResponse\":{" + "\"records\":" + records + ", \"size\":" + size + "}}";
+        return "{\"GetRecordsResponse\":{"
+               + "\"metadata\":" + metadata
+               + ", \"records\":" + records
+               + "}}";
     }
 }

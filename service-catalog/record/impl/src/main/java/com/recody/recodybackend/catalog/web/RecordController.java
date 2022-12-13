@@ -1,8 +1,5 @@
 package com.recody.recodybackend.catalog.web;
 
-import com.recody.recodybackend.common.web.SuccessResponseBody;
-import com.recody.recodybackend.commonbootutils.jwt.JwtManager;
-import com.recody.recodybackend.commonbootutils.web.AccessToken;
 import com.recody.recodybackend.catalog.features.record.RecordService;
 import com.recody.recodybackend.catalog.features.record.addrecord.AddRecord;
 import com.recody.recodybackend.catalog.features.record.completerecord.CompleteRecord;
@@ -15,6 +12,10 @@ import com.recody.recodybackend.catalog.features.record.getrecordcontent.GetCont
 import com.recody.recodybackend.catalog.features.record.getrecordcontents.GetRecordContents;
 import com.recody.recodybackend.catalog.features.record.resolvecategory.CategoryResolver;
 import com.recody.recodybackend.catalog.features.record.totalrecords.CountTotalRecords;
+import com.recody.recodybackend.common.web.SuccessResponseBody;
+import com.recody.recodybackend.commonbootutils.jwt.JwtManager;
+import com.recody.recodybackend.commonbootutils.web.AccessToken;
+import com.recody.recodybackend.record.RecordOrder;
 import com.recody.recodybackend.record.web.AddRecordRequest;
 import com.recody.recodybackend.record.web.CompleteRecordRequest;
 import com.recody.recodybackend.record.web.ContinueRecordRequest;
@@ -36,47 +37,70 @@ public class RecordController {
     private final JwtManager jwtManager;
     private final CategoryResolver categoryResolver;
     
+    @Deprecated
     @PostMapping( "/api/v1/record/complete" )
     public ResponseEntity<SuccessResponseBody> complete(HttpServletRequest httpServletRequest,
                                                         @Valid @RequestBody CompleteRecordRequest request,
                                                         @AccessToken String accessToken) {
-        return ResponseEntity.ok( SuccessResponseBody
-                                          .builder()
-                                          .message( ms.getMessage( "record.complete.succeeded", null,
-                                                                   httpServletRequest.getLocale() ) )
-                                          .data( recordService.completeRecord( CompleteRecord
-                                                                                       .builder()
-                                                                                       .recordId( request.getRecordId() )
-                                                                                       .title( request.getTitle() )
-                                                                                       .note( request.getNote() )
-                                                                                       .build() ) )
-                                          .build() );
+        return ResponseEntity.ok(
+                SuccessResponseBody
+                        .builder()
+                        .message( ms.getMessage( "record.complete.succeeded", null,
+                                                 httpServletRequest.getLocale() ) )
+                        .data( recordService.completeRecord(
+                                CompleteRecord
+                                        .builder()
+                                        .recordId( request.getRecordId() )
+                                        .userId( jwtManager.resolveUserId( accessToken ) )
+                                        .build() ) )
+                        .build() );
+    }
+    
+    @PatchMapping( "/api/v1/record/{recordId}/complete" )
+    public ResponseEntity<SuccessResponseBody> completeV2(HttpServletRequest httpServletRequest,
+                                                          @PathVariable String recordId,
+                                                          @AccessToken String accessToken) {
+        return ResponseEntity.ok(
+                SuccessResponseBody
+                        .builder()
+                        .message( ms.getMessage( "record.complete.succeeded", null,
+                                                 httpServletRequest.getLocale() ) )
+                        .data( recordService.completeRecord(
+                                CompleteRecord
+                                        .builder()
+                                        .recordId( recordId )
+                                        .userId( jwtManager.resolveUserId( accessToken ) )
+                                        .build() ) )
+                        .build() );
     }
     
     @GetMapping( "/api/v1/record/continuing" )
     public ResponseEntity<SuccessResponseBody> getContinuingRecord(HttpServletRequest httpServletRequest,
                                                                    @AccessToken String accessToken) {
-        return ResponseEntity.ok( SuccessResponseBody
-                                          .builder()
-                                          .message( ms.getMessage( "record.get-continuing.succeeded", null,
-                                                                   httpServletRequest.getLocale() ) )
-                                          .data( recordService.getContinuingRecord( GetContinuingRecord
-                                                                                            .builder()
-                                                                                            .userId( jwtManager.resolveUserId(
-                                                                                                    accessToken ) )
-                                                                                            .build() ) )
-                                          .build() );
+        return ResponseEntity.ok(
+                SuccessResponseBody
+                        .builder()
+                        .message( ms.getMessage( "record.get-continuing.succeeded", null,
+                                                 httpServletRequest.getLocale() ) )
+                        .data( recordService.getContinuingRecord(
+                                GetContinuingRecord
+                                        .builder()
+                                        .userId( jwtManager.resolveUserId( accessToken ) )
+                                        .build() ) )
+                        .build() );
     }
     
     @GetMapping( "/api/v1/record/{recordId}" )
     public ResponseEntity<SuccessResponseBody> getRecord(HttpServletRequest httpServletRequest,
                                                          @PathVariable String recordId) {
-        return ResponseEntity.ok( SuccessResponseBody
-                                          .builder()
-                                          .message( ms.getMessage( "record.get.succeeded", null,
-                                                                   httpServletRequest.getLocale() ) )
-                                          .data( recordService.getRecord( GetRecord.builder().recordId( recordId ).build() ) )
-                                          .build() );
+        return ResponseEntity.ok(
+                SuccessResponseBody
+                        .builder()
+                        .message( ms.getMessage( "record.get.succeeded", null,
+                                                 httpServletRequest.getLocale() ) )
+                        .data( recordService.getRecord(
+                                GetRecord.builder().recordId( recordId ).build() ) )
+                        .build() );
     }
     
     @GetMapping( "/api/v1/record/content/continuing" )
@@ -102,20 +126,21 @@ public class RecordController {
                                                           @Nullable @RequestParam String categoryId,
                                                           @Nullable @RequestParam String contentId,
                                                           @AccessToken String accessToken) {
-        return ResponseEntity.ok( SuccessResponseBody
-                                          .builder()
-                                          .message( ms.getMessage( "record.records.get.succeeded", null,
-                                                                   httpServletRequest.getLocale() ) )
-                                          .data( recordService.getRecords( GetMyRecords
-                                                                                   .builder()
-                                                                                   .userId( jwtManager.resolveUserId(
-                                                                                           accessToken ) )
-                                                                                   .page( page )
-                                                                                   .size( size )
-                                                                                   .category( categoryResolver.resolve( categoryId ) )
-                                                                                   .contentId( contentId )
-                                                                                   .build() ) )
-                                          .build() );
+        return ResponseEntity.ok(
+                SuccessResponseBody
+                        .builder()
+                        .message( ms.getMessage( "record.records.get.succeeded", null,
+                                                 httpServletRequest.getLocale() ) )
+                        .data( recordService.getRecords(
+                                GetMyRecords
+                                        .builder()
+                                        .userId( jwtManager.resolveUserId( accessToken ) )
+                                        .page( page )
+                                        .size( size )
+                                        .category( categoryResolver.resolve( categoryId ) )
+                                        .contentId( contentId )
+                                        .build() ) )
+                        .build() );
     }
     
     @GetMapping( "/api/v1/record/contents" )
@@ -123,6 +148,7 @@ public class RecordController {
                                                                  @Nullable @RequestParam( defaultValue = "0" ) Integer page,
                                                                  @Nullable @RequestParam( defaultValue = "10" ) Integer size,
                                                                  @Nullable @RequestParam String categoryId,
+                                                                 @Nullable @RequestParam( required = false ) String order,
                                                                  @AccessToken String accessToken) {
         return ResponseEntity.ok(
                 SuccessResponseBody
@@ -135,6 +161,7 @@ public class RecordController {
                                                  .size( size )
                                                  .userId( jwtManager.resolveUserId( accessToken ) )
                                                  .locale( httpServletRequest.getLocale() )
+                                                 .order( RecordOrder.of( order ) )
                                                  .build() )
                         
                              )
@@ -142,10 +169,13 @@ public class RecordController {
     }
     
     @GetMapping( "/api/v1/record/contents/continuing" )
-    public ResponseEntity<SuccessResponseBody> getRecordContentsContinuing(HttpServletRequest httpServletRequest,
-                                                                           @Nullable @RequestParam( defaultValue = "0" ) Integer page,
-                                                                           @Nullable @RequestParam( defaultValue = "10" ) Integer size,
-                                                                           @AccessToken String accessToken) {
+    public ResponseEntity<SuccessResponseBody> getRecordContentsContinuing(
+            HttpServletRequest httpServletRequest,
+            @Nullable @RequestParam( defaultValue = "0" ) Integer page,
+            @Nullable @RequestParam( defaultValue = "10" ) Integer size,
+            @AccessToken String accessToken,
+            @Nullable @RequestParam( required = false ) String order
+                                                                          ) {
         return ResponseEntity.ok(
                 SuccessResponseBody
                         .builder()
@@ -158,8 +188,8 @@ public class RecordController {
                                                  .completed( false )
                                                  .userId( jwtManager.resolveUserId( accessToken ) )
                                                  .locale( httpServletRequest.getLocale() )
+                                                 .order( RecordOrder.of( order ) )
                                                  .build() )
-                        
                              )
                         .build() );
     }
@@ -168,30 +198,57 @@ public class RecordController {
     public ResponseEntity<SuccessResponseBody> postRecord(HttpServletRequest httpServletRequest,
                                                           @Valid @RequestBody AddRecordRequest request,
                                                           @AccessToken String accessToken) {
-        
-        return ResponseEntity
-                       .ok( SuccessResponseBody
-                                    .builder()
-                                    .message( ms.getMessage( "record.add.succeeded", null,
-                                                             httpServletRequest.getLocale() ) )
-                                    .data( recordService.addRecord( createAddRecordCommand( request, accessToken ) ) )
-                                    .build() );
+        return ResponseEntity.ok(
+                SuccessResponseBody
+                        .builder()
+                        .message( ms.getMessage( "record.add.succeeded", null,
+                                                 httpServletRequest.getLocale() ) )
+                        .data( recordService.addRecord(
+                                AddRecord.builder()
+                                         .contentId( request.getContentId() )
+                                         .title( request.getTitle() )
+                                         .note( request.getNote() )
+                                         .userId( jwtManager.resolveUserId( accessToken ) )
+                                         .appreciationDate( request.getAppreciationDate() )
+                                         .build() ) )
+                        .build() );
     }
     
+    @Deprecated
     @PutMapping( "/api/v1/record" )
     public ResponseEntity<SuccessResponseBody> updateRecord(HttpServletRequest httpServletRequest,
-                                                            @Valid @RequestBody ContinueRecordRequest request) {
-        return ResponseEntity.ok( SuccessResponseBody
-                                          .builder()
-                                          .message( ms.getMessage( "record.continue.succeeded", null,
-                                                                   httpServletRequest.getLocale() ) )
-                                          .data( recordService.continueRecord( ContinueRecord
-                                                                                       .builder()
-                                                                                       .recordId( request.getRecordId() )
-                                                                                       .note( request.getNote() )
-                                                                                       .title( request.getTitle() )
-                                                                                       .build() ) )
-                                          .build() );
+                                                            @Valid @RequestBody ContinueRecordRequest request,
+                                                            @AccessToken String accessToken) {
+        return ResponseEntity.ok(
+                SuccessResponseBody
+                        .builder()
+                        .message( ms.getMessage( "record.continue.succeeded", null,
+                                                 httpServletRequest.getLocale() ) )
+                        .data( recordService.continueRecord(
+                                ContinueRecord
+                                        .builder()
+                                        .recordId( request.getRecordId() )
+                                        .userId( jwtManager.resolveUserId( accessToken ) )
+                                        .build() ) )
+                        .build() );
+    }
+    
+    @PatchMapping( "/api/v1/record/{recordId}/continue" )
+    public ResponseEntity<SuccessResponseBody> updateRecordV2(HttpServletRequest httpServletRequest,
+                                                              @PathVariable String recordId,
+                                                              @AccessToken String accessToken) {
+        return ResponseEntity.ok(
+                SuccessResponseBody
+                        .builder()
+                        .message( ms.getMessage( "record.continue.succeeded", null,
+                                                 httpServletRequest.getLocale() ) )
+                        .data( recordService.continueRecord(
+                                ContinueRecord
+                                        .builder()
+                                        .recordId( recordId )
+                                        .userId( jwtManager.resolveUserId( accessToken ) )
+                                        .build() ) )
+                        .build() );
     }
     
     @DeleteMapping( "/api/v1/record/{recordId}" )
@@ -200,12 +257,13 @@ public class RecordController {
                                                             @AccessToken String accessToken) {
         return ResponseEntity.ok(
                 SuccessResponseBody.builder()
-                                   .message( ms.getMessage( "record.delete.succeeded", null, httpServletRequest.getLocale() ) )
-                                   .data( recordService.deleteRecord( DeleteRecord.builder()
-                                                                                  .recordId( recordId )
-                                                                                  .userId( jwtManager.resolveUserId( accessToken ) )
-                
-                                                                                  .build() ) )
+                                   .message( ms.getMessage( "record.delete.succeeded", null,
+                                                            httpServletRequest.getLocale() ) )
+                                   .data( recordService.deleteRecord(
+                                           DeleteRecord.builder()
+                                                       .recordId( recordId )
+                                                       .userId( jwtManager.resolveUserId( accessToken ) )
+                                                       .build() ) )
                                    .build() );
     }
     
@@ -215,7 +273,8 @@ public class RecordController {
                                                             @AccessToken String accessToken) {
         return ResponseEntity.ok(
                 SuccessResponseBody.builder()
-                                   .message( ms.getMessage( "record.records.count.total.succeeded", null, httpServletRequest.getLocale() ) )
+                                   .message( ms.getMessage( "record.records.count.total.succeeded", null,
+                                                            httpServletRequest.getLocale() ) )
                                    .data( recordService.countRecords(
                                            CountTotalRecords.builder()
                                                             .userId( jwtManager.resolveUserId( accessToken ) )
@@ -223,16 +282,4 @@ public class RecordController {
                                                             .build() ) )
                                    .build() );
     }
-    
-    private AddRecord createAddRecordCommand(AddRecordRequest request, String accessToken) {
-        return AddRecord
-                       .builder()
-                       .contentId( request.getContentId() )
-                       .title( request.getTitle() )
-                       .note( request.getNote() )
-                       .userId( jwtManager.resolveUserId( accessToken ) )
-                       .appreciationDate( request.getAppreciationDate() )
-                       .build();
-    }
-    
 }

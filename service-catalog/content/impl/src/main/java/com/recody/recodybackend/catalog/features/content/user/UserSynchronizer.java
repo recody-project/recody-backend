@@ -7,7 +7,7 @@ import com.recody.recodybackend.common.Recody;
 import com.recody.recodybackend.common.exceptions.InternalServerError;
 import com.recody.recodybackend.users.Role;
 import com.recody.recodybackend.users.events.UserCreated;
-import com.recody.recodybackend.users.web.FetchAllUsersResponse;
+import com.recody.recodybackend.users.FetchAllUsersResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;

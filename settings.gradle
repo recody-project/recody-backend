@@ -34,9 +34,10 @@ include(":service-catalog-content-core",
         ":service-catalog-record",
         ":service-catalog-record-shared")
 
-include(":service-users-api",
-        ":service-users-api-core",
-        ":service-users-impl")
+include(":service-users-core",
+        ":service-users-data",
+        ":service-users-impl",
+        ":service-users-shared")
 
 
 String movieProjectDir = "service-movie"
@@ -80,9 +81,10 @@ project(":service-catalog-record-shared").projectDir = new File(settingsDir, "${
 
 
 String userProjectDir = "service-users"
-project(":service-users-api").projectDir = new File(settingsDir, "${userProjectDir}/api")
-project(":service-users-api-core").projectDir = new File(settingsDir, "${userProjectDir}/api/core")
+project(":service-users-core").projectDir = new File(settingsDir, "${userProjectDir}/core")
+project(":service-users-data").projectDir = new File(settingsDir, "${userProjectDir}/data")
 project(":service-users-impl").projectDir = new File(settingsDir, "${userProjectDir}/impl")
+project(":service-users-shared").projectDir = new File(settingsDir, "${userProjectDir}/shared")
 include 'service-book:naver'
 findProject(':service-book:naver')?.name = 'naver'
 include 'service-book:data'

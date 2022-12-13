@@ -3,15 +3,13 @@ package com.recody.recodybackend.movie.data.people;
 
 import com.recody.recodybackend.movie.Actor;
 import com.recody.recodybackend.movie.Director;
-import com.recody.recodybackend.movie.features.getmoviecredit.dto.TMDBCast;
-import com.recody.recodybackend.movie.features.getmoviecredit.dto.TMDBCrew;
+import com.recody.recodybackend.movie.features.fetchmoviecredit.dto.TMDBCast;
+import com.recody.recodybackend.movie.features.fetchmoviecredit.dto.TMDBCrew;
 import com.recody.recodybackend.movie.features.tmdb.TMDB;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.Named;
+import org.mapstruct.*;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring", imports = {TMDB.class}, uses = {MoviePersonNameMapper.class})
@@ -40,8 +38,8 @@ public abstract class MoviePersonMapper {
     @Mapping(target = "profilePath", source = "entity.person.profilePath")
     @Mapping(target = "character", source = "entity.character")
     @Mapping(target = "id", source = "entity.person.id")
-    @Mapping(target = "name", source = "entity.person.name.englishName")
-    public abstract Actor toActor(MovieActorEntity entity);
+    @Mapping(target = "name", source = "entity.person.name")
+    public abstract Actor toActor(MovieActorEntity entity, @Context Locale locale);
     
     @Mapping(target = "profilePath", expression = "java(TMDB.fullPosterPath(cast.getProfilePath()))")
     @Mapping(target = "character", source = "cast.character")
@@ -51,8 +49,8 @@ public abstract class MoviePersonMapper {
     
     @Mapping(target = "profilePath", source = "entity.person.profilePath")
     @Mapping(target = "id", source = "entity.person.id")
-    @Mapping(target = "name", source = "entity.person.name.englishName")
-    public abstract Director toDirector(MovieDirectorEntity entity);
+    @Mapping(target = "name", source = "entity.person.name")
+    public abstract Director toDirector(MovieDirectorEntity entity, @Context Locale locale);
     
     @Mapping(target = "profilePath", expression = "java(TMDB.fullPosterPath(crew.getProfilePath()))")
     @Mapping(target = "id", source = "crew.id")

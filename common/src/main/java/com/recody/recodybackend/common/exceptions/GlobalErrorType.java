@@ -4,6 +4,8 @@ public enum GlobalErrorType implements ErrorType{
     UserNotFound("UserNotFound"),
     ContentNotFound("ContentNotFound"),
     
+    NotNull("notNull"),
+    
     GenreIdCannotBeNull("catalog.genre.id.not-null"),
     GenreCustomizationCannotOver5("catalog.genre.personalize.over"),
     

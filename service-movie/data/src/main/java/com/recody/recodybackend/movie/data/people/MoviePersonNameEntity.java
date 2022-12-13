@@ -13,6 +13,7 @@ import javax.persistence.Table;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Getter
+@Setter
 public class MoviePersonNameEntity {
     @Id
     @GeneratedValue

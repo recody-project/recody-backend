@@ -61,6 +61,8 @@ class RecordRepositoryTest {
     CatalogUserEntity user1;
     CatalogUserEntity user2;
     
+    Integer nth = 1;
+    
     
     @BeforeEach
     void before() {

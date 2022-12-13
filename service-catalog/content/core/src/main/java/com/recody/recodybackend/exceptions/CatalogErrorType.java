@@ -19,6 +19,8 @@ public enum CatalogErrorType implements ErrorType {
     
     IconUrlCannotBeNull("catalog.category.icon-url.not-null"),
     RatingScoreCannotBeNull("catalog.rating.not-null"),
+    
+    AppreciationNumberCannotBeNegative("catalog.record.appreciation-number.minimum")
     ;
     
     private final String errorCode;

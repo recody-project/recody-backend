@@ -1,6 +1,8 @@
 package com.recody.recodybackend.catalog.data.record;
 
 import com.recody.recodybackend.catalog.data.content.CatalogContentEntity;
+import com.recody.recodybackend.catalog.data.user.CatalogUserEntity;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -12,12 +14,20 @@ public interface RecordRepository extends JpaRepository<RecordEntity, String>, R
     
     Optional<RecordEntity> findByRecordId(String recordId);
     
+    Optional<RecordEntity> findByRecordIdAndUser(String recordId, CatalogUserEntity user);
+    
     Optional<List<RecordEntity>> findAllByUserId(Long userId);
+    
+    Page<RecordEntity> findAllByUserId(Long userId, Pageable pageable);
     
     /**
      * content Id 와 user Id 로 모든 감상평들을 가져온다.*/
     Optional<List<RecordEntity>> findAllByUserIdAndContent(Long userId, CatalogContentEntity content);
     boolean existsByUserIdAndContent(Long userId, CatalogContentEntity content);
+    
+//    boolean existsByUserAndContentAndAppreciationNumber(CatalogUserEntity user, CatalogContentEntity content, Integer appreciationNumber);
+    
+    boolean existsByUserAndContent(CatalogUserEntity user, CatalogContentEntity content);
     
     Integer countByUserId(Long userId);
     
@@ -29,6 +39,8 @@ public interface RecordRepository extends JpaRepository<RecordEntity, String>, R
      * pageable: n개씩 가져올지, n개씩 몇번째 페이지 부터 가져올지 정한다.
      */
     Optional<List<RecordEntity>> findByUserIdOrderByCreatedAtDesc(Long userId, Pageable pageable);
+    
+    Optional<List<RecordEntity>> findByUserId(Long userId, Pageable pageable);
     Optional<List<RecordEntity>> findByUserIdAndCompletedOrderByCreatedAtDesc(Long userId, boolean isCompleted, Pageable pageable);
     
     /**

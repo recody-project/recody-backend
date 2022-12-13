@@ -2,6 +2,8 @@ package com.recody.recodybackend.catalog.data.record;
 
 import com.querydsl.core.types.*;
 import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.jpa.impl.JPAQuery;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.util.ArrayList;
@@ -37,5 +39,11 @@ public class QueryDslUtils {
     private static OrderSpecifier<?> getSortedColumn(Order order, Path<?> parent, String fieldName) {
         Path<Object> fieldPath = Expressions.path(Object.class, parent, fieldName);
         return new OrderSpecifier(order, fieldPath);
+    }
+    
+    public static <T> JPAQuery<T> applyPageable(Pageable pageable, JPAQuery<T> query) {
+        JPAQuery<T> clonedQuery = query.clone();
+        return clonedQuery.limit( pageable.getPageSize() )
+                    .offset( pageable.getOffset() );
     }
 }

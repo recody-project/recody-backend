@@ -14,8 +14,8 @@ import com.recody.recodybackend.movie.data.movie.MovieMapper;
 import com.recody.recodybackend.movie.data.movie.MovieRepository;
 import com.recody.recodybackend.movie.data.people.*;
 import com.recody.recodybackend.movie.events.MovieCreated;
-import com.recody.recodybackend.movie.features.getmoviecredit.dto.TMDBCast;
-import com.recody.recodybackend.movie.features.getmoviecredit.dto.TMDBCrew;
+import com.recody.recodybackend.movie.features.fetchmoviecredit.dto.TMDBCast;
+import com.recody.recodybackend.movie.features.fetchmoviecredit.dto.TMDBCrew;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieDetail;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieGenre;
 import com.recody.recodybackend.movie.features.projection.MovieEventPublisher;
@@ -254,7 +254,7 @@ class DefaultMovieManager implements MovieManager {
                 MoviePersonEntity entity = optionalPerson.get();
                 //TODO Actor 있을 시 업데이트
                 MovieActorEntity savedActorEntity = movieEntityManager.saveActor( movieEntity, entity, source );
-                Actor actor = moviePersonMapper.toActor( savedActorEntity );
+                Actor actor = moviePersonMapper.toActor( savedActorEntity, locale );
                 log.debug( "updated actor: {}", actor );
                 return actor;
             }
@@ -262,7 +262,7 @@ class DefaultMovieManager implements MovieManager {
             MoviePersonEntity before = moviePersonMapper.newPersonEntity( source );
             MoviePersonEntity savedPersonEntity = personRepository.save( before );
             MovieActorEntity actorEntity = movieEntityManager.saveActor( movieEntity, savedPersonEntity, source );
-            Actor actor = moviePersonMapper.toActor( actorEntity );
+            Actor actor = moviePersonMapper.toActor( actorEntity, locale);
             log.debug( "saved new actor: {}", actor );
             return actor;
         }
@@ -301,7 +301,7 @@ class DefaultMovieManager implements MovieManager {
                 //TODO Director 있을 시 업데이트
                 MoviePersonEntity entity = optionalPerson.get();
                 MovieDirectorEntity savedDirectorEntity = movieEntityManager.saveDirector( movieEntity, entity );
-                Director director = moviePersonMapper.toDirector( savedDirectorEntity );
+                Director director = moviePersonMapper.toDirector( savedDirectorEntity, locale );
                 log.debug( "updated director: {}", director );
                 
                 return director;
@@ -310,7 +310,7 @@ class DefaultMovieManager implements MovieManager {
             MoviePersonEntity before = moviePersonMapper.newPersonEntity( crew );
             MoviePersonEntity savedPersonEntity = personRepository.save( before );
             MovieDirectorEntity movieDirectorEntity = movieEntityManager.saveDirector( movieEntity, savedPersonEntity );
-            Director director = moviePersonMapper.toDirector( movieDirectorEntity );
+            Director director = moviePersonMapper.toDirector( movieDirectorEntity, locale );
             log.debug( "saved new director: {}", director );
             return director;
             

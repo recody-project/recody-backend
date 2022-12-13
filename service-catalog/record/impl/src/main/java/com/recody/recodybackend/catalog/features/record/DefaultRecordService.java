@@ -1,8 +1,5 @@
 package com.recody.recodybackend.catalog.features.record;
 
-import com.recody.recodybackend.record.Record;
-import com.recody.recodybackend.record.RecordContent;
-import com.recody.recodybackend.record.RecordEvent;
 import com.recody.recodybackend.catalog.features.record.addrecord.AddRecord;
 import com.recody.recodybackend.catalog.features.record.addrecord.AddRecordHandler;
 import com.recody.recodybackend.catalog.features.record.completerecord.CompleteRecord;
@@ -23,6 +20,10 @@ import com.recody.recodybackend.catalog.features.record.getrecordcontents.GetRec
 import com.recody.recodybackend.catalog.features.record.getrecordcontents.GetRecordContentsHandler;
 import com.recody.recodybackend.catalog.features.record.totalrecords.CountTotalRecords;
 import com.recody.recodybackend.catalog.features.record.totalrecords.CountTotalRecordsHandler;
+import com.recody.recodybackend.common.data.QueryResult;
+import com.recody.recodybackend.record.Record;
+import com.recody.recodybackend.record.RecordContent;
+import com.recody.recodybackend.record.RecordEvent;
 import com.recody.recodybackend.record.web.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -63,10 +64,8 @@ class DefaultRecordService implements RecordService {
     
     @Override
     public GetRecordsResponse getRecords(GetMyRecords command) {
-        List<Record> records = getMyRecordsHandler.handle( command );
-        int size = records.size();
-        log.debug( "Got {} Records", size );
-        return new GetRecordsResponse( records, size );
+        QueryResult<Record> recordQueryResult = getMyRecordsHandler.handleQuery( command );
+        return new GetRecordsResponse( recordQueryResult.getMetadata(), recordQueryResult.getContent() );
     }
     
     @Override

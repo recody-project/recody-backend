@@ -1,6 +1,6 @@
 package com.recody.recodybackend.catalog.features.content.getdetail.movie;
 
-import com.recody.recodybackend.movie.MovieDetail;
+import com.recody.recodybackend.movie.MovieDetailViewModel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +33,7 @@ class DefaultFetchMovieDetailHandler implements FetchMovieDetailHandler {
     
     
     @Override
-    public MovieDetail handle(FetchMovieDetail command) {
+    public MovieDetailViewModel handle(FetchMovieDetail command) {
         log.debug("handling command: {}", command);
         Integer tmdbId = command.getMovieId();
         String language = command.getLanguage();
@@ -42,9 +42,9 @@ class DefaultFetchMovieDetailHandler implements FetchMovieDetailHandler {
         HttpHeaders httpHeaders = makeAuthorizedHeaders();
         RequestEntity<Void> requestEntity = RequestEntity.get(uri).headers(httpHeaders).build();
     
-        MovieDetail movieDetail;
+        MovieDetailViewModel movieDetail;
         try {
-            movieDetail = restTemplate.exchange(requestEntity, MovieDetail.class).getBody();
+            movieDetail = restTemplate.exchange(requestEntity, MovieDetailViewModel.class).getBody();
             Objects.requireNonNull(movieDetail);
         } catch (RestClientException exception){
             log.warn("exception: {}", exception.getMessage());

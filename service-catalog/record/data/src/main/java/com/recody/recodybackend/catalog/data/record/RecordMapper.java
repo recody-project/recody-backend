@@ -16,6 +16,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.Locale;
 
 @Mapper(componentModel = "spring", uses = {CatalogContentMapper.class, CategoryMapper.class, CatalogContentTitleMapper.class,
@@ -29,6 +30,8 @@ public abstract class RecordMapper {
     @Mapping( target = "userId", source = "entity.user.id" )
     @Mapping( target = "contentId", source = "entity.content.contentId")
     public abstract Record map(RecordEntity entity);
+    
+    public abstract List<Record> map(List<RecordEntity> entities);
     
     @Mapping( target = "title", source = "contentEntity", qualifiedByName = "titleMapper")
     @Mapping( target = "recordId", source = "recordEntity.recordId" )

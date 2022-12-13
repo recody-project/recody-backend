@@ -26,6 +26,7 @@ public class MovieTitleEntity {
      */
     @JoinColumn(name = "movie_id",
                 nullable = false,
+                unique = true,
                 foreignKey = @ForeignKey(name = "title_contains_movie_id"))
     @OneToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)

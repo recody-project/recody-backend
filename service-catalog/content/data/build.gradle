@@ -18,8 +18,9 @@ dependencies {
     implementation project(":common-content")
     implementation project(":common-boot-utils")
     implementation project(":service-catalog-content-core")
-    implementation project(":service-movie-core")
-    implementation project(":service-users-api-core")
+//    implementation project(":service-movie-core")
+    implementation project(":service-movie-api-shared")
+    implementation project(":service-users-core")
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'

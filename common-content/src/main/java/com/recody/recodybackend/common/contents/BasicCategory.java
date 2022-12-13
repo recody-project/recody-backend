@@ -1,8 +1,7 @@
 package com.recody.recodybackend.common.contents;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.recody.recodybackend.common.exceptions.UnsupportedCategoryException;
-import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
@@ -11,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-@NoArgsConstructor( access = AccessLevel.PROTECTED )
+@NoArgsConstructor
 @Setter
 public class BasicCategory implements Category {
     

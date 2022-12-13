@@ -100,6 +100,7 @@ class CatalogController {
     }
     
     @GetMapping( "/api/v1/catalog/detail" )
+    @Deprecated
     public ResponseEntity<SuccessResponseBody> detail(@RequestParam Integer contentId,
                                                       @Nullable @RequestParam( defaultValue = "ko" ) String language,
                                                       @AccessToken String accessToken, HttpServletRequest httpServletRequest) {

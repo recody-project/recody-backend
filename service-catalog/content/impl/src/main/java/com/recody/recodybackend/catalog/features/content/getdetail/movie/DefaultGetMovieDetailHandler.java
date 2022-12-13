@@ -1,10 +1,10 @@
 package com.recody.recodybackend.catalog.features.content.getdetail.movie;
 
-import com.recody.recodybackend.content.PersonalizedMovieDetail;
-import com.recody.recodybackend.content.CatalogMovieDetail;
 import com.recody.recodybackend.catalog.features.personalize.ContentDetailPersonalizer;
-import com.recody.recodybackend.movie.MovieDetail;
 import com.recody.recodybackend.common.contents.register.AsyncContentRegistrar;
+import com.recody.recodybackend.content.CatalogMovieDetail;
+import com.recody.recodybackend.content.PersonalizedMovieDetail;
+import com.recody.recodybackend.movie.MovieDetailViewModel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -17,7 +17,7 @@ import java.util.Locale;
 class DefaultGetMovieDetailHandler implements GetMovieDetailHandler {
     private final FetchMovieDetailHandler fetchMovieDetailHandler;
     private final ContentDetailPersonalizer<CatalogMovieDetail, PersonalizedMovieDetail> movieDetailPersonalizer;
-    private final AsyncContentRegistrar<CatalogMovieDetail, MovieDetail> movieRegistrar;
+    private final AsyncContentRegistrar<CatalogMovieDetail, MovieDetailViewModel> movieRegistrar;
     
     @Override
     public PersonalizedMovieDetail handle(GetMovieDetail command) {
@@ -27,7 +27,7 @@ class DefaultGetMovieDetailHandler implements GetMovieDetailHandler {
         String language = command.getLanguage();
         Locale locale = Locale.forLanguageTag(language);
         
-        MovieDetail movieDetail
+        MovieDetailViewModel movieDetail
                 = fetchMovieDetailHandler.handle(fetchMovieDetailCommand(contentId, language));
         CatalogMovieDetail catalogMovieDetail
                 = movieRegistrar.register(movieDetail, locale);

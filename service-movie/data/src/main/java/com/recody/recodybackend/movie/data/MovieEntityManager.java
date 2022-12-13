@@ -7,7 +7,7 @@ import com.recody.recodybackend.movie.data.people.MovieActorEntity;
 import com.recody.recodybackend.movie.data.people.MovieDirectorEntity;
 import com.recody.recodybackend.movie.data.people.MoviePersonEntity;
 import com.recody.recodybackend.movie.data.genre.MovieGenreCodeEntity;
-import com.recody.recodybackend.movie.features.getmoviecredit.dto.TMDBCast;
+import com.recody.recodybackend.movie.features.fetchmoviecredit.dto.TMDBCast;
 import org.springframework.scheduling.annotation.Async;
 
 import javax.transaction.Transactional;

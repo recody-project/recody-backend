@@ -54,9 +54,6 @@ public class RecordEntity extends RecordBaseEntity {
     @Setter
     private boolean completed;
     
-    @Builder.Default
-    private Integer nth = 1;
-    
     @Column(name = "appreciation_date")
     private LocalDate appreciationDate;
     
@@ -79,8 +76,4 @@ public class RecordEntity extends RecordBaseEntity {
         return Objects.hash(getRecordId());
     }
     
-    @Override
-    public String toString() {
-        return "[{\"RecordEntity\":{" + "\"recordId\":" + ((recordId != null) ? ("\"" + recordId + "\"") : null) + ", \"content\":" + content + ", \"userId\":" + user + ", \"title\":" + ((title != null) ? ("\"" + title + "\"") : null) + ", \"note\":" + ((note != null) ? ("\"" + note + "\"") : null) + ", \"completed\":" + completed + ", \"nth\":" + nth + ", \"appreciationDate\":" + appreciationDate + "}}, " + super.toString() + "]";
-    }
 }

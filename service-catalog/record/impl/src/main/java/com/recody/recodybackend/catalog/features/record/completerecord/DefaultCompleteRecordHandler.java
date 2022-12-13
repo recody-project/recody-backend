@@ -2,33 +2,33 @@ package com.recody.recodybackend.catalog.features.record.completerecord;
 
 import com.recody.recodybackend.catalog.data.record.RecordEntity;
 import com.recody.recodybackend.catalog.data.record.RecordRepository;
+import com.recody.recodybackend.catalog.data.user.CatalogUserEntity;
+import com.recody.recodybackend.catalog.data.user.CatalogUserRepository;
 import com.recody.recodybackend.exceptions.RecordNotFound;
+import com.recody.recodybackend.users.exceptions.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
-import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 class DefaultCompleteRecordHandler implements CompleteRecordHandler{
     
     private final RecordRepository recordRepository;
     
+    private final CatalogUserRepository userRepository;
+    
     @Override
     @Transactional
     public boolean handle(CompleteRecord command) {
-        Optional<RecordEntity> optionalRecord = recordRepository.findByRecordId( command.getRecordId() );
-        if (optionalRecord.isEmpty()){
-            throw new RecordNotFound();
-        }
-        RecordEntity recordEntity = optionalRecord.get();
-        if (command.getTitle() != null) {
-            recordEntity.setTitle(command.getTitle());
-        }
-        if (command.getNote() != null) {
-            recordEntity.setNote(command.getNote());
-        }
+        log.debug( "hangling command: {}", command );
+        CatalogUserEntity userEntity = userRepository.findById( command.getUserId() )
+                                                            .orElseThrow( UserNotFoundException::new );
+        RecordEntity recordEntity = recordRepository.findByRecordIdAndUser( command.getRecordId(), userEntity )
+                                                     .orElseThrow( RecordNotFound::new );
         recordEntity.setCompleted(true);
         return recordEntity.isCompleted();
     }

@@ -1,0 +1,16 @@
+dependencies {
+
+    implementation project(":common")
+    implementation project(":service-users-core")
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+
+    // lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+}
+
+bootJar.enabled(false)
+jar.enabled(true)
