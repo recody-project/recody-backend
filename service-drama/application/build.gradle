@@ -6,6 +6,7 @@ dependencies {
     implementation project(":service-drama-core")
     implementation project(":service-drama-shared")
     implementation project(":service-drama-data")
+    implementation project(":service-movie-api-tmdb")
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
