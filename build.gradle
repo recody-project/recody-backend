@@ -35,6 +35,7 @@ dependencies {
     implementation project(":common")
     implementation project(":common-boot-utils")
     implementation project(":service-movie")
+    implementation project(":service-drama-application")
     implementation project(":service-music-impl")
     implementation project(":service-catalog-content")
     implementation project(":service-catalog-record")
