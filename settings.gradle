@@ -36,7 +36,8 @@ include(":service-users-core",
 include(":service-drama-core",
         ":service-drama-data",
         ":service-drama-application",
-        ":service-drama-shared")
+        ":service-drama-shared",
+        ":service-drama-tmdb")
 
 
 String movieProjectDir = "service-movie"
@@ -52,6 +53,7 @@ project(":service-drama-core").projectDir = new File(settingsDir, "${dramaProjec
 project(":service-drama-data").projectDir = new File(settingsDir, "${dramaProjectDir}/data")
 project(":service-drama-application").projectDir = new File(settingsDir, "${dramaProjectDir}/application")
 project(":service-drama-shared").projectDir = new File(settingsDir, "${dramaProjectDir}/shared")
+project(":service-drama-tmdb").projectDir = new File(settingsDir, "${dramaProjectDir}/tmdb")
 
 
 String musicProjectDir = "service-music"

@@ -4,6 +4,7 @@ public class Recody {
     
     public static final String CATALOG_TASK_EXECUTOR = "catalog-task-executor";
     public static final String MOVIE_TASK_EXECUTOR = "movie-task-executor";
+    public static final String DRAMA_TASK_EXECUTOR = "drama-task-executor";
     public static final String USERS_TASK_EXECUTOR = "users-task-executor";
     public static final String MOVIE_PREFIX = "mov-";
     public static final String DRAMA_PREFIX = "dra-";
