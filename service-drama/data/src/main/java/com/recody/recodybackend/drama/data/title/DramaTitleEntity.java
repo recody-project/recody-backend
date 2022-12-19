@@ -2,6 +2,7 @@ package com.recody.recodybackend.drama.data.title;
 
 import com.recody.recodybackend.drama.data.drama.DramaEntity;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -12,6 +13,7 @@ import javax.persistence.*;
 @Table(name = "drama_title")
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
 public class DramaTitleEntity {
     
     @Id
