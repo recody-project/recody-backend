@@ -20,7 +20,7 @@ public class SearchDramasController {
         return searchDramaHandler.handle(
                 SearchDramas.builder()
                             .keyword( keyword )
-                            .language( request.getLocale() )
+                            .locale( request.getLocale() )
                             .build() );
     }
 }

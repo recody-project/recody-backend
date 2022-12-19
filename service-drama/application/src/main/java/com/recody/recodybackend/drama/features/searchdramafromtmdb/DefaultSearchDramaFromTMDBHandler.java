@@ -1,6 +1,7 @@
 package com.recody.recodybackend.drama.features.searchdramafromtmdb;
 
-import com.recody.recodybackend.movie.features.tmdb.TMDB;
+import com.recody.recodybackend.drama.tmdb.TMDB;
+import com.recody.recodybackend.drama.tmdb.TMDBSearchDramaResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

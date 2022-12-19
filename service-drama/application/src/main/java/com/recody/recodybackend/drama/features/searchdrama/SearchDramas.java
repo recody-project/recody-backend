@@ -13,7 +13,5 @@ public class SearchDramas {
     
     private String keyword;
     
-    private Locale language;
-    
-
+    private Locale locale;
 }
