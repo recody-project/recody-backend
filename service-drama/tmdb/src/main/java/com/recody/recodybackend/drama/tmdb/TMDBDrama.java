@@ -1,4 +1,4 @@
-package com.recody.recodybackend.drama.features.searchdramafromtmdb;
+package com.recody.recodybackend.drama.tmdb;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -14,6 +14,7 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TMDBDrama {
 
+    private Integer id;
     private String name;
     
     @JsonAlias("genre_ids")
@@ -22,12 +23,16 @@ public class TMDBDrama {
     @JsonAlias("original_name")
     private String originalName;
     
+    @JsonAlias("poster_path")
+    private String posterPath;
+    
     @Override
     public String toString() {
         return "{\"TMDBDrama\":{"
                + "\"name\":" + ((name != null) ? ("\"" + name + "\"") : null)
                + ", \"genreIds\":" + genreIds
                + ", \"originalName\":" + ((originalName != null) ? ("\"" + originalName + "\"") : null)
+               + ", \"posterPath\":" + ((posterPath != null) ? ("\"" + posterPath + "\"") : null)
                + "}}";
     }
 }

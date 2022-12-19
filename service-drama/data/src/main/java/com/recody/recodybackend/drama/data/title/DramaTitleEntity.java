@@ -1,9 +1,7 @@
 package com.recody.recodybackend.drama.data.title;
 
 import com.recody.recodybackend.drama.data.drama.DramaEntity;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -14,10 +12,13 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Builder
+@Setter
 public class DramaTitleEntity {
     
     @Id
-    private String id;
+    @GeneratedValue
+    private Long id;
     
     @JoinColumn(name = "drama_id",
                 nullable = false,
