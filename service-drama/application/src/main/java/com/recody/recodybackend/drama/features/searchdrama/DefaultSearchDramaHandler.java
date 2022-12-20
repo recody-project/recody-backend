@@ -6,7 +6,7 @@ import com.recody.recodybackend.drama.data.drama.DramaEntity;
 import com.recody.recodybackend.drama.data.drama.DramaMapper;
 import com.recody.recodybackend.drama.data.drama.DramaRepository;
 import com.recody.recodybackend.drama.features.event.DramaEventPublisher;
-import com.recody.recodybackend.drama.features.event.EmptyDramaQueried;
+import com.recody.recodybackend.drama.features.event.DramaQueried;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -33,10 +33,10 @@ class DefaultSearchDramaHandler implements SearchDramaHandler<Dramas> {
                 dramaRepository.findByTitleLike( query.getKeyword(),
                                                  language,
                                                  Pageable.unpaged() );
-        dramaEventPublisher.publish( EmptyDramaQueried.builder()
-                                                      .keyword( query.getKeyword() )
-                                                      .locale( query.getLocale() )
-                                                      .build() );
+        dramaEventPublisher.publish( DramaQueried.builder()
+                                                 .keyword( query.getKeyword() )
+                                                 .locale( query.getLocale() )
+                                                 .build() );
         log.debug( "{} 개의 결과를 검색하였습니다.", dramaEntities.size() );
         return Dramas.of( dramaMapper.map( dramaEntities, query.getLocale() ) );
     }

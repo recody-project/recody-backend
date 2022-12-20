@@ -4,16 +4,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "drama_searching_keyword_count")
 @Builder
 @NoArgsConstructor
 @Getter
-public class DramaSearchKeywordEntity {
+public class DramaSearchingKeywordCountEntity {
     
     @Id
     @GeneratedValue
@@ -25,7 +23,7 @@ public class DramaSearchKeywordEntity {
     @Column(nullable = false)
     private Integer count;
     
-    public DramaSearchKeywordEntity(Long id, String text, Integer count) {
+    public DramaSearchingKeywordCountEntity(Long id, String text, Integer count) {
         this.id = id;
         this.text = text;
         this.count = 1;

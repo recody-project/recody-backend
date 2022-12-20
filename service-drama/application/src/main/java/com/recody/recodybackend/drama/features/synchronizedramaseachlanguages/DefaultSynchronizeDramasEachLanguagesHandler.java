@@ -20,28 +20,28 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-class DefaultSynchronizeDramasEachLanguagesHandler implements SynchronizeDramasEachLanguagesHandler<Void>{
+class DefaultSynchronizeDramasEachLanguagesHandler implements SynchronizeDramasEachLanguagesHandler<Void> {
     
-    private final SearchDramaFromTMDBHandler<TMDBSearchDramaResponse> searchDramaFromTMDBHandler;
-    private final DramaMapper dramaMapper;
-    private final DramaRepository dramaRepository;
     /**
      * 현재 지원하는 언어는 한국어, 영어.
      */
     private static final List<Locale> locales = List.of( Locale.KOREAN, Locale.ENGLISH );
+    private final SearchDramaFromTMDBHandler<TMDBSearchDramaResponse> searchDramaFromTMDBHandler;
+    private final DramaMapper dramaMapper;
+    private final DramaRepository dramaRepository;
     
     @Override
     @Transactional
     public Void handle(SearchingKeyword keyword) {
         log.debug( "synchronizing dramas for keyword: {}", keyword );
-    
+        
         for (Locale locale : locales) {
             TMDBSearchDramaResponse response = searchDramaFromTMDBHandler.handle(
                     SearchDramaFromTMDB.builder()
                                        .queryText( keyword.getValue() )
                                        .language( locale.getLanguage() )
                                        .build() );
-    
+            
             List<TMDBDrama> dramas = response.getResults();
             for (TMDBDrama drama : dramas) {
                 // tmdb id 로 이미 있는지 확인한다.

@@ -5,10 +5,10 @@ import com.recody.recodybackend.drama.SearchingKeyword;
 import com.recody.recodybackend.drama.data.drama.DramaEntity;
 import com.recody.recodybackend.drama.data.drama.DramaMapper;
 import com.recody.recodybackend.drama.data.drama.DramaRepository;
-import com.recody.recodybackend.drama.data.search.DramaSearchKeywordEntity;
-import com.recody.recodybackend.drama.data.search.DramaSearchKeywordRepository;
+import com.recody.recodybackend.drama.data.search.DramaSearchingKeywordCountEntity;
+import com.recody.recodybackend.drama.data.search.DramaSearchingKeywordCountRepository;
 import com.recody.recodybackend.drama.features.event.DramaFetched;
-import com.recody.recodybackend.drama.features.event.EmptyDramaQueried;
+import com.recody.recodybackend.drama.features.event.DramaQueried;
 import com.recody.recodybackend.drama.features.synchronizedramaseachlanguages.SynchronizeDramasEachLanguagesHandler;
 import com.recody.recodybackend.drama.tmdb.TMDBDrama;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ class SpringDramaFetchedEventHandler implements DramaFetchedEventHandler, EmptyD
     
     private final DramaRepository dramaRepository;
     
-    private final DramaSearchKeywordRepository keywordRepository;
+    private final DramaSearchingKeywordCountRepository keywordRepository;
     
     private final SynchronizeDramasEachLanguagesHandler<Void> synchronizeDramasEachLanguagesHandler;
     
@@ -43,13 +43,13 @@ class SpringDramaFetchedEventHandler implements DramaFetchedEventHandler, EmptyD
     @Async( value = Recody.DRAMA_TASK_EXECUTOR )
     @EventListener
     @Transactional
-    public void on(EmptyDramaQueried event) {
+    public void on(DramaQueried event) {
         log.debug( "handling event: {}", event );
-        Optional<DramaSearchKeywordEntity> optionalCount =
+        Optional<DramaSearchingKeywordCountEntity> optionalCount =
                 keywordRepository.findFirstByText( event.getKeyword() );
         if ( optionalCount.isPresent() ) {
             log.trace( "optionalCount is present" );
-            DramaSearchKeywordEntity dramaSearchKeywordEntity = optionalCount.get();
+            DramaSearchingKeywordCountEntity dramaSearchKeywordEntity = optionalCount.get();
             dramaSearchKeywordEntity.increment();
             int count = dramaSearchKeywordEntity.getCount() % 5;
             log.trace( "count: {}", count );
@@ -58,9 +58,9 @@ class SpringDramaFetchedEventHandler implements DramaFetchedEventHandler, EmptyD
             }
         }
         else {
-            keywordRepository.save( DramaSearchKeywordEntity.builder()
-                                                            .text( event.getKeyword() )
-                                                            .build() );
+            keywordRepository.save( DramaSearchingKeywordCountEntity.builder()
+                                                                    .text( event.getKeyword() )
+                                                                    .build() );
         }
         synchronizeDramasEachLanguagesHandler.handle( SearchingKeyword.of( event.getKeyword() ) );
         

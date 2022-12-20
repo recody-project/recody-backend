@@ -4,6 +4,6 @@ public interface DramaEventPublisher {
     
     void publish(DramaFetched event);
     
-    void publish(EmptyDramaQueried event);
+    void publish(DramaQueried event);
     
 }

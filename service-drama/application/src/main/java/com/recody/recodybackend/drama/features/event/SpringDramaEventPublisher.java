@@ -19,7 +19,7 @@ class SpringDramaEventPublisher implements DramaEventPublisher{
     }
     
     @Override
-    public void publish(EmptyDramaQueried event) {
+    public void publish(DramaQueried event) {
         log.debug( "publishing event: {}", event );
         publisher.publishEvent( event );
     }

@@ -9,7 +9,7 @@ import java.util.Locale;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class EmptyDramaQueried {
+public class DramaQueried {
     
     private String keyword;
     
