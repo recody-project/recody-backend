@@ -33,12 +33,11 @@ class DefaultSearchDramaHandler implements SearchDramaHandler<Dramas> {
                 dramaRepository.findByTitleLike( query.getKeyword(),
                                                  language,
                                                  Pageable.unpaged() );
-        if ( dramaEntities.isEmpty() ) {
-            dramaEventPublisher.publish( EmptyDramaQueried.builder()
-                                                          .keyword( query.getKeyword() )
-                                                          .locale( query.getLocale() )
-                                                          .build() );
-        }
+        dramaEventPublisher.publish( EmptyDramaQueried.builder()
+                                                      .keyword( query.getKeyword() )
+                                                      .locale( query.getLocale() )
+                                                      .build() );
+        log.debug( "{} 개의 결과를 검색하였습니다.", dramaEntities.size() );
         return Dramas.of( dramaMapper.map( dramaEntities, query.getLocale() ) );
     }
 }
