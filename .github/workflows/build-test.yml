@@ -47,13 +47,13 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
-      - name: test Build
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          file: ./Dockerfile
-          platforms: linux/amd64
-          push: false
+#      - name: test Build
+#        uses: docker/build-push-action@v3
+#        with:
+#          context: .
+#          file: ./Dockerfile
+#          platforms: linux/amd64
+#          push: false
 
       - name: Get current time
         uses: 1466587594/get-current-time@v2
