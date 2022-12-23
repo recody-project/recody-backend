@@ -40,58 +40,55 @@ public class MovieController {
     
     @GetMapping( "/api/v1/movie/detail" )
     public ResponseEntity<MovieDetailViewModel> getMovieInfo(@RequestParam Integer movieId,
-                                                             HttpServletRequest request,
-                                                             @RequestParam( defaultValue = "ko" ) String language) {
+                                                             HttpServletRequest httpServletRequest) {
         return ResponseEntity.ok()
                              .body( movieDetailService.getMovieDetail(
-                                     new GetMovieDetail( movieId, language ) ) );
+                                     new GetMovieDetail( movieId, httpServletRequest.getLocale().getLanguage() ) ) );
         
     }
     
     @GetMapping( "/api/v2/movie/detail" )
     @ResponseStatus( HttpStatus.OK )
     public SuccessResponseBody getMovieInfoV2(@RequestParam Integer movieId,
-                                              HttpServletRequest request,
-                                              @RequestParam( defaultValue = "ko" ) String language) {
+                                              HttpServletRequest httpServletRequest) {
         return SuccessResponseBody.builder()
                                   .message( ms.getMessage( "movie.get_info.succeeded",
                                                            null,
-                                                           request.getLocale() ) )
+                                                           httpServletRequest.getLocale() ) )
                                   .data( movieDetailService.fetchMovieDetail(
                                           GetMovieDetail.builder()
                                                         .tmdbId( movieId )
-                                                        .language( language )
+                                                        .language( httpServletRequest.getLocale().getLanguage() )
                                                         .build() ) )
                                   .build();
     }
     
     @GetMapping( "/api/v1/movie/search" )
     public ResponseEntity<SearchMoviesResult> search(@RequestParam String movieName,
-                                                     @RequestParam( defaultValue = "ko" ) String language,
-                                                     @RequestParam( defaultValue = "1" ) @Min( value = 1 ) Integer page) {
+                                                     @RequestParam( defaultValue = "1" ) @Min( value = 1 ) Integer page,
+                                                     HttpServletRequest httpServletRequest) {
         log.debug( "controller called" );
         return ResponseEntity.ok(
                 movieSearchService.searchMovies(
                         SearchMovies.builder()
                                     .movieName( movieName )
-                                    .language( language )
+                                    .language( httpServletRequest.getLocale().getLanguage() )
                                     .page( page )
                                     .build() ) );
     }
     
     @GetMapping( "/api/v2/movie/search" )
     public ResponseEntity<SuccessResponseBody> search2(@RequestParam String movieName,
-                                                       HttpServletRequest request,
-                                                       @RequestParam( defaultValue = "ko" ) String language,
+                                                       HttpServletRequest httpServletRequest,
                                                        @RequestParam( defaultValue = "1" ) @Min( value = 1 ) Integer page) {
         return ResponseEntity.ok(
                 SuccessResponseBody.builder()
                                    .message( ms.getMessage( "movie.search.succeeded", null,
-                                                            request.getLocale() ) )
+                                                            httpServletRequest.getLocale() ) )
                                    .data( movieSearchService.searchMovies(
                                            SearchMovies.builder()
                                                        .movieName( movieName )
-                                                       .language( language )
+                                                       .language( httpServletRequest.getLocale().getLanguage() )
                                                        .page( page )
                                                        .build() ) )
                                    .build() );
@@ -99,29 +96,28 @@ public class MovieController {
     
     @GetMapping( "/api/v3/movie/search" )
     public ResponseEntity<Movies> search3(@RequestParam String movieName,
-                                          HttpServletRequest request,
-                                          @RequestParam( defaultValue = "ko" ) String language,
-                                          @RequestParam( defaultValue = "1" ) Integer page) {
+                                          @RequestParam( defaultValue = "1" ) Integer page,
+                                          HttpServletRequest httpServletRequest) {
         return ResponseEntity.ok(
                 movieSearchService.searchMoviesMix(
                         SearchMovies.builder()
                                     .movieName( movieName )
-                                    .language( language )
+                                    .language( httpServletRequest.getLocale().getLanguage() )
                                     .page( page )
                                     .build() ) );
     }
     
     @GetMapping( "/api/v1/movie/search-query" )
     public ResponseEntity<SearchMoviesByQueryResult> searchDB(@RequestParam String movieName,
-                                                              @RequestParam( defaultValue = "ko" ) String language,
                                                               @RequestParam( defaultValue = "1" ) @Min( value = 1 ) Integer page,
-                                                              @RequestParam( required = false ) List<String> genreIds) {
+                                                              @RequestParam( required = false ) List<String> genreIds,
+                                                              HttpServletRequest httpServletRequest) {
         log.debug( "controller called. {}", "/api/v1/movie/search-query" );
         return ResponseEntity.ok(
                 movieSearchService.searchMoviesByQuery(
                         SearchMovies.builder()
                                     .movieName( movieName )
-                                    .language( language )
+                                    .language( httpServletRequest.getLocale().getLanguage() )
                                     .genreIds( GenreIds.of( genreIds ) )
                                     .page( page )
                                     .build() ) );
@@ -129,14 +125,14 @@ public class MovieController {
     
     @GetMapping( "/api/v2/movie/search-query" )
     public ResponseEntity<Movies> searchDB2(@RequestParam String movieName,
-                                            @RequestParam( defaultValue = "ko" ) String language,
-                                            @RequestParam( defaultValue = "1" ) @Min( value = 1 ) Integer page) {
+                                            @RequestParam( defaultValue = "1" ) @Min( value = 1 ) Integer page,
+                                            HttpServletRequest httpServletRequest) {
         log.debug( "controller called. {}", "/api/v2/movie/search-query" );
         return ResponseEntity.ok(
                 movieSearchService.searchMoviesByQueryData(
                         SearchMovies.builder()
                                     .movieName( movieName )
-                                    .language( language )
+                                    .language( httpServletRequest.getLocale().getLanguage() )
                                     .page( page )
                                     .build() ) );
     }

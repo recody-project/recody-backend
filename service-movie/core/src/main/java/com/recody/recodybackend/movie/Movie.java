@@ -20,6 +20,7 @@ public class Movie implements BasicContent {
     @Builder.Default
     private BasicCategory category = BasicCategory.Movie;
 
+    // TODO: imageUrl 로 바꾸기
     private String posterPath;
 
     private String title;
