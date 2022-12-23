@@ -43,7 +43,8 @@ public class MovieController {
                                                              HttpServletRequest httpServletRequest) {
         return ResponseEntity.ok()
                              .body( movieDetailService.getMovieDetail(
-                                     new GetMovieDetail( movieId, httpServletRequest.getLocale().getLanguage() ) ) );
+                                     new GetMovieDetail( movieId,
+                                                         httpServletRequest.getLocale().getLanguage() ) ) );
         
     }
     
@@ -58,7 +59,8 @@ public class MovieController {
                                   .data( movieDetailService.fetchMovieDetail(
                                           GetMovieDetail.builder()
                                                         .tmdbId( movieId )
-                                                        .language( httpServletRequest.getLocale().getLanguage() )
+                                                        .language(
+                                                                httpServletRequest.getLocale().getLanguage() )
                                                         .build() ) )
                                   .build();
     }
@@ -88,23 +90,34 @@ public class MovieController {
                                    .data( movieSearchService.searchMovies(
                                            SearchMovies.builder()
                                                        .movieName( movieName )
-                                                       .language( httpServletRequest.getLocale().getLanguage() )
+                                                       .language(
+                                                               httpServletRequest.getLocale().getLanguage() )
                                                        .page( page )
                                                        .build() ) )
                                    .build() );
     }
     
     @GetMapping( "/api/v3/movie/search" )
-    public ResponseEntity<Movies> search3(@RequestParam String movieName,
-                                          @RequestParam( defaultValue = "1" ) Integer page,
-                                          HttpServletRequest httpServletRequest) {
+    public ResponseEntity<SuccessResponseBody> search3(@RequestParam String movieName,
+                                                       @RequestParam( defaultValue = "1" ) Integer page,
+                                                       @RequestParam( required = false ) List<String> genreIds,
+                                                       HttpServletRequest httpServletRequest) {
         return ResponseEntity.ok(
-                movieSearchService.searchMoviesMix(
-                        SearchMovies.builder()
-                                    .movieName( movieName )
-                                    .language( httpServletRequest.getLocale().getLanguage() )
-                                    .page( page )
-                                    .build() ) );
+                SuccessResponseBody.builder()
+                                   .message( ms.getMessage( "movie.get_info.succeeded",
+                                                            null,
+                                                            httpServletRequest.getLocale() ) )
+                                   .data( movieSearchService.searchMoviesByQuery(
+                                           SearchMovies.builder()
+                                                       .movieName( movieName )
+                                                       .language( httpServletRequest.getLocale()
+                                                                                    .getLanguage() )
+                                                       .genreIds( GenreIds.of( genreIds ) )
+                                                       .page( page )
+                                                       .build() )
+                                        )
+                                   .build()
+                                );
     }
     
     @GetMapping( "/api/v1/movie/search-query" )

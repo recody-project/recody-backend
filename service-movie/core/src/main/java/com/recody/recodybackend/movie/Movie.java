@@ -19,15 +19,13 @@ public class Movie implements BasicContent {
 
     @Builder.Default
     private BasicCategory category = BasicCategory.Movie;
-
-    // TODO: imageUrl 로 바꾸기
-    private String posterPath;
+    private String imageUrl;
 
     private String title;
     
     @Override
     public String toString() {
-        return "{\"Movie\":{" + "\"contentId\":" + ((contentId != null) ? ("\"" + contentId + "\"") : null) + ", \"category\":" + ((category != null) ? ("\"" + category + "\"") : null) + ", \"posterPath\":" + ((posterPath != null) ? ("\"" + posterPath + "\"") : null) + ", \"title\":" + ((title != null) ? ("\"" + title + "\"") : null) + "}}";
+        return "{\"Movie\":{" + "\"contentId\":" + ((contentId != null) ? ("\"" + contentId + "\"") : null) + ", \"category\":" + ((category != null) ? ("\"" + category + "\"") : null) + ", \"posterPath\":" + ((imageUrl != null) ? ("\"" + imageUrl + "\"") : null) + ", \"title\":" + ((title != null) ? ("\"" + title + "\"") : null) + "}}";
     }
     
     @Override
