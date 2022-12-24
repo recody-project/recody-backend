@@ -4,8 +4,6 @@ dependencies {
     implementation project(":common")
     implementation project(":service-catalog-record-core")
 
-    // TODO: movie 의존성 없애기
-
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 

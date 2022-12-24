@@ -59,6 +59,7 @@ public abstract class MovieMapper {
               expression = "java(com.recody.recodybackend.common.contents.BasicCategory.Movie)" )
     @Mapping( target = "contentId", source = "movie.id" )
     @Mapping( target = "title", source = "movie.title" )
+    @Mapping( target = "imageUrl", source = "movie.posterPath" )
     public abstract Movie toMovie(MovieEntity movie, @Context Locale locale);
     
     /**
