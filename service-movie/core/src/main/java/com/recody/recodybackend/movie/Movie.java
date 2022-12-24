@@ -1,5 +1,6 @@
 package com.recody.recodybackend.movie;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.contents.BasicContent;
 import lombok.*;
@@ -18,6 +19,7 @@ public class Movie implements BasicContent {
     private String contentId;
 
     @Builder.Default
+    @JsonIgnore
     private BasicCategory category = BasicCategory.Movie;
     private String imageUrl;
 
