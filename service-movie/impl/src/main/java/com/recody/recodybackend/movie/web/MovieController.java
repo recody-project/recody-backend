@@ -97,29 +97,6 @@ public class MovieController {
                                    .build() );
     }
     
-    @GetMapping( "/api/v3/movie/search" )
-    public ResponseEntity<SuccessResponseBody> search3(@RequestParam String movieName,
-                                                       @RequestParam( defaultValue = "1" ) Integer page,
-                                                       @RequestParam( required = false ) List<String> genreIds,
-                                                       HttpServletRequest httpServletRequest) {
-        return ResponseEntity.ok(
-                SuccessResponseBody.builder()
-                                   .message( ms.getMessage( "movie.get_info.succeeded",
-                                                            null,
-                                                            httpServletRequest.getLocale() ) )
-                                   .data( movieSearchService.searchMoviesByQuery(
-                                           SearchMovies.builder()
-                                                       .movieName( movieName )
-                                                       .language( httpServletRequest.getLocale()
-                                                                                    .getLanguage() )
-                                                       .genreIds( GenreIds.of( genreIds ) )
-                                                       .page( page )
-                                                       .build() )
-                                        )
-                                   .build()
-                                );
-    }
-    
     @GetMapping( "/api/v1/movie/search-query" )
     public ResponseEntity<SearchMoviesByQueryResult> searchDB(@RequestParam String movieName,
                                                               @RequestParam( defaultValue = "1" ) @Min( value = 1 ) Integer page,

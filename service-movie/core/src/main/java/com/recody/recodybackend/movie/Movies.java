@@ -1,5 +1,6 @@
 package com.recody.recodybackend.movie;
 
+import com.recody.recodybackend.common.data.QueryMetadata;
 import lombok.*;
 
 import java.util.List;
@@ -18,7 +19,20 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Movies {
     
+    private QueryMetadata metadata;
     private List<Movie> movies;
+    
+    public Movies(List<Movie> movies) {
+        this.movies = movies;
+    }
+    
+    // TODO: Page<T> 로 생성자 정의하기
+    // Shared 모듈로 옮기기
+    
+    public Movies(List<Movie> movies, QueryMetadata metadata) {
+        this.metadata = metadata;
+        this.movies = movies;
+    }
     
     @Override
     public String toString() {
