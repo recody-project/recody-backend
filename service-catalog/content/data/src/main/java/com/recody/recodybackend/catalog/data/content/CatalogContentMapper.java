@@ -21,7 +21,7 @@ public abstract class CatalogContentMapper {
     
     
     // TODO: 국가별 이름 매핑하기
-    @Mapping( target = "imageUrl", source = "movieDetail.posterPath" )
+    @Mapping( target = "imageUrl", source = "movieDetail.imageUrl" )
     @Mapping( target = "id", ignore = true )
     @Mapping( target = "contentId", source = "contentId" )
     @Mapping( target = "title", source = "movieDetail.title" )
@@ -33,6 +33,7 @@ public abstract class CatalogContentMapper {
     @Mapping( target = "category", expression = "java(BasicCategory.idOf(entity.getCategory().getId()))" )
     public abstract CatalogMovie toCatalogMovie(CatalogContentEntity entity, @Context Locale locale);
     
+    @Mapping( target = "posterPath", source = "movieDetail.imageUrl" )
     @Mapping( target = "title", source = "movieDetail.title" )
     @Mapping( target = "category", source = "movieDetail.category" )
     @Mapping( target = "contentId", source = "movieDetail.contentId" )

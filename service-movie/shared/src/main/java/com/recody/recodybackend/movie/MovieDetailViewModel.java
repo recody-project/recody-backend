@@ -21,7 +21,7 @@ public class MovieDetailViewModel {
     @Builder.Default
     private BasicCategory category = BasicCategory.Movie;
     private String title;
-    private String posterPath;
+    private String imageUrl;
     private String overview;
     private String releaseDate;
     private Integer runtime;
