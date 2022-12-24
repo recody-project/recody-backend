@@ -6,6 +6,7 @@ import com.recody.recodybackend.movie.data.genre.MovieGenreMapper;
 import com.recody.recodybackend.movie.data.overview.MovieOverviewMapper;
 import com.recody.recodybackend.movie.data.people.MovieActorEntity;
 import com.recody.recodybackend.movie.data.people.MovieDirectorEntity;
+import com.recody.recodybackend.movie.data.people.MoviePersonEntity;
 import com.recody.recodybackend.movie.data.people.MoviePersonMapper;
 import com.recody.recodybackend.movie.data.title.MovieTitleMapper;
 import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieDetail;
@@ -78,7 +79,7 @@ public abstract class MovieDetailMapper {
     @Mapping( target = "source", expression = "java((s.equals(MovieSource.TMDB)) ? MovieSource.TMDB : null)" )
     @Mapping( target = "title", source = "." )
     @Mapping( target = "genres", source = "entity.genres" )
-    @Mapping( target = "imageUrl", source = "entity.posterPath")
+    @Mapping( target = "imageUrl", source = "entity.posterPath" )
     public abstract MovieDetail map(MovieEntity entity, @Context MovieSource s, @Context Locale locale);
     
     @Mapping( target = "directors", ignore = true )
@@ -134,34 +135,37 @@ public abstract class MovieDetailMapper {
     @Named( "concatActorsEntities" )
     public String concatActorEntities(List<MovieActorEntity> actors, @Context Locale locale) {
         StringBuilder stringBuilder = new StringBuilder();
-        if ( locale.getLanguage().equals( Locale.KOREAN.getLanguage() ) ) {
-            if ( !actors.isEmpty() ) {
-                for (MovieActorEntity actor : actors) {
-                    if ( stringBuilder.length() != 0 ) {
-                        stringBuilder.append( ", " );
-                    }
-                    String koreanName = actor.getPerson().getName().getKoreanName();
-                    String englishName = actor.getPerson().getName().getEnglishName();
-                    stringBuilder.append( StringUtils.hasText( koreanName ) ? koreanName : englishName );
-                }
+        if ( !actors.isEmpty() ) {
+            for (MovieActorEntity actor : actors) {
+                concatPersonNameByLocale( locale, stringBuilder, actor.getPerson() );
             }
         }
         return stringBuilder.toString();
     }
     
+    private void concatPersonNameByLocale(@Context Locale locale,
+                                          StringBuilder stringBuilder,
+                                          MoviePersonEntity person) {
+        if ( stringBuilder.length() != 0 ) {
+            stringBuilder.append( ", " );
+        }
+        String koreanName = person.getName().getKoreanName();
+        String englishName = person.getName().getEnglishName();
+        if ( locale.getLanguage().equals( Locale.KOREAN.getLanguage() ) ) {
+            stringBuilder.append( StringUtils.hasText( koreanName ) ? koreanName : englishName );
+        }
+        else {
+            stringBuilder.append( StringUtils.hasText( englishName ) ? englishName : koreanName );
+            
+        }
+    }
+    
     @Named( "concatDirectorsEntities" )
     public String concatDirectorEntities(List<MovieDirectorEntity> directors, @Context Locale locale) {
         StringBuilder stringBuilder = new StringBuilder();
-        if ( locale.getLanguage().equals( Locale.KOREAN.getLanguage() ) ) {
-            if ( !directors.isEmpty() ) {
-                for (MovieDirectorEntity director : directors) {
-                    if ( stringBuilder.length() != 0 ) {
-                        stringBuilder.append( ", " );
-                    }
-                    String koreanName = director.getPerson().getName().getKoreanName();
-                    String englishName = director.getPerson().getName().getEnglishName();
-                    stringBuilder.append( koreanName != null ? koreanName : englishName );
-                }
+        if ( !directors.isEmpty() ) {
+            for (MovieDirectorEntity director : directors) {
+                concatPersonNameByLocale( locale, stringBuilder, director.getPerson() );
             }
         }
         return stringBuilder.toString();
