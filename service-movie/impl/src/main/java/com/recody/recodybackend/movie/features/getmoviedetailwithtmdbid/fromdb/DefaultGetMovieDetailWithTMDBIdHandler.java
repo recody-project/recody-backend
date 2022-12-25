@@ -1,4 +1,4 @@
-package com.recody.recodybackend.movie.features.getmoviedetail.fromdb;
+package com.recody.recodybackend.movie.features.getmoviedetailwithtmdbid.fromdb;
 
 import com.recody.recodybackend.movie.MovieDetailViewModel;
 import com.recody.recodybackend.movie.data.movie.MovieDetailMapper;
@@ -62,7 +62,7 @@ class DefaultGetMovieDetailWithTMDBIdHandler implements GetMovieDetailWithTMDBId
     
     @Override
     @Transactional
-    public MovieDetailViewModel handle(GetMovieDetail command) {
+    public MovieDetailViewModel handle(GetMovieDetailWithTMDBId command) {
         Integer movieId = command.getTmdbId();
         Optional<MovieEntity> optionalMovie = movieRepository.findByTmdbId( movieId );
         if ( optionalMovie.isEmpty() ) {

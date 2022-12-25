@@ -6,7 +6,7 @@ import com.recody.recodybackend.movie.data.event.NoKoreanOverviewFoundEventPubli
 import com.recody.recodybackend.movie.data.movie.MovieEntity;
 import com.recody.recodybackend.movie.events.NoEnglishOverviewFound;
 import com.recody.recodybackend.movie.events.NoKoreanOverviewFound;
-import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieDetail;
+import com.recody.recodybackend.movie.features.getmoviedetailwithtmdbid.dto.TMDBMovieDetail;
 import lombok.extern.slf4j.Slf4j;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Context;

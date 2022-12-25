@@ -6,7 +6,7 @@ import com.recody.recodybackend.movie.RecodyMovieApplication;
 import com.recody.recodybackend.movie.data.genre.MovieGenreCodeEntity;
 import com.recody.recodybackend.movie.data.genre.MovieGenreCodeRepository;
 import com.recody.recodybackend.movie.data.genre.MovieGenreMapper;
-import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieGenre;
+import com.recody.recodybackend.movie.features.getmoviedetailwithtmdbid.dto.TMDBMovieGenre;
 import com.recody.recodybackend.movie.data.genre.MovieGenreCodeManager;
 import com.recody.recodybackend.movie.features.resolvegenre.fromapi.GetTMDBMovieGenresHandler;
 import org.junit.jupiter.api.BeforeEach;

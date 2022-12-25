@@ -1,4 +1,4 @@
-package com.recody.recodybackend.movie.features.getmoviedetail.fromdb;
+package com.recody.recodybackend.movie.features.getmoviedetail;
 
 import lombok.*;
 
@@ -9,7 +9,7 @@ import java.util.Locale;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class GetMovieDetailV2 {
+public class GetMovieDetail {
     
     // TODO: 객체로 정의하기
     private String movieId;

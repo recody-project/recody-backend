@@ -1,4 +1,4 @@
-package com.recody.recodybackend.movie.features.getmoviedetail.dto;
+package com.recody.recodybackend.movie.features.getmoviedetailwithtmdbid.dto;
 
 import lombok.*;
 

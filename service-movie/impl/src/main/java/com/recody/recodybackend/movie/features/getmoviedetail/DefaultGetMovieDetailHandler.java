@@ -1,4 +1,4 @@
-package com.recody.recodybackend.movie.features.getmoviedetail.fromdb;
+package com.recody.recodybackend.movie.features.getmoviedetail;
 
 import com.recody.recodybackend.movie.MovieDetailViewModel;
 import com.recody.recodybackend.movie.data.movie.MovieDetailMapper;
@@ -14,13 +14,13 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-class DefaultGetMovieDetailHandlerV2 implements GetMovieDetailHandlerV2<MovieDetailViewModel>{
+class DefaultGetMovieDetailHandler implements GetMovieDetailHandler<MovieDetailViewModel> {
     
     private final MovieDetailMapper mapper;
     private final MovieRepository movieRepository;
     
     @Override
-    public MovieDetailViewModel handle(GetMovieDetailV2 query) {
+    public MovieDetailViewModel handle(GetMovieDetail query) {
         Locale locale = query.getLocale();
         String movieId = query.getMovieId();
         

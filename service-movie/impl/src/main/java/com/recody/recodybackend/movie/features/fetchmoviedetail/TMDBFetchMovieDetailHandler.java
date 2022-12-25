@@ -1,7 +1,7 @@
 package com.recody.recodybackend.movie.features.fetchmoviedetail;
 
-import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieDetail;
-import com.recody.recodybackend.movie.features.getmoviedetail.fromdb.GetMovieDetail;
+import com.recody.recodybackend.movie.features.getmoviedetailwithtmdbid.dto.TMDBMovieDetail;
+import com.recody.recodybackend.movie.features.getmoviedetailwithtmdbid.fromdb.GetMovieDetailWithTMDBId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,7 +17,7 @@ import java.util.Objects;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-class TMDBFetchMovieDetailHandler implements FetchMovieDetailHandler<TMDBMovieDetail, GetMovieDetail> {
+class TMDBFetchMovieDetailHandler implements FetchMovieDetailHandler<TMDBMovieDetail, GetMovieDetailWithTMDBId> {
     private static final String baseUrl = "https://api.themoviedb.org/3";
     private static final String PATH = "/movie/";
     private static final String TMDB_LANGUAGE_PARAM_NAME = "language";
@@ -27,7 +27,7 @@ class TMDBFetchMovieDetailHandler implements FetchMovieDetailHandler<TMDBMovieDe
     @Value("${movie.tmdb.api-key}")
     private String apiKey;
     
-    public TMDBMovieDetail handle(GetMovieDetail args) {
+    public TMDBMovieDetail handle(GetMovieDetailWithTMDBId args) {
         log.debug("handling args: {}", args);
         String language = args.getLanguage();
         Integer movieId = args.getTmdbId();

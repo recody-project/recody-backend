@@ -6,7 +6,7 @@ import com.recody.recodybackend.movie.Movie;
 import com.recody.recodybackend.movie.features.fetchmoviecredit.dto.TMDBCast;
 import com.recody.recodybackend.movie.features.fetchmoviecredit.dto.TMDBCrew;
 import com.recody.recodybackend.movie.MovieInfo;
-import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieDetail;
+import com.recody.recodybackend.movie.features.getmoviedetailwithtmdbid.dto.TMDBMovieDetail;
 import com.recody.recodybackend.movie.features.searchmovies.dto.TMDBMovieSearchNode;
 import com.recody.recodybackend.movie.features.tmdb.TMDBMovieID;
 

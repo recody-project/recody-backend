@@ -1,4 +1,4 @@
-package com.recody.recodybackend.movie.features.getmoviedetail.fromdb;
+package com.recody.recodybackend.movie.features.getmoviedetail;
 
 import com.recody.recodybackend.common.web.SuccessResponseBody;
 import com.recody.recodybackend.movie.MovieDetailViewModel;
@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 public class GetMovieDetailControllerV3 {
     
     private final MessageSource ms;
-    private final GetMovieDetailHandlerV2<MovieDetailViewModel> getMovieDetailHandlerV2;
+    private final GetMovieDetailHandler<MovieDetailViewModel> getMovieDetailHandler;
     
     
     
@@ -29,8 +29,8 @@ public class GetMovieDetailControllerV3 {
                                   .message( ms.getMessage( "movie.get_info.succeeded",
                                                            null,
                                                            httpServletRequest.getLocale() ) )
-                                  .data( getMovieDetailHandlerV2.handle(
-                                          GetMovieDetailV2.builder()
+                                  .data( getMovieDetailHandler.handle(
+                                          GetMovieDetail.builder()
                                                         .movieId( movieId )
                                                         .locale( httpServletRequest.getLocale() )
                                                         .build() ) )

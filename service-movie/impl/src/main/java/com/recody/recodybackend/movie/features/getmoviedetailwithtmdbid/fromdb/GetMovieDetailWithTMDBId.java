@@ -1,4 +1,4 @@
-package com.recody.recodybackend.movie.features.getmoviedetail.fromdb;
+package com.recody.recodybackend.movie.features.getmoviedetailwithtmdbid.fromdb;
 
 import lombok.*;
 
@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class GetMovieDetail{
+public class GetMovieDetailWithTMDBId {
     
     private Integer tmdbId;
     private String language;

@@ -1,7 +1,7 @@
-package com.recody.recodybackend.movie.features.getmoviedetail.fromapi;
+package com.recody.recodybackend.movie.features.getmoviedetailwithtmdbid.fromapi;
 
 import com.recody.recodybackend.common.web.SuccessResponseBody;
-import com.recody.recodybackend.movie.features.getmoviedetail.fromdb.GetMovieDetail;
+import com.recody.recodybackend.movie.features.getmoviedetailwithtmdbid.fromdb.GetMovieDetailWithTMDBId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
@@ -28,10 +28,10 @@ public class GetMovieDetailControllerV2 {
                                                            null,
                                                            httpServletRequest.getLocale() ) )
                                   .data( getMovieDetailFromTMDBHandler.handle(
-                                          GetMovieDetail.builder()
-                                                        .tmdbId( movieId )
-                                                        .language( httpServletRequest.getLocale().getLanguage() )
-                                                        .build() ) )
+                                          GetMovieDetailWithTMDBId.builder()
+                                                                  .tmdbId( movieId )
+                                                                  .language( httpServletRequest.getLocale().getLanguage() )
+                                                                  .build() ) )
                                   .build();
     }
 }

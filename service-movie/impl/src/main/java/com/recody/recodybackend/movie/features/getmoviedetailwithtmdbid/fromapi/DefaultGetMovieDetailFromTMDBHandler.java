@@ -1,4 +1,4 @@
-package com.recody.recodybackend.movie.features.getmoviedetail.fromapi;
+package com.recody.recodybackend.movie.features.getmoviedetailwithtmdbid.fromapi;
 
 import com.recody.recodybackend.movie.Actor;
 import com.recody.recodybackend.movie.Director;
@@ -10,8 +10,8 @@ import com.recody.recodybackend.movie.features.fetchmoviecredit.dto.TMDBCast;
 import com.recody.recodybackend.movie.features.fetchmoviecredit.dto.TMDBCrew;
 import com.recody.recodybackend.movie.features.fetchmoviecredit.dto.TMDBGetMovieCreditResponse;
 import com.recody.recodybackend.movie.features.fetchmoviedetail.FetchMovieDetailHandler;
-import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieDetail;
-import com.recody.recodybackend.movie.features.getmoviedetail.fromdb.GetMovieDetail;
+import com.recody.recodybackend.movie.features.getmoviedetailwithtmdbid.dto.TMDBMovieDetail;
+import com.recody.recodybackend.movie.features.getmoviedetailwithtmdbid.fromdb.GetMovieDetailWithTMDBId;
 import com.recody.recodybackend.movie.features.tmdb.TMDBMovieID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,12 +27,12 @@ import java.util.Locale;
 class DefaultGetMovieDetailFromTMDBHandler implements GetMovieDetailFromTMDBHandler {
     private final MovieDetailMapper movieDetailMapper;
     private final MoviePersonMapper personMapper;
-    private final FetchMovieDetailHandler<TMDBMovieDetail, GetMovieDetail> fetchMovieDetailHandler;
+    private final FetchMovieDetailHandler<TMDBMovieDetail, GetMovieDetailWithTMDBId> fetchMovieDetailHandler;
     private final FetchMovieCreditsHandler<TMDBGetMovieCreditResponse, TMDBMovieID> fetchMovieCreditsHandler;
     private final ApplicationEventPublisher applicationEventPublisher;
     
     @Override
-    public TMDBFetchedMovieDetail handle(GetMovieDetail command) {
+    public TMDBFetchedMovieDetail handle(GetMovieDetailWithTMDBId command) {
         log.debug( "handling command: {}", command );
         Integer tmdbId = command.getTmdbId();
         Locale locale = Locale.forLanguageTag( command.getLanguage() );

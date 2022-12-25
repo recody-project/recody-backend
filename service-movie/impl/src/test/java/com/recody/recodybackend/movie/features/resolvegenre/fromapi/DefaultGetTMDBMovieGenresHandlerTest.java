@@ -1,7 +1,7 @@
 package com.recody.recodybackend.movie.features.resolvegenre.fromapi;
 
 import com.recody.recodybackend.movie.RecodyMovieApplication;
-import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieGenre;
+import com.recody.recodybackend.movie.features.getmoviedetailwithtmdbid.dto.TMDBMovieGenre;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

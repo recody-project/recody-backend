@@ -1,4 +1,4 @@
-package com.recody.recodybackend.movie.features.getmoviedetail.fromdb;
+package com.recody.recodybackend.movie.features.getmoviedetailwithtmdbid.fromdb;
 
 import com.recody.recodybackend.movie.MovieDetailViewModel;
 import lombok.RequiredArgsConstructor;
@@ -22,10 +22,10 @@ public class GetMovieDetailControllerV1 {
                                                              HttpServletRequest httpServletRequest) {
         return ResponseEntity.ok()
                              .body( getMovieDetailWithTMDBIdHandler.handle(
-                                     GetMovieDetail.builder()
-                                                   .tmdbId( movieId )
-                                                   .language( httpServletRequest.getLocale().getLanguage() )
-                                                   .build() ) );
+                                     GetMovieDetailWithTMDBId.builder()
+                                                             .tmdbId( movieId )
+                                                             .language( httpServletRequest.getLocale().getLanguage() )
+                                                             .build() ) );
         
     }
 }
