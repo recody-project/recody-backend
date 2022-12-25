@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequiredArgsConstructor
-public class GetMovieDetailController {
+public class GetMovieDetailControllerV3 {
     
     private final MessageSource ms;
     private final GetMovieDetailHandlerV2<MovieDetailViewModel> getMovieDetailHandlerV2;

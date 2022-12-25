@@ -18,7 +18,7 @@ public class QueryMetadata {
     private Integer currentPage;
     private Integer totalPages;
     
-    private QueryMetadata(Integer size, Integer currentPage, Integer totalPages) {
+    public QueryMetadata(Integer size, Integer currentPage, Integer totalPages) {
         this.size = size;
         this.currentPage = currentPage;
         this.totalPages = totalPages;
