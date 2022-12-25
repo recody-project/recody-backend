@@ -11,8 +11,9 @@ import com.recody.recodybackend.movie.features.getmoviedetail.fromapi.FetchedMov
 import com.recody.recodybackend.movie.features.getmoviedetail.fromdb.GetMovieDetail;
 import com.recody.recodybackend.movie.features.getmoviegenres.GetMovieGenresHandler;
 import com.recody.recodybackend.movie.features.searchmovies.SearchMovies;
-import lombok.RequiredArgsConstructor;
+import com.recody.recodybackend.movie.features.searchmovies.SearchMoviesHandlerV2;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,6 @@ import javax.validation.constraints.Min;
 import java.util.List;
 
 @RestController
-@RequiredArgsConstructor
 @Slf4j
 @Validated
 public class MovieController {
@@ -37,6 +37,19 @@ public class MovieController {
     private final MessageSource ms;
     
     private final GetMovieGenresHandler getMovieGenresHandler;
+    
+    private final SearchMoviesHandlerV2<Movies> searchMoviesHandlerV2;
+    
+    public MovieController(MovieSearchService movieSearchService,
+                           MovieDetailService<FetchedMovieDetailViewModel, GetMovieDetail> movieDetailService,
+                           MessageSource ms, GetMovieGenresHandler getMovieGenresHandler,
+                           @Qualifier("pagedSearchMoviesHandler") SearchMoviesHandlerV2<Movies> searchMoviesHandlerV2) {
+        this.movieSearchService = movieSearchService;
+        this.movieDetailService = movieDetailService;
+        this.ms = ms;
+        this.getMovieGenresHandler = getMovieGenresHandler;
+        this.searchMoviesHandlerV2 = searchMoviesHandlerV2;
+    }
     
     @GetMapping( "/api/v1/movie/detail" )
     public ResponseEntity<MovieDetailViewModel> getMovieInfo(@RequestParam Integer movieId,
@@ -98,31 +111,33 @@ public class MovieController {
     }
     
     @GetMapping( "/api/v1/movie/search-query" )
-    public ResponseEntity<SearchMoviesByQueryResult> searchDB(@RequestParam String movieName,
+    public ResponseEntity<Movies> searchDB(@RequestParam String movieName,
                                                               @RequestParam( defaultValue = "1" ) @Min( value = 1 ) Integer page,
                                                               @RequestParam( required = false ) List<String> genreIds,
                                                               HttpServletRequest httpServletRequest) {
         log.debug( "controller called. {}", "/api/v1/movie/search-query" );
         return ResponseEntity.ok(
-                movieSearchService.searchMoviesByQuery(
-                        SearchMovies.builder()
-                                    .movieName( movieName )
-                                    .language( httpServletRequest.getLocale().getLanguage() )
-                                    .genreIds( GenreIds.of( genreIds ) )
-                                    .page( page )
-                                    .build() ) );
+                searchMoviesHandlerV2.handle(
+                SearchMovies.builder()
+                            .movieName( movieName )
+                            .language( httpServletRequest.getLocale().getLanguage() )
+                            .genreIds( GenreIds.of( genreIds ) )
+                            .page( page )
+                            .build() ) );
     }
     
     @GetMapping( "/api/v2/movie/search-query" )
     public ResponseEntity<Movies> searchDB2(@RequestParam String movieName,
                                             @RequestParam( defaultValue = "1" ) @Min( value = 1 ) Integer page,
-                                            HttpServletRequest httpServletRequest) {
+                                            HttpServletRequest httpServletRequest,
+                                            @RequestParam( required = false ) List<String> genreIds) {
         log.debug( "controller called. {}", "/api/v2/movie/search-query" );
         return ResponseEntity.ok(
-                movieSearchService.searchMoviesByQueryData(
+                searchMoviesHandlerV2.handle(
                         SearchMovies.builder()
                                     .movieName( movieName )
                                     .language( httpServletRequest.getLocale().getLanguage() )
+                                    .genreIds( GenreIds.of( genreIds ) )
                                     .page( page )
                                     .build() ) );
     }

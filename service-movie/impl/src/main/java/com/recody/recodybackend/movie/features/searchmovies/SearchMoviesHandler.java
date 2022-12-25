@@ -14,6 +14,7 @@ import java.util.List;
 * 위 정보를 가져오는 시점이 서로 다를 수 있다.
 * 따라서 따로 mapper 를 구현해서 장르 정보, rootId 정보를 세팅하는 대로 반환하도록 한다.
 * */
+@Deprecated
 public interface SearchMoviesHandler<T> {
     List<T> handle(SearchMovies command);
     

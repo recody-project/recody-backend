@@ -55,6 +55,7 @@ class DefaultMovieService implements MovieSearchService,
      * TMDB 에서 영화의 상세정보를 가져와 반환한다.
      * 받아온 결과를 매핑하여 그대로 반환하며, 저장은 비동기로 이루어진다.
      */
+    @Deprecated
     @Override
     public FetchedMovieDetailViewModel fetchMovieDetail(GetMovieDetail args) {
         TMDBFetchedMovieDetail tmdbFetchedMovieDetail = getMovieDetailFromTMDBHandler.handle( args );
@@ -68,12 +69,14 @@ class DefaultMovieService implements MovieSearchService,
      * 상세 정보는 MovieDetail 객체를 포함한다.
      * 주의: @Transactional 을 붙이지 말것.
      */
+    @Deprecated
     @Override
     public MovieDetailViewModel getMovieDetail(GetMovieDetail command) {
         MovieDetail movieDetail = getMovieDetailHandler.handleFromDB( command );
         return movieDetailMapper.toViewModel( movieDetail );
     }
     
+    @Deprecated
     @Override
     @Transactional
     public SearchMoviesResult searchMovies(SearchMovies command) {
@@ -104,6 +107,7 @@ class DefaultMovieService implements MovieSearchService,
                                  .build();
     }
     
+    @Deprecated
     @Override
     @Transactional
     public Movies searchMoviesMix(SearchMovies command) {
@@ -127,6 +131,7 @@ class DefaultMovieService implements MovieSearchService,
         return new Movies( moviesFuture.join() );
     }
     
+    @Deprecated
     @Override
     @Transactional
     public SearchMoviesByQueryResult searchMoviesByQuery(SearchMovies command) {
@@ -142,6 +147,7 @@ class DefaultMovieService implements MovieSearchService,
                                         .build();
     }
     
+    @Deprecated
     @Override
     public Movies searchMoviesByQueryData(SearchMovies command) {
         Locale locale = Locale.forLanguageTag( command.getLanguage() );
