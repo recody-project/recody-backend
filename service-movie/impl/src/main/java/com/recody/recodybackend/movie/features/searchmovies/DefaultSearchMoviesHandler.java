@@ -32,6 +32,7 @@ class DefaultSearchMoviesHandler implements SearchMoviesHandler<Movies> {
         PageRequest pageable = PageRequest.of( query.getPage() - 1, query.getSize() );
         Locale locale = Locale.forLanguageTag( query.getLanguage() );
         GenreIds genreIds = query.getGenreIds();
+        // TODO: 검색 이벤트로 저장 되도록 구현
         
         Page<MovieEntity> movieEntitiesPage =
                 movieRepository.findPagedByTitleLikeFilterByGenreIds( movieName, locale, pageable, genreIds );
