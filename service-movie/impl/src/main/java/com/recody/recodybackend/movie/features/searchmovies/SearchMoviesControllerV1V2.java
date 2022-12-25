@@ -13,21 +13,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Min;
 
 @RestController
-
-class SearchMoviesControllerV2 {
+class SearchMoviesControllerV1V2 {
     
-    private final SearchMoviesHandlerV2<SearchMoviesResult> searchMoviesHandlerV2;
+    private final SearchMoviesHandler<SearchMoviesResult> searchMoviesHandler;
     private final MessageSource ms;
     
-    public SearchMoviesControllerV2(@Qualifier("tmdbSearchMoviesHandler") SearchMoviesHandlerV2<SearchMoviesResult> searchMoviesHandlerV2,
-                                    MessageSource ms) {
-        this.searchMoviesHandlerV2 = searchMoviesHandlerV2;
+    public SearchMoviesControllerV1V2(
+            @Qualifier( "tmdbSearchMoviesHandler" ) SearchMoviesHandler<SearchMoviesResult> searchMoviesHandler,
+            MessageSource ms) {
+        this.searchMoviesHandler = searchMoviesHandler;
         this.ms = ms;
     }
     
-
+    
     /* v1, v2 가 미세한 차이가 있었지만 의미도 없고 앞으로는 사용하지 않을 api 이기 때문에 통합했습니다.
-    * */
+     * */
     @GetMapping( {"/api/v1/movie/search", "/api/v2/movie/search"} )
     public ResponseEntity<SuccessResponseBody> search2(@RequestParam String movieName,
                                                        HttpServletRequest httpServletRequest,
@@ -36,7 +36,7 @@ class SearchMoviesControllerV2 {
                 SuccessResponseBody.builder()
                                    .message( ms.getMessage( "movie.search.succeeded", null,
                                                             httpServletRequest.getLocale() ) )
-                                   .data( searchMoviesHandlerV2.handle(
+                                   .data( searchMoviesHandler.handle(
                                            SearchMovies.builder()
                                                        .movieName( movieName )
                                                        .language( httpServletRequest.getLocale().getLanguage() )

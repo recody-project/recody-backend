@@ -21,12 +21,12 @@ import java.util.List;
 @Validated
 public class SearchMoviesControllerV3 {
     
-    private final SearchMoviesHandlerV2<Movies> searchMoviesHandlerV2;
+    private final SearchMoviesHandler<Movies> searchMoviesHandler;
     private final MessageSource ms;
     
-    public SearchMoviesControllerV3(@Qualifier("pagedSearchMoviesHandler") SearchMoviesHandlerV2<Movies> searchMoviesHandlerV2,
+    public SearchMoviesControllerV3(@Qualifier( "defaultSearchMoviesHandler" ) SearchMoviesHandler<Movies> searchMoviesHandler,
                                     MessageSource ms) {
-        this.searchMoviesHandlerV2 = searchMoviesHandlerV2;
+        this.searchMoviesHandler = searchMoviesHandler;
         this.ms = ms;
     }
     
@@ -39,7 +39,7 @@ public class SearchMoviesControllerV3 {
                 SuccessResponseBody.builder()
                                    .message( ms.getMessage( "movie.search.succeeded", null,
                                                             httpServletRequest.getLocale() ) )
-                                   .data( searchMoviesHandlerV2.handle(
+                                   .data( searchMoviesHandler.handle(
                                            SearchMovies.builder()
                                                        .movieName( movieName )
                                                        .language( httpServletRequest.getLocale().getLanguage() )

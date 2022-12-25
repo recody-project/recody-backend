@@ -20,7 +20,7 @@ import java.util.Locale;
 @Component( "tmdbSearchMoviesHandler" )
 @RequiredArgsConstructor
 @Slf4j
-class TMDBSearchMoviesHandlerV2 implements SearchMoviesHandlerV2<SearchMoviesResult> {
+class TMDBSearchMoviesHandler implements SearchMoviesHandler<SearchMoviesResult> {
     
     private final SearchMoviesFromTMDBHandler<TMDBMovieSearchResponse> searchMoviesFromTMDBHandler;
     private final MovieMapper movieMapper;
