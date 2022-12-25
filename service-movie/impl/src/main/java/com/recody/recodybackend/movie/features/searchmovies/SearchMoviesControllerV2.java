@@ -25,7 +25,10 @@ class SearchMoviesControllerV2 {
         this.ms = ms;
     }
     
-    @GetMapping( "/api/v2/movie/search" )
+
+    /* v1, v2 가 미세한 차이가 있었지만 의미도 없고 앞으로는 사용하지 않을 api 이기 때문에 통합했습니다.
+    * */
+    @GetMapping( {"/api/v1/movie/search", "/api/v2/movie/search"} )
     public ResponseEntity<SuccessResponseBody> search2(@RequestParam String movieName,
                                                        HttpServletRequest httpServletRequest,
                                                        @RequestParam( defaultValue = "1" ) @Min( value = 1 ) Integer page) {

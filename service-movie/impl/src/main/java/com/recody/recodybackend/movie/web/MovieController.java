@@ -4,11 +4,9 @@ import com.recody.recodybackend.common.web.SuccessResponseBody;
 import com.recody.recodybackend.movie.MovieDetailViewModel;
 import com.recody.recodybackend.movie.MovieGenres;
 import com.recody.recodybackend.movie.features.MovieDetailService;
-import com.recody.recodybackend.movie.features.MovieSearchService;
 import com.recody.recodybackend.movie.features.getmoviedetail.fromapi.FetchedMovieDetailViewModel;
 import com.recody.recodybackend.movie.features.getmoviedetail.fromdb.GetMovieDetail;
 import com.recody.recodybackend.movie.features.getmoviegenres.GetMovieGenresHandler;
-import com.recody.recodybackend.movie.features.searchmovies.SearchMovies;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
@@ -21,15 +19,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.constraints.Min;
 
 @RestController
 @Slf4j
 @RequiredArgsConstructor
 @Validated
 public class MovieController {
-    
-    private final MovieSearchService movieSearchService;
     private final MovieDetailService<FetchedMovieDetailViewModel, GetMovieDetail> movieDetailService;
     private final MessageSource ms;
     
@@ -60,20 +55,6 @@ public class MovieController {
                                                                 httpServletRequest.getLocale().getLanguage() )
                                                         .build() ) )
                                   .build();
-    }
-    
-    @GetMapping( "/api/v1/movie/search" )
-    public ResponseEntity<SearchMoviesResult> search(@RequestParam String movieName,
-                                                     @RequestParam( defaultValue = "1" ) @Min( value = 1 ) Integer page,
-                                                     HttpServletRequest httpServletRequest) {
-        log.debug( "controller called" );
-        return ResponseEntity.ok(
-                movieSearchService.searchMovies(
-                        SearchMovies.builder()
-                                    .movieName( movieName )
-                                    .language( httpServletRequest.getLocale().getLanguage() )
-                                    .page( page )
-                                    .build() ) );
     }
     
     @GetMapping( MovieHTTPAPI.getGenres )
