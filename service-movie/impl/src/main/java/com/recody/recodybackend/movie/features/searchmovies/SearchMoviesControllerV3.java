@@ -19,13 +19,13 @@ import java.util.List;
 @RestController
 @Slf4j
 @Validated
-public class SearchMoviesController {
+public class SearchMoviesControllerV3 {
     
     private final SearchMoviesHandlerV2<Movies> searchMoviesHandlerV2;
     private final MessageSource ms;
     
-    public SearchMoviesController(@Qualifier("pagedSearchMoviesHandler") SearchMoviesHandlerV2<Movies> searchMoviesHandlerV2,
-                                  MessageSource ms) {
+    public SearchMoviesControllerV3(@Qualifier("pagedSearchMoviesHandler") SearchMoviesHandlerV2<Movies> searchMoviesHandlerV2,
+                                    MessageSource ms) {
         this.searchMoviesHandlerV2 = searchMoviesHandlerV2;
         this.ms = ms;
     }
