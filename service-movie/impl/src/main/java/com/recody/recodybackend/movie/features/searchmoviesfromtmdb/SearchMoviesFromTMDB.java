@@ -14,9 +14,6 @@ public class SearchMoviesFromTMDB {
     private String movieName;
     private String language;
     
-    @Builder.Default
-    private Integer size = 10;
-    
     @Min( value = 1 )
     private Integer page;
 }

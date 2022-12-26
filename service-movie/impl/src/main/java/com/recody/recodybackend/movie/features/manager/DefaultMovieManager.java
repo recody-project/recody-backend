@@ -140,6 +140,7 @@ class DefaultMovieManager implements MovieManager {
         
         
         @Override
+        @Transactional
         public Movie register(TMDBMovieSearchNode source, Locale locale) {
             log.debug( "registering TMDBMovieSearchNode, locale: {}", locale );
             Optional<MovieEntity> optionalMovie;
