@@ -11,13 +11,13 @@ import java.util.Locale;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class MoviesSearched {
+public class SearchingMoviesFetched {
     
     private List<TMDBMovieSearchNode> tmdbMovies;
     private Locale locale;
     
     @Override
     public String toString() {
-        return "\"MoviesSearched\"";
+        return "\"SearchingMoviesFetched\"";
     }
 }

@@ -53,7 +53,7 @@ class DefaultMovieEventListener {
     
     @Async
     @TransactionalEventListener
-    public void on(MoviesSearched event) {
+    public void on(SearchingMoviesFetched event) {
         log.debug( "consuming event: {}", event );
         List<TMDBMovieSearchNode> tmdbMovies = event.getTmdbMovies();
         Locale locale = event.getLocale();

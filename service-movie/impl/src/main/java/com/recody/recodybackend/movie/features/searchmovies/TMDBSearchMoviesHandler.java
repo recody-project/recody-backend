@@ -2,7 +2,7 @@ package com.recody.recodybackend.movie.features.searchmovies;
 
 import com.recody.recodybackend.common.data.QueryMetadata;
 import com.recody.recodybackend.movie.data.movie.MovieMapper;
-import com.recody.recodybackend.movie.features.applicationevent.MoviesSearched;
+import com.recody.recodybackend.movie.features.applicationevent.SearchingMoviesFetched;
 import com.recody.recodybackend.movie.features.searchmovies.dto.TMDBMovieSearchNode;
 import com.recody.recodybackend.movie.features.searchmovies.dto.TMDBMovieSearchResponse;
 import com.recody.recodybackend.movie.features.searchmoviesfromtmdb.SearchMoviesFromTMDB;
@@ -42,7 +42,7 @@ class TMDBSearchMoviesHandler implements SearchMoviesHandler<SearchMoviesResult>
         List<TMDBMovieSearchNode> movies = response.getResults();
         
         applicationEventPublisher.publishEvent(
-                MoviesSearched.builder().tmdbMovies( movies ).locale( locale ).build() );
+                SearchingMoviesFetched.builder().tmdbMovies( movies ).locale( locale ).build() );
         
         List<TMDBSearchedMovie> mappedMovies = movieMapper.toTMDBMovie( movies );
         
