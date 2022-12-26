@@ -4,10 +4,7 @@ import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.movie.*;
 import com.recody.recodybackend.movie.data.genre.MovieGenreMapper;
 import com.recody.recodybackend.movie.data.overview.MovieOverviewMapper;
-import com.recody.recodybackend.movie.data.people.MovieActorEntity;
-import com.recody.recodybackend.movie.data.people.MovieDirectorEntity;
-import com.recody.recodybackend.movie.data.people.MoviePersonEntity;
-import com.recody.recodybackend.movie.data.people.MoviePersonMapper;
+import com.recody.recodybackend.movie.data.people.*;
 import com.recody.recodybackend.movie.data.title.MovieTitleMapper;
 import com.recody.recodybackend.movie.features.getmoviedetailwithtmdbid.dto.TMDBMovieDetail;
 import com.recody.recodybackend.movie.features.getmoviedetailwithtmdbid.fromapi.FetchedMovieDetailViewModel;
@@ -17,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Locale;
@@ -38,6 +34,9 @@ public abstract class MovieDetailMapper {
     
     @Autowired
     private MovieOverviewMapper movieOverviewMapper;
+    
+    @Autowired
+    private MoviePersonNameMapper moviePersonNameMapper;
     
     @Named( "fullPosterPath" )
     public String makeFullPosterPath(String newPosterPath) {
@@ -149,14 +148,12 @@ public abstract class MovieDetailMapper {
         if ( stringBuilder.length() != 0 ) {
             stringBuilder.append( ", " );
         }
-        String koreanName = person.getName().getKoreanName();
-        String englishName = person.getName().getEnglishName();
         if ( locale.getLanguage().equals( Locale.KOREAN.getLanguage() ) ) {
-            stringBuilder.append( StringUtils.hasText( koreanName ) ? koreanName : englishName );
+            stringBuilder.append( moviePersonNameMapper.map( person.getName(), locale ) );
         }
         else {
-            stringBuilder.append( StringUtils.hasText( englishName ) ? englishName : koreanName );
-            
+            stringBuilder.append( moviePersonNameMapper.map( person.getName(), locale ) );
+    
         }
     }
     

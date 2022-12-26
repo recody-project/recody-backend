@@ -12,7 +12,7 @@ import java.util.Locale;
 
 @Mapper( componentModel = "spring" )
 @Slf4j
-abstract class MoviePersonNameMapper {
+public abstract class MoviePersonNameMapper {
     
     @Autowired
     private NoKoreanPersonNameFoundEventPublisher publisher;
