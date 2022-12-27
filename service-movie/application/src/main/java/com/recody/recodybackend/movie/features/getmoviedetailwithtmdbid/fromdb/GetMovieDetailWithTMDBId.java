@@ -14,6 +14,9 @@ public class GetMovieDetailWithTMDBId {
     
     @Override
     public String toString() {
-        return "{\"GetMovieDetail\":{" + "\"tmdbId\":" + tmdbId + ", \"language\":" + ((language != null) ? ("\"" + language + "\"") : null) + "}}";
+        return "{\"GetMovieDetailWithTMDBId\":{"
+               + "\"tmdbId\":" + tmdbId
+               + ", \"language\":" + ((language != null) ? ("\"" + language + "\"") : null)
+               + "}}";
     }
 }

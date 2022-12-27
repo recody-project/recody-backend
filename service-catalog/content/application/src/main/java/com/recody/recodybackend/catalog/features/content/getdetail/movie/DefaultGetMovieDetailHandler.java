@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.Locale;
+import java.util.Objects;
 
 @Component(value = "CatalogGetMovieDetailHandler")
 @RequiredArgsConstructor
@@ -29,6 +30,9 @@ class DefaultGetMovieDetailHandler implements GetMovieDetailHandler {
         
         MovieDetailViewModel movieDetail
                 = fetchMovieDetailHandler.handle(fetchMovieDetailCommand(contentId, language));
+        if ( Objects.isNull( movieDetail ) ) {
+            return null;
+        }
         CatalogMovieDetail catalogMovieDetail
                 = movieRegistrar.register(movieDetail, locale);
         personalizedMovieDetail

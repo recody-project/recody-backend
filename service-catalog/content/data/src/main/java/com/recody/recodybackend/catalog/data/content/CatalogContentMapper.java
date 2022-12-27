@@ -23,7 +23,7 @@ public abstract class CatalogContentMapper {
     // TODO: 국가별 이름 매핑하기
     @Mapping( target = "imageUrl", source = "movieDetail.imageUrl" )
     @Mapping( target = "id", ignore = true )
-    @Mapping( target = "contentId", source = "contentId" )
+    @Mapping( target = "contentId", source = "movieDetail.contentId" )
     @Mapping( target = "title", source = "movieDetail.title" )
     public abstract CatalogContentEntity newEntity(MovieDetailViewModel movieDetail, @Context Locale locale);
     

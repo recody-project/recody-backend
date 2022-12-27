@@ -12,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.event.TransactionalEventListener;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -27,7 +26,6 @@ class DefaultMovieEventListener {
     private final MovieManager movieManager;
     
     @Async( Recody.MOVIE_TASK_EXECUTOR )
-//    @TransactionalEventListener
     @EventListener
     @Transactional
     public void on(MovieDetailFetched event) {
@@ -51,8 +49,9 @@ class DefaultMovieEventListener {
                              );
     }
     
-    @Async
-    @TransactionalEventListener
+    @Async( Recody.MOVIE_TASK_EXECUTOR )
+    @EventListener
+    @Transactional
     public void on(SearchingMoviesFetched event) {
         log.debug( "consuming event: {}", event );
         List<TMDBMovieSearchNode> tmdbMovies = event.getTmdbMovies();

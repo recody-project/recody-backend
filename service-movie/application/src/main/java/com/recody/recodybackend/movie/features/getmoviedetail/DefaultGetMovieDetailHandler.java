@@ -25,16 +25,16 @@ class DefaultGetMovieDetailHandler implements GetMovieDetailHandler<MovieDetailV
     
     @Override
     public MovieDetailViewModel handle(GetMovieDetail query) {
+        log.debug( "handling query: {}", query );
         Locale locale = query.getLocale();
         String movieId = query.getMovieId();
-        
+    
         Optional<MovieEntity> optionalMovie = movieRepository.findById( movieId );
         if (optionalMovie.isEmpty()) {
             return null;
         }
         MovieEntity entity = optionalMovie.get();
-        
-        eventPublisher.publishEvent( MovieDetailRequested.builder().movieId( entity.getId() ).tmdbId( entity.getTmdbId() ).build() );
+        eventPublisher.publishEvent( MovieDetailRequested.builder().tmdbId( entity.getTmdbId() ).build() );
         
         // 이 movie 는 레코디의 movie. 장르정보는 고유 장르 id 를 가지고 있다.
         MovieDetailViewModel movieDetailViewModel = mapper.toViewModel( entity, locale );

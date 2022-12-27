@@ -13,7 +13,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
@@ -45,7 +44,6 @@ class DefaultFetchMovieDetailHandler implements FetchMovieDetailHandler {
         MovieDetailViewModel movieDetail;
         try {
             movieDetail = restTemplate.exchange(requestEntity, MovieDetailViewModel.class).getBody();
-            Objects.requireNonNull(movieDetail);
         } catch (RestClientException exception){
             log.warn("exception: {}", exception.getMessage());
             throw new RuntimeException();

@@ -16,5 +16,11 @@ public class GetMovieDetail {
     
     private Locale locale;
     
-    
+    @Override
+    public String toString() {
+        return "{\"GetMovieDetail\":{"
+               + "\"movieId\":" + ((movieId != null) ? ("\"" + movieId + "\"") : null)
+               + ", \"locale\":" + locale
+               + "}}";
+    }
 }

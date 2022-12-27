@@ -9,8 +9,6 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MovieDetailRequested {
     
-    private String movieId;
-    
     // 필요에따라 tmdbId 를 사용할 것.
     private Integer tmdbId;
     

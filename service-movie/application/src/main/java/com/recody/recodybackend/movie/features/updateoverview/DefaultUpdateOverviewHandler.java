@@ -54,7 +54,7 @@ class DefaultUpdateOverviewHandler implements UpdateOverviewHandler<Void>{
             return null;
         }
         MovieEntity movieEntity = optionalMovie.get();
-        movieEntity.getOverview().setEnglishOverview( fetchedOverview );
+        movieEntity.getOverview().setKoreanOverview( fetchedOverview );
         log.info( "영화 {} 에 대한 한국어 Overview 를 업데이트하였습니다.", movieEntity.getId() );
         return null;
     }
