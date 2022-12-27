@@ -4,7 +4,7 @@ import com.recody.recodybackend.common.Recody;
 import com.recody.recodybackend.movie.MovieInfo;
 import com.recody.recodybackend.movie.features.fetchmoviecredit.dto.TMDBCast;
 import com.recody.recodybackend.movie.features.fetchmoviecredit.dto.TMDBCrew;
-import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieDetail;
+import com.recody.recodybackend.movie.features.getmoviedetailwithtmdbid.dto.TMDBMovieDetail;
 import com.recody.recodybackend.movie.features.manager.MovieManager;
 import com.recody.recodybackend.movie.features.searchmovies.dto.TMDBMovieSearchNode;
 import lombok.RequiredArgsConstructor;
@@ -53,7 +53,7 @@ class DefaultMovieEventListener {
     
     @Async
     @TransactionalEventListener
-    public void on(MoviesSearched event) {
+    public void on(SearchingMoviesFetched event) {
         log.debug( "consuming event: {}", event );
         List<TMDBMovieSearchNode> tmdbMovies = event.getTmdbMovies();
         Locale locale = event.getLocale();

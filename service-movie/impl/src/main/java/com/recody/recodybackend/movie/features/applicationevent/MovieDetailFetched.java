@@ -2,7 +2,7 @@ package com.recody.recodybackend.movie.features.applicationevent;
 
 import com.recody.recodybackend.movie.features.fetchmoviecredit.dto.TMDBCast;
 import com.recody.recodybackend.movie.features.fetchmoviecredit.dto.TMDBCrew;
-import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieDetail;
+import com.recody.recodybackend.movie.features.getmoviedetailwithtmdbid.dto.TMDBMovieDetail;
 import lombok.*;
 
 import java.util.List;

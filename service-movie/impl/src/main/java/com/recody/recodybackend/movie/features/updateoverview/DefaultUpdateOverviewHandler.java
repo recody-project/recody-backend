@@ -3,8 +3,8 @@ package com.recody.recodybackend.movie.features.updateoverview;
 import com.recody.recodybackend.movie.data.movie.MovieEntity;
 import com.recody.recodybackend.movie.data.movie.MovieRepository;
 import com.recody.recodybackend.movie.features.fetchmoviedetail.FetchMovieDetailHandler;
-import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieDetail;
-import com.recody.recodybackend.movie.features.getmoviedetail.fromdb.GetMovieDetail;
+import com.recody.recodybackend.movie.features.getmoviedetailwithtmdbid.dto.TMDBMovieDetail;
+import com.recody.recodybackend.movie.features.getmoviedetailwithtmdbid.fromdb.GetMovieDetailWithTMDBId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -17,7 +17,7 @@ import java.util.Optional;
 @Slf4j
 class DefaultUpdateOverviewHandler implements UpdateOverviewHandler<Void>{
     
-    private final FetchMovieDetailHandler<TMDBMovieDetail, GetMovieDetail> fetchMovieDetailHandler;
+    private final FetchMovieDetailHandler<TMDBMovieDetail, GetMovieDetailWithTMDBId> fetchMovieDetailHandler;
     
     private final MovieRepository movieRepository;
     
@@ -26,7 +26,7 @@ class DefaultUpdateOverviewHandler implements UpdateOverviewHandler<Void>{
     public Void handle(UpdateEnglishOverview command) {
         log.debug( "handling command: {}", command );
         Integer tmdbMovieId = command.getTmdbMovieId();
-        GetMovieDetail query = GetMovieDetail.builder().tmdbId( tmdbMovieId ).language( "en" ).build();
+        GetMovieDetailWithTMDBId query = GetMovieDetailWithTMDBId.builder().tmdbId( tmdbMovieId ).language( "en" ).build();
         TMDBMovieDetail fetchedMovieDetail = fetchMovieDetailHandler.handle( query );
         String fetchedOverview = fetchedMovieDetail.getOverview();
         Optional<MovieEntity> optionalMovie = movieRepository.findByTmdbId( tmdbMovieId );
@@ -45,7 +45,7 @@ class DefaultUpdateOverviewHandler implements UpdateOverviewHandler<Void>{
     public Void handle(UpdateKoreanOverview command) {
         log.debug( "handling command: {}", command );
         Integer tmdbMovieId = command.getTmdbMovieId();
-        GetMovieDetail query = GetMovieDetail.builder().tmdbId( tmdbMovieId ).language( "ko" ).build();
+        GetMovieDetailWithTMDBId query = GetMovieDetailWithTMDBId.builder().tmdbId( tmdbMovieId ).language( "ko" ).build();
         TMDBMovieDetail fetchedMovieDetail = fetchMovieDetailHandler.handle( query );
         String fetchedOverview = fetchedMovieDetail.getOverview();
         Optional<MovieEntity> optionalMovie = movieRepository.findByTmdbId( tmdbMovieId );

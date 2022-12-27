@@ -26,10 +26,9 @@ class DefaultCatalogSearchMoviesHandler implements CatalogSearchMoviesHandler {
     
     @Value("${catalog.movie.access-token}")
     private String bearerToken;
-    private static final String path = "/api/v2/movie/search-query";
+    private static final String path = "/api/v3/movie/search";
     private static final String MOVIE_SEARCH_PARAM_NAME = "movieName";
     private static final String LANGUAGE_PARAM_NAME = "language";
-    
     private final RestTemplate restTemplate = new RestTemplate();
     
     @Override

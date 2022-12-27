@@ -17,7 +17,7 @@ import java.util.List;
 class ReactiveCatalogSearchMoviesHandler implements ReactiveSearchMoviesHandler {
     
     private final WebClient movieWebClient;
-    private static final String path = "/api/v2/movie/search-query";
+    private static final String path = "/api/v3/movie/search";
     private static final String pathTmdb = "/api/v1/movie/search";
     private static final String MOVIE_SEARCH_PARAM_NAME = "movieName";
     private static final String LANGUAGE_PARAM_NAME = "language";
@@ -28,6 +28,7 @@ class ReactiveCatalogSearchMoviesHandler implements ReactiveSearchMoviesHandler 
         this.movieWebClient = movieWebClient;
     }
     
+    // TODO Movies 반환
     @Override
     public Mono<List<Movie>> handle(SearchMovies command) {
         log.debug( "handling command: {}", command );

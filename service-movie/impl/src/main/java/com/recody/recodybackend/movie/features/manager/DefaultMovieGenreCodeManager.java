@@ -3,7 +3,7 @@ package com.recody.recodybackend.movie.features.manager;
 import com.recody.recodybackend.movie.data.genre.MovieGenreCodeEntity;
 import com.recody.recodybackend.movie.data.genre.MovieGenreCodeManager;
 import com.recody.recodybackend.movie.data.genre.MovieGenreCodeRepository;
-import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieGenre;
+import com.recody.recodybackend.movie.features.getmoviedetailwithtmdbid.dto.TMDBMovieGenre;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

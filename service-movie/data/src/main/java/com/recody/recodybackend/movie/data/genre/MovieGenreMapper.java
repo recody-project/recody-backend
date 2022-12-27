@@ -1,8 +1,9 @@
 package com.recody.recodybackend.movie.data.genre;
 
 import com.recody.recodybackend.movie.MovieGenre;
+import com.recody.recodybackend.movie.MovieGenreViewModel;
 import com.recody.recodybackend.movie.MovieSource;
-import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieGenre;
+import com.recody.recodybackend.movie.features.getmoviedetailwithtmdbid.dto.TMDBMovieGenre;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -44,4 +45,7 @@ public abstract class MovieGenreMapper {
     
     public abstract List<MovieGenre> map(List<TMDBMovieGenre> tmdbMovieGenreList);
     
+    @Mapping( target = "genreId", source = "entity.genre.genreId" )
+    @Mapping( target = "genreName", source = "entity.genre.tmdbGenreName" )
+    public abstract MovieGenreViewModel toViewModel(MovieGenreEntity entity);
 }

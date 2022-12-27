@@ -5,8 +5,8 @@ import com.recody.recodybackend.movie.data.movie.MovieEntity;
 import com.recody.recodybackend.movie.data.movie.MovieRepository;
 import com.recody.recodybackend.movie.data.overview.MovieOverviewEntity;
 import com.recody.recodybackend.movie.features.fetchmoviedetail.FetchMovieDetailHandler;
-import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieDetail;
-import com.recody.recodybackend.movie.features.getmoviedetail.fromdb.GetMovieDetail;
+import com.recody.recodybackend.movie.features.getmoviedetailwithtmdbid.dto.TMDBMovieDetail;
+import com.recody.recodybackend.movie.features.getmoviedetailwithtmdbid.fromdb.GetMovieDetailWithTMDBId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -23,7 +23,7 @@ import java.util.List;
 class DefaultMovieOverviewSynchronizer implements MovieOverviewSynchronizer {
     
     private final MovieRepository movieRepository;
-    private final FetchMovieDetailHandler<TMDBMovieDetail, GetMovieDetail> movieDetailFromTMDBHandler;
+    private final FetchMovieDetailHandler<TMDBMovieDetail, GetMovieDetailWithTMDBId> movieDetailFromTMDBHandler;
     
     @Override
     @Async(value = Recody.MOVIE_TASK_EXECUTOR )
@@ -75,9 +75,9 @@ class DefaultMovieOverviewSynchronizer implements MovieOverviewSynchronizer {
     
     private String fetchDetailAndReturnOverview(MovieEntity movie) {
         TMDBMovieDetail koreanMovieDetail = movieDetailFromTMDBHandler.handle(
-                GetMovieDetail.builder().tmdbId( movie.getTmdbId() )
-                              .language( "ko" )
-                              .build() );
+                GetMovieDetailWithTMDBId.builder().tmdbId( movie.getTmdbId() )
+                                        .language( "ko" )
+                                        .build() );
         String fetchedOverview = koreanMovieDetail.getOverview();
         return fetchedOverview;
     }

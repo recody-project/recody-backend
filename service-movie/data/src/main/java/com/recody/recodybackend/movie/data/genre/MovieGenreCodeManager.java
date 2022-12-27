@@ -2,7 +2,7 @@ package com.recody.recodybackend.movie.data.genre;
 
 import com.recody.recodybackend.common.Recody;
 import com.recody.recodybackend.common.data.AsyncEntityRegistrar;
-import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieGenre;
+import com.recody.recodybackend.movie.features.getmoviedetailwithtmdbid.dto.TMDBMovieGenre;
 import org.springframework.scheduling.annotation.Async;
 
 import javax.transaction.Transactional;
