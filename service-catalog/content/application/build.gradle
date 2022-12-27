@@ -1,12 +1,15 @@
 dependencies {
-
     implementation project(":common")
     implementation project(":common-content")
     implementation project(":common-boot-utils")
+    implementation project(":service-catalog-content-core")
+    implementation project(":service-catalog-content-data")
+    implementation project(":service-catalog-content-shared")
+
     implementation project(":service-movie-core")
-    implementation project(":service-movie-api-shared")
-    implementation project(":service-movie-data")
-    implementation project(":service-movie-api-tmdb")
+    implementation project(":service-movie-shared")
+    implementation project(":service-users-core")
+    implementation project(":service-users-shared")
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
@@ -22,19 +25,48 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
+
     // aws log appender
     implementation "ca.pjer:logback-awslogs-appender:1.6.0"
 
     implementation 'org.mapstruct:mapstruct:1.5.2.Final'
+
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.2.Final'
+
+    implementation 'org.springframework.kafka:spring-kafka'
+    testImplementation 'org.springframework.kafka:spring-kafka-test'
 
     // https://mvnrepository.com/artifact/org.projectlombok/lombok-mapstruct-binding
     implementation 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
     annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
 
-    implementation 'org.springframework.kafka:spring-kafka'
-    testImplementation 'org.springframework.kafka:spring-kafka-test'
+//    // https://mvnrepository.com/artifact/com.querydsl/querydsl-jpa
+//    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+//    implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
 }
+
+//def querydslDir = "$buildDir/generated/querydsl"
+//
+//querydsl {
+//    jpa = true
+//    querydslSourcesDir = querydslDir
+//}
+//
+//sourceSets {
+//    main {
+//        java {
+//            srcDirs = ['src/main/java', querydslDir]
+//        }
+//    }
+//}
+//
+//compileQuerydsl{
+//    options.annotationProcessorPath = configurations.querydsl
+//}
+//
+//configurations {
+//    querydsl.extendsFrom compileClasspath
+//}
 
 bootJar.enabled(false)
 jar.enabled(true)

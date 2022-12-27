@@ -22,7 +22,7 @@ dependencies {
     implementation project(":service-catalog-record-core")
 
     implementation project(":service-movie-core")
-    implementation project(":service-movie-api-shared")
+    implementation project(":service-movie-shared")
     implementation project(":service-users-core")
 
 
