@@ -4,13 +4,7 @@ import com.recody.recodybackend.catalog.features.changecategoryoncontent.ChangeC
 import com.recody.recodybackend.catalog.features.changecategoryoncontent.ChangeCategoryOnContentHandler;
 import com.recody.recodybackend.catalog.features.changegenreoncontent.ChangeGenresOnContent;
 import com.recody.recodybackend.catalog.features.changegenreoncontent.ChangeGenresOnContentHandler;
-import com.recody.recodybackend.catalog.features.content.getcontents.GetContent;
-import com.recody.recodybackend.catalog.features.content.getcontents.GetContentHandler;
-import com.recody.recodybackend.catalog.features.search.SearchContent;
-import com.recody.recodybackend.catalog.features.search.SearchContentHandler;
-import com.recody.recodybackend.catalog.features.search.SearchContentWithFilters;
 import com.recody.recodybackend.category.CustomCategoryId;
-import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.contents.ContentId;
 import com.recody.recodybackend.common.contents.GenreIds;
 import com.recody.recodybackend.common.web.SuccessResponseBody;
@@ -20,19 +14,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.Nullable;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @Slf4j
 class CatalogController {
-    
-    private final SearchContentHandler searchContentHandler;
-    private final GetContentHandler getContentHandler;
     private final ChangeCategoryOnContentHandler changeCategoryOnContentHandler;
     private final ChangeGenresOnContentHandler changeGenresOnContentHandler;
     private final JwtManager jwtManager;
@@ -81,61 +73,6 @@ class CatalogController {
                                                                   .contentId( ContentId.of( contentId ) )
                                                                   .build() ) ).build()
                                         )
-                                   .build() );
-    }
-    
-    /**
-     * contentId 로 작품 정보를 가져온다.
-     */
-    @GetMapping( "/api/v1/catalog/content/{contentId}" )
-    public ResponseEntity<SuccessResponseBody> getContent(@PathVariable String contentId,
-                                                          HttpServletRequest httpServletRequest) {
-        return ResponseEntity.ok(
-                SuccessResponseBody.builder()
-                                   .message( ms.getMessage( "catalog.content.get.succeeded", null, httpServletRequest.getLocale() ) )
-                                   .data( getContentHandler.handle( GetContent.builder()
-                                                                              .contentId( ContentId.of( contentId ) )
-                                                                              .locale( httpServletRequest.getLocale() )
-                                                                              .build() ) )
-                                   .build() );
-    }
-    
-    @GetMapping( "/api/v1/catalog/search" )
-    @Deprecated
-    public ResponseEntity<SuccessResponseBody> search(@RequestParam String keyword,
-                                                      @Nullable @RequestParam( defaultValue = "movie" ) String category,
-                                                      @Nullable @RequestParam( defaultValue = "ko" ) String language,
-                                                      @AccessToken String accessToken, HttpServletRequest httpServletRequest) {
-        return ResponseEntity.ok(
-                SuccessResponseBody.builder()
-                                   .message( ms.getMessage( "catalog.search.succeeded", null, httpServletRequest.getLocale() ) )
-                                   .data( searchContentHandler.handle(
-                                           SearchContent.builder()
-                                                        .keyword( keyword )
-                                                        .category( BasicCategory.of( category ) )
-                                                        .userId( jwtManager.resolveUserId( accessToken ) )
-                                                        .language( language )
-                                                        .build() ) )
-                                   .build() );
-    }
-    
-    @GetMapping( "/api/v2/catalog/search" )
-    public ResponseEntity<SuccessResponseBody> searchV2(@RequestParam String keyword,
-                                                        @Nullable @RequestParam( defaultValue = "all" ) String categoryId,
-                                                        @Nullable @RequestParam( defaultValue = "ko" ) String language,
-                                                        @AccessToken String accessToken,
-                                                        HttpServletRequest httpServletRequest) {
-        return ResponseEntity.ok(
-                SuccessResponseBody.builder()
-                                   .message( ms.getMessage( "catalog.searchV2.succeeded", null, httpServletRequest.getLocale() ) )
-                                   .data( searchContentHandler.handle(
-                                           SearchContentWithFilters.builder()
-                                                                   .keyword( keyword )
-                                                                   .language( language )
-                                                                   .categories( BasicCategory.isBasic( categoryId )
-                                                                                        ? List.of( BasicCategory.idOf( categoryId ) )
-                                                                                        : BasicCategory.all() )
-                                                                   .build() ) )
                                    .build() );
     }
 }
