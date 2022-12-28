@@ -1,4 +1,4 @@
-package com.recody.recodybackend.catalog.features.content.getcontents;
+package com.recody.recodybackend.catalog.features.getcontents;
 
 import com.recody.recodybackend.common.contents.ContentId;
 import com.recody.recodybackend.common.web.SuccessResponseBody;
