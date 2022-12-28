@@ -1,5 +1,7 @@
-package com.recody.recodybackend.catalog.features.content.getdetail.movie;
+package com.recody.recodybackend.catalog.features.getmoviedetail;
 
+import com.recody.recodybackend.catalog.features.fetchmoviedetail.FetchMovieDetail;
+import com.recody.recodybackend.catalog.features.fetchmoviedetail.FetchMovieDetailHandler;
 import com.recody.recodybackend.catalog.features.personalize.ContentDetailPersonalizer;
 import com.recody.recodybackend.common.contents.register.AsyncContentRegistrar;
 import com.recody.recodybackend.content.CatalogMovieDetail;
@@ -15,7 +17,7 @@ import java.util.Objects;
 @Component(value = "CatalogGetMovieDetailHandler")
 @RequiredArgsConstructor
 @Slf4j
-class DefaultGetMovieDetailHandler implements GetMovieDetailHandler {
+class DefaultGetMovieDetailHandler implements GetMovieDetailHandler<PersonalizedMovieDetail> {
     private final FetchMovieDetailHandler fetchMovieDetailHandler;
     private final ContentDetailPersonalizer<CatalogMovieDetail, PersonalizedMovieDetail> movieDetailPersonalizer;
     private final AsyncContentRegistrar<CatalogMovieDetail, MovieDetailViewModel> movieRegistrar;
