@@ -20,7 +20,6 @@ public class GetMovieDetailControllerV3 {
     private final GetMovieDetailHandler<MovieDetailViewModel> getMovieDetailHandler;
     
     
-    
     @GetMapping( "/api/v3/movie/detail" )
     @ResponseStatus( HttpStatus.OK )
     public SuccessResponseBody getMovieInfoV2(@RequestParam String movieId,
@@ -35,5 +34,16 @@ public class GetMovieDetailControllerV3 {
                                                         .locale( httpServletRequest.getLocale() )
                                                         .build() ) )
                                   .build();
+    }
+    
+    @GetMapping( "/api/v3/movie/detail-data" )
+    @ResponseStatus( HttpStatus.OK )
+    public MovieDetailViewModel getMovieInfoV3Data(@RequestParam String movieId,
+                                                   HttpServletRequest httpServletRequest) {
+        return getMovieDetailHandler.handle(
+                GetMovieDetail.builder()
+                              .movieId( movieId )
+                              .locale( httpServletRequest.getLocale() )
+                              .build() );
     }
 }

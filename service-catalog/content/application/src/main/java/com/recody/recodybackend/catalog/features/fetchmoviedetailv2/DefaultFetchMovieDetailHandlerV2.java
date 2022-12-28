@@ -14,7 +14,7 @@ class DefaultFetchMovieDetailHandlerV2 implements FetchMovieDetailHandlerV2<Movi
     private static final String path = "/api/v3/movie/detail-data";
     @Getter
     private static final String MOVIE_ID ="movieId";
-    private static final String LANGUAGE = "language";
+    public static final String ACCEPT_LANGUAGE = "Accept-Language";
     private final WebClient movieWebClient;
     
     public DefaultFetchMovieDetailHandlerV2(@Qualifier("MovieServiceWebClient") WebClient movieWebClient) {
@@ -26,8 +26,8 @@ class DefaultFetchMovieDetailHandlerV2 implements FetchMovieDetailHandlerV2<Movi
         return movieWebClient.get()
                              .uri( uriBuilder -> uriBuilder.path( path )
                                                            .queryParam( MOVIE_ID, query.getMovieId() )
-                                                           .queryParam( LANGUAGE, query.getLocale().getLanguage() )
                                                            .build() )
+                             .header( ACCEPT_LANGUAGE, query.getLocale().getLanguage() )
                              .retrieve()
                              .bodyToMono( MovieDetailViewModel.class )
                              .block();
