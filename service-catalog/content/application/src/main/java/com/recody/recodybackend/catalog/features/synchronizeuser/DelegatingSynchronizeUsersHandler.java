@@ -1,4 +1,4 @@
-package com.recody.recodybackend.catalog.features.content.user;
+package com.recody.recodybackend.catalog.features.synchronizeuser;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

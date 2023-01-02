@@ -17,6 +17,7 @@ import java.util.List;
 public class PersonalizedMovieDetail implements PersonalizedContentDetail {
     
     private String title;
+    @JsonIgnore
     private Long personalizedUserId;
     private String contentId;
     private Category category;

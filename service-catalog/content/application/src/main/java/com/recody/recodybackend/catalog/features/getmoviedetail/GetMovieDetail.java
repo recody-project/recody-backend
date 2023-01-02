@@ -1,4 +1,4 @@
-package com.recody.recodybackend.catalog.features.content.getdetail.movie;
+package com.recody.recodybackend.catalog.features.getmoviedetail;
 
 import lombok.*;
 

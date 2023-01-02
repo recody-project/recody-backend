@@ -1,4 +1,4 @@
-package com.recody.recodybackend.catalog.features.content.user;
+package com.recody.recodybackend.catalog.features.synchronizeuser;
 
 import com.recody.recodybackend.catalog.data.user.CatalogUserEntity;
 import com.recody.recodybackend.catalog.data.user.CatalogUserMapper;

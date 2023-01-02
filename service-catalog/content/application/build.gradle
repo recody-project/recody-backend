@@ -39,34 +39,8 @@ dependencies {
     // https://mvnrepository.com/artifact/org.projectlombok/lombok-mapstruct-binding
     implementation 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
     annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
-
-//    // https://mvnrepository.com/artifact/com.querydsl/querydsl-jpa
-//    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
-//    implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
 }
 
-//def querydslDir = "$buildDir/generated/querydsl"
-//
-//querydsl {
-//    jpa = true
-//    querydslSourcesDir = querydslDir
-//}
-//
-//sourceSets {
-//    main {
-//        java {
-//            srcDirs = ['src/main/java', querydslDir]
-//        }
-//    }
-//}
-//
-//compileQuerydsl{
-//    options.annotationProcessorPath = configurations.querydsl
-//}
-//
-//configurations {
-//    querydsl.extendsFrom compileClasspath
-//}
 
 bootJar.enabled(false)
 jar.enabled(true)

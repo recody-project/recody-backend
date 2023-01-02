@@ -1,4 +1,4 @@
-package com.recody.recodybackend.catalog.features.content.getcontents;
+package com.recody.recodybackend.catalog.features.getcontents;
 
 import com.recody.recodybackend.catalog.data.category.CategoryEntity;
 import com.recody.recodybackend.catalog.data.category.CategoryMapper;

@@ -41,6 +41,12 @@ public abstract class CatalogContentMapper {
     @Mapping( target = "contentGroupId", ignore = true ) // 구현되지 않음.
     public abstract CatalogMovieDetail toCatalogMovieDetail(CatalogContentEntity entity, MovieDetailViewModel movieDetail);
     
+    
+    @Mapping( target = "posterPath", source = "viewModel.imageUrl" )
+    @Mapping( target = "contentGroupId", ignore = true )
+    @Mapping( target = "globalContentId", ignore = true )
+    public abstract CatalogMovieDetail toCatalogMovieDetail(MovieDetailViewModel viewModel,
+                                                            @Context Locale locale);
     @Mapping( target = "title", ignore = true )
     @Mapping( target = "category",
               expression = "java(CategoryEntity.builder().id( event.getCategoryId() ).name( event.getCategoryName() ).build())" )

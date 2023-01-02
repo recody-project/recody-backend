@@ -1,4 +1,4 @@
-package com.recody.recodybackend.catalog.features.content.user;
+package com.recody.recodybackend.catalog.features.synchronizeuser;
 
 public interface SynchronizeUsersHandler {
     
