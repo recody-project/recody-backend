@@ -29,7 +29,8 @@ public class TMDBDrama {
     @Override
     public String toString() {
         return "{\"TMDBDrama\":{"
-               + "\"name\":" + ((name != null) ? ("\"" + name + "\"") : null)
+               + "\"id\":" + id
+               + ", \"name\":" + ((name != null) ? ("\"" + name + "\"") : null)
                + ", \"genreIds\":" + genreIds
                + ", \"originalName\":" + ((originalName != null) ? ("\"" + originalName + "\"") : null)
                + ", \"posterPath\":" + ((posterPath != null) ? ("\"" + posterPath + "\"") : null)
