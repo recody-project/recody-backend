@@ -4,11 +4,11 @@ import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.movie.*;
 import com.recody.recodybackend.movie.data.genre.MovieGenreMapper;
 import com.recody.recodybackend.movie.data.overview.MovieOverviewMapper;
-import com.recody.recodybackend.movie.data.people.MoviePersonMapper;
+import com.recody.recodybackend.movie.data.people.*;
 import com.recody.recodybackend.movie.data.title.MovieTitleMapper;
-import com.recody.recodybackend.movie.features.getmoviedetail.dto.TMDBMovieDetail;
-import com.recody.recodybackend.movie.features.getmoviedetail.fromapi.FetchedMovieDetailViewModel;
-import com.recody.recodybackend.movie.features.getmoviedetail.fromapi.TMDBFetchedMovieDetail;
+import com.recody.recodybackend.movie.features.getmoviedetailwithtmdbid.dto.TMDBMovieDetail;
+import com.recody.recodybackend.movie.features.getmoviedetailwithtmdbid.fromapi.FetchedMovieDetailViewModel;
+import com.recody.recodybackend.movie.features.getmoviedetailwithtmdbid.fromapi.TMDBFetchedMovieDetail;
 import com.recody.recodybackend.movie.features.tmdb.TMDB;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +34,9 @@ public abstract class MovieDetailMapper {
     
     @Autowired
     private MovieOverviewMapper movieOverviewMapper;
+    
+    @Autowired
+    private MoviePersonNameMapper moviePersonNameMapper;
     
     @Named( "fullPosterPath" )
     public String makeFullPosterPath(String newPosterPath) {
@@ -65,7 +68,7 @@ public abstract class MovieDetailMapper {
               qualifiedByName = "fullPosterPath",
               conditionExpression = "java((detail.getPosterPath() != null))" )
     @Mapping( target = "genres", ignore = true ) // 업데이트할 때에는 dto 에서 MovieGenreEntity 를 만들 수 없다.
-    @Mapping( target = "overview",expression = "java(movieOverviewMapper.update( entity, detail, locale ))")
+    @Mapping( target = "overview", expression = "java(movieOverviewMapper.update( entity, detail, locale ))" )
     public abstract MovieEntity update(@MappingTarget MovieEntity entity, TMDBMovieDetail detail,
                                        @Context Locale locale);
     
@@ -75,6 +78,7 @@ public abstract class MovieDetailMapper {
     @Mapping( target = "source", expression = "java((s.equals(MovieSource.TMDB)) ? MovieSource.TMDB : null)" )
     @Mapping( target = "title", source = "." )
     @Mapping( target = "genres", source = "entity.genres" )
+    @Mapping( target = "imageUrl", source = "entity.posterPath" )
     public abstract MovieDetail map(MovieEntity entity, @Context MovieSource s, @Context Locale locale);
     
     @Mapping( target = "directors", ignore = true )
@@ -89,9 +93,17 @@ public abstract class MovieDetailMapper {
     public abstract TMDBFetchedMovieDetail toFetchedMovieDetail(TMDBMovieDetail detail);
     
     
+    @Mapping( target = "imageUrl", source = "imageUrl" )
     @Mapping( target = "actors", source = "actors", qualifiedByName = "concatActors" )
     @Mapping( target = "directors", source = "directors", qualifiedByName = "concatDirectors" )
     public abstract MovieDetailViewModel toViewModel(MovieDetail movieDetail);
+    
+    @Mapping( target = "contentId", source = "entity.id" )
+    @Mapping( target = "category", expression = "java(BasicCategory.Movie)" )
+    @Mapping( target = "actors", source = "entity.actors", qualifiedByName = "concatActorsEntities" )
+    @Mapping( target = "directors", source = "entity.directors", qualifiedByName = "concatDirectorsEntities" )
+    @Mapping( target = "imageUrl", source = "entity.posterPath" )
+    public abstract MovieDetailViewModel toViewModel(MovieEntity entity, @Context Locale locale);
     
     @Mapping( target = "actors", source = "actors", qualifiedByName = "concatActors" )
     @Mapping( target = "directors", source = "directors", qualifiedByName = "concatDirectors" )
@@ -114,6 +126,43 @@ public abstract class MovieDetailMapper {
                     stringBuilder.append( ", " );
                 }
                 stringBuilder.append( actor.getName() );
+            }
+        }
+        return stringBuilder.toString();
+    }
+    
+    @Named( "concatActorsEntities" )
+    public String concatActorEntities(List<MovieActorEntity> actors, @Context Locale locale) {
+        StringBuilder stringBuilder = new StringBuilder();
+        if ( !actors.isEmpty() ) {
+            for (MovieActorEntity actor : actors) {
+                concatPersonNameByLocale( locale, stringBuilder, actor.getPerson() );
+            }
+        }
+        return stringBuilder.toString();
+    }
+    
+    private void concatPersonNameByLocale(@Context Locale locale,
+                                          StringBuilder stringBuilder,
+                                          MoviePersonEntity person) {
+        if ( stringBuilder.length() != 0 ) {
+            stringBuilder.append( ", " );
+        }
+        if ( locale.getLanguage().equals( Locale.KOREAN.getLanguage() ) ) {
+            stringBuilder.append( moviePersonNameMapper.map( person.getName(), locale ) );
+        }
+        else {
+            stringBuilder.append( moviePersonNameMapper.map( person.getName(), locale ) );
+    
+        }
+    }
+    
+    @Named( "concatDirectorsEntities" )
+    public String concatDirectorEntities(List<MovieDirectorEntity> directors, @Context Locale locale) {
+        StringBuilder stringBuilder = new StringBuilder();
+        if ( !directors.isEmpty() ) {
+            for (MovieDirectorEntity director : directors) {
+                concatPersonNameByLocale( locale, stringBuilder, director.getPerson() );
             }
         }
         return stringBuilder.toString();

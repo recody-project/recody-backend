@@ -1,5 +1,6 @@
 package com.recody.recodybackend.movie;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.contents.BasicContent;
 import lombok.*;
@@ -18,15 +19,15 @@ public class Movie implements BasicContent {
     private String contentId;
 
     @Builder.Default
+    @JsonIgnore
     private BasicCategory category = BasicCategory.Movie;
-
-    private String posterPath;
+    private String imageUrl;
 
     private String title;
     
     @Override
     public String toString() {
-        return "{\"Movie\":{" + "\"contentId\":" + ((contentId != null) ? ("\"" + contentId + "\"") : null) + ", \"category\":" + ((category != null) ? ("\"" + category + "\"") : null) + ", \"posterPath\":" + ((posterPath != null) ? ("\"" + posterPath + "\"") : null) + ", \"title\":" + ((title != null) ? ("\"" + title + "\"") : null) + "}}";
+        return "{\"Movie\":{" + "\"contentId\":" + ((contentId != null) ? ("\"" + contentId + "\"") : null) + ", \"category\":" + ((category != null) ? ("\"" + category + "\"") : null) + ", \"posterPath\":" + ((imageUrl != null) ? ("\"" + imageUrl + "\"") : null) + ", \"title\":" + ((title != null) ? ("\"" + title + "\"") : null) + "}}";
     }
     
     @Override

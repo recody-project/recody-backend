@@ -34,12 +34,13 @@ repositories {
 dependencies {
     implementation project(":common")
     implementation project(":common-boot-utils")
-    implementation project(":service-movie")
+    implementation project(":service-movie-application")
+    implementation project(":service-drama-application")
+    implementation project(":service-music-application")
     implementation project(":service-book")
-    implementation project(":service-music-impl")
-    implementation project(":service-catalog-content")
-    implementation project(":service-catalog-record")
-    implementation project(":service-users-impl")
+    implementation project(":service-catalog-content-application")
+    implementation project(":service-catalog-record-application")
+    implementation project(":service-users-application")
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'

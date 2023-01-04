@@ -21,11 +21,28 @@ public class MovieDetailViewModel {
     @Builder.Default
     private BasicCategory category = BasicCategory.Movie;
     private String title;
-    private String posterPath;
+    private String imageUrl;
     private String overview;
     private String releaseDate;
     private Integer runtime;
     private List<MovieGenreViewModel> genres;
     private String actors;
     private String directors;
+    
+    
+    @Override
+    public String toString() {
+        return "{\"MovieDetailViewModel\":{"
+               + "\"contentId\":" + ((contentId != null) ? ("\"" + contentId + "\"") : null)
+               + ", \"category\":" + category
+               + ", \"title\":" + ((title != null) ? ("\"" + title + "\"") : null)
+               + ", \"imageUrl\":" + ((imageUrl != null) ? ("\"" + imageUrl + "\"") : null)
+               + ", \"overview\":" + ((overview != null) ? ("\"" + overview + "\"") : null)
+               + ", \"releaseDate\":" + ((releaseDate != null) ? ("\"" + releaseDate + "\"") : null)
+               + ", \"runtime\":" + runtime
+               + ", \"genres\":" + genres
+               + ", \"actors\":" + ((actors != null) ? ("\"" + actors + "\"") : null)
+               + ", \"directors\":" + ((directors != null) ? ("\"" + directors + "\"") : null)
+               + "}}";
+    }
 }

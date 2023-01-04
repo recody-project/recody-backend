@@ -21,9 +21,9 @@ public abstract class CatalogContentMapper {
     
     
     // TODO: 국가별 이름 매핑하기
-    @Mapping( target = "imageUrl", source = "movieDetail.posterPath" )
+    @Mapping( target = "imageUrl", source = "movieDetail.imageUrl" )
     @Mapping( target = "id", ignore = true )
-    @Mapping( target = "contentId", source = "contentId" )
+    @Mapping( target = "contentId", source = "movieDetail.contentId" )
     @Mapping( target = "title", source = "movieDetail.title" )
     public abstract CatalogContentEntity newEntity(MovieDetailViewModel movieDetail, @Context Locale locale);
     
@@ -33,6 +33,7 @@ public abstract class CatalogContentMapper {
     @Mapping( target = "category", expression = "java(BasicCategory.idOf(entity.getCategory().getId()))" )
     public abstract CatalogMovie toCatalogMovie(CatalogContentEntity entity, @Context Locale locale);
     
+    @Mapping( target = "posterPath", source = "movieDetail.imageUrl" )
     @Mapping( target = "title", source = "movieDetail.title" )
     @Mapping( target = "category", source = "movieDetail.category" )
     @Mapping( target = "contentId", source = "movieDetail.contentId" )
@@ -40,6 +41,12 @@ public abstract class CatalogContentMapper {
     @Mapping( target = "contentGroupId", ignore = true ) // 구현되지 않음.
     public abstract CatalogMovieDetail toCatalogMovieDetail(CatalogContentEntity entity, MovieDetailViewModel movieDetail);
     
+    
+    @Mapping( target = "posterPath", source = "viewModel.imageUrl" )
+    @Mapping( target = "contentGroupId", ignore = true )
+    @Mapping( target = "globalContentId", ignore = true )
+    public abstract CatalogMovieDetail toCatalogMovieDetail(MovieDetailViewModel viewModel,
+                                                            @Context Locale locale);
     @Mapping( target = "title", ignore = true )
     @Mapping( target = "category",
               expression = "java(CategoryEntity.builder().id( event.getCategoryId() ).name( event.getCategoryName() ).build())" )

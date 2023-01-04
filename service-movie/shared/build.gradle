@@ -2,7 +2,7 @@ dependencies {
     implementation project(":common")
     implementation project(":common-content")
     implementation project(":service-movie-core")
-    implementation project(":service-movie-api-tmdb")
+    implementation project(":service-movie-tmdb")
 
 
     compileOnly 'org.projectlombok:lombok'
@@ -10,6 +10,9 @@ dependencies {
 
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.3'
+
+    // Page
+    implementation("org.springframework.data:spring-data-commons")
 }
 
 bootJar.enabled(false)

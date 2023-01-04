@@ -7,7 +7,7 @@ dependencies {
 
     // TODO: movie 의존성 없애기
     implementation project(":service-movie-core")
-    implementation project(":service-movie-api-shared")
+    implementation project(":service-movie-shared")
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
