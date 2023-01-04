@@ -14,10 +14,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @ActiveProfiles("test")
 @ContextConfiguration(classes = RecodyDramaApplication.class)
-class DefaultFetchPersonNameHandlerTest {
+class DefaultFetchDramaPersonNameHandlerTest {
     
     @Autowired
-    private FetchPersonNameHandler<TMDBPersonName> fetchPersonNameHandler;
+    private FetchDramaPersonNameHandler<TMDBPersonName> fetchDramaPersonNameHandler;
     
     public static final Integer personId = 23532;
     
@@ -25,9 +25,9 @@ class DefaultFetchPersonNameHandlerTest {
     @DisplayName( "기능 테스트" )
     void test01() {
         // given
-        TMDBPersonName name = fetchPersonNameHandler.handle( FetchPersonName.builder()
-                                                                              .tmdbPersonId( personId )
-                                                                              .build() );
+        TMDBPersonName name = fetchDramaPersonNameHandler.handle( FetchPersonName.builder()
+                                                                                 .tmdbPersonId( personId )
+                                                                                 .build() );
     
     
         // when

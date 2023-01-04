@@ -6,7 +6,7 @@ package com.recody.recodybackend.drama.features.fetchpersondetail;
  * @param <T>
  * @author motive
  */
-public interface FetchPersonNameHandler<T> {
+public interface FetchDramaPersonNameHandler<T> {
     T handle(FetchPersonName command);
     
     

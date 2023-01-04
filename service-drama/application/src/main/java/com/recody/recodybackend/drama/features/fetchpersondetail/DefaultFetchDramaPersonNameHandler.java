@@ -13,7 +13,7 @@ import java.util.Objects;
 
 @Component
 @Slf4j
-class DefaultFetchPersonNameHandler implements FetchPersonNameHandler<TMDBPersonName> {
+class DefaultFetchDramaPersonNameHandler implements FetchDramaPersonNameHandler<TMDBPersonName> {
     
     private static final String path = "/person/";
     private final WebClient webClient = WebClient.builder().baseUrl( TMDB.TMDB_BASE_URI ).build();
