@@ -11,8 +11,8 @@ include(":service-movie-core",
         ":service-movie-data",
         ":service-movie-api-tmdb")
 
-include(":service-book-api",
-        ":service-book-impl",
+include(":service-book-api-shared",
+        ":service-book",
         ":service-book-core",
         ":service-book-api-naver",
         ":service-book-data")
@@ -61,8 +61,8 @@ project(":service-performance-impl").projectDir = new File(settingsDir, "${perfo
 
 
 String bookProjectDir = "service-book"
-project(":service-book-api").projectDir = new File(settingsDir, "${bookProjectDir}/api")
-project(":service-book-impl").projectDir = new File(settingsDir, "${bookProjectDir}/impl")
+project(":service-book-api-shared").projectDir = new File(settingsDir, "${bookProjectDir}/shared")
+project(":service-book").projectDir = new File(settingsDir, "${bookProjectDir}/impl")
 project(":service-book-core").projectDir = new File(settingsDir, "${bookProjectDir}/core")
 project(":service-book-api-naver").projectDir = new File(settingsDir, "${bookProjectDir}/naver")
 project(":service-book-data").projectDir = new File(settingsDir, "${bookProjectDir}/data")

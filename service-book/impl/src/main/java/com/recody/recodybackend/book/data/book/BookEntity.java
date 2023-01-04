@@ -37,6 +37,7 @@ public class BookEntity extends BookBaseEntity {
     private String description;
 
     private String imagePath;
+    @Column(unique = true)
     private String isbn;
 
     @OneToMany(mappedBy = "book")

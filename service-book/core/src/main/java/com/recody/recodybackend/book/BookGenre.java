@@ -1,4 +1,4 @@
-package com.recody.recodybackend.book.general;
+package com.recody.recodybackend.book;
 
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.contents.Genre;

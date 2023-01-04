@@ -1,9 +1,6 @@
 package com.recody.recodybackend.book;
 
-import com.recody.recodybackend.book.general.BookGenre;
-import com.recody.recodybackend.book.general.BookSource;
 import com.recody.recodybackend.common.contents.BasicCategory;
-import com.recody.recodybackend.features.getbookcredit.Author;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 

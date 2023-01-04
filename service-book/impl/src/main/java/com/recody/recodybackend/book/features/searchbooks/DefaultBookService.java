@@ -1,9 +1,9 @@
 package com.recody.recodybackend.book.features.searchbooks;
 
 import com.recody.recodybackend.book.data.book.BookEntity;
+import com.recody.recodybackend.book.data.book.BookMapper;
 import com.recody.recodybackend.book.data.book.BookRepository;
 import com.recody.recodybackend.book.features.BookSearchService;
-import com.recody.recodybackend.book.features.searchbooks.dto.BookMapper;
 import com.recody.recodybackend.book.features.searchbooks.dto.NaverBookSearchNode;
 import com.recody.recodybackend.book.web.NaverSearchedBook;
 import lombok.RequiredArgsConstructor;

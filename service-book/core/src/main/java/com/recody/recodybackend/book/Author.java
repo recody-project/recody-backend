@@ -1,4 +1,4 @@
-package com.recody.recodybackend.features.getbookcredit;
+package com.recody.recodybackend.book;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
