@@ -1,4 +1,4 @@
-package com.recody.recodybackend.drama.features.fetchdramacredit;
+package com.recody.recodybackend.drama.tmdb.credit;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import lombok.*;
@@ -8,8 +8,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class TMDBDramaCast {
-    
+public class TMDBDramaCrew {
     private Integer id;
     private String name;
     @JsonAlias("known_for_department")
@@ -23,12 +22,10 @@ public class TMDBDramaCast {
     
     @Override
     public String toString() {
-        return "{\"TMDBDramaCast\":{"
+        return "{\"TMDBDramaCrew\":{"
                + "\"id\":" + id
                + ", \"name\":" + ((name != null) ? ("\"" + name + "\"") : null)
                + ", \"knownForDepartment\":" + ((knownForDepartment != null) ? ("\"" + knownForDepartment + "\"") : null)
-               + ", \"originalName\":" + ((originalName != null) ? ("\"" + originalName + "\"") : null)
-               + ", \"profilePath\":" + ((profilePath != null) ? ("\"" + profilePath + "\"") : null)
                + "}}";
     }
 }

@@ -1,4 +1,4 @@
-package com.recody.recodybackend.drama.features.fetchdramadetail;
+package com.recody.recodybackend.drama.tmdb.detail;
 
 import lombok.*;
 

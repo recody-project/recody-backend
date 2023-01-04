@@ -1,6 +1,7 @@
 package com.recody.recodybackend.drama.features.fetchdramacredit;
 
 import com.recody.recodybackend.drama.tmdb.TMDB;
+import com.recody.recodybackend.drama.tmdb.credit.TMDBDramaCreditResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

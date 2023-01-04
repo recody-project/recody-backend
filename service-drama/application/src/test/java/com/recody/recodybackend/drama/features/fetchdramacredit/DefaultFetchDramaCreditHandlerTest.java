@@ -1,6 +1,7 @@
 package com.recody.recodybackend.drama.features.fetchdramacredit;
 
 import com.recody.recodybackend.drama.RecodyDramaApplication;
+import com.recody.recodybackend.drama.tmdb.credit.TMDBDramaCreditResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
