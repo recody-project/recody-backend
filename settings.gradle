@@ -13,10 +13,11 @@ include(":service-movie-core",
 
 include(":service-music-core",
         ":service-music-application")
-include(":service-book-api-shared",
-        ":service-book",
+
+include(":service-book-shared",
+        ":service-book-application",
         ":service-book-core",
-        ":service-book-api-naver",
+        ":service-book-naver",
         ":service-book-data")
 
 include(":service-music-core",
@@ -73,10 +74,10 @@ project(":service-performance-application").projectDir = new File(settingsDir, "
 
 
 String bookProjectDir = "service-book"
-project(":service-book-api-shared").projectDir = new File(settingsDir, "${bookProjectDir}/shared")
-project(":service-book").projectDir = new File(settingsDir, "${bookProjectDir}/impl")
+project(":service-book-shared").projectDir = new File(settingsDir, "${bookProjectDir}/shared")
+project(":service-book-application").projectDir = new File(settingsDir, "${bookProjectDir}/application")
 project(":service-book-core").projectDir = new File(settingsDir, "${bookProjectDir}/core")
-project(":service-book-api-naver").projectDir = new File(settingsDir, "${bookProjectDir}/naver")
+project(":service-book-naver").projectDir = new File(settingsDir, "${bookProjectDir}/naver")
 project(":service-book-data").projectDir = new File(settingsDir, "${bookProjectDir}/data")
 
 
@@ -97,8 +98,4 @@ project(":service-users-core").projectDir = new File(settingsDir, "${userProject
 project(":service-users-data").projectDir = new File(settingsDir, "${userProjectDir}/data")
 project(":service-users-application").projectDir = new File(settingsDir, "${userProjectDir}/application")
 project(":service-users-shared").projectDir = new File(settingsDir, "${userProjectDir}/shared")
-include 'service-book:naver'
-findProject(':service-book:naver')?.name = 'naver'
-include 'service-book:data'
-findProject(':service-book:data')?.name = 'data'
 

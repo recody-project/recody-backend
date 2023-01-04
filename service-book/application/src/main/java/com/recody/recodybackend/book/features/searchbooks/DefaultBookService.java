@@ -8,6 +8,7 @@ import com.recody.recodybackend.book.features.searchbooks.dto.NaverBookSearchNod
 import com.recody.recodybackend.book.web.NaverSearchedBook;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
@@ -32,7 +33,7 @@ class DefaultBookService implements BookSearchService {
     @Transactional
     public SearchBooksResult searchBooks(SearchBooks command) {
         String bookName = command.getBookName();
-        List<BookEntity> bookEntities = bookRepository.findByTitleLike(bookName);
+        List<BookEntity> bookEntities = bookRepository.findByTitleLike(bookName, Pageable.unpaged());
 
 
 //        if (bookEntities.size() > MINIMUM_SEARCH_RESULT_SIZE) {

@@ -5,8 +5,6 @@ import com.recody.recodybackend.book.BookSource;
 import com.recody.recodybackend.book.features.searchbooks.dto.NaverBookSearchNode;
 import com.recody.recodybackend.book.web.NaverSearchedBook;
 import com.recody.recodybackend.common.contents.BasicCategory;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.mapstruct.Builder;
 import org.mapstruct.Context;
 import org.mapstruct.Mapper;
@@ -15,11 +13,9 @@ import org.mapstruct.Mapping;
 import java.util.List;
 import java.util.Locale;
 
-@Mapper(componentModel = "spring",
-        builder = @Builder(disableBuilder = true),
-        imports = {BasicCategory.class, BookSource.class})
-@RequiredArgsConstructor
-@Slf4j
+@Mapper( componentModel = "spring",
+        imports = {BasicCategory.class, BookSource.class},
+        builder = @Builder(disableBuilder = true))
 public abstract class BookMapper {
 
     public abstract List<NaverSearchedBook> toNaverBook(List<NaverBookSearchNode> nodes);
@@ -31,6 +27,7 @@ public abstract class BookMapper {
     @Mapping( target = "title", source = "entity.title" )
     @Mapping( target = "contentId", source = "entity.id" )
     @Mapping( target = "genres", source = "entity.genres" )
+    @Mapping(target = "authors", ignore = true)
     public abstract BookInfo toBookInfo(BookEntity entity, @Context Locale locale);
 
 }

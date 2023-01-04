@@ -17,6 +17,7 @@ public abstract class BookDetailMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping( target = "lastModifiedAt", ignore = true )
     @Mapping( target = "createdAt", ignore = true )
+    @Mapping(target = "authors", ignore = true)
     public abstract BookEntity update(@MappingTarget BookEntity entity, NaverBookDetail detail,
                                       @Context Locale locale);
 

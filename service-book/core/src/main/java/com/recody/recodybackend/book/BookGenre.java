@@ -1,6 +1,7 @@
 package com.recody.recodybackend.book;
 
 import com.recody.recodybackend.common.contents.BasicCategory;
+import com.recody.recodybackend.common.contents.Category;
 import com.recody.recodybackend.common.contents.Genre;
 import lombok.*;
 
@@ -8,16 +9,13 @@ import lombok.*;
 @Setter
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class BookGenre implements Genre {
 
     private String genreId;
     private String genreName;
     private BookSource source;
 
-    public BookGenre(String genreId) {
-        this.genreId = genreId;
-    }
 
     public BookGenre(String genreId, String genreName) {
         this.genreId = genreId;
@@ -25,7 +23,7 @@ public class BookGenre implements Genre {
     }
 
     @Override
-    public BasicCategory getCategory() {
+    public Category getCategory() {
         return BasicCategory.Book;
     }
 

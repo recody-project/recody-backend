@@ -8,7 +8,7 @@ import com.recody.recodybackend.book.data.book.BookMapper;
 import com.recody.recodybackend.book.data.book.BookRepository;
 import com.recody.recodybackend.book.events.BookCreated;
 import com.recody.recodybackend.book.features.getbookdetail.dto.NaverBookDetail;
-import com.recody.recodybackend.book.features.projection.BookEventPublisher;
+import com.recody.recodybackend.book.features.event.BookEventPublisher;
 import com.recody.recodybackend.book.features.searchbooks.dto.NaverBookSearchNode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

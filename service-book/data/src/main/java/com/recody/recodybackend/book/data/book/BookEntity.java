@@ -1,8 +1,6 @@
 package com.recody.recodybackend.book.data.book;
 
 import com.recody.recodybackend.commonbootutils.data.CustomSequenceIdGenerator;
-import com.recody.recodybackend.book.data.BookBaseEntity;
-import com.recody.recodybackend.book.data.AuthorEntity;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 

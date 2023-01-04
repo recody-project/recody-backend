@@ -1,6 +1,7 @@
-package com.recody.recodybackend.book.features.projection;
+package com.recody.recodybackend.book.features.event;
 
 import com.recody.recodybackend.book.events.BookCreated;
+import com.recody.recodybackend.book.features.event.BookEventPublisher;
 import com.recody.recodybackend.common.OnSpringEventProcessingStrategy;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,8 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-@Conditional(value = OnSpringEventProcessingStrategy.class)
-public class SpringBookEventPublisher implements BookEventPublisher{
+class SpringBookEventPublisher implements BookEventPublisher {
 
     private final ApplicationEventPublisher publisher;
 
@@ -20,5 +20,11 @@ public class SpringBookEventPublisher implements BookEventPublisher{
     public void publish(BookCreated event) {
         publisher.publishEvent(event);
         log.info( "published event [Spring]: {}", event );
+    }
+
+    @Override
+    public void publish(BookQueried event) {
+        log.debug( "publishing event: {}", event );
+        publisher.publishEvent( event );
     }
 }

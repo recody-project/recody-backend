@@ -1,4 +1,4 @@
-package com.recody.recodybackend.book.data;
+package com.recody.recodybackend.book.data.book;
 
 import com.recody.recodybackend.book.data.book.BookEntity;
 import lombok.AllArgsConstructor;
