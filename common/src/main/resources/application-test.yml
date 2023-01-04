@@ -25,7 +25,7 @@ spring:
 logging:
   level:
     com:
-      recody: debug
+      recody: trace
 
 recody:
   event:
