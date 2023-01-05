@@ -20,12 +20,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @ActiveProfiles( "test" )
 @ContextConfiguration( classes = RecodyDramaApplication.class )
-class DefaultDramaDetailRegistrarTest {
+class DefaultRegisterDramaDetailHandlerTest {
     
     public static final int TMDB_ID = 69740;
     
     @Autowired
-    DramaDetailRegistrar<DramaEntity> dramaDetailRegistrar;
+    RegisterDramaDetailHandler<DramaEntity> registerDramaDetailHandler;
     
     @Autowired
     FetchDramaDetailHandler<TMDBDramaDetail> fetchDramaDetailHandler;
@@ -44,7 +44,7 @@ class DefaultDramaDetailRegistrarTest {
                                 .build() );
         
         // when
-        DramaEntity dramaEntity = dramaDetailRegistrar.handle(
+        DramaEntity dramaEntity = registerDramaDetailHandler.handle(
                 RegisterDramaDetail.builder()
                                    .detail( detail )
                                    .locale( Locale.KOREAN )

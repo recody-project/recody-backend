@@ -21,7 +21,7 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-class DefaultDramaDetailRegistrar implements DramaDetailRegistrar<DramaEntity> {
+class DefaultRegisterDramaDetailHandler implements RegisterDramaDetailHandler<DramaEntity> {
     
     private final DramaMapper dramaMapper;
     
