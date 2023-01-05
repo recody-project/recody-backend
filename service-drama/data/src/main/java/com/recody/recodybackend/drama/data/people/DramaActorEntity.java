@@ -22,7 +22,6 @@ public class DramaActorEntity {
     
     @JoinColumn( name = "drama_id",
                  nullable = false,
-                 unique = true,
                  foreignKey = @ForeignKey(name = "drama_actor_contains_drama_id"))
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
