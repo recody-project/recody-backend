@@ -44,6 +44,32 @@ public abstract class DramaOverviewMapper {
         
     }
     
+    // Overview Entity -> String by locale
+    public String mapByLocale(DramaOverviewEntity entity, @Context Locale locale) {
+        String koreanOverview = entity.getKoreanOverview();
+        String englishOverview = entity.getEnglishOverview();
+    
+        if (locale.getLanguage().equals( Locale.KOREAN.getLanguage() )){
+            if (StringUtils.hasText( koreanOverview )) {
+                return koreanOverview;
+            }
+            if (StringUtils.hasText( englishOverview )) {
+                return englishOverview;
+            }
+            else return "줄거리가 없습니다.";
+        }
+        else {
+            if (StringUtils.hasText( englishOverview )) {
+                return englishOverview;
+            }
+            if (StringUtils.hasText( koreanOverview )) {
+                return koreanOverview;
+            }
+            else return "줄거리가 없습니다.";
+        }
+    }
+    
+    
     @AfterMapping
     public void setBidirectional(@MappingTarget DramaEntity drama) {
         DramaOverviewEntity overview = drama.getOverview();

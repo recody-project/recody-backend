@@ -1,7 +1,10 @@
 package com.recody.recodybackend.drama.data.drama;
 
 import com.recody.recodybackend.drama.Drama;
+import com.recody.recodybackend.drama.DramaDetail;
+import com.recody.recodybackend.drama.data.network.DramaNetworkMapper;
 import com.recody.recodybackend.drama.data.overview.DramaOverviewMapper;
+import com.recody.recodybackend.drama.data.people.DramaPersonMapper;
 import com.recody.recodybackend.drama.data.title.DramaTitleMapper;
 import com.recody.recodybackend.drama.tmdb.TMDB;
 import com.recody.recodybackend.drama.tmdb.TMDBDrama;
@@ -13,7 +16,7 @@ import java.util.List;
 import java.util.Locale;
 
 @Mapper( componentModel = "spring",
-         uses = {DramaTitleMapper.class, DramaOverviewMapper.class},
+         uses = {DramaTitleMapper.class, DramaOverviewMapper.class, DramaPersonMapper.class, DramaNetworkMapper.class},
          imports = {TMDB.class},
          builder = @Builder(disableBuilder = true))
 public abstract class DramaMapper {
@@ -57,7 +60,7 @@ public abstract class DramaMapper {
     @Mapping( target = "id", ignore = true )
     @Mapping( target = "tmdbId", source = "id" )
     @Mapping( target = "title", source = "detail" )
-    @Mapping( target = "imageUrl", source = "detail.posterPath" )
+    @Mapping( target = "imageUrl", expression = "java(TMDB.fullPosterPath(detail.getPosterPath()))" )
     @Mapping( target = "directors", ignore = true )
     @Mapping( target = "actors", ignore = true )
     public abstract DramaEntity newEntity(TMDBDramaDetail detail, @Context Locale locale);
@@ -66,10 +69,13 @@ public abstract class DramaMapper {
     @Mapping( target = "tmdbId", source = "id" )
     @Mapping( target = "title", source = "detail" )
     @Mapping( target = "directors", ignore = true)
-    @Mapping( target = "imageUrl", source = "detail.posterPath" )
+    @Mapping( target = "imageUrl", expression = "java(TMDB.fullPosterPath(detail.getPosterPath()))" )
     @Mapping( target = "actors", ignore = true )
     @Mapping( target = "overview", source = "detail.overview")
     public abstract void updateDetail(@MappingTarget DramaEntity entity,
                                       TMDBDramaDetail detail,
                                       @Context Locale locale);
+    
+    // DramaDetail 로 만들어 반환하기
+    public abstract DramaDetail toDramaDetail(DramaEntity entity, @Context Locale locale);
 }

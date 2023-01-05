@@ -22,7 +22,7 @@ public abstract class DramaPersonNameMapper {
             log.trace( "mapped empty person name: {}", crew.getName() );
             return builder.build();
         }
-        if (locale.getLanguage().equals( Locale.KOREAN.getLanguage() )){
+        if ( locale.getLanguage().equals( Locale.KOREAN.getLanguage() ) ) {
             log.trace( "mapped person name: {}", crew.getName() );
             return builder.koreanName( crew.getName() ).build();
         }
@@ -39,7 +39,7 @@ public abstract class DramaPersonNameMapper {
             log.trace( "mapped empty person name: {}", crew.getName() );
             return builder.build();
         }
-        if (locale.getLanguage().equals( Locale.KOREAN.getLanguage() )){
+        if ( locale.getLanguage().equals( Locale.KOREAN.getLanguage() ) ) {
             log.trace( "mapped person name: {}", crew.getName() );
             return builder.koreanName( crew.getName() ).build();
         }
@@ -48,7 +48,7 @@ public abstract class DramaPersonNameMapper {
             return builder.englishName( crew.getName() ).build();
         }
     }
-    
+
 //    public DramaPersonNameEntity newEntity(TMDBDramaCreatedBy createdBy, @Context Locale locale) {
 //        DramaPersonNameEntity.DramaPersonNameEntityBuilder builder = DramaPersonNameEntity.builder();
 //        builder.originalName( createdBy.getOriginalName() );
@@ -65,6 +65,38 @@ public abstract class DramaPersonNameMapper {
 //            return builder.englishName( createdBy.getName() ).build();
 //        }
 //    }
+    
+    // NameEntity 를 Locale 에 따라 String 으로 반환한다.
+    public String map(DramaPersonNameEntity entity, @Context Locale locale) {
+        String koreanName = entity.getKoreanName();
+        String englishName = entity.getEnglishName();
+        String originalName = entity.getOriginalName();
+        
+        if ( locale.getLanguage().equals( Locale.KOREAN.getLanguage() ) ) {
+            if ( StringUtils.hasText( koreanName ) ) {
+                return koreanName;
+            }
+            if ( StringUtils.hasText( englishName ) ) {
+                return englishName;
+            }
+            if ( StringUtils.hasText( originalName ) ) {
+                return originalName;
+            }
+            return "";
+        }
+        else {
+            if ( StringUtils.hasText( englishName ) ) {
+                return englishName;
+            }
+            if ( StringUtils.hasText( koreanName ) ) {
+                return koreanName;
+            }
+            if ( StringUtils.hasText( originalName ) ) {
+                return originalName;
+            }
+            return "";
+        }
+    }
     
     @AfterMapping
     public void setBidirectional(@MappingTarget DramaPersonEntity drama) {
