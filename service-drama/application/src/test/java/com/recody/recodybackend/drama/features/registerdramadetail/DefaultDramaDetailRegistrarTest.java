@@ -1,4 +1,4 @@
-package com.recody.recodybackend.drama.features.savedramadetail;
+package com.recody.recodybackend.drama.features.registerdramadetail;
 
 import com.recody.recodybackend.drama.RecodyDramaApplication;
 import com.recody.recodybackend.drama.data.drama.DramaEntity;
@@ -18,13 +18,14 @@ import java.util.Locale;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-@ActiveProfiles("test")
-@ContextConfiguration(classes = RecodyDramaApplication.class)
+@ActiveProfiles( "test" )
+@ContextConfiguration( classes = RecodyDramaApplication.class )
 class DefaultDramaDetailRegistrarTest {
+    
     public static final int TMDB_ID = 69740;
     
     @Autowired
-    DramaDetailRegistrar<TMDBDramaDetail, DramaEntity> dramaDetailRegistrar;
+    DramaDetailRegistrar<DramaEntity> dramaDetailRegistrar;
     
     @Autowired
     FetchDramaDetailHandler<TMDBDramaDetail> fetchDramaDetailHandler;
@@ -36,16 +37,21 @@ class DefaultDramaDetailRegistrarTest {
     @DisplayName( "기능 테스트" )
     void test01() {
         // given
-        TMDBDramaDetail detail = fetchDramaDetailHandler.handle( FetchDramaDetail.builder()
-                                                                                 .tmdbId( TMDB_ID )
-                                                                                 .locale( Locale.KOREAN )
-                                                                                 .build() );
-    
+        TMDBDramaDetail detail = fetchDramaDetailHandler.handle(
+                FetchDramaDetail.builder()
+                                .tmdbId( TMDB_ID )
+                                .locale( Locale.KOREAN )
+                                .build() );
+        
         // when
-        DramaEntity dramaEntity = dramaDetailRegistrar.handle( detail, Locale.KOREAN );
+        DramaEntity dramaEntity = dramaDetailRegistrar.handle(
+                RegisterDramaDetail.builder()
+                                   .detail( detail )
+                                   .locale( Locale.KOREAN )
+                                   .build() );
         
         // then
         System.out.println( "dramaEntity = " + dramaEntity );
-        assertThat(dramaEntity).isNotNull();
+        assertThat( dramaEntity ).isNotNull();
     }
 }

@@ -1,4 +1,4 @@
-package com.recody.recodybackend.drama.features.savedramadetail;
+package com.recody.recodybackend.drama.features.registerdramadetail;
 
 import com.recody.recodybackend.common.data.AsyncEntityRegistrar;
 import com.recody.recodybackend.common.data.AsyncLinkingEntityManager;
@@ -21,7 +21,7 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-class DefaultDramaDetailRegistrar implements DramaDetailRegistrar<TMDBDramaDetail, DramaEntity> {
+class DefaultDramaDetailRegistrar implements DramaDetailRegistrar<DramaEntity> {
     
     private final DramaMapper dramaMapper;
     
@@ -35,8 +35,10 @@ class DefaultDramaDetailRegistrar implements DramaDetailRegistrar<TMDBDramaDetai
     
     @Override
     @Transactional
-    public DramaEntity handle(TMDBDramaDetail detail, Locale locale) {
+    public DramaEntity handle(RegisterDramaDetail command) {
+        TMDBDramaDetail detail = command.getDetail();
         Integer tmdbId = detail.getId();
+        Locale locale = command.getLocale();
         // 이 때의 Drama 는 보통 저장되어있습니다. (검색 이벤트를 통해 저장됨.)
         // 저장되어 있지 않은 경우, 새로운 Drama 를 저장한 후 Detail 를 반영합니다.
         Optional<DramaEntity> optionalDramaEntity = dramaRepository.findByTmdbId( tmdbId );
