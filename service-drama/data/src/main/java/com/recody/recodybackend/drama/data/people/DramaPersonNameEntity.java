@@ -33,4 +33,13 @@ public class DramaPersonNameEntity {
     
     private String koreanName;
     
+    @Override
+    public String toString() {
+        return "{\"DramaPersonNameEntity\":{"
+               + "\"id\":" + id
+               + ", \"originalName\":" + ((originalName != null) ? ("\"" + originalName + "\"") : null)
+               + ", \"englishName\":" + ((englishName != null) ? ("\"" + englishName + "\"") : null)
+               + ", \"koreanName\":" + ((koreanName != null) ? ("\"" + koreanName + "\"") : null)
+               + "}}";
+    }
 }

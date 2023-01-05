@@ -33,4 +33,11 @@ public class DramaActorEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private DramaPersonEntity person;
     
+    @Override
+    public String toString() {
+        return "{\"DramaActorEntity\":{"
+               + "\"id\":" + id
+               + ", \"person\":" + person
+               + "}}";
+    }
 }

@@ -25,4 +25,13 @@ public class DramaPersonEntity {
     
     private String profileUrl;
     
+    @Override
+    public String toString() {
+        return "{\"DramaPersonEntity\":{"
+               + "\"id\":" + id
+               + ", \"tmdbId\":" + tmdbId
+               + ", \"name\":" + name
+               + ", \"profileUrl\":" + ((profileUrl != null) ? ("\"" + profileUrl + "\"") : null)
+               + "}}";
+    }
 }
