@@ -1,4 +1,4 @@
-package com.recody.recodybackend.drama.features.savenetwork;
+package com.recody.recodybackend.drama.features.registernetwork;
 
 import com.recody.recodybackend.common.data.AsyncLinkingEntityManager;
 import com.recody.recodybackend.drama.data.drama.DramaEntity;
