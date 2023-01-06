@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -17,14 +18,24 @@ import javax.transaction.Transactional;
 class DramaActorRegistrar implements AsyncLinkingEntityManager<DramaActorEntity,
                                                                       DramaEntity,
                                                                       DramaPersonEntity> {
+    
     private final DramaActorRepository actorRepository;
     
     @Override
     @Transactional
     public DramaActorEntity save(DramaEntity entity, DramaPersonEntity person) {
+        // 있는지 확인
+        Optional<DramaActorEntity> optionalActor = actorRepository.findByDramaAndPerson( entity, person );
+        if ( optionalActor.isPresent() ) {
+            DramaActorEntity dramaActorEntity = optionalActor.get();
+            log.trace( "이미 존재하는 배우 정보를 반환. : {}", dramaActorEntity );
+            return dramaActorEntity;
+        }
+        
+        // 없으므로 새로 저장.
         DramaActorEntity actorEntity = DramaActorEntity.builder()
-                                                 .drama( entity )
-                                                 .person( person ).build();
+                                                       .drama( entity )
+                                                       .person( person ).build();
         DramaActorEntity savedActor = actorRepository.save( actorEntity );
         log.trace( "savedActor: {}", savedActor );
         return savedActor;
