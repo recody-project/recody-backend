@@ -8,7 +8,10 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "drama_actor")
+@Table(name = "drama_actor", uniqueConstraints = {
+        @UniqueConstraint(name = "drama_and_person_pair_should_be_unique",
+                          columnNames = {"drama_id", "person_id"})
+})
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
