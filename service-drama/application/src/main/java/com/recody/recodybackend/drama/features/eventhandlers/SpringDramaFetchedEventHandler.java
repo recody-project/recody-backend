@@ -9,6 +9,8 @@ import com.recody.recodybackend.drama.data.search.DramaSearchingKeywordCountEnti
 import com.recody.recodybackend.drama.data.search.DramaSearchingKeywordCountRepository;
 import com.recody.recodybackend.drama.features.event.DramaFetched;
 import com.recody.recodybackend.drama.features.event.DramaQueried;
+import com.recody.recodybackend.drama.DramaId;
+import com.recody.recodybackend.drama.features.synchronizedramadetail.SynchronizeDramaDetailHandler;
 import com.recody.recodybackend.drama.features.synchronizedramaseachlanguages.SynchronizeDramasEachLanguagesHandler;
 import com.recody.recodybackend.drama.tmdb.TMDBDrama;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +26,9 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-class SpringDramaFetchedEventHandler implements DramaFetchedEventHandler, EmptyDramaQueriedHandler {
+class SpringDramaFetchedEventHandler implements DramaFetchedEventHandler,
+                                                EmptyDramaQueriedHandler,
+                                                DramaDetailRequestedHandler{
     
     private final DramaMapper dramaMapper;
     
@@ -33,6 +37,18 @@ class SpringDramaFetchedEventHandler implements DramaFetchedEventHandler, EmptyD
     private final DramaSearchingKeywordCountRepository keywordRepository;
     
     private final SynchronizeDramasEachLanguagesHandler<Void> synchronizeDramasEachLanguagesHandler;
+    
+    private final SynchronizeDramaDetailHandler<Void> synchronizeDramaDetailHandler;
+    
+    @Override
+    @Transactional
+    @EventListener
+    @Async( value = Recody.DRAMA_TASK_EXECUTOR )
+    public void on(DramaDetailRequested event) {
+        log.trace( "handling event: {}", event );
+        //TODO: 이벤트 스케줄 조정
+        synchronizeDramaDetailHandler.handle( DramaId.of( event.getDramaId() ) );
+    }
     
     /**
      * 드라마가 쿼리되었을 때 마다 검색 횟수를 확인한 후 데이터를 충원한다.
