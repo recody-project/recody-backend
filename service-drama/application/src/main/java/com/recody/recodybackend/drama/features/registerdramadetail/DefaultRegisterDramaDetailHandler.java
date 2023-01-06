@@ -44,7 +44,7 @@ class DefaultRegisterDramaDetailHandler implements RegisterDramaDetailHandler<Dr
         Optional<DramaEntity> optionalDramaEntity = dramaRepository.findByTmdbId( tmdbId );
         DramaEntity dramaEntity;
         
-        if (optionalDramaEntity.isEmpty()){
+        if ( optionalDramaEntity.isEmpty() ) {
             DramaEntity newDramaEntity = dramaMapper.newEntity( detail, locale );
             dramaEntity = dramaRepository.save( newDramaEntity );
             log.trace( "saved new Drama: {}", newDramaEntity );
@@ -57,8 +57,8 @@ class DefaultRegisterDramaDetailHandler implements RegisterDramaDetailHandler<Dr
         List<TMDBDramaNetwork> networks = detail.getNetworks();
         networkInfoRegistrar.registerAsync( networks )
                             .thenApply( networkInfoEntities ->
-                                                networkRegistrar.saveAsync( dramaEntity,
-                                                                            networkInfoEntities ) );
+                                                networkRegistrar.save( dramaEntity,
+                                                                       networkInfoEntities ) );
         
         // 남은 detail 정보들 DramaEntity 에 업데이트.
         dramaMapper.updateDetail( dramaEntity, detail, locale );
