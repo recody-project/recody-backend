@@ -7,6 +7,7 @@ import com.recody.recodybackend.drama.data.people.DramaActorEntity;
 import com.recody.recodybackend.drama.features.fetchdramacredit.FetchDramaCredit;
 import com.recody.recodybackend.drama.features.fetchdramacredit.FetchDramaCreditHandler;
 import com.recody.recodybackend.drama.tmdb.credit.TMDBDramaCreditResponse;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -84,6 +85,12 @@ class DefaultRegisterDramaCreditHandlerTest {
         List<DramaActorEntity> actors = dramaEntity.getActors();
         System.out.println( "actors = " + actors );
         assertThat( actors ).isNotEmpty();
+    }
+    
+    @AfterEach
+    void after() {
+        dramaRepository.deleteAllInBatch();
+    
     }
     
 }

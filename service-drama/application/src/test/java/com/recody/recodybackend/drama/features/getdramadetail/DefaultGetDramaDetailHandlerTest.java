@@ -14,6 +14,7 @@ import com.recody.recodybackend.drama.features.registerdramadetail.RegisterDrama
 import com.recody.recodybackend.drama.features.registerdramadetail.RegisterDramaDetailHandler;
 import com.recody.recodybackend.drama.tmdb.credit.TMDBDramaCreditResponse;
 import com.recody.recodybackend.drama.tmdb.detail.TMDBDramaDetail;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -97,5 +98,10 @@ class DefaultGetDramaDetailHandlerTest {
         // then
         System.out.println(detailDTO);
         assertThat( detailDTO ).isNotNull();
+    }
+    
+    @AfterEach
+    void after() {
+        dramaRepository.deleteAllInBatch();
     }
 }

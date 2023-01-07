@@ -6,6 +6,7 @@ import com.recody.recodybackend.drama.data.drama.DramaRepository;
 import com.recody.recodybackend.drama.features.fetchdramadetail.FetchDramaDetail;
 import com.recody.recodybackend.drama.features.fetchdramadetail.FetchDramaDetailHandler;
 import com.recody.recodybackend.drama.tmdb.detail.TMDBDramaDetail;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,5 +54,11 @@ class DefaultRegisterDramaDetailHandlerTest {
         // then
         System.out.println( "dramaEntity = " + dramaEntity );
         assertThat( dramaEntity ).isNotNull();
+    }
+    
+    @AfterEach
+    void after() {
+        dramaRepository.deleteAllInBatch();
+    
     }
 }
