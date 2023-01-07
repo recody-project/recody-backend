@@ -29,9 +29,11 @@ public class DramaOverviewEntity {
     private DramaEntity drama;
     
     @Setter
+    @Lob
     private String englishOverview;
     
     @Setter
+    @Lob
     private String koreanOverview;
     
     @Override

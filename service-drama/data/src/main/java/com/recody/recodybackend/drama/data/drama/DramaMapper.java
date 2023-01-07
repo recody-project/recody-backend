@@ -28,7 +28,7 @@ public abstract class DramaMapper {
     public abstract Drama map(DramaEntity entity, @Context Locale locale);
     public abstract List<Drama> map(List<DramaEntity> entities, @Context Locale locale);
     
-    @Mapping( target = "overview", ignore = true )
+
     @Mapping( target = "networks", ignore = true )
     @Mapping( target = "directors", ignore = true )
     @Mapping( target = "actors", ignore = true )
@@ -42,7 +42,7 @@ public abstract class DramaMapper {
     
     public abstract List<DramaEntity> newEntity(List<TMDBDrama> dramas, @Context Locale locale);
     
-    @Mapping( target = "overview", ignore = true )
+
     @Mapping( target = "networks", ignore = true )
     @Mapping( target = "directors", ignore = true )
     @Mapping( target = "actors", ignore = true )

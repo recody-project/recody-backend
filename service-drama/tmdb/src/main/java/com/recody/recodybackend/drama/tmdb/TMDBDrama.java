@@ -17,6 +17,8 @@ public class TMDBDrama {
     private Integer id;
     private String name;
     
+    private String overview;
+    
     @JsonAlias("genre_ids")
     private List<Integer> genreIds;
     
