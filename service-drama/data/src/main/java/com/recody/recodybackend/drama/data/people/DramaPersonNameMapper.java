@@ -21,6 +21,10 @@ public abstract class DramaPersonNameMapper {
     @Autowired
     private ApplicationEventPublisher publisher;
     
+    /**
+     * TMDBDramaCrew 로 새로운 Entity 를 만듭니다.
+     * - 위 DTO 는 항상 영어 결과를 반환하므로 현재는 englishName 필드로만 매핑합니다.
+     */
     public DramaPersonNameEntity newEntity(TMDBDramaCrew crew, @Context Locale locale) {
         DramaPersonNameEntity.DramaPersonNameEntityBuilder builder = DramaPersonNameEntity.builder();
         builder.originalName( crew.getOriginalName() );
@@ -30,7 +34,7 @@ public abstract class DramaPersonNameMapper {
         }
         if ( locale.getLanguage().equals( Locale.KOREAN.getLanguage() ) ) {
             log.trace( "mapped person name: {}", crew.getName() );
-            return builder.koreanName( crew.getName() ).build();
+            return builder.englishName( crew.getName() ).build();
         }
         else {
             log.trace( "mapped person name: {}", crew.getName() );
@@ -38,39 +42,26 @@ public abstract class DramaPersonNameMapper {
         }
     }
     
-    public DramaPersonNameEntity newEntity(TMDBDramaCast crew, @Context Locale locale) {
+    /**
+     * TMDBDramaCast 로 새로운 Entity 를 만듭니다.
+     * - 위 DTO 는 항상 영어 결과를 반환하므로 현재는 englishName 필드로만 매핑합니다.
+     */
+    public DramaPersonNameEntity newEntity(TMDBDramaCast cast, @Context Locale locale) {
         DramaPersonNameEntity.DramaPersonNameEntityBuilder builder = DramaPersonNameEntity.builder();
-        builder.originalName( crew.getOriginalName() );
-        if ( !StringUtils.hasText( crew.getName() ) ) {
-            log.trace( "mapped empty person name: {}", crew.getName() );
+        builder.originalName( cast.getOriginalName() );
+        if ( !StringUtils.hasText( cast.getName() ) ) {
+            log.trace( "mapped empty person name: {}", cast.getName() );
             return builder.build();
         }
         if ( locale.getLanguage().equals( Locale.KOREAN.getLanguage() ) ) {
-            log.trace( "mapped person name: {}", crew.getName() );
-            return builder.koreanName( crew.getName() ).build();
+            log.trace( "mapped person name: {}", cast.getName() );
+            return builder.englishName( cast.getName() ).build();
         }
         else {
-            log.trace( "mapped person name: {}", crew.getName() );
-            return builder.englishName( crew.getName() ).build();
+            log.trace( "mapped person name: {}", cast.getName() );
+            return builder.englishName( cast.getName() ).build();
         }
     }
-
-//    public DramaPersonNameEntity newEntity(TMDBDramaCreatedBy createdBy, @Context Locale locale) {
-//        DramaPersonNameEntity.DramaPersonNameEntityBuilder builder = DramaPersonNameEntity.builder();
-//        builder.originalName( createdBy.getOriginalName() );
-//        if ( !StringUtils.hasText( createdBy.getName() ) ) {
-//            log.trace( "mapped empty person name: {}", createdBy.getName() );
-//            return builder.build();
-//        }
-//        if (locale.getLanguage().equals( Locale.KOREAN.getLanguage() )){
-//            log.trace( "mapped person name: {}", createdBy.getName() );
-//            return builder.koreanName( createdBy.getName() ).build();
-//        }
-//        else {
-//            log.trace( "mapped person name: {}", createdBy.getName() );
-//            return builder.englishName( createdBy.getName() ).build();
-//        }
-//    }
     
     // NameEntity 를 Locale 에 따라 String 으로 반환한다.
     public String map(DramaPersonNameEntity entity, @Context Locale locale) {
@@ -89,7 +80,6 @@ public abstract class DramaPersonNameMapper {
             }
             if ( StringUtils.hasText( originalName ) ) {
                 log.warn( "한국어 이름 없으므로 기본 이름을 반환: {}", originalName);
-    
                 return originalName;
             }
             return "";
