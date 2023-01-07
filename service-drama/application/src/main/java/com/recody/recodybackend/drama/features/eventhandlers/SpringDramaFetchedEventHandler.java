@@ -12,6 +12,8 @@ import com.recody.recodybackend.drama.features.event.DramaQueried;
 import com.recody.recodybackend.drama.DramaId;
 import com.recody.recodybackend.drama.features.synchronizedramadetail.SynchronizeDramaDetailHandler;
 import com.recody.recodybackend.drama.features.synchronizedramaseachlanguages.SynchronizeDramasEachLanguagesHandler;
+import com.recody.recodybackend.drama.PersonId;
+import com.recody.recodybackend.drama.features.synchronizepersonname.SynchronizePersonNameHandler;
 import com.recody.recodybackend.drama.tmdb.TMDBDrama;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +30,8 @@ import java.util.Optional;
 @Slf4j
 class SpringDramaFetchedEventHandler implements DramaFetchedEventHandler,
                                                 EmptyDramaQueriedHandler,
-                                                DramaDetailRequestedHandler{
+                                                DramaDetailRequestedHandler,
+                                                NoPersonNameFoundEventHandler{
     
     private final DramaMapper dramaMapper;
     
@@ -39,6 +42,17 @@ class SpringDramaFetchedEventHandler implements DramaFetchedEventHandler,
     private final SynchronizeDramasEachLanguagesHandler<Void> synchronizeDramasEachLanguagesHandler;
     
     private final SynchronizeDramaDetailHandler<Void> synchronizeDramaDetailHandler;
+    
+    private final SynchronizePersonNameHandler<Void> synchronizePersonNameHandler;
+    
+    @Override
+    @Transactional
+    @EventListener
+    @Async( value = Recody.DRAMA_TASK_EXECUTOR )
+    public void on(NoPersonNameFound event) {
+        log.trace( "handling event: {}", event );
+        synchronizePersonNameHandler.handle( PersonId.of( event.getPersonId() ) );
+    }
     
     @Override
     @Transactional
