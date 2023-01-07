@@ -28,7 +28,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ContextConfiguration( classes = RecodyDramaApplication.class )
 class DefaultRegisterDramaCreditHandlerTest {
     
-    public static final int TMDB_ID = 69740;
+    public static final int TMDB_ID = 90706;
     
     @Autowired
     RegisterDramaCreditHandler<DramaEntity> registerDramaCreditHandler;
