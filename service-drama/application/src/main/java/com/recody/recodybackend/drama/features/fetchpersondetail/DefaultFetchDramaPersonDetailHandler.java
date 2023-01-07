@@ -1,19 +1,21 @@
 package com.recody.recodybackend.drama.features.fetchpersondetail;
 
-import com.recody.recodybackend.drama.tmdb.TMDBGetPersonDetailResponse;
 import com.recody.recodybackend.drama.tmdb.TMDB;
-import com.recody.recodybackend.drama.tmdb.TMDBPersonName;
+import com.recody.recodybackend.drama.tmdb.TMDBGetPersonDetailResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import java.util.List;
-import java.util.Objects;
-
-@Component
+/**
+ * TMDB 에서 인물 정보를 받아 그대로 반환하는 핸들러.
+ * @author motive
+ */
+@Component("DefaultFetchDramaPersonDetailHandler")
+@RequiredArgsConstructor
 @Slf4j
-class DefaultFetchDramaPersonNameHandler implements FetchDramaPersonDetailHandler<TMDBPersonName> {
+class DefaultFetchDramaPersonDetailHandler implements FetchDramaPersonDetailHandler<TMDBGetPersonDetailResponse>{
     
     private static final String path = "/person/";
     private final WebClient webClient = WebClient.builder().baseUrl( TMDB.TMDB_BASE_URI ).build();
@@ -22,7 +24,7 @@ class DefaultFetchDramaPersonNameHandler implements FetchDramaPersonDetailHandle
     private String apiKey;
     
     @Override
-    public TMDBPersonName handle(FetchDramaPersonDetail command) {
+    public TMDBGetPersonDetailResponse handle(FetchDramaPersonDetail command) {
         log.debug( "handling command: {}", command );
         Integer tmdbPersonId = command.getTmdbPersonId();
         return webClient.get()
@@ -30,13 +32,6 @@ class DefaultFetchDramaPersonNameHandler implements FetchDramaPersonDetailHandle
                                                       .queryParam( "api_key", apiKey ).build() )
                         .retrieve()
                         .bodyToMono( TMDBGetPersonDetailResponse.class )
-                        .map( response -> {
-                            log.debug( "response: {}", response );
-                            List<String> alsoKnownAss = response.getAlsoKnownAs();
-                            if ( Objects.isNull( alsoKnownAss ) || alsoKnownAss.isEmpty() ) {
-                                return TMDBPersonName.of( response.getName() );
-                            }
-                            return TMDBPersonName.firstKoreanNameOf( alsoKnownAss );
-                        } ).block();
+                        .block();
     }
 }

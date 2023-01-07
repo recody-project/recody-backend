@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class FetchPersonName {
+public class FetchDramaPersonDetail {
     
     public Integer tmdbPersonId;
     
