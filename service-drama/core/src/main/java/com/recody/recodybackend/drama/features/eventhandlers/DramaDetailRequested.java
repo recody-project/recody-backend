@@ -11,4 +11,10 @@ public class DramaDetailRequested {
     
     private String dramaId;
     
+    @Override
+    public String toString() {
+        return "{\"DramaDetailRequested\":{"
+               + "\"dramaId\":" + ((dramaId != null) ? ("\"" + dramaId + "\"") : null)
+               + "}}";
+    }
 }
