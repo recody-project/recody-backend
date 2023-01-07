@@ -1,5 +1,6 @@
 package com.recody.recodybackend.drama.data.people;
 
+import com.recody.recodybackend.drama.features.eventhandlers.NoPersonNameFound;
 import com.recody.recodybackend.drama.tmdb.credit.TMDBDramaCast;
 import com.recody.recodybackend.drama.tmdb.credit.TMDBDramaCrew;
 import lombok.extern.slf4j.Slf4j;
@@ -7,6 +8,8 @@ import org.mapstruct.AfterMapping;
 import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.util.StringUtils;
 
 import java.util.Locale;
@@ -14,6 +17,9 @@ import java.util.Locale;
 @Mapper( componentModel = "spring" )
 @Slf4j
 public abstract class DramaPersonNameMapper {
+    
+    @Autowired
+    private ApplicationEventPublisher publisher;
     
     public DramaPersonNameEntity newEntity(TMDBDramaCrew crew, @Context Locale locale) {
         DramaPersonNameEntity.DramaPersonNameEntityBuilder builder = DramaPersonNameEntity.builder();
@@ -76,10 +82,14 @@ public abstract class DramaPersonNameMapper {
             if ( StringUtils.hasText( koreanName ) ) {
                 return koreanName;
             }
+            publisher.publishEvent( NoPersonNameFound.builder().personId( entity.getPerson().getId() ).build() );
             if ( StringUtils.hasText( englishName ) ) {
+                log.warn( "한국어 이름 없으므로 영어 이름을 반환: {}", englishName);
                 return englishName;
             }
             if ( StringUtils.hasText( originalName ) ) {
+                log.warn( "한국어 이름 없으므로 기본 이름을 반환: {}", originalName);
+    
                 return originalName;
             }
             return "";
@@ -88,10 +98,13 @@ public abstract class DramaPersonNameMapper {
             if ( StringUtils.hasText( englishName ) ) {
                 return englishName;
             }
+            publisher.publishEvent( NoPersonNameFound.builder().personId( entity.getPerson().getId() ).build() );
             if ( StringUtils.hasText( koreanName ) ) {
+                log.warn( "영어 이름 없으므로 한국어 이름을 반환: {}", englishName);
                 return koreanName;
             }
             if ( StringUtils.hasText( originalName ) ) {
+                log.warn( "영어 이름 없으므로 기본 이름을 반환: {}", originalName);
                 return originalName;
             }
             return "";
