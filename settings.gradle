@@ -14,6 +14,15 @@ include(":service-movie-core",
 include(":service-music-core",
         ":service-music-application")
 
+include(":service-book-shared",
+        ":service-book-application",
+        ":service-book-core",
+        ":service-book-naver",
+        ":service-book-data")
+
+include(":service-music-core",
+        ":service-music-application")
+
 include(":service-performance-core",
         ":service-performance-application")
 
@@ -62,6 +71,14 @@ project(":service-music-application").projectDir = new File(settingsDir, "${musi
 String performanceProjectDir = "service-performance"
 project(":service-performance-core").projectDir = new File(settingsDir, "${performanceProjectDir}/core")
 project(":service-performance-application").projectDir = new File(settingsDir, "${performanceProjectDir}/application")
+
+
+String bookProjectDir = "service-book"
+project(":service-book-shared").projectDir = new File(settingsDir, "${bookProjectDir}/shared")
+project(":service-book-application").projectDir = new File(settingsDir, "${bookProjectDir}/application")
+project(":service-book-core").projectDir = new File(settingsDir, "${bookProjectDir}/core")
+project(":service-book-naver").projectDir = new File(settingsDir, "${bookProjectDir}/naver")
+project(":service-book-data").projectDir = new File(settingsDir, "${bookProjectDir}/data")
 
 
 String catalogProjectDir = "service-catalog"

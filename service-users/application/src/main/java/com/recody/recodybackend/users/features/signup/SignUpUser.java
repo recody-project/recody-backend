@@ -15,12 +15,12 @@ public class SignUpUser {
     private String password;
     @NonNull
     private String passwordConfirm;
-    
+
     private String name;
     private String nickname;
-    
+
     private String pictureUrl;
-    
+
     @Override
     public String toString() {
         return "{\"SignUpUser\":{"
