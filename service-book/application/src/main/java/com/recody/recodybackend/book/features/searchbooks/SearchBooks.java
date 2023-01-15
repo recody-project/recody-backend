@@ -1,17 +1,22 @@
 package com.recody.recodybackend.book.features.searchbooks;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
+
+import java.util.Locale;
 
 /**
  * 책 검색 정보.
  */
-@Data
+@Getter
+@Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SearchBooks {
 
-    private String bookName;
+    private String keyword;
+
+    private Locale locale;
     @Builder.Default
     private Integer display = 10;
     @Builder.Default

@@ -1,4 +1,4 @@
-package com.recody.recodybackend.book.features.searchbooks.dto;
+package com.recody.recodybackend.book.searchbooks.dto;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import lombok.Data;

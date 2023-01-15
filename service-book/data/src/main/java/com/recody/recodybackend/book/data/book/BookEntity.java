@@ -24,7 +24,7 @@ public class BookEntity extends BookBaseEntity {
             strategy = "com.recody.recodybackend.commonbootutils.data.CustomSequenceIdGenerator",
             parameters = {
                     @org.hibernate.annotations.Parameter(name = CustomSequenceIdGenerator.INCREMENT_PARAM, value = "50"),// high-low 최적화
-                    @org.hibernate.annotations.Parameter(name = CustomSequenceIdGenerator.VALUE_PREFIX_PARAMETER, value = "mov-"),
+                    @org.hibernate.annotations.Parameter(name = CustomSequenceIdGenerator.VALUE_PREFIX_PARAMETER, value = "boo-"),
                     @org.hibernate.annotations.Parameter(name = CustomSequenceIdGenerator.NUMBER_FORMAT_PARAMETER, value = "%d") }
     )
     private String id;
@@ -32,7 +32,8 @@ public class BookEntity extends BookBaseEntity {
     private String title;
     private String publisher;
     private String pubDate;
-    private String description;
+//    @Column(length = 5000)
+//    private String description;
 
     private String imagePath;
     @Column(unique = true)

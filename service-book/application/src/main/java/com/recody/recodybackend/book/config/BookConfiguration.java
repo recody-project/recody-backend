@@ -3,6 +3,7 @@ package com.recody.recodybackend.book.config;
 import com.recody.recodybackend.common.Recody;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import javax.annotation.PostConstruct;
@@ -10,8 +11,9 @@ import java.util.Date;
 import java.util.TimeZone;
 import java.util.concurrent.Executor;
 
+@Configuration
 @Slf4j
-public class BookConfiguration {
+class BookConfiguration {
     @PostConstruct
     public void setTimeZone() {
         TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));

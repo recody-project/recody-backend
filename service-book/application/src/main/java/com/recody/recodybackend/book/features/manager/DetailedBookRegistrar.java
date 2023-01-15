@@ -1,6 +1,5 @@
 package com.recody.recodybackend.book.features.manager;
 
-import com.recody.recodybackend.book.Book;
 import com.recody.recodybackend.book.BookInfo;
 import com.recody.recodybackend.common.Recody;
 import com.recody.recodybackend.common.contents.register.AsyncContentRegistrar;
