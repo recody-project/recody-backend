@@ -17,4 +17,10 @@ public class MovieSearchRequested {
     
     private String keyword;
     
+    @Override
+    public String toString() {
+        return "{\"MovieSearchRequested\":{"
+               + "\"keyword\":" + ((keyword != null) ? ("\"" + keyword + "\"") : null)
+               + "}}";
+    }
 }
