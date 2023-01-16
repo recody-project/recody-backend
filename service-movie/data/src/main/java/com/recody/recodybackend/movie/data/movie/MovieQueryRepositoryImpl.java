@@ -69,7 +69,8 @@ class MovieQueryRepositoryImpl implements MovieQueryRepository {
         JPAQuery<MovieEntity> queryFilteredByGenreIds
                 = byTitle.innerJoin( movieEntity.genres )
                          .where( movieEntity.genres.any().genre.genreId
-                                         .in( genreIds.getValues() ) );
+                                         .in( genreIds.getValues() ) )
+                         .distinct();
         List<MovieEntity> all = queryFilteredByGenreIds.fetch();
         List<MovieEntity> currentPageItems
                 = applyPageable( pageable, queryFilteredByGenreIds )
@@ -105,6 +106,7 @@ class MovieQueryRepositoryImpl implements MovieQueryRepository {
                        .select( movieEntity )
                        .from( movieEntity )
                        .innerJoin( movieEntity.title ).fetchJoin()
+                       .innerJoin( movieEntity.overview ).fetchJoin()
                        .where( containsFromKoreanTitle( title )
                                        .or( containsFromEnglishTitle( title ) )
                              );

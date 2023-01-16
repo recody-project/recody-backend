@@ -8,9 +8,9 @@ import com.recody.recodybackend.movie.data.movie.MovieEntity;
 import com.recody.recodybackend.movie.data.movie.MovieMapper;
 import com.recody.recodybackend.movie.data.movie.MovieRepository;
 import com.recody.recodybackend.movie.features.applicationevent.MovieSearchRequested;
+import com.recody.recodybackend.common.events.DomainEventPublisher;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
@@ -27,7 +27,7 @@ class DefaultSearchMoviesHandler implements SearchMoviesHandler<Movies> {
     
     private final MovieMapper movieMapper;
     
-    private final ApplicationEventPublisher eventPublisher;
+    private final DomainEventPublisher<MovieSearchRequested> eventPublisher;
     
     @Override
     public Movies handle(SearchMovies query) {
@@ -36,9 +36,8 @@ class DefaultSearchMoviesHandler implements SearchMoviesHandler<Movies> {
         PageRequest pageable = PageRequest.of( query.getPage() - 1, query.getSize() );
         Locale locale = Locale.forLanguageTag( query.getLanguage() );
         GenreIds genreIds = query.getGenreIds();
-        // TODO: 검색 이벤트로 저장 되도록 구현
         
-        eventPublisher.publishEvent( MovieSearchRequested.builder().keyword( movieName ).build() );
+        eventPublisher.publish( MovieSearchRequested.builder().keyword( movieName ).build() );
         
         Page<MovieEntity> movieEntitiesPage =
                 movieRepository.findPagedByTitleLikeFilterByGenreIds( movieName, locale, pageable, genreIds );
