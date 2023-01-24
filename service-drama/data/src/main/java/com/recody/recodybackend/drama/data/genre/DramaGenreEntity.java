@@ -22,7 +22,7 @@ public class DramaGenreEntity {
     @JoinColumn( name = "drama_id",
                  nullable = false,
                  foreignKey = @ForeignKey( name = "genre_contains_drama_id" ) )
-    @OneToOne( fetch = FetchType.LAZY )
+    @ManyToOne( fetch = FetchType.LAZY )
     private DramaEntity drama;
     
     @JoinColumn( name = "drama_genre_id",

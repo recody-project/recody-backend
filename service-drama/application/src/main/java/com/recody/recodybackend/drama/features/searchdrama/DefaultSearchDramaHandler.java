@@ -30,9 +30,10 @@ class DefaultSearchDramaHandler implements SearchDramaHandler<Dramas> {
         // language: 검색 결과의 언어
         Locale language = LanguageUtils.languageOf( query.getKeyword() );
         List<DramaEntity> dramaEntities =
-                dramaRepository.findByTitleLike( query.getKeyword(),
-                                                 language,
-                                                 Pageable.unpaged() );
+                dramaRepository.findByTitleLikeFilterByGenres( query.getKeyword(),
+                                                               language,
+                                                               Pageable.unpaged(),
+                                                               query.getGenreIds() );
         dramaEventPublisher.publish( DramaQueried.builder()
                                                  .keyword( query.getKeyword() )
                                                  .locale( query.getLocale() )

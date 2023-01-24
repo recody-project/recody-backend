@@ -1,5 +1,6 @@
 package com.recody.recodybackend.drama.features.searchdrama;
 
+import com.recody.recodybackend.common.contents.GenreIds;
 import com.recody.recodybackend.common.web.SuccessResponseBody;
 import com.recody.recodybackend.drama.Dramas;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,13 +22,16 @@ public class SearchDramasController {
     
     @GetMapping( "/api/v1/drama/search" )
     public SuccessResponseBody searchDramas(@RequestParam String keyword,
-                                            HttpServletRequest request) {
+                                            HttpServletRequest request,
+                                            @RequestParam List<String> genreId) {
         return SuccessResponseBody.builder()
-                                  .message( ms.getMessage( "drama.search.succeeded", null, null, request.getLocale() ) )
+                                  .message( ms.getMessage( "drama.search.succeeded", null, null,
+                                                           request.getLocale() ) )
                                   .data( searchDramaHandler.handle(
                                           SearchDramas.builder()
                                                       .keyword( keyword )
                                                       .locale( request.getLocale() )
+                                                      .genreIds( GenreIds.of( genreId ) )
                                                       .build() ) )
                                   .build();
     }
