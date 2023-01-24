@@ -31,4 +31,12 @@ public class DramaGenreEntity {
     @OneToOne( fetch = FetchType.LAZY )
     private DramaGenreCodeEntity genreCode;
     
+    @Override
+    public String toString() {
+        return "{\"DramaGenreEntity\":{"
+               + "\"id\":" + id
+               + ", \"drama\":" + drama
+               + ", \"genreCode\":" + genreCode
+               + "}}";
+    }
 }
