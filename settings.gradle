@@ -37,6 +37,11 @@ include(":service-drama-core",
         ":service-drama-shared",
         ":service-drama-tmdb")
 
+include(":service-insight-core",
+        ":service-insight-data",
+        ":service-insight-application",
+        ":service-insight-shared")
+
 
 String movieProjectDir = "service-movie"
 project(":service-movie-core").projectDir = new File(settingsDir, "${movieProjectDir}/core")
@@ -82,3 +87,8 @@ project(":service-users-data").projectDir = new File(settingsDir, "${userProject
 project(":service-users-application").projectDir = new File(settingsDir, "${userProjectDir}/application")
 project(":service-users-shared").projectDir = new File(settingsDir, "${userProjectDir}/shared")
 
+String insightProjectDir = "service-insight"
+project(":service-insight-core").projectDir = new File(settingsDir, "${insightProjectDir}/core")
+project(":service-insight-data").projectDir = new File(settingsDir, "${insightProjectDir}/data")
+project(":service-insight-application").projectDir = new File(settingsDir, "${insightProjectDir}/application")
+project(":service-insight-shared").projectDir = new File(settingsDir, "${insightProjectDir}/shared")
