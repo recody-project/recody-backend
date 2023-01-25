@@ -17,4 +17,7 @@ public class SearchDramas {
     private Locale locale;
     
     private GenreIds genreIds;
+    
+    @Builder.Default
+    private Integer page = 1;
 }
