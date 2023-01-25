@@ -2,6 +2,7 @@ package com.recody.recodybackend.book;
 
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.contents.BasicContent;
 import lombok.*;
@@ -16,6 +17,7 @@ import java.util.Objects;
 public class Book implements BasicContent {
 
     private String contentId;
+    @JsonIgnore
     @Builder.Default
     private BasicCategory category = BasicCategory.Book;
 

@@ -62,7 +62,7 @@ class DefaultSearchBookFromNaverHandler implements SearchBookFromNaverHandler<Na
 
     @Override
     public NaverBookSearchResponse handle(SearchBookFromNaver query) {
-        log.debug("handling command: {}", query);
+        log.debug("handling command: {}", query.getQueryText());
 
         URI url = makeUrl(query.getQueryText(), query.getDisplay(), query.getStart());
         HttpHeaders headers = makeHeader();

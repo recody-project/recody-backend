@@ -17,8 +17,5 @@ public class SearchBooks {
     private String keyword;
 
     private Locale locale;
-    @Builder.Default
-    private Integer display = 10;
-    @Builder.Default
-    private Integer start = 1;
+
 }

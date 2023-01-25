@@ -32,8 +32,8 @@ public class BookEntity extends BookBaseEntity {
     private String title;
     private String publisher;
     private String pubDate;
-//    @Column(length = 5000)
-//    private String description;
+    @Lob
+    private String description;
 
     private String imagePath;
     @Column(unique = true)

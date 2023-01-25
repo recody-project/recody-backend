@@ -34,7 +34,7 @@ class DefaultSynchronizeBookSearchResultsHandler implements SynchronizeBookSearc
     @Override
     @Transactional
     public Void handle(BookSearchKeyword keyword) {
-        log.debug( "synchronizing search keyword: {}", keyword );
+        log.debug( "synchronizing search keyword: {}", keyword.getValue() );
         NaverBookSearchResponse response = searchBookFromNaverHandler.handle(
                 SearchBookFromNaver.builder()
                         .queryText(keyword.getValue())
