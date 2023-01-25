@@ -5,7 +5,6 @@ import com.recody.recodybackend.common.web.SuccessResponseBody;
 import com.recody.recodybackend.drama.Dramas;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
-import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,8 +23,8 @@ public class SearchDramasController {
     @GetMapping( "/api/v1/drama/search" )
     public SuccessResponseBody searchDramas(@RequestParam String keyword,
                                             HttpServletRequest request,
-                                            @RequestParam List<String> genreId,
-                                            @RequestParam(defaultValue = "1") @Nullable Integer page) {
+                                            @RequestParam( required = false ) List<String> genreId,
+                                            @RequestParam( required = false, defaultValue = "1" ) Integer page) {
         return SuccessResponseBody.builder()
                                   .message( ms.getMessage( "drama.search.succeeded", null, null,
                                                            request.getLocale() ) )

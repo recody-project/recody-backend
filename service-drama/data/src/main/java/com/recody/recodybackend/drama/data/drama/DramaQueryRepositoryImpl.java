@@ -32,8 +32,11 @@ class DramaQueryRepositoryImpl implements DramaQueryRepository {
     @Override
     public Page<DramaEntity> findPagedByTitleLike(String keyword, Locale locale, Pageable pageable) {
         JPAQuery<DramaEntity> wholeQuery = createQueryFindByKeywordAndLocale( keyword, locale );
+        List<DramaEntity> wholeResults = wholeQuery.fetch();
+        
         JPAQuery<DramaEntity> pagedQuery = applyPageable( wholeQuery, pageable );
-        return new PageImpl<>( pagedQuery.fetch(), pageable, wholeQuery.fetch().size() );
+        List<DramaEntity> pagedResults = pagedQuery.fetch();
+        return new PageImpl<>( pagedResults, pageable, wholeResults.size() );
     }
     
     @Override
@@ -61,8 +64,13 @@ class DramaQueryRepositoryImpl implements DramaQueryRepository {
         JPAQuery<DramaEntity> query;
         query = createQueryFindByKeywordAndLocale( keyword, locale );
         JPAQuery<DramaEntity> filteredQuery = applyFilterForQuery( query, genreIds );
-        JPAQuery<DramaEntity> pagedQuery = applyPageable( query, pageable );
-        return new PageImpl<>( pagedQuery.fetch(), pageable, filteredQuery.fetch().size() );
+        
+        List<DramaEntity> wholeResults = filteredQuery.fetch();
+        
+        // TODO: 유틸 클래스를 사용하도록 수정
+        List<DramaEntity> pagedResults = applyPageable( query, pageable )
+                                          .fetch();
+        return new PageImpl<>( pagedResults, pageable, wholeResults.size() );
     }
     
     private static JPAQuery<DramaEntity> applyFilterForQuery(JPAQuery<DramaEntity> query, GenreIds genreIds) {
@@ -96,12 +104,14 @@ class DramaQueryRepositoryImpl implements DramaQueryRepository {
     private JPAQuery<DramaEntity> createQueryWhereEnglishTitleLike(String keyword) {
         return jpaQueryFactory.selectFrom( dramaEntity )
                               .innerJoin( dramaEntity.title ).fetchJoin()
+                              .innerJoin( dramaEntity.overview ).fetchJoin()
                               .where( dramaEntity.title.englishTitle.contains( keyword ) );
     }
     
     private JPAQuery<DramaEntity> createQueryWhereKoreanTitleLike(String keyword) {
         return jpaQueryFactory.selectFrom( dramaEntity )
                               .innerJoin( dramaEntity.title ).fetchJoin()
+                              .innerJoin( dramaEntity.overview ).fetchJoin()
                               .where( dramaEntity.title.koreanTitle.contains( keyword ) );
     }
 }
