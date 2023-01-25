@@ -1,4 +1,4 @@
-name: build-test integration
+name: build & deploy to EB
 
 on:
   push:
