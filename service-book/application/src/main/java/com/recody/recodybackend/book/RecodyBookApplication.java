@@ -7,7 +7,7 @@ import org.springframework.context.annotation.PropertySource;
 
 @EnableAutoConfiguration
 @ComponentScan(basePackages = "com.recody.recodybackend")
-@PropertySource(value = {"classpath:env.local.properties"})
+@PropertySource(value = {"classpath:env.${spring.config.activate.on-profile}.properties"})
 public class RecodyBookApplication {
     public static void main(String[] args) {
         SpringApplication.run(RecodyBookApplication.class, args);
