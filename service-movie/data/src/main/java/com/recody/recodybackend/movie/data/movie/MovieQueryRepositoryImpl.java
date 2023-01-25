@@ -67,15 +67,19 @@ class MovieQueryRepositoryImpl implements MovieQueryRepository {
         }
         JPAQuery<MovieEntity> byTitle = this.createQueryFindByTitleLikeAndLocale( title, locale );
         JPAQuery<MovieEntity> queryFilteredByGenreIds
-                = byTitle.innerJoin( movieEntity.genres )
-                         .where( movieEntity.genres.any().genre.genreId
-                                         .in( genreIds.getValues() ) )
-                         .distinct();
+                = applyFilterForQuery( byTitle, genreIds );
         List<MovieEntity> all = queryFilteredByGenreIds.fetch();
         List<MovieEntity> currentPageItems
                 = applyPageable( pageable, queryFilteredByGenreIds )
                           .fetch();
         return new PageImpl<>( currentPageItems, pageable, all.size() );
+    }
+    
+    private static JPAQuery<MovieEntity> applyFilterForQuery(JPAQuery<MovieEntity> byTitle, GenreIds genreIds) {
+        return byTitle.innerJoin( movieEntity.genres )
+                      .where( movieEntity.genres.any().genre.genreId
+                                      .in( genreIds.getValues() ) )
+                      .distinct();
     }
     
     @Override

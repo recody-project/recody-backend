@@ -1,6 +1,7 @@
 package com.recody.recodybackend.drama.data.drama;
 
 import com.recody.recodybackend.commonbootutils.data.CustomSequenceIdGenerator;
+import com.recody.recodybackend.drama.data.genre.DramaGenreEntity;
 import com.recody.recodybackend.drama.data.network.DramaNetworkEntity;
 import com.recody.recodybackend.drama.data.overview.DramaOverviewEntity;
 import com.recody.recodybackend.drama.data.people.DramaActorEntity;
@@ -61,6 +62,10 @@ public class DramaEntity {
     @OneToMany( mappedBy = "drama" )
     @Builder.Default
     private List<DramaNetworkEntity> networks = new ArrayList<>();
+    
+    @OneToMany( mappedBy = "drama" )
+    @Builder.Default
+    private List<DramaGenreEntity> genres = new ArrayList<>();
     
     public void setTitle(DramaTitleEntity title) {
         title.setDrama( this );

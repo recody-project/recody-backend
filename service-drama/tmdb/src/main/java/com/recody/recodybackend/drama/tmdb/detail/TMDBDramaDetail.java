@@ -1,6 +1,7 @@
 package com.recody.recodybackend.drama.tmdb.detail;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
+import com.recody.recodybackend.drama.tmdb.genre.TMDBDramaGenre;
 import lombok.*;
 
 import java.util.List;
@@ -18,6 +19,8 @@ public class TMDBDramaDetail {
     @JsonAlias( "original_name" )
     private String originalName;
     private String overview;
+    
+    private List<TMDBDramaGenre> genres;
     
     // 개봉연도
     @JsonAlias( "first_air_date" )

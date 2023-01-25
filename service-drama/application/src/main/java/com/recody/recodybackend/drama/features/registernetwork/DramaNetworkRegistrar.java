@@ -24,7 +24,7 @@ class DramaNetworkRegistrar implements AsyncLinkingEntityManager<DramaNetworkEnt
     private final DramaNetworkRepository networkRepository;
     
     @Override
-    @Transactional
+    @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public DramaNetworkEntity save(DramaEntity entity, DramaNetworkInfoEntity networkInfo) {
         Optional<DramaNetworkEntity> optionalNetwork =
                 networkRepository.findByDramaAndNetworkInfo( entity, networkInfo );

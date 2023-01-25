@@ -1,4 +1,4 @@
-package com.recody.recodybackend.drama.tmdb.detail;
+package com.recody.recodybackend.drama.tmdb.genre;
 
 import lombok.*;
 
@@ -6,15 +6,15 @@ import lombok.*;
 @Setter
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor( access = AccessLevel.PROTECTED )
-public class TDMBDramaGenre {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class TMDBDramaGenre {
     
     private Integer id;
     private String name;
     
     @Override
     public String toString() {
-        return "{\"TDMBDramaGenre\":{"
+        return "{\"TMDBDramaGenre\":{"
                + "\"id\":" + id
                + ", \"name\":" + ((name != null) ? ("\"" + name + "\"") : null)
                + "}}";

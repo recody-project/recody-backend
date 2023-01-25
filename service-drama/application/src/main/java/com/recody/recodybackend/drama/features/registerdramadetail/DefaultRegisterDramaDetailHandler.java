@@ -5,10 +5,14 @@ import com.recody.recodybackend.common.data.AsyncLinkingEntityManager;
 import com.recody.recodybackend.drama.data.drama.DramaEntity;
 import com.recody.recodybackend.drama.data.drama.DramaMapper;
 import com.recody.recodybackend.drama.data.drama.DramaRepository;
+import com.recody.recodybackend.drama.data.genre.DramaGenreCodeEntity;
+import com.recody.recodybackend.drama.data.genre.DramaGenreCodeRepository;
+import com.recody.recodybackend.drama.data.genre.DramaGenreEntity;
 import com.recody.recodybackend.drama.data.network.DramaNetworkEntity;
 import com.recody.recodybackend.drama.data.network.DramaNetworkInfoEntity;
 import com.recody.recodybackend.drama.tmdb.detail.TMDBDramaDetail;
 import com.recody.recodybackend.drama.tmdb.detail.TMDBDramaNetwork;
+import com.recody.recodybackend.drama.tmdb.genre.TMDBDramaGenre;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -17,6 +21,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -27,11 +32,14 @@ class DefaultRegisterDramaDetailHandler implements RegisterDramaDetailHandler<Dr
     
     private final DramaRepository dramaRepository;
     
+    private final DramaGenreCodeRepository genreCodeRepository;
+    
     private final AsyncLinkingEntityManager<DramaNetworkEntity, DramaEntity, DramaNetworkInfoEntity>
             networkRegistrar;
     
     private final AsyncEntityRegistrar<DramaNetworkInfoEntity, TMDBDramaNetwork> networkInfoRegistrar;
     
+    private final AsyncLinkingEntityManager<DramaGenreEntity, DramaEntity, DramaGenreCodeEntity> genreRegistrar;
     
     @Override
     @Transactional
@@ -59,6 +67,14 @@ class DefaultRegisterDramaDetailHandler implements RegisterDramaDetailHandler<Dr
                             .thenApply( networkInfoEntities ->
                                                 networkRegistrar.save( dramaEntity,
                                                                        networkInfoEntities ) );
+        // Genre 정보를 저장하거나 가져와 연관관계를 세팅함.
+        List<Integer> tmdbGenreIds = detail.getGenres()
+                                      .stream()
+                                      .map( TMDBDramaGenre::getId )
+                                      .collect( Collectors.toList() );
+        
+        genreCodeRepository.findByTmdbGenreIdIn( tmdbGenreIds )
+                           .thenApply( genreIds -> genreRegistrar.save( dramaEntity, genreIds ) );
         
         // 남은 detail 정보들 DramaEntity 에 업데이트.
         dramaMapper.updateDetail( dramaEntity, detail, locale );
