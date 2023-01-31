@@ -20,9 +20,9 @@ public class BookGenreEntity extends BookBaseEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "movie_id",
+    @JoinColumn(name = "book_id",
             nullable = false,
-            foreignKey = @ForeignKey(name = "movie_genre_contains_movie_id"))
+            foreignKey = @ForeignKey(name = "book_genre_contains_book_id"))
     @OnDelete(action = OnDeleteAction.CASCADE)
     private BookEntity book;
 

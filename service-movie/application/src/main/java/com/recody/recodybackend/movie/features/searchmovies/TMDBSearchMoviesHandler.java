@@ -51,7 +51,7 @@ class TMDBSearchMoviesHandler implements SearchMoviesHandler<SearchMoviesResult>
         List<TMDBSearchedMovie> mappedMovies = movieMapper.toTMDBMovie( movies );
         
         return SearchMoviesResult.builder()
-                                 .metadata( new QueryMetadata( mappedMovies.size(), page, totalPages ) )
+                                 .metadata( new QueryMetadata( mappedMovies.size(), page, totalPages, 0L) )
                                  .movies( mappedMovies )
                                  .build();
     }
