@@ -10,6 +10,7 @@ dependencies {
     implementation project(":service-movie-shared")
     implementation project(":service-users-core")
     implementation project(":service-users-shared")
+    implementation project(":service-drama-shared")
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'

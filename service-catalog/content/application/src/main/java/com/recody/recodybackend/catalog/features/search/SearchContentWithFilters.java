@@ -22,6 +22,9 @@ public class SearchContentWithFilters {
     @Builder.Default
     private List<BasicCategory> categories = BasicCategory.all();
     
+    @Builder.Default
+    private List<String> genreIds = List.of();
+    
     @Override
     public String toString() {
         return "{\"SearchContentV2\":{"

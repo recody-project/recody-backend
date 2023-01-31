@@ -1,5 +1,6 @@
 package com.recody.recodybackend.catalog.features.search;
 
+import com.recody.recodybackend.catalog.web.SearchContentWithFiltersResponseV3;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.web.SuccessResponseBody;
 import com.recody.recodybackend.commonbootutils.jwt.JwtManager;
@@ -21,6 +22,7 @@ class SearchContentController {
     
     private final MessageSource ms;
     private final SearchContentHandler searchContentHandler;
+    private final SearchContentWithFiltersHandler<SearchContentWithFiltersResponseV3> searchContentHandlerV3;
     private final JwtManager jwtManager;
     
     @GetMapping( "/api/v1/catalog/search" )
@@ -58,6 +60,27 @@ class SearchContentController {
                                                                    .categories( BasicCategory.isBasic( categoryId )
                                                                                         ? List.of( BasicCategory.idOf( categoryId ) )
                                                                                         : BasicCategory.all() )
+                                                                   .build() ) )
+                                   .build() );
+    }
+    
+    @GetMapping( "/api/v3/catalog/search" )
+    public ResponseEntity<SuccessResponseBody> searchV3(@RequestParam String keyword,
+                                                        @Nullable @RequestParam( defaultValue = "all" ) String categoryId,
+                                                        @Nullable @RequestParam( defaultValue = "ko" ) String language,
+                                                        @RequestParam(required = false) List<String> genreIds,
+                                                        HttpServletRequest httpServletRequest) {
+        return ResponseEntity.ok(
+                SuccessResponseBody.builder()
+                                   .message( ms.getMessage( "catalog.searchV2.succeeded", null, httpServletRequest.getLocale() ) )
+                                   .data( searchContentHandlerV3.handle(
+                                           SearchContentWithFilters.builder()
+                                                                   .keyword( keyword )
+                                                                   .language( language )
+                                                                   .categories( BasicCategory.isBasic( categoryId )
+                                                                                        ? List.of( BasicCategory.idOf( categoryId ) )
+                                                                                        : BasicCategory.all() )
+                                                                   .genreIds( genreIds )
                                                                    .build() ) )
                                    .build() );
     }
