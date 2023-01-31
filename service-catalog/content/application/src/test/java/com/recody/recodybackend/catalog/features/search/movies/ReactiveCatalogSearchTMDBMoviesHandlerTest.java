@@ -13,7 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 @SpringBootTest
 @ActiveProfiles("test")
 @ContextConfiguration(classes = RecodyCatalogApplication.class)
-class ReactiveCatalogSearchMoviesHandlerTest {
+class ReactiveCatalogSearchTMDBMoviesHandlerTest {
     
     @Test
     @DisplayName( "webClient 사용 기본 테스트" )
