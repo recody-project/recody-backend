@@ -24,8 +24,9 @@ public class SearchMoviesControllerV3 {
     private final SearchMoviesHandler<Movies> searchMoviesHandler;
     private final MessageSource ms;
     
-    public SearchMoviesControllerV3(@Qualifier( "defaultSearchMoviesHandler" ) SearchMoviesHandler<Movies> searchMoviesHandler,
-                                    MessageSource ms) {
+    public SearchMoviesControllerV3(
+            @Qualifier( "defaultSearchMoviesHandler" ) SearchMoviesHandler<Movies> searchMoviesHandler,
+            MessageSource ms) {
         this.searchMoviesHandler = searchMoviesHandler;
         this.ms = ms;
     }
@@ -42,11 +43,26 @@ public class SearchMoviesControllerV3 {
                                    .data( searchMoviesHandler.handle(
                                            SearchMovies.builder()
                                                        .movieName( movieName )
-                                                       .language( httpServletRequest.getLocale().getLanguage() )
+                                                       .language(
+                                                               httpServletRequest.getLocale().getLanguage() )
                                                        .genreIds( GenreIds.of( genreIds ) )
                                                        .page( page )
                                                        .build() ) )
                                    .build() );
     }
     
+    @GetMapping( "/api/v3/movie/search-data" )
+    public ResponseEntity<Movies> search3(@RequestParam String movieName,
+                                                       HttpServletRequest httpServletRequest,
+                                                       @RequestParam( required = false ) List<String> genreIds,
+                                                       @RequestParam( defaultValue = "1" ) @Min( value = 1 ) Integer page) {
+        return ResponseEntity.ok(
+                searchMoviesHandler.handle(
+                        SearchMovies.builder()
+                                    .movieName( movieName )
+                                    .language( httpServletRequest.getLocale().getLanguage() )
+                                    .genreIds( GenreIds.of( genreIds ) )
+                                    .page( page )
+                                    .build() ) );
+    }
 }

@@ -51,4 +51,14 @@ public class QueryMetadata {
     public static QueryMetadata empty(){
         return new QueryMetadata( 0, 0, 0, 0L);
     }
+    
+    @Override
+    public String toString() {
+        return "{\"QueryMetadata\":{"
+               + "\"size\":" + size
+               + ", \"currentPage\":" + currentPage
+               + ", \"totalResults\":" + totalResults
+               + ", \"totalPages\":" + totalPages
+               + "}}";
+    }
 }

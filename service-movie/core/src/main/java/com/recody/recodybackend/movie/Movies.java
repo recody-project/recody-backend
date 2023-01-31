@@ -36,6 +36,9 @@ public class Movies {
     
     @Override
     public String toString() {
-        return "{\"Movies\":{" + "\"movies size\":" + movies.size() + "}}";
+        return "{\"Movies\":{"
+               + "\"metadata\":" + metadata
+               + ", \"movies\":" + movies
+               + "}}";
     }
 }
