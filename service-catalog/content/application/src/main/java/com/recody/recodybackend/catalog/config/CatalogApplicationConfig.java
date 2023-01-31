@@ -42,6 +42,14 @@ class CatalogApplicationConfig {
                         .build();
     }
     
+    @Bean("DramaServiceWebClient")
+    WebClient dramaWebClient(){
+        return WebClient.builder()
+                        .baseUrl( baseUrl )
+                        .defaultHeader( "Authorization", "Bearer " + bearerToken )
+                        .build();
+    }
+    
     @Bean
     WebClient webClient(){
         return WebClient.builder()
