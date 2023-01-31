@@ -41,6 +41,7 @@ class DefaultSearchContentWithFiltersHandler implements SearchContentWithFilters
                                     .keyword( keyword )
                                     .language( language )
                                     .genreIds( command.getGenreIds() )
+                                    .page( command.getPage() )
                                     .build() );
             }
             else if ( category.equals( BasicCategory.Drama ) ) {
@@ -49,6 +50,7 @@ class DefaultSearchContentWithFiltersHandler implements SearchContentWithFilters
                                     .keyword( keyword )
                                     .locale( Locale.forLanguageTag( language ) )
                                     .genreIds( command.getGenreIds() )
+                                    .page( command.getPage() )
                                     .build() );
             }
         }

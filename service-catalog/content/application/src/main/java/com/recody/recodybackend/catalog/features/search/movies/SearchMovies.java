@@ -12,5 +12,7 @@ public class SearchMovies {
     private String keyword;
     private String language;
     private List<String> genreIds;
+    @Builder.Default
+    private Integer page = 1;
     
 }

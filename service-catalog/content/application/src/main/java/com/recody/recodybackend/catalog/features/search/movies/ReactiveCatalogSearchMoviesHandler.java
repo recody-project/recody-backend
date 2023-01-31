@@ -11,6 +11,7 @@ import reactor.core.publisher.Mono;
 @Slf4j
 class ReactiveCatalogSearchMoviesHandler implements CatalogSearchMoviesHandler<Mono<Movies>> {
     
+    public static final String PAGE = "page";
     private final WebClient movieWebClient;
     private static final String path = "/api/v3/movie/search-data";
     private static final String MOVIE_SEARCH_PARAM_NAME = "movieName";
@@ -29,6 +30,7 @@ class ReactiveCatalogSearchMoviesHandler implements CatalogSearchMoviesHandler<M
                                                     .queryParam( MOVIE_SEARCH_PARAM_NAME, command.getKeyword() )
                                                     .queryParam( LANGUAGE_PARAM_NAME, command.getLanguage() )
                                                     .queryParam( GENRE_IDS_PARAM_NAME, command.getGenreIds() )
+                                                    .queryParam( PAGE, command.getPage() )
                                                     .build() )
                       .retrieve()
                       .bodyToMono( Movies.class );
