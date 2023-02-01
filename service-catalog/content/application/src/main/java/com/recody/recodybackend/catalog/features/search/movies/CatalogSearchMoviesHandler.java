@@ -1,11 +1,7 @@
 package com.recody.recodybackend.catalog.features.search.movies;
 
-import com.recody.recodybackend.movie.Movie;
-
-import java.util.List;
-
-public interface CatalogSearchMoviesHandler {
+public interface CatalogSearchMoviesHandler<R> {
     
-    List<Movie> handle(SearchMovies command);
+   R handle(SearchMovies command);
 
 }

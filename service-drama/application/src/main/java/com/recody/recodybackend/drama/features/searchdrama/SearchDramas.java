@@ -16,7 +16,8 @@ public class SearchDramas {
     
     private Locale locale;
     
-    private GenreIds genreIds;
+    @Builder.Default
+    private GenreIds genreIds = GenreIds.empty();
     
     @Builder.Default
     private Integer page = 1;

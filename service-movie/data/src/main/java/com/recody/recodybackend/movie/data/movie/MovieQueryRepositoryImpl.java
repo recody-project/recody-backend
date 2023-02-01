@@ -131,6 +131,7 @@ class MovieQueryRepositoryImpl implements MovieQueryRepository {
                        .select( movieEntity )
                        .from( movieEntity )
                        .innerJoin( movieEntity.title ).fetchJoin()
+                       .innerJoin( movieEntity.overview ).fetchJoin()
                        .where( containsFromEnglishTitle( title ) );
     }
     
@@ -139,6 +140,7 @@ class MovieQueryRepositoryImpl implements MovieQueryRepository {
                        .select( movieEntity )
                        .from( movieEntity )
                        .innerJoin( movieEntity.title ).fetchJoin()
+                       .innerJoin( movieEntity.overview ).fetchJoin()
                        .where( movieEntity.tmdbId.eq( tmdbId ) );
     }
 }

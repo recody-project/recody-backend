@@ -24,7 +24,8 @@ public class SearchDramasController {
     public SuccessResponseBody searchDramas(@RequestParam String keyword,
                                             HttpServletRequest request,
                                             @RequestParam( required = false ) List<String> genreId,
-                                            @RequestParam( required = false, defaultValue = "1" ) Integer page) {
+                                            @RequestParam( required = false,
+                                                           defaultValue = "1" ) Integer page) {
         return SuccessResponseBody.builder()
                                   .message( ms.getMessage( "drama.search.succeeded", null, null,
                                                            request.getLocale() ) )
@@ -40,11 +41,15 @@ public class SearchDramasController {
     
     @GetMapping( "/api/v1/drama/search-data" )
     public Dramas searchDramasData(@RequestParam String keyword,
-                                   HttpServletRequest request) {
+                                   HttpServletRequest request,
+                                   @RequestParam( required = false ) List<String> genreId,
+                                   @RequestParam( required = false, defaultValue = "1" ) Integer page) {
         return searchDramaHandler.handle(
                 SearchDramas.builder()
                             .keyword( keyword )
                             .locale( request.getLocale() )
+                            .page( page )
+                            .genreIds( GenreIds.of( genreId ) )
                             .build() );
     }
 }
