@@ -40,7 +40,7 @@ dependencies {
     implementation project(":service-catalog-content-application")
     implementation project(":service-catalog-record-application")
     implementation project(":service-users-application")
-
+    implementation project(":service-insight-application")
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
@@ -58,15 +58,13 @@ dependencies {
 }
 
 checkDependencies {
-    configurations = ['compile','runtime']
+    configurations = ['compile', 'runtime']
 }
-
 
 
 tasks.named('test') {
     useJUnitPlatform()
 }
-
 
 
 allprojects {
@@ -115,7 +113,7 @@ subprojects {
     task createProjectPackageStructure {
         String basePackageStructure = "src/main/java/com/recody/recodybackend"
         Directory baseProjectPackageStructure = layout.projectDirectory.dir(basePackageStructure)
-        if (!baseProjectPackageStructure.asFile.exists()){
+        if (!baseProjectPackageStructure.asFile.exists()) {
             mkdir(basePackageStructure)
         }
     }
