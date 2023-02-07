@@ -25,4 +25,14 @@ class InsightMonthTest {
         System.out.println( "dateTimeInstance = " + dateTimeInstance );
         // then
     }
+    
+    @Test
+    @DisplayName( "yearMonthParseTest" )
+    void yearMonthParseTest() {
+        // given
+        YearMonth parsed = YearMonth.parse( "2023-02" );
+        // when
+        System.out.println(parsed);
+        // then
+    }
 }

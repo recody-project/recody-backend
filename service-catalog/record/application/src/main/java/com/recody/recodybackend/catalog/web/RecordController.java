@@ -12,6 +12,7 @@ import com.recody.recodybackend.catalog.features.record.getrecordcontent.GetCont
 import com.recody.recodybackend.catalog.features.record.getrecordcontents.GetRecordContents;
 import com.recody.recodybackend.catalog.features.record.resolvecategory.CategoryResolver;
 import com.recody.recodybackend.catalog.features.record.totalrecords.CountTotalRecords;
+import com.recody.recodybackend.catalog.features.record.totalrecords.Monthly;
 import com.recody.recodybackend.common.web.SuccessResponseBody;
 import com.recody.recodybackend.commonbootutils.jwt.JwtManager;
 import com.recody.recodybackend.commonbootutils.web.AccessToken;
@@ -270,6 +271,7 @@ public class RecordController {
     @GetMapping( "/api/v1/record/records/total" )
     public ResponseEntity<SuccessResponseBody> countRecords(HttpServletRequest httpServletRequest,
                                                             @RequestParam( defaultValue = "false" ) Boolean thisMonth,
+                                                            @RequestParam( required = false ) String yearMonth,
                                                             @AccessToken String accessToken) {
         return ResponseEntity.ok(
                 SuccessResponseBody.builder()
@@ -278,7 +280,8 @@ public class RecordController {
                                    .data( recordService.countRecords(
                                            CountTotalRecords.builder()
                                                             .userId( jwtManager.resolveUserId( accessToken ) )
-                                                            .thisMonth( thisMonth )
+                                                            .monthly(
+                                                                    thisMonth ? Monthly.thisMonth() : Monthly.of( yearMonth ) )
                                                             .build() ) )
                                    .build() );
     }

@@ -41,7 +41,7 @@ public class Monthly {
     /**
      * @return 이번 달의 1일
      */
-    public static LocalDate thisMonthDate() {
+    public static LocalDate thisMonthDateOfFirstDay() {
         return LocalDate.now().withDayOfMonth( 1 );
     }
     
@@ -60,7 +60,7 @@ public class Monthly {
         return Monthly.of( YearMonth.now().toString() );
     }
     
-    public LocalDate getDate() {
+    public LocalDate getDateOfFirstDay() {
         return LocalDate.from( yearMonth.atDay( 1 ) );
     }
     

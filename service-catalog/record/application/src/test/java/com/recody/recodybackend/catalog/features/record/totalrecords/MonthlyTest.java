@@ -13,7 +13,7 @@ class MonthlyTest {
     @DisplayName( "yearMonthTest" )
     void yearMonthTest() {
         // given
-        LocalDate localDate = Monthly.thisMonthDate();
+        LocalDate localDate = Monthly.thisMonthDateOfFirstDay();
         // when
         System.out.println(localDate);
         // then
@@ -26,7 +26,7 @@ class MonthlyTest {
         Monthly monthly = Monthly.of( "2023-05" );
     
         // when
-        LocalDate date = monthly.getDate();
+        LocalDate date = monthly.getDateOfFirstDay();
         
         // then
     
