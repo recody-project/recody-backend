@@ -10,13 +10,14 @@ import lombok.*;
 public class CountTotalRecords {
     
     private Long userId;
-    private boolean thisMonth;
+    
+    private Monthly monthly;
     
     @Override
     public String toString() {
         return "{\"CountTotalRecords\":{"
                + "\"userId\":" + userId
-               + ", \"thisMonth\":" + thisMonth
+               + ", \"yearMonth\":" + monthly
                + "}}";
     }
 }
