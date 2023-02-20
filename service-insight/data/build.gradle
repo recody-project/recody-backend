@@ -20,11 +20,15 @@ dependencies {
     implementation project(":service-insight-core")
     implementation project(":service-insight-shared")
 
+    // 유저 관련 정보 사용
+    implementation project(":service-users-core")
+    implementation project(":service-users-shared")
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
     // logback xml 파일에 정의된 로그 어펜더 때문에 임시로 추가함.
     implementation "ca.pjer:logback-awslogs-appender:1.6.0"
 

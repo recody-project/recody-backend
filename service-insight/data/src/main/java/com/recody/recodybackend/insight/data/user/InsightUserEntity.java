@@ -1,13 +1,9 @@
 package com.recody.recodybackend.insight.data.user;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.recody.recodybackend.users.Role;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table( name = "insight_user")
@@ -21,4 +17,9 @@ public class InsightUserEntity {
     private Long id;
     
     private String nickname;
+    
+    @NonNull
+    @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
 }
