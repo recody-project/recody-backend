@@ -20,6 +20,7 @@ import com.recody.recodybackend.record.RecordOrder;
 import com.recody.recodybackend.record.web.AddRecordRequest;
 import com.recody.recodybackend.record.web.CompleteRecordRequest;
 import com.recody.recodybackend.record.web.ContinueRecordRequest;
+import com.recody.recodybackend.record.web.CountTotalRecordsResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
@@ -288,21 +289,17 @@ public class RecordController {
     }
     
     @GetMapping( "/api/v1/record/records/total-data" )
-    public ResponseEntity<SuccessResponseBody> countRecordsData(HttpServletRequest httpServletRequest,
-                                                                @RequestParam( defaultValue = "false" ) Boolean thisMonth,
-                                                                @RequestParam( required = false ) String yearMonth,
-                                                                @RequestParam Long userId) {
+    public ResponseEntity<CountTotalRecordsResponse> countRecordsData(HttpServletRequest httpServletRequest,
+                                                                      @RequestParam( defaultValue = "false" ) Boolean thisMonth,
+                                                                      @RequestParam( required = false ) String yearMonth,
+                                                                      @RequestParam Long userId) {
         return ResponseEntity.ok(
-                SuccessResponseBody.builder()
-                                   .message( ms.getMessage( "record.records.count.total.succeeded", null,
-                                                            httpServletRequest.getLocale() ) )
-                                   .data( recordService.countRecords(
-                                           CountTotalRecords.builder()
-                                                            .userId( userId )
-                                                            .monthly(
-                                                                    thisMonth ? Monthly.thisMonth() : Monthly.of(
-                                                                            yearMonth ) )
-                                                            .build() ) )
-                                   .build() );
+                recordService.countRecords(
+                        CountTotalRecords.builder()
+                                         .userId( userId )
+                                         .monthly(
+                                                 thisMonth ? Monthly.thisMonth() : Monthly.of( yearMonth ) )
+                                         .build() ));
+                
     }
 }
