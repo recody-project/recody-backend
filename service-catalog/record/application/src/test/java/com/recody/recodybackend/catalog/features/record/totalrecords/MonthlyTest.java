@@ -1,5 +1,6 @@
 package com.recody.recodybackend.catalog.features.record.totalrecords;
 
+import com.recody.recodybackend.Monthly;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

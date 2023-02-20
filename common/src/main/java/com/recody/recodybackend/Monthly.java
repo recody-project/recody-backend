@@ -1,4 +1,4 @@
-package com.recody.recodybackend.catalog.features.record.totalrecords;
+package com.recody.recodybackend;
 
 
 import com.recody.recodybackend.common.exceptions.ApplicationExceptions;
@@ -68,5 +68,9 @@ public class Monthly {
         LocalDate now = LocalDate.now();
         return yearMonth.getYear() == now.getYear() &&
                yearMonth.getMonth().equals( now.getMonth() );
+    }
+    
+    public String asString() {
+        return this.yearMonth.toString();
     }
 }

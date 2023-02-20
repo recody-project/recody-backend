@@ -1,5 +1,6 @@
 package com.recody.recodybackend.catalog.features.record.totalrecords;
 
+import com.recody.recodybackend.Monthly;
 import com.recody.recodybackend.catalog.data.record.RecordRepository;
 import com.recody.recodybackend.record.RecordCount;
 import lombok.RequiredArgsConstructor;
