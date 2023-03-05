@@ -9,7 +9,6 @@ import com.recody.recodybackend.catalog.features.record.getmyrecords.GetMyRecord
 import com.recody.recodybackend.catalog.features.record.getrecord.GetRecord;
 import com.recody.recodybackend.catalog.features.record.getrecordcontent.GetContinuingRecordContent;
 import com.recody.recodybackend.catalog.features.record.getrecordcontents.GetRecordContents;
-import com.recody.recodybackend.catalog.features.record.totalrecords.CountTotalRecords;
 import com.recody.recodybackend.record.web.*;
 
 public interface RecordService {
@@ -23,6 +22,4 @@ public interface RecordService {
     CompleteRecordResponse completeRecord(CompleteRecord command);
     ContinueRecordResponse continueRecord(ContinueRecord command);
     DeleteRecordResponse deleteRecord(DeleteRecord command);
-    CountTotalRecordsResponse countRecords(CountTotalRecords command);
-
 }

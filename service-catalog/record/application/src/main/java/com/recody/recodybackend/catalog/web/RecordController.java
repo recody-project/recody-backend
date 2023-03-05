@@ -1,6 +1,5 @@
 package com.recody.recodybackend.catalog.web;
 
-import com.recody.recodybackend.Monthly;
 import com.recody.recodybackend.catalog.features.record.RecordService;
 import com.recody.recodybackend.catalog.features.record.addrecord.AddRecord;
 import com.recody.recodybackend.catalog.features.record.completerecord.CompleteRecord;
@@ -12,7 +11,6 @@ import com.recody.recodybackend.catalog.features.record.getrecord.GetRecord;
 import com.recody.recodybackend.catalog.features.record.getrecordcontent.GetContinuingRecordContent;
 import com.recody.recodybackend.catalog.features.record.getrecordcontents.GetRecordContents;
 import com.recody.recodybackend.catalog.features.record.resolvecategory.CategoryResolver;
-import com.recody.recodybackend.catalog.features.record.totalrecords.CountTotalRecords;
 import com.recody.recodybackend.common.web.SuccessResponseBody;
 import com.recody.recodybackend.commonbootutils.jwt.JwtManager;
 import com.recody.recodybackend.commonbootutils.web.AccessToken;
@@ -20,7 +18,6 @@ import com.recody.recodybackend.record.RecordOrder;
 import com.recody.recodybackend.record.web.AddRecordRequest;
 import com.recody.recodybackend.record.web.CompleteRecordRequest;
 import com.recody.recodybackend.record.web.ContinueRecordRequest;
-import com.recody.recodybackend.record.web.CountTotalRecordsResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
@@ -269,37 +266,7 @@ public class RecordController {
                                    .build() );
     }
     
-    @GetMapping( "/api/v1/record/records/total" )
-    public ResponseEntity<SuccessResponseBody> countRecords(HttpServletRequest httpServletRequest,
-                                                            @RequestParam( defaultValue = "false" ) Boolean thisMonth,
-                                                            @RequestParam( required = false ) String yearMonth,
-                                                            @AccessToken String accessToken) {
-        return ResponseEntity.ok(
-                SuccessResponseBody.builder()
-                                   .message( ms.getMessage( "record.records.count.total.succeeded", null,
-                                                            httpServletRequest.getLocale() ) )
-                                   .data( recordService.countRecords(
-                                           CountTotalRecords.builder()
-                                                            .userId( jwtManager.resolveUserId( accessToken ) )
-                                                            .monthly(
-                                                                    thisMonth ? Monthly.thisMonth() : Monthly.of(
-                                                                            yearMonth ) )
-                                                            .build() ) )
-                                   .build() );
-    }
     
-    @GetMapping( "/api/v1/record/records/total-data" )
-    public ResponseEntity<CountTotalRecordsResponse> countRecordsData(HttpServletRequest httpServletRequest,
-                                                                      @RequestParam( defaultValue = "false" ) Boolean thisMonth,
-                                                                      @RequestParam( required = false ) String yearMonth,
-                                                                      @RequestParam Long userId) {
-        return ResponseEntity.ok(
-                recordService.countRecords(
-                        CountTotalRecords.builder()
-                                         .userId( userId )
-                                         .monthly(
-                                                 thisMonth ? Monthly.thisMonth() : Monthly.of( yearMonth ) )
-                                         .build() ));
-                
-    }
+    
+    
 }

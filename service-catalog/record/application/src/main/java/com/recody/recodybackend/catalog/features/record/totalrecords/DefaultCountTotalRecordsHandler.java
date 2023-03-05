@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-class DefaultCountTotalRecordsHandler implements CountTotalRecordsHandler {
+class DefaultCountTotalRecordsHandler implements CountTotalRecordsHandler<RecordCount> {
     
     private final RecordRepository recordRepository;
     

@@ -18,8 +18,6 @@ import com.recody.recodybackend.catalog.features.record.getrecordcontent.GetCont
 import com.recody.recodybackend.catalog.features.record.getrecordcontent.GetContinuingRecordContentHandler;
 import com.recody.recodybackend.catalog.features.record.getrecordcontents.GetRecordContents;
 import com.recody.recodybackend.catalog.features.record.getrecordcontents.GetRecordContentsHandler;
-import com.recody.recodybackend.catalog.features.record.totalrecords.CountTotalRecords;
-import com.recody.recodybackend.catalog.features.record.totalrecords.CountTotalRecordsHandler;
 import com.recody.recodybackend.common.data.QueryResult;
 import com.recody.recodybackend.record.Record;
 import com.recody.recodybackend.record.RecordContent;
@@ -44,8 +42,6 @@ class DefaultRecordService implements RecordService {
     private final ContinueRecordHandler continueRecordHandler;
     private final GetContinuingRecordHandler getContinuingRecordHandler;
     private final DeleteRecordHandler deleteRecordHandler;
-    private final CountTotalRecordsHandler countTotalRecordsHandler;
-    
     private final GetContinuingRecordContentHandler getContinuingRecordContentHandler;
     
     @Override
@@ -109,14 +105,4 @@ class DefaultRecordService implements RecordService {
     public DeleteRecordResponse deleteRecord(DeleteRecord command) {
         return new DeleteRecordResponse( deleteRecordHandler.handle( command ) );
     }
-    
-    @Override
-    public CountTotalRecordsResponse countRecords(CountTotalRecords command) {
-        
-        return CountTotalRecordsResponse.builder()
-                                        .count( countTotalRecordsHandler.handle( command ) )
-                                        .build();
-    }
-    
-    
 }
