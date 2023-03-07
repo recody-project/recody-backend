@@ -9,12 +9,10 @@ import com.recody.recodybackend.catalog.features.record.getcontinuingrecord.GetC
 import com.recody.recodybackend.catalog.features.record.getmyrecords.GetMyRecords;
 import com.recody.recodybackend.catalog.features.record.getrecord.GetRecord;
 import com.recody.recodybackend.catalog.features.record.getrecordcontent.GetContinuingRecordContent;
-import com.recody.recodybackend.catalog.features.record.getrecordcontents.GetRecordContents;
 import com.recody.recodybackend.catalog.features.record.resolvecategory.CategoryResolver;
 import com.recody.recodybackend.common.web.SuccessResponseBody;
 import com.recody.recodybackend.commonbootutils.jwt.JwtManager;
 import com.recody.recodybackend.commonbootutils.web.AccessToken;
-import com.recody.recodybackend.record.RecordOrder;
 import com.recody.recodybackend.record.web.AddRecordRequest;
 import com.recody.recodybackend.record.web.CompleteRecordRequest;
 import com.recody.recodybackend.record.web.ContinueRecordRequest;
@@ -142,56 +140,33 @@ public class RecordController {
                         .build() );
     }
     
-    @GetMapping( "/api/v1/record/contents" )
-    public ResponseEntity<SuccessResponseBody> getRecordContents(HttpServletRequest httpServletRequest,
-                                                                 @Nullable @RequestParam( defaultValue = "0" ) Integer page,
-                                                                 @Nullable @RequestParam( defaultValue = "10" ) Integer size,
-                                                                 @Nullable @RequestParam String categoryId,
-                                                                 @Nullable @RequestParam( required = false ) String order,
-                                                                 @AccessToken String accessToken) {
-        return ResponseEntity.ok(
-                SuccessResponseBody
-                        .builder()
-                        .message( ms.getMessage( "record.contents.get.succeeded", null,
-                                                 httpServletRequest.getLocale() ) )
-                        .data( recordService.getRecordContents(
-                                GetRecordContents.builder()
-                                                 .page( page )
-                                                 .size( size )
-                                                 .userId( jwtManager.resolveUserId( accessToken ) )
-                                                 .locale( httpServletRequest.getLocale() )
-                                                 .order( RecordOrder.of( order ) )
-                                                 .build() )
-                        
-                             )
-                        .build() );
-    }
     
-    @GetMapping( "/api/v1/record/contents/continuing" )
-    public ResponseEntity<SuccessResponseBody> getRecordContentsContinuing(
-            HttpServletRequest httpServletRequest,
-            @Nullable @RequestParam( defaultValue = "0" ) Integer page,
-            @Nullable @RequestParam( defaultValue = "10" ) Integer size,
-            @AccessToken String accessToken,
-            @Nullable @RequestParam( required = false ) String order
-                                                                          ) {
-        return ResponseEntity.ok(
-                SuccessResponseBody
-                        .builder()
-                        .message( ms.getMessage( "record.contents.continuing.get.succeeded", null,
-                                                 httpServletRequest.getLocale() ) )
-                        .data( recordService.getRecordContents(
-                                GetRecordContents.builder()
-                                                 .page( page )
-                                                 .size( size )
-                                                 .completed( false )
-                                                 .userId( jwtManager.resolveUserId( accessToken ) )
-                                                 .locale( httpServletRequest.getLocale() )
-                                                 .order( RecordOrder.of( order ) )
-                                                 .build() )
-                             )
-                        .build() );
-    }
+    
+//    @GetMapping( "/api/v1/record/contents/continuing" )
+//    public ResponseEntity<SuccessResponseBody> getRecordContentsContinuing(
+//            HttpServletRequest httpServletRequest,
+//            @Nullable @RequestParam( defaultValue = "0" ) Integer page,
+//            @Nullable @RequestParam( defaultValue = "10" ) Integer size,
+//            @AccessToken String accessToken,
+//            @Nullable @RequestParam( required = false ) String order
+//                                                                          ) {
+//        return ResponseEntity.ok(
+//                SuccessResponseBody
+//                        .builder()
+//                        .message( ms.getMessage( "record.contents.continuing.get.succeeded", null,
+//                                                 httpServletRequest.getLocale() ) )
+//                        .data( recordService.getRecordContents(
+//                                GetRecordContents.builder()
+//                                                 .page( page )
+//                                                 .size( size )
+//                                                 .completed( false )
+//                                                 .userId( jwtManager.resolveUserId( accessToken ) )
+//                                                 .locale( httpServletRequest.getLocale() )
+//                                                 .order( RecordOrder.of( order ) )
+//                                                 .build() )
+//                             )
+//                        .build() );
+//    }
     
     @PostMapping( "/api/v1/record" )
     public ResponseEntity<SuccessResponseBody> postRecord(HttpServletRequest httpServletRequest,
