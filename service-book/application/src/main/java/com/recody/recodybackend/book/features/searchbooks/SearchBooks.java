@@ -18,4 +18,6 @@ public class SearchBooks {
 
     private Locale locale;
 
+    @Builder.Default
+    private Integer page = 1;
 }

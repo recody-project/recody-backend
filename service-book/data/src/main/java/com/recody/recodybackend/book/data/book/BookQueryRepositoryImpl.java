@@ -4,6 +4,8 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -31,8 +33,28 @@ public class BookQueryRepositoryImpl implements BookQueryRepository{
         return query.fetch();
     }
 
+    @Override
+    public Page<BookEntity> findPagedByTitleLike(String keyword, Pageable pageable) {
+        JPAQuery<BookEntity> wholeQuery = createQueryWhereTitleLike(keyword);
+        List<BookEntity> wholeResults = wholeQuery.fetch();
+
+        JPAQuery<BookEntity> pagedQuery = applyPageable(wholeQuery, pageable);
+        List<BookEntity> pagedResults = pagedQuery.fetch();
+        return new PageImpl<>(pagedResults, pageable, wholeResults.size());
+    }
+
     private JPAQuery<BookEntity> createQueryWhereTitleLike(String keyword) {
         return jpaQueryFactory.selectFrom(bookEntity)
                 .where(bookEntity.title.contains(keyword));
+    }
+
+    private static JPAQuery<BookEntity> applyPageable(JPAQuery<BookEntity> query, Pageable pageable) {
+        if ( !pageable.isUnpaged() ) {
+            return query.limit( pageable.getPageSize() )
+                    .offset( pageable.getOffset() );
+        }
+        else {
+            return query;
+        }
     }
 }

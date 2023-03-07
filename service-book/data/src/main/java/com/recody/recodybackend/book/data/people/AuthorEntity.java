@@ -1,10 +1,7 @@
-package com.recody.recodybackend.book.data.book;
+package com.recody.recodybackend.book.data.people;
 
 import com.recody.recodybackend.book.data.book.BookEntity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -13,6 +10,7 @@ import java.util.UUID;
 @Builder
 @Table(name = "book_author")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class AuthorEntity {
@@ -30,6 +28,14 @@ public class AuthorEntity {
     @Override
     public String toString() {
         return "{\"AuthorEntity\":{" + "\"id\":" + ((id != null) ? ("\"" + id + "\"") : null) + ", \"book\":" + book + ", \"name\":" + name + "}}";
+    }
+
+    public void setBook(BookEntity book) {
+        if (this.book != null) {
+            this.book.getAuthors().remove(this);
+        }
+        this.book = book;
+        book.getAuthors().add(this);
     }
 
 }

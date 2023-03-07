@@ -1,5 +1,6 @@
 package com.recody.recodybackend.book.features.eventhandlers;
 
+import com.recody.recodybackend.book.BookId;
 import com.recody.recodybackend.book.BookSearchKeyword;
 import com.recody.recodybackend.book.data.book.BookEntity;
 import com.recody.recodybackend.book.data.book.BookMapper;
@@ -8,6 +9,7 @@ import com.recody.recodybackend.book.data.search.BookSearchingKeywordCountEntity
 import com.recody.recodybackend.book.data.search.BookSearchingKeywordCountRepository;
 import com.recody.recodybackend.book.features.event.BookFetched;
 import com.recody.recodybackend.book.features.event.BookQueried;
+import com.recody.recodybackend.book.features.synchronizebookdetail.SynchronizeBookDetailHandler;
 import com.recody.recodybackend.book.features.synchronizebooksearchresults.SynchronizeBookSearchResultsHandler;
 import com.recody.recodybackend.book.naver.NaverBook;
 import com.recody.recodybackend.common.Recody;
@@ -24,11 +26,13 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-class SpringBookFetchedEventHandler implements BookFetchedEventHandler, EmptyBookQueriedHandler{
+class SpringBookFetchedEventHandler implements BookFetchedEventHandler, EmptyBookQueriedHandler,
+BookDetailRequestedHandler{
 
     private final BookMapper bookMapper;
     private final BookRepository bookRepository;
     private final BookSearchingKeywordCountRepository keywordRepository;
+    private final SynchronizeBookDetailHandler<Void> synchronizeBookDetailHandler;
     private final SynchronizeBookSearchResultsHandler<Void> synchronizeBookSearchResultsHandler;
 
     @Override
@@ -75,4 +79,13 @@ class SpringBookFetchedEventHandler implements BookFetchedEventHandler, EmptyBoo
     }
 
 
+    @Override
+    @Async( value = Recody.BOOK_TASK_EXECUTOR )
+    @EventListener
+    @Transactional
+    public void on(BookDetailRequested event) {
+        log.trace( "handling event: {}", event );
+        synchronizeBookDetailHandler.handle(BookId.of(event.getBookId()));
+
+    }
 }
