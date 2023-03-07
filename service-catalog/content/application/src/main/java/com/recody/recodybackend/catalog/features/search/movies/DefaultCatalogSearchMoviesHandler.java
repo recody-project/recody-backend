@@ -19,7 +19,7 @@ import java.util.Objects;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-class DefaultCatalogSearchMoviesHandler implements CatalogSearchMoviesHandler {
+class DefaultCatalogSearchMoviesHandler implements CatalogSearchMoviesHandler<List<Movie>> {
     
     @Value("${catalog.movie.search.base-url}")
     private String baseUrl;
