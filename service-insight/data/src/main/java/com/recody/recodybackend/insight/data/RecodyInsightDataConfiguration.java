@@ -2,6 +2,7 @@ package com.recody.recodybackend.insight.data;
 
 import com.recody.recodybackend.common.Recody;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -30,11 +31,12 @@ class RecodyInsightDataConfiguration {
     }
     
     @Bean
-    WebClient recordWebClient() {
+    @ConditionalOnMissingBean
+    WebClient InsightWebClient() {
         return WebClient.builder()
                         .baseUrl( baseUrl )
                         .defaultHeader( "Authorization", "Bearer " + accessToken )
                         .build();
     }
-    
+
 }
