@@ -1,5 +1,4 @@
 rootProject.name = 'recody-backend'
-
 include(":common",
         ":common-content")
 

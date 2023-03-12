@@ -22,12 +22,16 @@ class DefaultSearchDramaFromTMDBHandler implements SearchDramaFromTMDBHandler<TM
     public TMDBSearchDramaResponse handle(SearchDramaFromTMDB query) {
         log.debug( "handling query: {}", query );
         return webClient.get()
-                        .uri( uriBuilder -> uriBuilder.path( PATH )
-                                                      .queryParam( "api_key", apiKey )
-                                                      .queryParam( "query", query.getQueryText() )
-                                                      .queryParam( "language", query.getLanguage() )
-                                                      .queryParam( "page", query.getPage() )
-                                                      .build() )
+                        .uri( uriBuilder -> {
+                            uriBuilder.path( PATH )
+                                      .queryParam( "api_key", apiKey )
+                                      .queryParam( "query", query.getQueryText() )
+                                      .queryParam( "language", query.getLanguage() );
+                            if (query.getPage() != null){
+                                uriBuilder.queryParam( "page", query.getPage() );
+                            }
+                            return uriBuilder.build();
+                        } )
                         .retrieve()
                         .bodyToMono( TMDBSearchDramaResponse.class )
                         .block();

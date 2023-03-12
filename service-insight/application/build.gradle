@@ -1,11 +1,29 @@
+plugins {
+    id 'org.springframework.boot' version '2.7.3'
+    id 'io.spring.dependency-management' version '1.0.13.RELEASE'
+    id 'java'
+    id "com.stehno.gradle.dependency-checker" version "0.2.3"
+    id 'project-report'
+}
+
+
 ext {
-    springCloudVersion = 'Jubile.RELEASE'
+    set('springCloudVersion', "2021.0.3")
 }
 dependencyManagement {
     imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:2021.0.3"
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
     }
 }
+
+repositories {
+    mavenCentral()
+}
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'java'
+
+
 
 dependencies {
 
@@ -23,7 +41,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
-    implementation "org.springframework.cloud:spring-cloud-starter-openfeign"
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    // https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-openfeign-core
+    implementation 'org.springframework.cloud:spring-cloud-openfeign-core:3.1.4'
 
     // databases
     runtimeOnly 'com.h2database:h2'
