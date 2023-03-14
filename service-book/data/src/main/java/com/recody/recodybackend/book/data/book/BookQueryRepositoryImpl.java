@@ -22,6 +22,7 @@ public class BookQueryRepositoryImpl implements BookQueryRepository{
         log.debug( "keyword: {}, pageable: {}", keyword, pageable );
         JPAQuery<BookEntity> query;
         query = createQueryWhereTitleLike(keyword);
+        log.debug( "query: {}", query );
         if (!pageable.isUnpaged()) {
             query.limit(pageable.getPageSize())
                     .offset(pageable.getOffset());

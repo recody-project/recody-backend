@@ -16,10 +16,17 @@ class SpringBookEventPublisher implements BookEventPublisher {
 
     private final ApplicationEventPublisher publisher;
 
+
     @Override
     public void publish(BookCreated event) {
-        publisher.publishEvent(event);
-        log.info( "published event [Spring]: {}", event );
+        log.debug( "publishing event: {}", event );
+        publisher.publishEvent( event );
+    }
+
+    @Override
+    public void publish(BookFetched event) {
+        log.debug( "publishing event: {}", event );
+        publisher.publishEvent( event );
     }
 
     @Override

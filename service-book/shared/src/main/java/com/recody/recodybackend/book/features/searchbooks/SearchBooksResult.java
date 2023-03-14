@@ -1,6 +1,5 @@
 package com.recody.recodybackend.book.features.searchbooks;
 
-import com.recody.recodybackend.book.features.searchbooks.dto.NaverBookSearchNode;
 import com.recody.recodybackend.book.web.NaverSearchedBook;
 import lombok.*;
 

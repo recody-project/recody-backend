@@ -9,7 +9,8 @@ import com.recody.recodybackend.book.data.book.BookRepository;
 import com.recody.recodybackend.book.events.BookCreated;
 import com.recody.recodybackend.book.features.getbookdetail.dto.NaverBookDetail;
 import com.recody.recodybackend.book.features.event.BookEventPublisher;
-import com.recody.recodybackend.book.features.searchbooks.dto.NaverBookSearchNode;
+import com.recody.recodybackend.book.naver.NaverBook;
+import com.recody.recodybackend.book.searchbooks.dto.NaverBookSearchNode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -23,11 +24,12 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class DefaultBookManager implements BookManager{
+class DefaultBookManager implements BookManager{
 
     private final BookEventPublisher bookEventPublisher;
     private final BookRepository bookRepository;
 
+    private final BookRegistrar<NaverBook> bookRegistrar;
     private final BookDetailMapper bookDetailMapper;
     private final BookMapper bookMapper;
 
@@ -66,23 +68,29 @@ public class DefaultBookManager implements BookManager{
         return book;
     }
 
+    @Override
+    public BookRegistrar<NaverBook> book() {
+        return bookRegistrar;
+    }
+
     @Component
     @RequiredArgsConstructor
     @Slf4j
-    public static class ConcreteBookRegistrar implements BookRegistrar<NaverBookSearchNode> {
+    public static class ConcreteBookRegistrar implements BookRegistrar<NaverBook> {
 
         private final BookRepository bookRepository;
 
 
         @Override
-        public List<Book> register(List<NaverBookSearchNode> sources, Locale locale) {
+        public List<Book> register(List<NaverBook> sources, Locale locale) {
             log.info( " {} 개의 영화를 저장합니다. ", sources.size() );
             return sources.stream().map( source -> this.register( source, locale ) ).collect( Collectors.toList() );
         }
 
         @Override
-        public Book register(NaverBookSearchNode source, Locale locale) {
-            log.debug( "registering NaverBookSearchNode, locale: {}", locale );
+        @Transactional
+        public Book register(NaverBook source, Locale locale) {
+            log.debug( "registering NaverBook, locale: {}", locale );
             Optional<BookEntity> optionalBook;
             String title = source.getTitle();
             optionalBook = bookRepository.findByIsbn(source.getIsbn());
