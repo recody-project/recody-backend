@@ -20,4 +20,11 @@ public class SearchingKeyword {
     public static SearchingKeyword of(String keyword) {
         return new SearchingKeyword( keyword );
     }
+    
+    @Override
+    public String toString() {
+        return "{\"SearchingKeyword\":{"
+               + "\"value\":" + ((value != null) ? ("\"" + value + "\"") : null)
+               + "}}";
+    }
 }

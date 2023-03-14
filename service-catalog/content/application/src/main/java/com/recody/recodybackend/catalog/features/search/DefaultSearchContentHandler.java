@@ -1,15 +1,14 @@
 package com.recody.recodybackend.catalog.features.search;
 
-import com.recody.recodybackend.content.PersonalizedContent;
-import com.recody.recodybackend.content.PersonalizedMovie;
 import com.recody.recodybackend.catalog.features.personalize.ContentPersonalizer;
-import com.recody.recodybackend.catalog.features.search.movies.ReactiveSearchMoviesHandler;
-import com.recody.recodybackend.catalog.features.search.movies.SearchMovies;
 import com.recody.recodybackend.catalog.features.search.movies.CatalogSearchMoviesHandler;
+import com.recody.recodybackend.catalog.features.search.movies.SearchMovies;
 import com.recody.recodybackend.catalog.web.SearchContentResponse;
 import com.recody.recodybackend.catalog.web.SearchContentWithFiltersResponse;
 import com.recody.recodybackend.common.contents.BasicCategory;
 import com.recody.recodybackend.common.exceptions.UnsupportedCategoryException;
+import com.recody.recodybackend.content.PersonalizedContent;
+import com.recody.recodybackend.content.PersonalizedMovie;
 import com.recody.recodybackend.movie.Movie;
 import com.recody.recodybackend.movie.web.TMDBSearchedMovie;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +25,8 @@ import java.util.List;
 @Slf4j
 class DefaultSearchContentHandler implements SearchContentHandler {
     
-    private final CatalogSearchMoviesHandler catalogSearchMoviesHandler;
-    private final ReactiveSearchMoviesHandler reactiveSearchMoviesHandler;
+    private final CatalogSearchMoviesHandler<List<Movie>> catalogSearchMoviesHandler;
+    private final CatalogSearchMoviesHandler<Mono<List<TMDBSearchedMovie>>> reactiveSearchMoviesHandler;
     private final ContentPersonalizer<Movie, PersonalizedMovie> movieContentPersonalizer;
     
     @Override
@@ -66,7 +65,7 @@ class DefaultSearchContentHandler implements SearchContentHandler {
         Mono<List<TMDBSearchedMovie>> moviesMono = Mono.empty();
         for (BasicCategory category : categories) {
             if (category.equals( BasicCategory.Movie )){
-                moviesMono = reactiveSearchMoviesHandler.handleTmdb( SearchMovies.builder()
+                moviesMono = reactiveSearchMoviesHandler.handle( SearchMovies.builder()
                                                                              .keyword( keyword )
                                                                              .language( language )
                                                                              .build() );

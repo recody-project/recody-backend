@@ -8,6 +8,7 @@ public class TMDB {
     public static final String TMDB_WEB_CLIENT = "TMDBWebClient";
     public static final String DIRECTOR = "Director";
     public static final String ACTING = "Acting";
+    public static final String DIRECTING = "Directing";
     public static final int ACTOR_MAX_SIZE = 5;
     public static final int DIRECTOR_MAX_SIZE = 5;
     

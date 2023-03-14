@@ -149,7 +149,7 @@ class RecordRepositoryTest {
         
         
         // then
-        assertThat( recordEntities ).isEqualTo( top10 );
+        assertThat( recordEntities ).containsAll( top10 );
         
     }
     

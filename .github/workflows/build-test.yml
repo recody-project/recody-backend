@@ -5,6 +5,10 @@ on:
     paths-ignore: 
       - '.github/ISSUE_TEMPLATE/**'
       - 'README.md'
+  pull_request:
+    paths-ignore:
+      - '.github/ISSUE_TEMPLATE/**'
+      - 'README.md'
 
 permissions:
   contents: read

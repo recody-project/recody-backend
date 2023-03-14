@@ -2,6 +2,7 @@ package com.recody.recodybackend.book.features.searchbookfromnaver;
 
 
 import com.recody.recodybackend.book.features.searchbooks.SearchBooks;
+import com.recody.recodybackend.book.naver.Naver;
 import com.recody.recodybackend.book.naver.NaverBookSearchResponse;
 import com.recody.recodybackend.book.searchbooks.dto.NaverBookSearchNode;
 import lombok.RequiredArgsConstructor;
@@ -26,20 +27,15 @@ import java.util.Objects;
 @Slf4j
 class DefaultSearchBookFromNaverHandler implements SearchBookFromNaverHandler<NaverBookSearchResponse> {
 
-    private static final String baseUrl = "https://openapi.naver.com/v1/search/book.json";
-    private static final String NAVER_QUERY_PARAM_NAME = "query";
-    private static final String NAVER_DISPLAY_PARAM_NAME = "display";
-    private static final String NAVER_START_PARAM_NAME = "start";
-    private static final String API_ID_PARAM_NAME = "X-Naver-Client-Id";
-    private static final String API_KEY_PARAM_NAME = "X-Naver-Client-Secret";
     private final RestTemplate restTemplate = new RestTemplate();
+
 
     @Value("${book.naver.api-id}")
     private String apiID;
     @Value("${book.naver.api-key}")
     private String apiKey;
     private final WebClient webClient = WebClient.builder()
-            .baseUrl( baseUrl ).build();
+            .baseUrl(Naver.Naver_baseUrl).build();
 
 
 //    @Override
@@ -109,16 +105,16 @@ class DefaultSearchBookFromNaverHandler implements SearchBookFromNaverHandler<Na
 
     private HttpHeaders makeHeader() {
         HttpHeaders headers = new HttpHeaders();
-        headers.set(API_ID_PARAM_NAME, apiID);
-        headers.set(API_KEY_PARAM_NAME, apiKey);
+        headers.set(Naver.API_ID_PARAM_NAME, apiID);
+        headers.set(Naver.API_KEY_PARAM_NAME, apiKey);
         return headers;
     }
 
     private URI makeUrl(String bookName, Integer display, Integer start) {
-        return UriComponentsBuilder.fromUriString(baseUrl)
-                .queryParam(NAVER_QUERY_PARAM_NAME, bookName)
-                .queryParam(NAVER_DISPLAY_PARAM_NAME, display)
-                .queryParam(NAVER_START_PARAM_NAME, start)
+        return UriComponentsBuilder.fromUriString(Naver.Naver_baseUrl)
+                .queryParam(Naver.NAVER_QUERY_PARAM_NAME, bookName)
+                .queryParam(Naver.NAVER_DISPLAY_PARAM_NAME, display)
+                .queryParam(Naver.NAVER_START_PARAM_NAME, start)
                 .encode()
                 .build()
                 .toUri();

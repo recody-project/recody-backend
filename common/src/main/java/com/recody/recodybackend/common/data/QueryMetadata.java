@@ -10,18 +10,19 @@ import org.springframework.data.domain.Page;
  */
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class QueryMetadata {
     
     private Integer size;
     private Integer currentPage;
+    private Long totalResults;
     private Integer totalPages;
     
-    public QueryMetadata(Integer size, Integer currentPage, Integer totalPages) {
+    public QueryMetadata(Integer size, Integer currentPage, Integer totalPages, Long totalResults) {
         this.size = size;
         this.currentPage = currentPage;
         this.totalPages = totalPages;
+        this.totalResults = totalResults;
     }
     
     public QueryMetadata(Page<?> page) {
@@ -38,14 +39,26 @@ public class QueryMetadata {
         if (zeroIndexed){
             this.currentPage = page.getNumber() + 1;
             this.totalPages = page.getTotalPages();
+            this.totalResults = page.getTotalElements();
         }
         else {
             this.currentPage = page.getNumber();
             this.totalPages = page.getTotalPages();
+            this.totalResults = page.getTotalElements();
         }
     }
     
     public static QueryMetadata empty(){
-        return new QueryMetadata( 0, 0, 0);
+        return new QueryMetadata( 0, 0, 0, 0L);
+    }
+    
+    @Override
+    public String toString() {
+        return "{\"QueryMetadata\":{"
+               + "\"size\":" + size
+               + ", \"currentPage\":" + currentPage
+               + ", \"totalResults\":" + totalResults
+               + ", \"totalPages\":" + totalPages
+               + "}}";
     }
 }
