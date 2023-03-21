@@ -1,6 +1,5 @@
 package com.recody.recodybackend.record.web;
 
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.recody.recodybackend.record.RecordCount;
 import lombok.*;
 
@@ -11,7 +10,6 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CountTotalRecordsResponse {
     
-    @JsonUnwrapped
     private RecordCount count;
     
 }

@@ -1,5 +1,6 @@
 package com.recody.recodybackend.catalog.features.record.totalrecords;
 
+import com.recody.recodybackend.Monthly;
 import lombok.*;
 
 @Getter
@@ -10,13 +11,14 @@ import lombok.*;
 public class CountTotalRecords {
     
     private Long userId;
-    private boolean thisMonth;
+    
+    private Monthly monthly;
     
     @Override
     public String toString() {
         return "{\"CountTotalRecords\":{"
                + "\"userId\":" + userId
-               + ", \"thisMonth\":" + thisMonth
+               + ", \"yearMonth\":" + monthly
                + "}}";
     }
 }

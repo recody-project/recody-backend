@@ -3,7 +3,7 @@ package com.recody.recodybackend.common.exceptions;
 public enum GlobalErrorType implements ErrorType{
     UserNotFound("UserNotFound"),
     ContentNotFound("ContentNotFound"),
-    
+    IllegalArgument("IllegalArgument"),
     NotNull("notNull"),
     
     GenreIdCannotBeNull("catalog.genre.id.not-null"),

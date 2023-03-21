@@ -1,11 +1,6 @@
 package com.recody.recodybackend.catalog.features.record.getrecordcontents;
 
-import com.recody.recodybackend.record.RecordContent;
-
-import java.util.List;
-
-
-public interface GetRecordContentsHandler {
+public interface GetRecordContentsHandler<R> {
     
     /**
      * 유저가 쓴 감상평들의 작품리스트를 가져온다.
@@ -16,7 +11,7 @@ public interface GetRecordContentsHandler {
      * </ul>
      * @param command: userId, category, 등으로 가져올 수 있다.
      * */
-    List<RecordContent> handle(GetRecordContents command);
+    R handle(GetRecordContents command);
     
 
 }
