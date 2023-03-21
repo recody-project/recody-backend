@@ -1,11 +1,6 @@
 package com.recody.recodybackend.catalog.features.record.totalrecords;
 
-import com.recody.recodybackend.record.RecordCount;
-
-public interface CountTotalRecordsHandler {
+public interface CountTotalRecordsHandler<R> {
     
-    RecordCount handle(CountTotalRecords command);
-    
-    
-    
+    R handle(CountTotalRecords command);
 }

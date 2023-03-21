@@ -18,7 +18,7 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-class DefaultGetRecordContentsHandler implements GetRecordContentsHandler {
+class DefaultGetRecordContentsHandler implements GetRecordContentsHandler<List<RecordContent>>{
     
     private final RecordRepository recordRepository;
     private final RecordMapper recordMapper;

@@ -16,13 +16,8 @@ import com.recody.recodybackend.catalog.features.record.getrecord.GetRecord;
 import com.recody.recodybackend.catalog.features.record.getrecord.GetRecordHandler;
 import com.recody.recodybackend.catalog.features.record.getrecordcontent.GetContinuingRecordContent;
 import com.recody.recodybackend.catalog.features.record.getrecordcontent.GetContinuingRecordContentHandler;
-import com.recody.recodybackend.catalog.features.record.getrecordcontents.GetRecordContents;
-import com.recody.recodybackend.catalog.features.record.getrecordcontents.GetRecordContentsHandler;
-import com.recody.recodybackend.catalog.features.record.totalrecords.CountTotalRecords;
-import com.recody.recodybackend.catalog.features.record.totalrecords.CountTotalRecordsHandler;
 import com.recody.recodybackend.common.data.QueryResult;
 import com.recody.recodybackend.record.Record;
-import com.recody.recodybackend.record.RecordContent;
 import com.recody.recodybackend.record.RecordEvent;
 import com.recody.recodybackend.record.web.*;
 import lombok.RequiredArgsConstructor;
@@ -39,13 +34,10 @@ class DefaultRecordService implements RecordService {
     private final AddRecordHandler addRecordHandler;
     private final GetRecordHandler getRecordHandler;
     private final GetMyRecordsHandler getMyRecordsHandler;
-    private final GetRecordContentsHandler getRecordContentsHandler;
     private final CompleteRecordHandler completeRecordHandler;
     private final ContinueRecordHandler continueRecordHandler;
     private final GetContinuingRecordHandler getContinuingRecordHandler;
     private final DeleteRecordHandler deleteRecordHandler;
-    private final CountTotalRecordsHandler countTotalRecordsHandler;
-    
     private final GetContinuingRecordContentHandler getContinuingRecordContentHandler;
     
     @Override
@@ -66,13 +58,6 @@ class DefaultRecordService implements RecordService {
     public GetRecordsResponse getRecords(GetMyRecords command) {
         QueryResult<Record> recordQueryResult = getMyRecordsHandler.handleQuery( command );
         return new GetRecordsResponse( recordQueryResult.getMetadata(), recordQueryResult.getContent() );
-    }
-    
-    @Override
-    public GetMyRecordContentsResponse getRecordContents(GetRecordContents command) {
-        List<RecordContent> contents = getRecordContentsHandler.handle( command );
-        log.debug( "Get {} contents", contents.size() );
-        return new GetMyRecordContentsResponse( contents );
     }
     
     @Override
@@ -109,14 +94,4 @@ class DefaultRecordService implements RecordService {
     public DeleteRecordResponse deleteRecord(DeleteRecord command) {
         return new DeleteRecordResponse( deleteRecordHandler.handle( command ) );
     }
-    
-    @Override
-    public CountTotalRecordsResponse countRecords(CountTotalRecords command) {
-        
-        return CountTotalRecordsResponse.builder()
-                                        .count( countTotalRecordsHandler.handle( command ) )
-                                        .build();
-    }
-    
-    
 }
