@@ -17,13 +17,16 @@ import java.io.IOException;
 class AppleLoginController {
     
     private final SetAppleTokenHandler setAppleTokenHandler;
-    private final AppleLoginHandler<String> appleLoginHandler;
+    private final AppleLoginHandler<AppleLogin> appleLoginHandler;
     
     @PostMapping( "/api/v1/users/sign-in/apple" )
     @ResponseBody
-    public RecodySignInSession appleLogin(@RequestBody AppleLoginRequestBody body) {
+    public RecodySignInSession appleLogin(@RequestBody AppleLoginRequestBody body,
+                                          @RequestHeader( "User-Agent" ) String userAgent) {
         String userIdentifier = body.getUserIdentifier();
-        RecodySignInSession session = appleLoginHandler.handle( userIdentifier );
+        RecodySignInSession session = appleLoginHandler.handle( AppleLogin.builder()
+                                                                          .userAgent( userAgent )
+                                                                          .build() );
         log.info( "userIdentifier: {}", userIdentifier );
         return session;
     }

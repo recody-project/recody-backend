@@ -15,20 +15,20 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-class UserIdentifierAppleLoginHandler implements AppleLoginHandler<String> {
+class UserIdentifierAppleLoginHandler implements AppleLoginHandler<AppleLogin> {
     
     private final RecodyUserRepository recodyUserRepository;
     private final RecodyUserMapper recodyUserMapper;
     private final MembershipManager membershipManager;
     
     @Override
-    public RecodySignInSession handle(String s) {
+    public RecodySignInSession handle(AppleLogin command) {
         Optional<RecodyUserEntity> socialUserIdentifier
-                = recodyUserRepository.findByAppleUserIdentifier( s );
+                = recodyUserRepository.findByAppleUserIdentifier( command.getUserIdentifier() );
         if ( socialUserIdentifier.isPresent() ) {
             RecodyUserEntity recodyUserEntity = socialUserIdentifier.get();
             RecodySignInSession recodySignInSession = membershipManager.createSessionInfo(
-                    recodyUserMapper.map( recodyUserEntity ), null );
+                    recodyUserMapper.map( recodyUserEntity ), command.getUserAgent() );
             log.info( "로그인에 성공하였습니다.: {}", recodySignInSession );
             return recodySignInSession;
         }
