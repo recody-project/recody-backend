@@ -25,6 +25,7 @@ class AppleLoginController {
                                           @RequestHeader( "User-Agent" ) String userAgent) {
         String userIdentifier = body.getUserIdentifier();
         RecodySignInSession session = appleLoginHandler.handle( AppleLogin.builder()
+                                                                          .userIdentifier( userIdentifier )
                                                                           .userAgent( userAgent )
                                                                           .build() );
         log.info( "userIdentifier: {}", userIdentifier );
