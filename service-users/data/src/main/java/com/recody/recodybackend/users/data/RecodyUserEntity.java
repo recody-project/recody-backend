@@ -43,6 +43,10 @@ public class RecodyUserEntity {
     @Column(name = "social_type", nullable = false)
     private SocialProvider socialType;
     
+    @Setter
+    @Column(name = "apple_user_identifier", nullable = true)
+    private String appleUserIdentifier;
+    
     @NonNull
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
