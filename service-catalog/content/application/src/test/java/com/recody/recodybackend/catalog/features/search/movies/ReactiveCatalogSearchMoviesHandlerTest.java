@@ -9,7 +9,6 @@ import org.springframework.test.context.ContextConfiguration;
 
 
 @ExtendWith( MockitoExtension.class)
-@SpringBootTest
 @ActiveProfiles("test")
 @ContextConfiguration(classes = RecodyCatalogApplication.class)
 class ReactiveCatalogSearchMoviesHandlerTest {
