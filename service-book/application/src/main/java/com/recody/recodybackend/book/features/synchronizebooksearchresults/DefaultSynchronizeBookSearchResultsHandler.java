@@ -2,9 +2,8 @@ package com.recody.recodybackend.book.features.synchronizebooksearchresults;
 
 import com.recody.recodybackend.book.BookSearchKeyword;
 import com.recody.recodybackend.book.data.book.BookEntity;
-import com.recody.recodybackend.book.data.book.BookMapper;
-import com.recody.recodybackend.book.data.book.BookRepository;
-import com.recody.recodybackend.book.features.manager.BookManager;
+import com.recody.recodybackend.book.features.registerbook.RegisterBook;
+import com.recody.recodybackend.book.features.registerbook.RegisterBookHandler;
 import com.recody.recodybackend.book.features.searchbookfromnaver.SearchBookFromNaver;
 import com.recody.recodybackend.book.features.searchbookfromnaver.SearchBookFromNaverHandler;
 import com.recody.recodybackend.book.naver.NaverBook;
@@ -15,8 +14,7 @@ import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
+
 
 
 @Component
@@ -26,11 +24,8 @@ class DefaultSynchronizeBookSearchResultsHandler implements SynchronizeBookSearc
 
     private final SearchBookFromNaverHandler<NaverBookSearchResponse> searchBookFromNaverHandler;
 
-    private final BookRepository bookRepository;
+    private final RegisterBookHandler<BookEntity> registerBookHandler;
 
-    private final BookManager bookManager;
-
-    private final BookMapper bookMapper;
     @Override
     @Transactional
     public Void handle(BookSearchKeyword keyword) {
@@ -42,13 +37,8 @@ class DefaultSynchronizeBookSearchResultsHandler implements SynchronizeBookSearc
         );
         List<NaverBook> books = response.getItems();
         for (NaverBook book : books) {
-            Optional<BookEntity> optionalBook = bookRepository.findByIsbn(book.getIsbn());
-            if (optionalBook.isEmpty()) {
-                BookEntity bookEntity = bookMapper.newEntity(book, Locale.KOREAN);
-                bookRepository.save(bookEntity);
-            } else {
-                bookMapper.update(optionalBook.get(), book, Locale.KOREAN);
-            }
+            registerBookHandler.handle(RegisterBook.builder()
+                    .book(book).build());
         }
 
         return null;

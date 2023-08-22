@@ -1,5 +1,6 @@
 package com.recody.recodybackend.book.data.book;
 
+import com.recody.recodybackend.book.data.people.AuthorEntity;
 import com.recody.recodybackend.commonbootutils.data.CustomSequenceIdGenerator;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -44,6 +45,11 @@ public class BookEntity extends BookBaseEntity {
 
     @OneToMany(mappedBy = "book")
     private List<AuthorEntity> authors = new ArrayList<>();
+
+    public void addAuthor(AuthorEntity authorEntity) {
+        authors.add(authorEntity);
+        authorEntity.setBook(this);
+    }
 
 
 }

@@ -19,17 +19,18 @@ public class SearchBooksController {
     private final MessageSource ms;
 
     @GetMapping("/api/v1/book/search")
-    public ResponseEntity<SuccessResponseBody> searchBooks(@RequestParam String keyword, HttpServletRequest request) {
-        return ResponseEntity.ok(
-                SuccessResponseBody.builder()
+    public SuccessResponseBody searchBooks(@RequestParam String keyword, HttpServletRequest request,
+                                           @RequestParam(required = false, defaultValue = "1") Integer page) {
+        return SuccessResponseBody.builder()
                 .message(ms.getMessage("book.search.succeeded", null, null, request.getLocale()))
                 .data(searchBookHandler.handle(
                         SearchBooks.builder()
                                 .keyword(keyword)
                                 .locale(request.getLocale())
+                                .page(page)
                                 .build(
                                 )))
-                .build());
+                .build();
     }
 
     @GetMapping("/api/v1/book/search-data")
