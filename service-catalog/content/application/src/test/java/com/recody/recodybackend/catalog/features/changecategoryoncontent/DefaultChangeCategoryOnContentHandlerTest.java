@@ -30,7 +30,6 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith( MockitoExtension.class )
-@SpringBootTest
 @ActiveProfiles( "test" )
 @ContextConfiguration( classes = RecodyCatalogApplication.class )
 class DefaultChangeCategoryOnContentHandlerTest {
