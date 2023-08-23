@@ -29,7 +29,7 @@ import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
 @ActiveProfiles("test")
 @ContextConfiguration(classes = RecodyCatalogApplication.class)
 class DefaultGetMyWishlistHandlerTest {

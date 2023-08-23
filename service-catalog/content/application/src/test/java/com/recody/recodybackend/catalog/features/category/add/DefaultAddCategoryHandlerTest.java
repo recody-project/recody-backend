@@ -24,7 +24,7 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@ExtendWith( MockitoExtension.class )
+@SpringBootTest
 @ActiveProfiles( "test" )
 @ContextConfiguration( classes = RecodyCatalogApplication.class )
 class DefaultAddCategoryHandlerTest {

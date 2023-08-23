@@ -18,7 +18,7 @@ import org.springframework.test.context.ContextConfiguration;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
 @ActiveProfiles("test")
 @ContextConfiguration(classes = RecodyCatalogApplication.class)
 class DefaultAddRatingHandlerTest {
