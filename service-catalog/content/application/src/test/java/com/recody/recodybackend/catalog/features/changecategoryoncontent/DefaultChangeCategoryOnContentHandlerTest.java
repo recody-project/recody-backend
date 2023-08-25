@@ -29,8 +29,8 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ExtendWith( MockitoExtension.class )
 @SpringBootTest
+@ExtendWith(MockitoExtension.class)
 @ActiveProfiles( "test" )
 @ContextConfiguration( classes = RecodyCatalogApplication.class )
 class DefaultChangeCategoryOnContentHandlerTest {
